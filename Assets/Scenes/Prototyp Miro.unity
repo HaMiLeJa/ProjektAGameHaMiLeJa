@@ -200,10 +200,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1271656980}
   m_LocalRotation: {x: 0.70710677, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 1.13, z: -0.03}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.56094927, y: 13.11758, z: -0.10787484}
+  m_LocalScale: {x: 21.574972, y: 21.574972, z: 21.574972}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2025308048}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &1479555969
@@ -313,7 +313,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1570979824
 GameObject:
@@ -406,7 +406,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &2025308043
 GameObject:
@@ -421,6 +421,7 @@ GameObject:
   - component: {fileID: 2025308046}
   - component: {fileID: 2025308045}
   - component: {fileID: 2025308044}
+  - component: {fileID: 2025308049}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -439,7 +440,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 2
   m_Constraints: 0
@@ -514,9 +515,25 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2025308043}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.026, y: 0.5265, z: -0.025}
+  m_LocalPosition: {x: -0.026, y: 0.522, z: -0.025}
   m_LocalScale: {x: 0.04635, y: 0.04635, z: 0.04635}
-  m_Children: []
+  m_Children:
+  - {fileID: 1271656983}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2025308049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025308043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2bb96c7755f2204482e2b78af43c79b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Planet: {fileID: 1479555969}
+  speed: 2
+  JumpHeight: 1.5
