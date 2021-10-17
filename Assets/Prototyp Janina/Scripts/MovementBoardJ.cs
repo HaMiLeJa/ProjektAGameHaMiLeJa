@@ -17,8 +17,7 @@ public class MovementBoardJ : MonoBehaviour
         InputTilt();
         //InputHorizontalRotation();
 
-
-
+        ShakeWorld();
     }
 
     void InputTilt()
@@ -49,6 +48,13 @@ public class MovementBoardJ : MonoBehaviour
         float yValue = Input.GetAxis("HorizontalRotation");
 
         this.transform.Rotate(new Vector3(0, yValue * horizontalRotationSpeed * Time.deltaTime, 0), Space.World);
+    }
+
+
+    void ShakeWorld()
+    {
+        //if (Input.GetButton(
+        
     }
 }
 
