@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public GameObject Planet;
+    public GameObject CameraManager;
 
     public float speed = 4;
     public float JumpHeight = 1.2f;
@@ -35,6 +36,9 @@ public class Player : MonoBehaviour
 
         transform.Translate(x,0,z);
 
+        Vector3 movement = -(transform.forward * Time.deltaTime * speed*0.75f);
+        rb.MovePosition(transform.position + movement);
+/*
         //Local rotation
 
         if(Input.GetKey(KeyCode.E))
@@ -57,7 +61,7 @@ public class Player : MonoBehaviour
          {
             rb.AddForce(transform.up* 40000 * JumpHeight * Time.deltaTime);
          }
-
+*/
 
 
          //GroundControl
@@ -68,7 +72,7 @@ public class Player : MonoBehaviour
             distanceToGround = hit.distance;
             Groundnormal= hit.normal;
 
-            if (distanceToGround <= 0.2f)
+            if (distanceToGround <= 0.1f)
             {
                 OnGround = true;
             }
@@ -83,7 +87,7 @@ public class Player : MonoBehaviour
 
         if (OnGround == false)
         {
-            rb.AddForce(gravDirection * -gravity);
+            rb.AddForce(gravDirection * -gravity *0.3f);
 
         }
 
@@ -91,5 +95,25 @@ public class Player : MonoBehaviour
 
         Quaternion toRotation = Quaternion.FromToRotation(transform.up, Groundnormal) * transform.rotation;
         transform.rotation = toRotation;
+
+
+   
     }
+
+         void OnTriggerEnter(Collider collision)
+        {
+           if(collision.transform != Planet.transform)
+           {
+               Planet = collision.transform.gameObject;
+               Vector3 gravDirection = (transform.position - Planet.transform.position).normalized *Time.fixedDeltaTime;
+
+               Quaternion toRotation = Quaternion.FromToRotation(transform.up, gravDirection) *transform.rotation;
+               transform.rotation = toRotation;
+
+               rb.velocity =Vector3.zero;
+               rb.AddForce(gravDirection * gravity * 55f);
+
+               CameraManager.GetComponent<CameraManager>().NewPlanet(Planet);
+           } 
+        }
 }
