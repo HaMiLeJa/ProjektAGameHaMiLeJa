@@ -13,6 +13,9 @@ public class Player : MonoBehaviour
     float gravity = 100;
     bool OnGround = false;
 
+    bool force = true;
+    float direction = 1f;
+
     float distanceToGround;
     Vector3 Groundnormal;
     Rigidbody rb;
@@ -24,6 +27,10 @@ public class Player : MonoBehaviour
         rb.freezeRotation = true;
     }
 
+void FixedUpdate()
+    {
+
+    }
     // Update is called once per frame
     void Update()
     {
@@ -31,14 +38,23 @@ public class Player : MonoBehaviour
         // movement script
 
         float x = Input.GetAxis("Horizontal")*Time.deltaTime * speed;
-        float z = Input.GetAxis("Vertical")*Time.deltaTime * speed;
-        
+     //   float z = Input.GetAxis("Vertical")*Time.deltaTime * speed;
+      
+if(Input.GetKey(KeyCode.S))
+        {
+             direction = -1f;
+}
+if(Input.GetKey(KeyCode.W))
+        {
+             direction = 1f;
+}
 
-        transform.Translate(x,0,z);
 
-        Vector3 movement = -(transform.forward * Time.deltaTime * speed*0.75f);
+        transform.Translate(x,0,0);
+
+        Vector3 movement = direction *(transform.forward * Time.deltaTime * speed*0.5f);
         rb.MovePosition(transform.position + movement);
-/*
+
         //Local rotation
 
         if(Input.GetKey(KeyCode.E))
@@ -61,7 +77,7 @@ public class Player : MonoBehaviour
          {
             rb.AddForce(transform.up* 40000 * JumpHeight * Time.deltaTime);
          }
-*/
+
 
 
          //GroundControl
@@ -111,8 +127,12 @@ public class Player : MonoBehaviour
                transform.rotation = toRotation;
 
                rb.velocity =Vector3.zero;
-               rb.AddForce(gravDirection * gravity * 55f);
+               if(force){
+               rb.AddForce(gravDirection * gravity * 0.3f);
+               force = false;
 
+               }
+               force = true;
                CameraManager.GetComponent<CameraManager>().NewPlanet(Planet);
            } 
         }
