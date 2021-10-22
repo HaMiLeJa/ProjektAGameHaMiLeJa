@@ -22,7 +22,7 @@ public class CamManagerScript : MonoBehaviour
         //Smooth
 
 
-        //Position
+        //Position :> Follow Player
           transform.position = Vector3.Lerp(transform.position,Player.transform.position,0.1f);
           Vector3 gravDirection = (transform.position - Planet.transform.position).normalized;
 

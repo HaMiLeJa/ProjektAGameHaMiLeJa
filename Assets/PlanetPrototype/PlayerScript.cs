@@ -9,26 +9,28 @@ public class PlayerScript : MonoBehaviour
     public float speed = 4;
     public float JumpHeight = 1.2f;
 
+    [SerializeField] float forceJump;
+    [SerializeField] float jumpDuration;
+    float timer;
+
     float gravity = 100;
-    bool OnGround = false;
+    [SerializeField] bool OnGround = false;
 
     float distanceToGround;
     Vector3 Groundnormal;
+
     Rigidbody rb;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
 
         // movement script
-
         float x = Input.GetAxis("Horizontal")*Time.deltaTime * speed;
         float z = Input.GetAxis("Vertical")*Time.deltaTime * speed;
         
@@ -36,7 +38,6 @@ public class PlayerScript : MonoBehaviour
         transform.Translate(x,0,z);
 
         //Local rotation
-
         if(Input.GetKey(KeyCode.E))
          {
 
@@ -50,18 +51,26 @@ public class PlayerScript : MonoBehaviour
            transform.Rotate(0, -150 * Time.deltaTime,0);
         }
 
-         //Jump
-
+        //Jump
+        /*
          if (Input.GetKeyDown(KeyCode.Space))
          {
             rb.AddForce(transform.up* 40000 * JumpHeight * Time.deltaTime);
          }
+        */
+        if (Input.GetButton("JumpJanina") && OnGround == true && timer < jumpDuration)
+        {
+            timer += Time.deltaTime;
+            rb.AddForce(Vector2.up * forceJump);
+        }
+        else
+        {
+            timer = 0;
+        }
 
 
-
-         //GroundControl
-
-         RaycastHit hit = new RaycastHit();
+        //GroundControl
+        RaycastHit hit = new RaycastHit();
          if(Physics.Raycast(transform.position, -transform.up, out hit, 10))
          {
             distanceToGround = hit.distance;
@@ -77,8 +86,8 @@ public class PlayerScript : MonoBehaviour
             }
          }
 
+         
         //Gravity and rotation
-
         Vector3 gravDirection = (transform.position - Planet.transform.position).normalized;
 
         if (OnGround == false)
@@ -88,8 +97,8 @@ public class PlayerScript : MonoBehaviour
         }
 
         // Quat
-
         Quaternion toRotation = Quaternion.FromToRotation(transform.up, Groundnormal) * transform.rotation;
         transform.rotation = toRotation;
+         
     }
 }
