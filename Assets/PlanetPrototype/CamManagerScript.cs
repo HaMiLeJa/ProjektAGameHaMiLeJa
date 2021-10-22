@@ -27,9 +27,11 @@ public class CamManagerScript : MonoBehaviour
           Vector3 gravDirection = (transform.position - Planet.transform.position).normalized;
 
 
-    //Rotation
+        //Rotation
         Quaternion toRotation = Quaternion.FromToRotation(transform.up, gravDirection) * transform.rotation;
         transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, 0.1f);
+
+
     }
 
 

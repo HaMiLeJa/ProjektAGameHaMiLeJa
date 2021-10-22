@@ -44,16 +44,15 @@ public class PlayerScript : MonoBehaviour
          }
 
 
-           if(Input.GetKey(KeyCode.Q))
-         {
+        if(Input.GetKey(KeyCode.Q))
+        {
 
-            transform.Rotate(0, -150 * Time.deltaTime,0);
-         }
+           transform.Rotate(0, -150 * Time.deltaTime,0);
+        }
 
          //Jump
 
          if (Input.GetKeyDown(KeyCode.Space))
-
          {
             rb.AddForce(transform.up* 40000 * JumpHeight * Time.deltaTime);
          }
@@ -77,6 +76,7 @@ public class PlayerScript : MonoBehaviour
                 OnGround = false;
             }
          }
+
         //Gravity and rotation
 
         Vector3 gravDirection = (transform.position - Planet.transform.position).normalized;
