@@ -17,10 +17,10 @@ public class CamScript : MonoBehaviour
     [SerializeField] float rotationSpeed = 0.2f;
     [SerializeField] float rotationSpeedMouse = 3.5f;
 
-    Quaternion standartRotation;
+    [SerializeField] Quaternion standartRotation;
+    public bool cameraRotated = false;
 
-
-    [SerializeField] Vector3 eulerRotation;
+    //[SerializeField] Vector3 eulerRotation;
 
     void Start()
     {
@@ -30,26 +30,23 @@ public class CamScript : MonoBehaviour
 
     void Update()
     {
-
-        /*
-        if (Input.GetMouseButton(1))
+      // Rotation
+        if (Input.GetMouseButton(1)) //Maus
         {
+            cameraRotated = true;
             transform.RotateAround(target.transform.position, transform.up, Input.GetAxis("Mouse X") * rotationSpeedMouse);
             transform.RotateAround(target.transform.position, transform.right, -Input.GetAxis("Mouse Y") * rotationSpeedMouse);
 
         }
-        */
-
-        //mauelle Rotation
 
         zValue = Input.GetAxis("HorizontalJoystickAxis");
         xValue = Input.GetAxis("VerticalJoystickAxis");
 
 
-        if (Input.GetButton("LBJanina"))
+        if (Input.GetButton("LBJanina")) //Controller
         {
 
-
+            cameraRotated = true;
 
             RotationObj.transform.Rotate(new Vector3(-xValue * rotationSpeed * Time.deltaTime, 0, -zValue * rotationSpeed * Time.deltaTime), Space.Self);
 
@@ -61,17 +58,16 @@ public class CamScript : MonoBehaviour
 
         }
 
-        if (Input.GetButton("RBJanina")) //Reset Rotation
+
+
+        if (cameraRotated == true)
         {
-            Quaternion rotation = Quaternion.Euler(RotationObj.transform.localRotation.x, RotationObj.transform.localRotation.y, RotationObj.transform.localRotation.z);
+            if (Input.GetButtonDown("RBJanina") || Input.GetMouseButtonDown(2)) //Reset Rotation
+            {
 
-            eulerRotation = rotation.eulerAngles;
+                ResetCamera();
 
-            //RotationObj.transform.Rotate(new Vector3(+eulerRotation.x, +eulerRotation.y, +eulerRotation.z), Space.Self);
-
-            RotationObj.transform.rotation = standartRotation;
-
-
+            }
         }
 
 
@@ -91,5 +87,18 @@ public class CamScript : MonoBehaviour
         fov += Input.GetAxis("Mouse ScrollWheel") * -sensitivity;
         fov = Mathf.Clamp(fov, minFov, maxFov);
         Camera.main.fieldOfView = fov;
+    }
+
+    public void ResetCamera()
+    {
+        /*Quaternion rotation = Quaternion.Euler(RotationObj.transform.localRotation.x, RotationObj.transform.localRotation.y, RotationObj.transform.localRotation.z);
+
+        eulerRotation = rotation.eulerAngles;
+
+        //RotationObj.transform.Rotate(new Vector3(+eulerRotation.x, +eulerRotation.y, +eulerRotation.z), Space.Self);
+        */
+        RotationObj.transform.rotation = standartRotation;
+
+        cameraRotated = false;
     }
 }

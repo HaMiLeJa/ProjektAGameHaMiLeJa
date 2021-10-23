@@ -23,32 +23,31 @@ public class PlayerScript : MonoBehaviour
 
     Rigidbody rb;
 
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
     }
 
     void Update()
     {
+
+        
         Movement();
         GroundCheck();
         //Jump();
         Gravity();
 
-       
-
-        
-
-         
-        
-        
          
     }
 
 
     void Movement()
     {
+        
+
         Vector3 strafeMovement = transform.right * Input.GetAxis("Horizontal");
         Vector3 forwardMovement = transform.forward * Input.GetAxis("Vertical");
 
@@ -69,6 +68,9 @@ public class PlayerScript : MonoBehaviour
 
         
         transform.Translate(x, 0, z); */
+
+
+        
     }
 
     void GroundCheck()
