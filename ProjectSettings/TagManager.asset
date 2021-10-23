@@ -8,6 +8,8 @@ TagManager:
   - Winning
   - Border
   - Win
+  - Enemy
+  - Defense
   layers:
   - Default
   - TransparentFX

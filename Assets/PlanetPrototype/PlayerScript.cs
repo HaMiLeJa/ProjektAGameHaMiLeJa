@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -23,6 +24,13 @@ public class PlayerScript : MonoBehaviour
 
     Rigidbody rb;
 
+    public GameObject explosionPrefab;
+
+
+    //Leis Code
+    public GameObject explosionTwo;
+    int lives = 3;
+    public Text livesDisplay;
 
     void Start()
     {
@@ -39,7 +47,7 @@ public class PlayerScript : MonoBehaviour
         GroundCheck();
         //Jump();
         Gravity();
-
+       
          
     }
 
@@ -130,5 +138,42 @@ public class PlayerScript : MonoBehaviour
         // Quat
         Quaternion toRotation = Quaternion.FromToRotation(transform.up, Groundnormal) * transform.rotation;
         transform.rotation = toRotation;
+    }
+    
+    /// Code von Lei
+    /// </summary>
+    /// <param name="coll"></param>
+    void OnCollisionEnter(Collision coll)
+    {
+        if (coll.gameObject.CompareTag("Enemy"))
+        {
+            Vector3 targetPos = coll.gameObject.transform.position;
+            Destroy(coll.gameObject);
+            Instantiate(explosionPrefab, targetPos, Quaternion.identity);
+
+           
+
+        }
+        else if(coll.gameObject.CompareTag("Defense"))
+        {
+            Destroy(coll.gameObject);
+            Instantiate(explosionTwo, transform.position, Quaternion.identity);
+
+            gameObject.SetActive(false);
+            lives--;
+            livesDisplay.text = "Lives: " + lives;
+
+            if (lives > 0)
+                Invoke(nameof(NextLife), 3);
+
+        }
+
+
+    }
+
+    void NextLife()
+    {
+        gameObject.SetActive(true);
+        transform.position += new Vector3(0, 50,0);
     }
 }
