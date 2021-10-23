@@ -6,7 +6,9 @@ public class PlayerScript : MonoBehaviour
 {
     public GameObject Planet;
 
-    public float speed = 4;
+    public float speed = 150f;
+    //[SerializeField] float lerpSpeed = 0.2f;
+
     public float JumpHeight = 1.2f;
 
     [SerializeField] float forceJump;
@@ -29,28 +31,68 @@ public class PlayerScript : MonoBehaviour
 
     void Update()
     {
+        Movement();
+        GroundCheck();
+        //Jump();
+        Gravity();
 
-        // movement script
-        float x = Input.GetAxis("Horizontal")*Time.deltaTime * speed;
-        float z = Input.GetAxis("Vertical")*Time.deltaTime * speed;
+       
+
         
 
-        transform.Translate(x,0,z);
-
-        //Local rotation
-        if(Input.GetKey(KeyCode.E))
-         {
-
-            transform.Rotate(0, 150 * Time.deltaTime,0);
-         }
+         
+        
+        
+         
+    }
 
 
-        if(Input.GetKey(KeyCode.Q))
+    void Movement()
+    {
+        Vector3 strafeMovement = transform.right * Input.GetAxis("Horizontal");
+        Vector3 forwardMovement = transform.forward * Input.GetAxis("Vertical");
+
+        Vector3 movement = forwardMovement + strafeMovement;
+        movement = movement.normalized * Time.deltaTime * speed;
+
+        // Bewegung
+        rb.MovePosition(transform.position + movement);
+
+        //rb.MovePosition(Vector3.Lerp(transform.position, transform.position + movement, lerpSpeed));
+
+        //rb.MovePosition(transform.position + movement);
+
+
+
+        /*float x = Input.GetAxis("Horizontal") * Time.deltaTime * speed;
+        float z = Input.GetAxis("Vertical") * Time.deltaTime * speed;
+
+        
+        transform.Translate(x, 0, z); */
+    }
+
+    void GroundCheck()
+    {
+        //GroundControl
+        RaycastHit hit = new RaycastHit();
+        if (Physics.Raycast(transform.position, -transform.up, out hit, 10))
         {
+            distanceToGround = hit.distance;
+            Groundnormal = hit.normal; //verwendet bei Gravity
 
-           transform.Rotate(0, -150 * Time.deltaTime,0);
+            if (distanceToGround <= 0.2f)
+            {
+                OnGround = true;
+            }
+            else
+            {
+                OnGround = false;
+            }
         }
+    }
 
+    void Jump()
+    {
         //Jump
         /*
          if (Input.GetKeyDown(KeyCode.Space))
@@ -69,24 +111,11 @@ public class PlayerScript : MonoBehaviour
         }
 
 
-        //GroundControl
-        RaycastHit hit = new RaycastHit();
-         if(Physics.Raycast(transform.position, -transform.up, out hit, 10))
-         {
-            distanceToGround = hit.distance;
-            Groundnormal= hit.normal;
+        
+    }
 
-            if (distanceToGround <= 0.2f)
-            {
-                OnGround = true;
-            }
-            else
-            {
-                OnGround = false;
-            }
-         }
-
-         
+    void Gravity()
+    {
         //Gravity and rotation
         Vector3 gravDirection = (transform.position - Planet.transform.position).normalized;
 
@@ -99,6 +128,5 @@ public class PlayerScript : MonoBehaviour
         // Quat
         Quaternion toRotation = Quaternion.FromToRotation(transform.up, Groundnormal) * transform.rotation;
         transform.rotation = toRotation;
-         
     }
 }
