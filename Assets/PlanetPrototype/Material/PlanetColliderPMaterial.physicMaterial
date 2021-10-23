@@ -7,7 +7,7 @@ PhysicMaterial:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PlanetColliderPMaterial
-  dynamicFriction: 0.0225
+  dynamicFriction: 0.0235
   staticFriction: 0.03
   bounciness: 0
   frictionCombine: 1
