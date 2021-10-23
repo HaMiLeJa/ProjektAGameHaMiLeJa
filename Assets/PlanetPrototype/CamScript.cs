@@ -5,27 +5,84 @@ using UnityEngine;
 public class CamScript : MonoBehaviour
 {
     public GameObject target;
-    public float xSpeed = 3.5f;
+    [SerializeField] GameObject RotationObj;
+   
     float sensitivity = 17f;
 
     float minFov = 35;
     float maxFov = 100;
 
+    public float xValue = 0;
+    public float zValue = 0;
+    [SerializeField] float rotationSpeed = 0.2f;
+    [SerializeField] float rotationSpeedMouse = 3.5f;
+
+    Quaternion standartRotation;
 
 
+    [SerializeField] Vector3 eulerRotation;
 
-    // Start is called before the first frame update
     void Start()
     {
+        standartRotation = Quaternion.Euler(RotationObj.transform.localRotation.x, RotationObj.transform.localRotation.y, RotationObj.transform.localRotation.z); ;
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
+        /*
+        if (Input.GetMouseButton(1))
+        {
+            transform.RotateAround(target.transform.position, transform.up, Input.GetAxis("Mouse X") * rotationSpeedMouse);
+            transform.RotateAround(target.transform.position, transform.right, -Input.GetAxis("Mouse Y") * rotationSpeedMouse);
+
+        }
+        */
+
+        //mauelle Rotation
+
+        zValue = Input.GetAxis("HorizontalJoystickAxis");
+        xValue = Input.GetAxis("VerticalJoystickAxis");
 
 
+        if (Input.GetButton("LBJanina"))
+        {
+
+
+
+            RotationObj.transform.Rotate(new Vector3(-xValue * rotationSpeed * Time.deltaTime, 0, -zValue * rotationSpeed * Time.deltaTime), Space.Self);
+
+
+            /*
+            transform.RotateAround(target.transform.position, transform.up, -yRotationValue * rotationSpeed);
+            transform.RotateAround(target.transform.position, transform.right, -xRotationValue * rotationSpeed);
+            */
+
+        }
+
+        if (Input.GetButton("RBJanina")) //Reset Rotation
+        {
+            Quaternion rotation = Quaternion.Euler(RotationObj.transform.localRotation.x, RotationObj.transform.localRotation.y, RotationObj.transform.localRotation.z);
+
+            eulerRotation = rotation.eulerAngles;
+
+            //RotationObj.transform.Rotate(new Vector3(+eulerRotation.x, +eulerRotation.y, +eulerRotation.z), Space.Self);
+
+            RotationObj.transform.rotation = standartRotation;
+
+
+        }
+
+
+
+        /*
+        if(yRotationValue >0)
+            transform.RotateAround(target.transform.position, transform.right, yRotationValue * rotationSpeed);
+
+        //this.transform.Rotate(new Vector3(xRotationValue * rotationSpeed * Time.deltaTime, yRotationValue * rotationSpeed * Time.deltaTime, 0), Space.World);
+
+        */
 
 
         //zoom

@@ -11,7 +11,8 @@ public class CamManagerScript : MonoBehaviour
 
     [SerializeField] float followSpeed = 5f;
 
-    [SerializeField] float rotationSpeed;
+
+    
 
     void Start()
     {
@@ -27,14 +28,14 @@ public class CamManagerScript : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, Player.transform.position, followSpeed * Time.deltaTime);
         gravityDirection = (transform.position - Planet.transform.position).normalized;
 
+        //automatisches mitrotieren der Kamera
         Quaternion toRotation = Quaternion.FromToRotation(transform.up, gravityDirection) * transform.rotation;
         transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, 0.1f);
+        
+        
 
 
-        //Rotation
-        float yValue = Input.GetAxis("HorizontalRotation");
-        float xValue = Input.GetAxis("VerticalRotation");
-
+        
     }
 
 
