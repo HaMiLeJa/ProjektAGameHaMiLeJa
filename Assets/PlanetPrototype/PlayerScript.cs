@@ -24,13 +24,14 @@ public class PlayerScript : MonoBehaviour
 
     Rigidbody rb;
 
-    public GameObject explosionPrefab;
+    public GameObject collisionPrefabOne;
 
 
     //Leis Code
-    public GameObject explosionTwo;
+    public GameObject collisionPrefabTwo;
     int lives = 3;
     public Text livesDisplay;
+    Vector3 spawnPoint;
 
     void Start()
     {
@@ -149,7 +150,7 @@ public class PlayerScript : MonoBehaviour
         {
             Vector3 targetPos = coll.gameObject.transform.position;
             Destroy(coll.gameObject);
-            Instantiate(explosionPrefab, targetPos, Quaternion.identity);
+            Instantiate(collisionPrefabOne, targetPos, Quaternion.identity);
 
            
 
@@ -157,23 +158,36 @@ public class PlayerScript : MonoBehaviour
         else if(coll.gameObject.CompareTag("Defense"))
         {
             Destroy(coll.gameObject);
-            Instantiate(explosionTwo, transform.position, Quaternion.identity);
+            Instantiate(collisionPrefabTwo, transform.position, Quaternion.identity);
 
             gameObject.SetActive(false);
-            lives--;
-            livesDisplay.text = "Lives: " + lives;
+            //lives--;
+           // livesDisplay.text = "Lives: " + lives;
 
-            if (lives > 0)
-                Invoke(nameof(NextLife), 3);
+            //if (lives > 0)
+               // Invoke(nameof(NextLife), 3);
 
         }
 
 
     }
 
-    void NextLife()
+    /*void NextLife()
     {
         gameObject.SetActive(true);
-        transform.position += new Vector3(0, 50,0);
+
+        //Respawn();
+        
+        transform.position += new Vector3(0, 22,0);
     }
+
+    void SaveNewPosition()
+    {
+        spawnPoint = transform.position;
+    }
+
+    void Respawn()
+    {
+        transform.position = spawnPoint;
+    }*/
 }
