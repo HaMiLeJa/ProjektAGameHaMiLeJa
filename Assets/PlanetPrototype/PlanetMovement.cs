@@ -6,7 +6,7 @@ public class PlanetMovement : MonoBehaviour
 {
     float horizontal = 0;
     float vertical = 0;
-    [SerializeField] float speed;
+    [SerializeField] float speed = 50;
 
     void Start()
     {
@@ -19,10 +19,10 @@ public class PlanetMovement : MonoBehaviour
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
 
-        //transform.RotateAround(this.transform.position, transform.up, -horizontal * speed * Time.deltaTime);
-        //transform.RotateAround(this.transform.position, transform.right, vertical * speed * Time.deltaTime);
+        transform.RotateAround(this.transform.position, transform.up, -horizontal * speed * Time.deltaTime);
+        transform.RotateAround(this.transform.position, transform.right, -vertical * speed * Time.deltaTime);
 
-        this.transform.Rotate(new Vector3(-vertical * speed * Time.deltaTime, 0, horizontal * speed * Time.deltaTime), Space.World);
+        //this.transform.Rotate(new Vector3(-vertical * speed * Time.deltaTime, 0, horizontal * speed * Time.deltaTime), Space.Self);
 
     }
 }

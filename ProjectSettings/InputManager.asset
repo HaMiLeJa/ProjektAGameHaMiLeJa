@@ -361,9 +361,9 @@ InputManager:
     m_Name: JumpJanina
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: joystick button 1
-    positiveButton: space
-    altNegativeButton: 
+    negativeButton: 
+    positiveButton: joystick button 1
+    altNegativeButton: space
     altPositiveButton: 
     gravity: 1000
     dead: 0.001
