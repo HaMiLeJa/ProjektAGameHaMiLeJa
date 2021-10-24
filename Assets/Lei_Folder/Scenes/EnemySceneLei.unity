@@ -169,7 +169,7 @@ Transform:
   m_Children:
   - {fileID: 1628370062}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &152017390
 GameObject:
@@ -203,6 +203,7 @@ Transform:
   - {fileID: 320651966}
   - {fileID: 1130918331}
   - {fileID: 1584968308}
+  - {fileID: 1019036198}
   m_Father: {fileID: 1016969304}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -541,7 +542,7 @@ Transform:
   m_Children:
   - {fileID: 152017391}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1019036197
 GameObject:
@@ -566,13 +567,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1019036197}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.168158, y: 20.89, z: -8.266867}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -18.97, y: 20.46, z: -14.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1277348006}
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_Father: {fileID: 152017391}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1130918328
 GameObject:
@@ -684,7 +685,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1277348005}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 14.58, y: -0.34, z: 12.51}
+  m_LocalPosition: {x: 14.58, y: 0.38, z: 12.51}
   m_LocalScale: {x: 3.4, y: 2, z: 4.4}
   m_Children: []
   m_Father: {fileID: 1019036198}
@@ -704,7 +705,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 122
   m_CollisionDetection: 0
 --- !u!135 &1277348008
 SphereCollider:
@@ -782,9 +783,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1340916340}
   defensePrefab: {fileID: 4088819784381172127, guid: 9e8abb3f4a7786f46b6df07ca45b9eca, type: 3}
-  distanceForce: 50
-  magnitudeDistance: 10
-  invokeTime: 5
+  distanceForce: 30
+  magnitudeDistance: 5
+  invokeTime: 10
   pointDisplay: {fileID: 0}
 --- !u!1 &1340916340
 GameObject:
@@ -799,8 +800,8 @@ GameObject:
   - component: {fileID: 1340916343}
   - component: {fileID: 1340916342}
   - component: {fileID: 1340916346}
-  - component: {fileID: 1340916341}
   - component: {fileID: 1340916347}
+  - component: {fileID: 1340916348}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -808,27 +809,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1340916341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1340916340}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de3ccb383d50c4549b49d8555fbb8dba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Planet: {fileID: 320651962}
-  speed: 55
-  JumpHeight: 15
-  forceJump: 50
-  jumpDuration: 1
-  OnGround: 0
-  collisionPrefabOne: {fileID: 136632205528678644, guid: 5d2b72eafb0f2464289a7f861007448a, type: 3}
-  collisionPrefabTwo: {fileID: 136632205528678644, guid: 960dcfab1034fc549921bbb54f99b35c, type: 3}
-  livesDisplay: {fileID: 0}
 --- !u!65 &1340916342
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -903,7 +883,7 @@ Transform:
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1340916346
 Rigidbody:
@@ -919,7 +899,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 96
+  m_Constraints: 32
   m_CollisionDetection: 1
 --- !u!114 &1340916347
 MonoBehaviour:
@@ -942,6 +922,21 @@ MonoBehaviour:
   gravity: 10
   OnGround: 0
   jumping: 0
+--- !u!114 &1340916348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1340916340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3ca4c1592f1982478e35b75511905e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionPrefabOne: {fileID: 136632205528678644, guid: 5d2b72eafb0f2464289a7f861007448a, type: 3}
+  collisionPrefabTwo: {fileID: 136632205528678644, guid: 960dcfab1034fc549921bbb54f99b35c, type: 3}
+  livesDisplay: {fileID: 0}
 --- !u!1 &1510457469
 GameObject:
   m_ObjectHideFlags: 0
