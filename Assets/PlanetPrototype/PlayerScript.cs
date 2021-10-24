@@ -43,7 +43,7 @@ public class PlayerScript : MonoBehaviour
     {
 
         
-        Movement();
+        //Movement();
         GroundCheck();
         //Jump();
         Gravity();
@@ -90,7 +90,7 @@ public class PlayerScript : MonoBehaviour
             distanceToGround = hit.distance;
             Groundnormal = hit.normal; //verwendet bei Gravity
 
-            if (distanceToGround <= 0.2f)
+            if (distanceToGround <= 0.5f)
             {
                 OnGround = true;
             }

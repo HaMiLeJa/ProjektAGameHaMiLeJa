@@ -30,7 +30,13 @@ public class CamScript : MonoBehaviour
 
     void Update()
     {
-      // Rotation
+        //CameraRotation();
+    }
+
+
+    void CameraRotation()
+    {
+        // Rotation
         if (Input.GetMouseButton(1)) //Maus
         {
             cameraRotated = true;
@@ -88,7 +94,6 @@ public class CamScript : MonoBehaviour
         fov = Mathf.Clamp(fov, minFov, maxFov);
         Camera.main.fieldOfView = fov;
     }
-
     public void ResetCamera()
     {
         /*Quaternion rotation = Quaternion.Euler(RotationObj.transform.localRotation.x, RotationObj.transform.localRotation.y, RotationObj.transform.localRotation.z);

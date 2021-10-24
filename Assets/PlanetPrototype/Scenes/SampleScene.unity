@@ -183,6 +183,7 @@ GameObject:
   - component: {fileID: 320651965}
   - component: {fileID: 320651964}
   - component: {fileID: 320651963}
+  - component: {fileID: 320651967}
   m_Layer: 0
   m_Name: PlanetCollider
   m_TagString: Untagged
@@ -260,13 +261,26 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 320651962}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1957, y: 0.1957, z: 0.1957}
+  m_LocalScale: {x: 1.0346285, y: 1.0346285, z: 1.0346285}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 1510457472}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &320651967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 320651962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3569c36daaa52ab4aa6200aa0659eaa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 50
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,6 +519,7 @@ GameObject:
   - component: {fileID: 1130918331}
   - component: {fileID: 1130918330}
   - component: {fileID: 1130918329}
+  - component: {fileID: 1130918332}
   m_Layer: 0
   m_Name: PlanetAtmosphere
   m_TagString: Untagged
@@ -568,13 +583,26 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1130918328}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1985, y: 0.1985, z: 0.1985}
+  m_LocalScale: {x: 1.0494316, y: 1.0494316, z: 1.0494316}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 1510457472}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1130918332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1130918328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3569c36daaa52ab4aa6200aa0659eaa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 50
 --- !u!1 &1340916340
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,6 +642,9 @@ MonoBehaviour:
   forceJump: 50
   jumpDuration: 1
   OnGround: 0
+  explosionPrefab: {fileID: 0}
+  explosionTwo: {fileID: 0}
+  livesDisplay: {fileID: 0}
 --- !u!65 &1340916342
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -783,9 +814,12 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.18915, y: 0.18915, z: 0.18915}
-  m_Children: []
+  m_Children:
+  - {fileID: 320651966}
+  - {fileID: 1130918331}
+  - {fileID: 1584968308}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1584968305
 GameObject:
@@ -798,6 +832,7 @@ GameObject:
   - component: {fileID: 1584968308}
   - component: {fileID: 1584968307}
   - component: {fileID: 1584968306}
+  - component: {fileID: 1584968309}
   m_Layer: 0
   m_Name: PlanetHex
   m_TagString: Untagged
@@ -861,13 +896,26 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1584968305}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.195, y: 0.195, z: 0.195}
+  m_LocalScale: {x: 1.0309277, y: 1.0309277, z: 1.0309277}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_Father: {fileID: 1510457472}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1584968309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584968305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3569c36daaa52ab4aa6200aa0659eaa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 50
 --- !u!1 &1628370061
 GameObject:
   m_ObjectHideFlags: 0
