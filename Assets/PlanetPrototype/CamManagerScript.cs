@@ -25,13 +25,13 @@ public class CamManagerScript : MonoBehaviour
         //Smooth
 
 
-        /*//Position :> Follow Player
+        //Position :> Follow Player
         transform.position = Vector3.Lerp(transform.position, Player.transform.position, followSpeed * Time.deltaTime);
-        gravityDirection = (transform.position - Planet.transform.position).normalized;*/
+        gravityDirection = (transform.position - Planet.transform.position).normalized;
 
-        /*//automatisches mitrotieren der Kamera
+        //automatisches mitrotieren der Kamera
         Quaternion toRotation = Quaternion.FromToRotation(transform.up, gravityDirection) * transform.rotation;
-        transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, 0.1f); */
+        transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, 0.1f);
         
         
 

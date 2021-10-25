@@ -24,7 +24,7 @@ public class CamScript : MonoBehaviour
 
     void Start()
     {
-        standartRotation = Quaternion.Euler(RotationObj.transform.localRotation.x, RotationObj.transform.localRotation.y, RotationObj.transform.localRotation.z); ;
+        //standartRotation = Quaternion.Euler(RotationObj.transform.localRotation.x, RotationObj.transform.localRotation.y, RotationObj.transform.localRotation.z); ;
         
     }
 
@@ -34,6 +34,8 @@ public class CamScript : MonoBehaviour
     }
 
 
+
+    // Rotation not used
     void CameraRotation()
     {
         // Rotation
