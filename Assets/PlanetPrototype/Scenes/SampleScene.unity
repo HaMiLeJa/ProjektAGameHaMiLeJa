@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e1bfc2ff7be1ed47a23d40d75727dd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 1340916340}
+  Player: {fileID: 377404373}
   Planet: {fileID: 320651962}
   gravityDirection: {x: 0, y: 0, z: 0}
   followSpeed: 5
@@ -232,7 +232,7 @@ GameObject:
   - component: {fileID: 254982167}
   - component: {fileID: 254982166}
   - component: {fileID: 254982165}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 254982163}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 42352e1e017dce74c9f804cc74022fff, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -431,7 +431,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &377404374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,14 +445,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Planet: {fileID: 320651962}
-  movementSpeed: 150
+  movementSpeed: 3
   lerpSpeed: 50
-  forceJump: 2
-  jumpDuration: 2
+  forceJump: 50
+  jumpDuration: 0.1
   jumpButtonReleased: 1
   jumping: 0
   gravity: 9.8
-  OnGround: 0
+  OnGround: 1
 --- !u!54 &377404375
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -467,7 +467,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 96
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!135 &377404376
 SphereCollider:
@@ -476,7 +476,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 377404373}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: b4cf1957e2a438f4d8a99969776ed2d5, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -844,7 +844,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1340916341
 MonoBehaviour:
   m_ObjectHideFlags: 0

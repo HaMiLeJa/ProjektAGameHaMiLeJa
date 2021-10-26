@@ -29,6 +29,8 @@ public class PlayerScript : MonoBehaviour
 
     Rigidbody rb;
 
+    Vector3 movement;
+
     //public GameObject collisionPrefabOne;
 
 
@@ -58,13 +60,19 @@ public class PlayerScript : MonoBehaviour
         Vector3 strafeMovement = transform.right * Input.GetAxis("Horizontal");
         Vector3 forwardMovement = transform.forward * Input.GetAxis("Vertical");
 
-        Vector3 movement = forwardMovement + strafeMovement;
+        movement = forwardMovement + strafeMovement;
         movement = movement.normalized * Time.deltaTime * movementSpeed;
+
+        rb.velocity = rb.velocity + movement;
+
+        //Abhname der Velocity über zeit:
+
+
 
         // Bewegung
         //rb.MovePosition(transform.position + movement); //Funktioniert ganz gut
 
-        rb.position = Vector3.Lerp(this.transform.position, this.transform.position + movement, lerpSpeed); //funktioniert auch ganz gut
+        //rb.position = Vector3.Lerp(this.transform.position, this.transform.position + movement, lerpSpeed); //funktioniert auch ganz gut
 
         // rb.MovePosition(Vector3.Lerp(transform.position, transform.position + movement, lerpSpeed)); //funktiioniert auch
 
@@ -219,11 +227,14 @@ public class PlayerScript : MonoBehaviour
         if (jumping == true) return; //eig unnötig
 
         //Gravity and rotation
+        //Vector3 gravDirection = (transform.position - Planet.transform.position).normalized; //Original Direction
+
+        //Idea: Add current movement direction to it?.....
         Vector3 gravDirection = (transform.position - Planet.transform.position).normalized;
 
         if (OnGround == false)
         {
-            rb.AddForce(gravDirection * -gravity);
+            rb.AddForce((gravDirection * -gravity));
 
         }
 
