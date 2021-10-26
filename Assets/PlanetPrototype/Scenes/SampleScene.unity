@@ -858,14 +858,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Planet: {fileID: 320651962}
-  movementSpeed: 150
+  movementSpeed: 3
   lerpSpeed: 50
-  forceJump: 15
+  forceJump: 50
   jumpDuration: 0.1
   jumpButtonReleased: 1
   jumping: 0
-  gravity: 5
-  OnGround: 0
+  gravity: 9.8
+  OnGround: 1
 --- !u!65 &1340916342
 BoxCollider:
   m_ObjectHideFlags: 0

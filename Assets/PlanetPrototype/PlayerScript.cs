@@ -39,7 +39,7 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    void Update()
+    void FixedUpdate()
     {
 
         
@@ -53,7 +53,7 @@ public class PlayerScript : MonoBehaviour
 
     void Movement()
     {
-        //Variante 1 (Test bei Speed 150 und LerpSpeed 50)
+        //Variante 1 
 
         Vector3 strafeMovement = transform.right * Input.GetAxis("Horizontal");
         Vector3 forwardMovement = transform.forward * Input.GetAxis("Vertical");
@@ -70,6 +70,7 @@ public class PlayerScript : MonoBehaviour
 
 
 
+       // transform.Translate(movement);
 
 
         //Variante 2: Spieler bewegt sich irgendwie nur auf einer Halbkugel, buggt sich oft in die Welt rein
