@@ -232,9 +232,10 @@ GameObject:
   - component: {fileID: 254982167}
   - component: {fileID: 254982166}
   - component: {fileID: 254982165}
+  - component: {fileID: 254982168}
   m_Layer: 7
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -315,6 +316,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 254982163}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &254982168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 254982163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e49a6e004b017f48abce4ec981680e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energy: 0
 --- !u!1 &320651962
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,13 +573,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Planet: {fileID: 320651962}
-  movementSpeed: 3
+  StandardMovementSpeed: 3
+  CurrentEnergy: 1
+  SlowDownMultiplicator: 0.99
+  ReduceEnergyMulitplicator: 0.99
   forceJump: 50
   jumpDuration: 0.1
   jumpButtonReleased: 1
   jumping: 0
   gravity: 9.8
   OnGround: 0
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

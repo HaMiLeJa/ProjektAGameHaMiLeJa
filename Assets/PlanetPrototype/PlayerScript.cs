@@ -31,7 +31,7 @@ public class PlayerScript : MonoBehaviour
     Rigidbody rb;
 
     Vector3 movement;
-
+    
 
 
     void Start()
@@ -43,13 +43,13 @@ public class PlayerScript : MonoBehaviour
 
     void FixedUpdate()
     {
-
+        /*
         
         Movement();
         GroundCheck();
         Jump();
         Gravity();
-       
+       */
          
     }
 

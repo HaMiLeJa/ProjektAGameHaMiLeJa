@@ -10,6 +10,7 @@ TagManager:
   - Win
   - Enemy
   - Defense
+  - Wall
   layers:
   - Default
   - TransparentFX
