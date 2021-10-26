@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerCollisionLei : MonoBehaviour
 {
@@ -10,18 +11,10 @@ public class PlayerCollisionLei : MonoBehaviour
     public GameObject collisionPrefabTwo;
     int lives = 3;
     public Text livesDisplay;
+    bool gameStarted = false;
     Vector3 spawnPoint;
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   
 
     /// Code von Lei
     /// </summary>
@@ -43,6 +36,7 @@ public class PlayerCollisionLei : MonoBehaviour
             Instantiate(collisionPrefabTwo, transform.position, Quaternion.identity);
 
             gameObject.SetActive(false);
+            gameStarted = false;
             //lives--;
             // livesDisplay.text = "Lives: " + lives;
 
@@ -50,9 +44,18 @@ public class PlayerCollisionLei : MonoBehaviour
             // Invoke(nameof(NextLife), 3);
 
         }
-
-
     }
+        public void ApplicationEndButton_Click()
+        {
+            Application.Quit();
+        }
+
+        public void RestartGame()
+        {
+             SceneManager.LoadScene("Enemy_Movement");
+        }
+
+    
 
     /*void NextLife()
     {
