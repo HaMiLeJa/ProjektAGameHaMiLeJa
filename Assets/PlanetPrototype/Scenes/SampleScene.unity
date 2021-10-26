@@ -575,15 +575,17 @@ MonoBehaviour:
   Planet: {fileID: 320651962}
   StandardMovementSpeed: 3
   CurrentEnergy: 1
+  BoostMultiplicator: 1
   SlowDownMultiplicator: 0.99
   ReduceEnergyMulitplicator: 0.99
   forceJump: 50
   jumpDuration: 0.1
-  jumpButtonReleased: 1
-  jumping: 0
   gravity: 9.8
   OnGround: 0
+  boostDuration: 0.1
+  boostPower: 25
   velocity: {x: 0, y: 0, z: 0}
+  boosting: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

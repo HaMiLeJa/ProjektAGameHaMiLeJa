@@ -12,17 +12,17 @@ public class PlayerMovement : MonoBehaviour
     public float StandardMovementSpeed = 3;
     Vector3 movement; //Umbennen
     public float CurrentEnergy = 1;
+    public float BoostMultiplicator = 1;
+
+    [SerializeField] float smallSlowDown = 0.9999f;
     public float SlowDownMultiplicator = 0.99f;
     public float ReduceEnergyMulitplicator = 0.9f;
 
 
     [SerializeField] float forceJump;
     [SerializeField] float jumpDuration;
-    [SerializeField] bool jumpButtonReleased = true;
-    [SerializeField] bool jumping = false;
-    float timer;
-
-    bool jumpBottonPressedInLastFrame = false;
+    float timerJump;
+    bool jumpButtonPressedInLastFrame = false;
     bool allowJump = false;
 
     [SerializeField] float gravity = 9.8f;
@@ -31,10 +31,18 @@ public class PlayerMovement : MonoBehaviour
     Vector3 Groundnormal;
 
 
-    public Vector3 velocity;
     
 
+    [SerializeField] float boostDuration;
+    bool boostButtonPressedInLastFrame = false;
+    bool allowBoost = true;
+    float timerBoost;
+    [SerializeField] float boostPower = 5;
 
+    public Vector3 velocity;
+
+
+    public bool boosting;
 
     void Start()
     {
@@ -48,6 +56,7 @@ public class PlayerMovement : MonoBehaviour
         velocity = rb.velocity;
 
         Movement();
+        Boost();
         GroundCheck();
         Jump();
         Gravity();
@@ -62,17 +71,22 @@ public class PlayerMovement : MonoBehaviour
         Vector3 forwardMovement = transform.forward * Input.GetAxis("Vertical");
 
         movement = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
-        movement = movement * Time.deltaTime * StandardMovementSpeed * CurrentEnergy;
+        movement = movement * Time.deltaTime * StandardMovementSpeed * CurrentEnergy * BoostMultiplicator;
 
         rb.velocity = rb.velocity + movement;
 
 
-        //Abhname der Velocity über zeit:
+        //Abhanme der Volicity zur Begrenzung :D
+        if (Mathf.Abs(rb.velocity.x) > 0.2f && Mathf.Abs(rb.velocity.z) > 0.2f)
+        {
+            rb.velocity = new Vector3(rb.velocity.x * smallSlowDown, rb.velocity.y, rb.velocity.z * smallSlowDown);
+        }
+
+        //Abhname der Velocity über bei kein Input:
+
+        if (Mathf.Abs(rb.velocity.x) < 0.001f && Mathf.Abs(rb.velocity.z) > 0.001f) return;
         if (strafeMovement == Vector3.zero && forwardMovement == Vector3.zero) //Wenn kein Input
         {
-            //Eigentlich müsste man den SpeedMultiplicator (auch) verringern, damit im Ganzen Energie verloren geht
-            
-
 
             float x = rb.velocity.x;
             float z = rb.velocity.z;
@@ -96,6 +110,38 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    void Boost()
+    {
+        if (Input.GetButton("BoostJanina"))
+        {
+            
+            if(boostButtonPressedInLastFrame == false)
+            {
+                allowBoost = true;
+            }
+
+            boostButtonPressedInLastFrame = true;
+
+            if (allowBoost == true & timerBoost < boostDuration)
+            {
+                timerBoost += Time.deltaTime;
+                BoostMultiplicator = boostPower; // *Gespeicherte Energie für super boost später oder so (maybe ist das aber dann auch ne eigenen Methode)
+                boosting = true;
+            }
+            else
+            {
+                boosting = false;
+                BoostMultiplicator = 1;
+            }
+        }
+        else
+        {
+            timerBoost = 0;
+            boostButtonPressedInLastFrame = false;
+            allowBoost = false;
+            BoostMultiplicator = 1;
+        }
+    }
 
 
     void GroundCheck()
@@ -124,26 +170,25 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButton("JumpJanina"))
         {
 
-
-            if (OnGround == true && jumpBottonPressedInLastFrame == false)
+            if (OnGround == true && jumpButtonPressedInLastFrame == false)
             {
                 allowJump = true;
             }
 
-            jumpBottonPressedInLastFrame = true;
+            jumpButtonPressedInLastFrame = true;
 
 
-            if (allowJump == true && timer < jumpDuration)
+            if (allowJump == true && timerJump < jumpDuration)
             {
-                timer += Time.deltaTime;
+                timerJump += Time.deltaTime;
                 rb.AddForce(this.transform.up * forceJump); //15, 0.1
             }
 
         }
         else
         {
-            timer = 0;
-            jumpBottonPressedInLastFrame = false;
+            timerJump = 0;
+            jumpButtonPressedInLastFrame = false;
             allowJump = false;
         }
 
@@ -153,9 +198,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Gravity()
     {
-
-        if (jumping == true) return; //eig unnötig
-
         //Gravity and rotation
         Vector3 gravDirection = (transform.position - Planet.transform.position).normalized;
 
