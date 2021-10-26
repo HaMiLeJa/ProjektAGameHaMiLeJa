@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
+    
     public GameObject Planet;
 
     public float movementSpeed = 150f;
@@ -31,7 +32,6 @@ public class PlayerScript : MonoBehaviour
 
     Vector3 movement;
 
-    //public GameObject collisionPrefabOne;
 
 
     void Start()
@@ -60,8 +60,8 @@ public class PlayerScript : MonoBehaviour
         Vector3 strafeMovement = transform.right * Input.GetAxis("Horizontal");
         Vector3 forwardMovement = transform.forward * Input.GetAxis("Vertical");
 
-        movement = forwardMovement + strafeMovement;
-        movement = movement.normalized * Time.deltaTime * movementSpeed;
+        movement = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird
+        movement = movement * Time.deltaTime * movementSpeed;
 
         rb.velocity = rb.velocity + movement;
 
