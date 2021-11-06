@@ -12,6 +12,8 @@ public class EnergyManager : MonoBehaviour
     [HideInInspector] public float EnergyMovementValue;
     [HideInInspector] public float EnergyBoostValue;
 
+    [HideInInspector] public float EnergySuperBoostValue;
+
 
     public float ReduceEnergyMulitplicator = 0.9f;
 
@@ -82,6 +84,7 @@ public class EnergyManager : MonoBehaviour
         if (EnergyMovementValue < 0.7f) EnergyMovementValue = 0.7f;
 
         EnergyBoostValue = Energy * 1f;
+        EnergySuperBoostValue = Energy * 1.2f;
     }
 
     public void ReduceEnergy()
