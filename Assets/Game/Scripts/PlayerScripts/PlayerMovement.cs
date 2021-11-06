@@ -5,19 +5,25 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     Rigidbody rb;
-
-    EnergyManager EnergyMng;
+    EnergyManager energyMng;
 
     //Movement
     Vector3 strafeMovement;
     Vector3 forwardMovement;
     public float StandardMovementSpeed = 3;
     Vector3 movement; //Umbennen
-    Vector3 movementDirection;
+    [HideInInspector] public Vector3 movementDirection;
 
     // void ControlVelocity
     public float SlowDownMultiplicator = 0.99f;
 
+    // void basic boos
+    [SerializeField] float boostDuration = 0.1f;
+    bool boostButtonPressedInLastFrame = false;
+    bool allowBoost = true;
+    float timerBoost;
+    [SerializeField] float boostForce = 1;
+    public bool boosting;
 
     // void Basic Jump
     [SerializeField] float forceJump = 50;
@@ -26,32 +32,25 @@ public class PlayerMovement : MonoBehaviour
     bool jumpButtonPressedInLastFrame = false;
     bool allowJump = false;
 
-    // void Basic Boost
-    [SerializeField] float boostDuration = 0.1f;
-    bool boostButtonPressedInLastFrame = false;
-    bool allowBoost = true;
-    float timerBoost;
-    [SerializeField] float boostForce = 20;
-    public bool boosting;
-
-
-
     // void GroundCheck und Gravity
     [SerializeField] bool OnGround = false;
     float distanceToGround;
 
 
+    [SerializeField] [Tooltip("Turn off if you dont want to loose energy")] bool reduceEnergy = true;
+    [Tooltip("Just for Debug use")] public Vector3 velocity; //Debug
 
-    [SerializeField] [Tooltip ("Turn off if you dont want to loose energy")] bool reduceEnergy = true;
-    [Tooltip ("Just for Debug use")] public Vector3 velocity; //Debug
+    private void Awake()
+    {
+    }
 
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        EnergyMng = EnergyManager.Instance;
+        energyMng = EnergyManager.Instance;
     }
 
-    
+
     void FixedUpdate()
     {
         velocity = rb.velocity; //Debug
@@ -60,11 +59,12 @@ public class PlayerMovement : MonoBehaviour
 
         Movement();
 
-        if(reduceEnergy == true)
-             ControlVelocity();
+        if (reduceEnergy == true)
+            ControlVelocity();
 
-        BasicJump();
-        BasicBoost();
+        //BasicJump();
+        //BasicBoost();
+
     }
 
     void Movement()
@@ -74,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
         forwardMovement = transform.forward * Input.GetAxis("Vertical");
 
         movementDirection = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
-        movement = movementDirection * Time.deltaTime * StandardMovementSpeed * EnergyMng.EnergyMovementValue;
+        movement = movementDirection * Time.deltaTime * StandardMovementSpeed * energyMng.EnergyMovementValue;
 
         rb.velocity = (rb.velocity + movement);
     }
@@ -89,14 +89,14 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector3(0.001f, 0.001f, 0.001f);
         }
 
-        
-        
-       
+
+
+
         if (strafeMovement == Vector3.zero && forwardMovement == Vector3.zero || Input.GetButton("Y")) //Wenn kein Input    
         {
             // Abnahme Velocity und Energie, wenn kein Input erfolgt automatisch über das Physicsystem
             // Abnahme Energy
-            EnergyMng.ReduceEnergy();
+            energyMng.ReduceEnergy();
         }
 
     }
@@ -145,7 +145,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 timerBoost += Time.deltaTime;
 
-                rb.AddForce(movementDirection.normalized * boostForce * EnergyMng.EnergyBoostValue, ForceMode.Impulse);
+                rb.AddForce(movementDirection.normalized * boostForce * energyMng.EnergyBoostValue, ForceMode.Impulse);
                 //ANMERKUNG: falls Boosten energie verbrauchen soll hier abziehen
 
                 boosting = true;
@@ -163,17 +163,19 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    
 
+   
 
     void GroundCheck()
     {
         //GroundControl
-        
+
         RaycastHit hit = new RaycastHit();
         if (Physics.Raycast(transform.position, -transform.up, out hit, 10, LayerMask.GetMask("Hex")))
         {
             distanceToGround = hit.distance;
-            Debug.Log(distanceToGround);
+            //Debug.Log(distanceToGround);
 
             if (distanceToGround <= 1.6f) //Wert müsste evt über den Spielverlauf hin angepasst werden
             {
@@ -184,7 +186,7 @@ public class PlayerMovement : MonoBehaviour
                 OnGround = false;
             }
         }
-        
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -193,10 +195,11 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("Collision with wall");
 
-            EnergyMng.Energy += collision.gameObject.GetComponent<EnergyGenerator>().GeneratedEnergy;
+            energyMng.Energy += collision.gameObject.GetComponent<EnergyGenerator>().GeneratedEnergy;
 
             collision.gameObject.GetComponent<EnergyGenerator>().GeneratedEnergy = 0;
 
         }
     }
+    
 }
