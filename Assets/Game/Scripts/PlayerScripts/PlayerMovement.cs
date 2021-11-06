@@ -4,173 +4,109 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    
     Rigidbody rb;
-    public GameObject Planet;
 
+    EnergyManager EnergyMng;
 
+    //Movement
+    Vector3 strafeMovement;
+    Vector3 forwardMovement;
     public float StandardMovementSpeed = 3;
     Vector3 movement; //Umbennen
-    public float CurrentEnergy = 1;
-    public float BoostMultiplicator = 1;
+    Vector3 movementDirection;
 
-    [SerializeField] float smallSlowDown = 0.9999f;
+    // void ControlVelocity
     public float SlowDownMultiplicator = 0.99f;
-    public float ReduceEnergyMulitplicator = 0.9f;
 
 
-    [SerializeField] float forceJump;
-    [SerializeField] float jumpDuration;
+    // void Basic Jump
+    [SerializeField] float forceJump = 50;
+    [SerializeField] float jumpDuration = 0.1f;
     float timerJump;
     bool jumpButtonPressedInLastFrame = false;
     bool allowJump = false;
 
-    [SerializeField] float gravity = 9.8f;
-    [SerializeField] bool OnGround = false;
-    float distanceToGround;
-    Vector3 Groundnormal;
-
-
-    
-
-    [SerializeField] float boostDuration;
+    // void Basic Boost
+    [SerializeField] float boostDuration = 0.1f;
     bool boostButtonPressedInLastFrame = false;
     bool allowBoost = true;
     float timerBoost;
-    [SerializeField] float boostPower = 5;
-
-    public Vector3 velocity;
-
-
+    [SerializeField] float boostForce = 20;
     public bool boosting;
+
+
+
+    // void GroundCheck und Gravity
+    [SerializeField] bool OnGround = false;
+    float distanceToGround;
+
+
+
+    [SerializeField] [Tooltip ("Turn off if you dont want to loose energy")] bool reduceEnergy = true;
+    [Tooltip ("Just for Debug use")] public Vector3 velocity; //Debug
 
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
-
+        EnergyMng = EnergyManager.Instance;
     }
 
+    
     void FixedUpdate()
     {
-        velocity = rb.velocity;
+        velocity = rb.velocity; //Debug
+
+        GroundCheck();
 
         Movement();
-        Boost();
-        GroundCheck();
-        Jump();
-        Gravity();
 
+        if(reduceEnergy == true)
+             ControlVelocity();
 
+        BasicJump();
+        BasicBoost();
     }
 
     void Movement()
     {
         //Bewegung
-        Vector3 strafeMovement = transform.right * Input.GetAxis("Horizontal");
-        Vector3 forwardMovement = transform.forward * Input.GetAxis("Vertical");
+        strafeMovement = transform.right * Input.GetAxis("Horizontal");
+        forwardMovement = transform.forward * Input.GetAxis("Vertical");
 
-        movement = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhÃ¤ngig von der StÃ¤rke der Neigung der Joysticks
-        movement = movement * Time.deltaTime * StandardMovementSpeed * CurrentEnergy * BoostMultiplicator;
+        movementDirection = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
+        movement = movementDirection * Time.deltaTime * StandardMovementSpeed * EnergyMng.EnergyMovementValue;
 
-        rb.velocity = rb.velocity + movement;
+        rb.velocity = (rb.velocity + movement);
+    }
 
 
-        //Abhanme der Volicity zur Begrenzung :D
-        if (Mathf.Abs(rb.velocity.x) > 0.2f && Mathf.Abs(rb.velocity.z) > 0.2f)
+
+    void ControlVelocity()
+    {
+        //Stopp
+        if (Input.GetButton("Y"))
         {
-            rb.velocity = new Vector3(rb.velocity.x * smallSlowDown, rb.velocity.y, rb.velocity.z * smallSlowDown);
+            rb.velocity = new Vector3(0.001f, 0.001f, 0.001f);
         }
 
-        //Abhname der Velocity Ã¼ber bei kein Input:
-
-        if (Mathf.Abs(rb.velocity.x) < 0.001f && Mathf.Abs(rb.velocity.z) > 0.001f) return;
-        if (strafeMovement == Vector3.zero && forwardMovement == Vector3.zero) //Wenn kein Input
-        {
-
-            float x = rb.velocity.x;
-            float z = rb.velocity.z;
-
-            x = x * SlowDownMultiplicator; //Passiert eh regelmÃ¤ÃŸig wegen fixedUpdate
-            z = z * SlowDownMultiplicator;
-
-            rb.velocity = new Vector3(x, rb.velocity.y, z);
-
-            CurrentEnergy *= ReduceEnergyMulitplicator;
-            CurrentEnergy = Mathf.Clamp(CurrentEnergy, 0.4f, 10);
-        }
+        
+        
        
-
-        // Begrenzung der Velocity
-
-        //Bremsen: einfach in die Entgegengesetze richtung steuern ne?
-
-
-        //SpeedMultiplicator durch Wand-Anstupsen (zeitweise) erhÃ¶hen
+        if (strafeMovement == Vector3.zero && forwardMovement == Vector3.zero || Input.GetButton("Y")) //Wenn kein Input    
+        {
+            // Abnahme Velocity und Energie, wenn kein Input erfolgt automatisch über das Physicsystem
+            // Abnahme Energy
+            EnergyMng.ReduceEnergy();
+        }
 
     }
 
-    void Boost()
+    void BasicJump()
     {
-        if (Input.GetButton("BoostJanina"))
-        {
-            
-            if(boostButtonPressedInLastFrame == false)
-            {
-                allowBoost = true;
-            }
-
-            boostButtonPressedInLastFrame = true;
-
-            if (allowBoost == true & timerBoost < boostDuration)
-            {
-                timerBoost += Time.deltaTime;
-                BoostMultiplicator = boostPower; // *Gespeicherte Energie fÃ¼r super boost spÃ¤ter oder so (maybe ist das aber dann auch ne eigenen Methode)
-                boosting = true;
-            }
-            else
-            {
-                boosting = false;
-                BoostMultiplicator = 1;
-            }
-        }
-        else
-        {
-            timerBoost = 0;
-            boostButtonPressedInLastFrame = false;
-            allowBoost = false;
-            BoostMultiplicator = 1;
-        }
-    }
-
-
-    void GroundCheck()
-    {
-        //GroundControl
-        RaycastHit hit = new RaycastHit();
-        if (Physics.Raycast(transform.position, -transform.up, out hit, 10, LayerMask.GetMask("World")))
-        {
-            distanceToGround = hit.distance;
-            Groundnormal = hit.normal; //verwendet bei Gravity
-
-            if (distanceToGround <= 0.5f)
-            {
-                OnGround = true;
-            }
-            else
-            {
-                OnGround = false;
-            }
-        }
-    }
-
-    void Jump()
-    {
-
-        if (Input.GetButton("JumpJanina"))
+        if (Input.GetButton("B"))
         {
 
-            if (OnGround == true && jumpButtonPressedInLastFrame == false)
+            if (jumpButtonPressedInLastFrame == false) //OnGround == true &&
             {
                 allowJump = true;
             }
@@ -181,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
             if (allowJump == true && timerJump < jumpDuration)
             {
                 timerJump += Time.deltaTime;
-                rb.AddForce(this.transform.up * forceJump); //15, 0.1
+                rb.AddForce(Vector3.up * forceJump);
             }
 
         }
@@ -191,42 +127,76 @@ public class PlayerMovement : MonoBehaviour
             jumpButtonPressedInLastFrame = false;
             allowJump = false;
         }
-
-
-
     }
 
-    void Gravity()
+    void BasicBoost()
     {
-        //Gravity and rotation
-        Vector3 gravDirection = (transform.position - Planet.transform.position).normalized;
-
-        if (OnGround == false)
+        if (Input.GetButton("X"))
         {
-            rb.AddForce((gravDirection * -gravity));
 
+            if (boostButtonPressedInLastFrame == false)
+            {
+                allowBoost = true;
+            }
+
+            boostButtonPressedInLastFrame = true;
+
+            if (allowBoost == true & timerBoost < boostDuration)
+            {
+                timerBoost += Time.deltaTime;
+
+                rb.AddForce(movementDirection.normalized * boostForce * EnergyMng.EnergyBoostValue, ForceMode.Impulse);
+                //ANMERKUNG: falls Boosten energie verbrauchen soll hier abziehen
+
+                boosting = true;
+            }
+            else
+            {
+                boosting = false;
+            }
         }
-
-        // Quat
-        Quaternion toRotation = Quaternion.FromToRotation(transform.up, Groundnormal) * transform.rotation;
-        transform.rotation = toRotation;
+        else
+        {
+            timerBoost = 0;
+            boostButtonPressedInLastFrame = false;
+            allowBoost = false;
+        }
     }
 
-    
+
+
+    void GroundCheck()
+    {
+        //GroundControl
+        
+        RaycastHit hit = new RaycastHit();
+        if (Physics.Raycast(transform.position, -transform.up, out hit, 10, LayerMask.GetMask("Hex")))
+        {
+            distanceToGround = hit.distance;
+            Debug.Log(distanceToGround);
+
+            if (distanceToGround <= 1.6f) //Wert müsste evt über den Spielverlauf hin angepasst werden
+            {
+                OnGround = true;
+            }
+            else
+            {
+                OnGround = false;
+            }
+        }
+        
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if( collision.gameObject.tag == "Wall")
+        if (collision.gameObject.tag == "Wall")
         {
             Debug.Log("Collision with wall");
 
-            CurrentEnergy += collision.gameObject.GetComponent<WallEnergy>().energy;
+            EnergyMng.Energy += collision.gameObject.GetComponent<EnergyGenerator>().GeneratedEnergy;
 
-            collision.gameObject.GetComponent<WallEnergy>().energy = 0;
+            collision.gameObject.GetComponent<EnergyGenerator>().GeneratedEnergy = 0;
 
         }
-
-
     }
-
 }

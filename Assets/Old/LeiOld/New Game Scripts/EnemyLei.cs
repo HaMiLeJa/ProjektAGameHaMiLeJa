@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class EnemyLei : MonoBehaviour
 {
     public GameObject player;
-    PlayerScript playerClass;
+    //PlayerScript playerClass;
 
     public GameObject defensePrefab;
     bool reload = false;
