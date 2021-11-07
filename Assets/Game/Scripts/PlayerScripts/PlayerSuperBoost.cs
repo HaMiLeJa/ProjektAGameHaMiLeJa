@@ -97,7 +97,7 @@ public class PlayerSuperBoost : MonoBehaviour
     {
         dealDamage = true;
         Debug.Log(dealDamage);
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(dealDamageDuration);
 
         dealDamage = false;
         Debug.Log(dealDamage);

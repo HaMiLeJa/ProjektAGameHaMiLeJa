@@ -95,7 +95,7 @@ public class PlayerBoost : MonoBehaviour
     private IEnumerator AllowToDestroyDestroyables()
     {
         dealDamage = true;
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(dealDamageDuration);
 
         dealDamage = false;
 

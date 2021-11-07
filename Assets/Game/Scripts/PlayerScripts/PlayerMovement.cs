@@ -203,11 +203,12 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-
-        if(OnGround == false && jumping == false)
+        /*
+        if(OnGround == false && jumping == false) //&&rebounding == false
         {
             rb.AddForce(Vector3.down * fallDownSpeed);
         }
+        */
 
     }
 
