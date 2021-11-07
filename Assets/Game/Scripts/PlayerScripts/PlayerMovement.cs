@@ -11,8 +11,8 @@ public class PlayerMovement : MonoBehaviour
     Vector3 strafeMovement;
     Vector3 forwardMovement;
     public float StandardMovementSpeed = 3;
-    public static Vector3 movement; //Umbennen
-    [HideInInspector] public Vector3 movementDirection;
+    Vector3 movement; //Umbennen
+    [HideInInspector] public Vector3 MovementDirection;
 
     // void ControlVelocity
     public float SlowDownMultiplicator = 0.99f;
@@ -36,9 +36,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] bool OnGround = false;
     float distanceToGround;
 
-
     [SerializeField] [Tooltip("Turn off if you dont want to loose energy")] bool reduceEnergy = true;
-    [Tooltip("Just for Debug use")] public Vector3 velocity; //Debug
+    [Tooltip("Just for Debug use")] public Vector3 Velocity; //Debug
 
     private void Awake()
     {
@@ -53,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        velocity = rb.velocity; //Debug
+        Velocity = rb.velocity; //Debug
 
         GroundCheck();
 
@@ -73,10 +72,10 @@ public class PlayerMovement : MonoBehaviour
         strafeMovement = transform.right * Input.GetAxis("Horizontal");
         forwardMovement = transform.forward * Input.GetAxis("Vertical");
 
-        movementDirection =
+        MovementDirection =
             forwardMovement +
             strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
-        movement = movementDirection * Time.deltaTime * StandardMovementSpeed * energyMng.EnergyMovementValue;
+        movement = MovementDirection * Time.deltaTime * StandardMovementSpeed * energyMng.EnergyMovementValue;
         // if (ShadowDash.currentShadowDashForce != 0)
         // {
         //     movement *= ShadowDash.currentShadowDashForce;
@@ -153,7 +152,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 timerBoost += Time.deltaTime;
 
-                rb.AddForce(movementDirection.normalized * boostForce * energyMng.EnergyBoostValue, ForceMode.Impulse);
+                rb.AddForce(MovementDirection.normalized * boostForce * energyMng.EnergyBoostValue, ForceMode.Impulse);
                 //ANMERKUNG: falls Boosten energie verbrauchen soll hier abziehen
 
                 boosting = true;

@@ -13,7 +13,7 @@ public class PlayerSuperBoost : MonoBehaviour
     bool allowBoost = true;
     float timerBoost;
     [SerializeField] float boostForce = 1;
-    public bool boosting;
+    public bool Boosting;
 
     [SerializeField] float setDirectionTimer;
     Vector3 boostDirection;
@@ -27,7 +27,6 @@ public class PlayerSuperBoost : MonoBehaviour
         playerMov = this.GetComponent<PlayerMovement>();
     }
 
-    
     void FixedUpdate()
     {
         SuperBoost();
@@ -58,7 +57,7 @@ public class PlayerSuperBoost : MonoBehaviour
                 }
                 else
                 {
-                    boostDirection = playerMov.movementDirection;
+                    boostDirection = playerMov.MovementDirection;
                     directionSet = true;
                 }
 
@@ -69,12 +68,12 @@ public class PlayerSuperBoost : MonoBehaviour
                     
                        
                     timerBoost += Time.deltaTime;
-                    boosting = true;
+                    Boosting = true;
                     rb.AddForce(boostDirection.normalized * boostForce * energyMng.EnergyBoostValue * 3, ForceMode.Impulse); //*3 zum zeigen
                 }
                 else
                 {
-                    boosting = false;
+                    Boosting = false;
                 }
             }
         }
@@ -87,7 +86,7 @@ public class PlayerSuperBoost : MonoBehaviour
             timerBoost = 0;
 
             directionSet = false;
-            boosting = false;
+            Boosting = false;
         }
     }
 }
