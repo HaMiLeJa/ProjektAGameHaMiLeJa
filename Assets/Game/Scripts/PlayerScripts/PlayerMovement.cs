@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     Vector3 strafeMovement;
     Vector3 forwardMovement;
     public float StandardMovementSpeed = 3;
-    Vector3 movement; //Umbennen
+    public static Vector3 movement; //Umbennen
     [HideInInspector] public Vector3 movementDirection;
 
     // void ControlVelocity
@@ -73,11 +73,19 @@ public class PlayerMovement : MonoBehaviour
         strafeMovement = transform.right * Input.GetAxis("Horizontal");
         forwardMovement = transform.forward * Input.GetAxis("Vertical");
 
-        movementDirection = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
+        movementDirection =
+            forwardMovement +
+            strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhÃ¤ngig von der StÃ¤rke der Neigung der Joysticks
         movement = movementDirection * Time.deltaTime * StandardMovementSpeed * energyMng.EnergyMovementValue;
+        // if (ShadowDash.currentShadowDashForce != 0)
+        // {
+        //     movement *= ShadowDash.currentShadowDashForce;
+        //     ShadowDash.mr.enabled = true;
+        // }
 
         rb.velocity = (rb.velocity + movement);
     }
+
 
 
 
@@ -94,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (strafeMovement == Vector3.zero && forwardMovement == Vector3.zero || Input.GetButton("Y")) //Wenn kein Input    
         {
-            // Abnahme Velocity und Energie, wenn kein Input erfolgt automatisch über das Physicsystem
+            // Abnahme Velocity und Energie, wenn kein Input erfolgt automatisch Ã¼ber das Physicsystem
             // Abnahme Energy
             energyMng.ReduceEnergy();
         }
@@ -177,7 +185,7 @@ public class PlayerMovement : MonoBehaviour
             distanceToGround = hit.distance;
             //Debug.Log(distanceToGround);
 
-            if (distanceToGround <= 1.6f) //Wert müsste evt über den Spielverlauf hin angepasst werden
+            if (distanceToGround <= 1.6f) //Wert mÃ¼sste evt Ã¼ber den Spielverlauf hin angepasst werden
             {
                 OnGround = true;
             }
