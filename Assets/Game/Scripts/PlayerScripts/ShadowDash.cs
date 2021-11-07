@@ -42,7 +42,7 @@ public class ShadowDash : MonoBehaviour
         {
             
             //Janina ich möchte gerne das momentane mov speed mit currentShadowDashForce multiplizieren, ich weiß aber nicht wo ich das bei Playermov kann
-            MOVEMENTSPEEDAUSPLAYERMOVEMENT *= currentShadowDashForce;
+            //   ---->>>> MOVEMENTSPEEDAUSPLAYERMOVEMENT  <<<<----- *= currentShadowDashForce;
             mr.enabled = true;
         }
         #endregion
