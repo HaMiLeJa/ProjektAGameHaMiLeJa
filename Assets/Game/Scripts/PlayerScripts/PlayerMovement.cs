@@ -42,6 +42,9 @@ public class PlayerMovement : MonoBehaviour
     [Tooltip("Just for Debug use")] public Vector3 Velocity; //Debug
 
     ShadowDash shadowDash;
+    
+    // Trampolin
+    public bool rebounded = false;
 
     private void Awake()
     {
@@ -202,13 +205,21 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-
-        /*
+        // Idee: die Addforce auch in akutelle bewegungsrichtung?
+        
         if(OnGround == false && jumping == false) //&&rebounding == false
+        {
+            //Vector3 direction = new Vector3(rb.velocity.x, -1, rb.velocity.z);
+            //direction = direction.normalized;
+
+            rb.AddForce(Vector3.down * fallDownSpeed);
+        }
+        if(OnGround == false && rebounded == false)
         {
             rb.AddForce(Vector3.down * fallDownSpeed);
         }
-        */
+
+
 
     }
 

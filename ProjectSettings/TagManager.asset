@@ -13,6 +13,7 @@ TagManager:
   - Wall
   - Destroyable
   - EnergyGenerator
+  - Trampolin
   layers:
   - Default
   - TransparentFX
