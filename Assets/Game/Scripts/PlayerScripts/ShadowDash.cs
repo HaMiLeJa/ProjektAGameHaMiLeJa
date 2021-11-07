@@ -38,6 +38,7 @@ public class ShadowDash : MonoBehaviour
 
     void Update()
     {
+        
         if (mr.enabled == false)
             dust.Play();
         else
