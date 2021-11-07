@@ -14,6 +14,7 @@ public class ShadowDash : MonoBehaviour
     [SerializeField] public float currentShadowDashForce = 0.0f;
     [SerializeField] private float disappearingDuringShadowDashStart;
     [SerializeField] private float disappearingDuringShadowDashEnd;
+    public ParticleSystem dust;
 
     public MeshRenderer mr;
 
@@ -37,11 +38,18 @@ public class ShadowDash : MonoBehaviour
 
     void Update()
     {
+        if (mr.enabled == false)
+            dust.Play();
+        else
+        {
+            dust.Stop();
+        }
         
         #region ShadowDashInputKey
         
         if (Input.GetKeyDown(KeyCode.G) && isShadowDashing == false)
         {
+           
             isShadowDashing = true;
             ShadowDashStarter();
         }
@@ -81,14 +89,16 @@ public class ShadowDash : MonoBehaviour
         // gameObject.layer = LayerMask.NameToLayer("PlayerDashing");
         while (t < ShadowDashDuration)
         {
-
+           
             mr.enabled = true;
             t += Time.deltaTime;
             float curveValue = shadowDashcurve.Evaluate(t / ShadowDashDuration);
             currentShadowDashForce += ShadowDashForce * curveValue * Time.deltaTime; 
             if (currentShadowDashForce >= disappearingDuringShadowDashStart && currentShadowDashForce <= disappearingDuringShadowDashEnd) 
+            {
                 mr.enabled = false;
-
+       
+            }
             yield return null;
         }
 
