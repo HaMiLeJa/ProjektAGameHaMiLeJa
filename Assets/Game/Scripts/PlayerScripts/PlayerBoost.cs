@@ -13,12 +13,16 @@ public class PlayerBoost : MonoBehaviour
     bool allowBoost = true;
     float timerBoost;
     [SerializeField] float boostForce = 1;
-    public bool boosting;
+    public bool Boosting;
 
     float timerSlowDown;
     [SerializeField] float slowDownDuration;
     bool slowedDown = false;
     [SerializeField] float slowDownValue;
+
+    [HideInInspector] public bool dealDamage = false;
+    [Tooltip("For how long Player can damage de Destroyables")] [SerializeField] float dealDamageDuration;
+
 
     void Start()
     {
@@ -58,18 +62,20 @@ public class PlayerBoost : MonoBehaviour
 
                 if (slowedDown == true & timerBoost < boostDuration)
                 {
+                    if (dealDamage == false)
+                        StartCoroutine(AllowToDestroyDestroyables());
+
                     timerBoost += Time.deltaTime;
 
                     rb.AddForce(playerMov.MovementDirection.normalized * boostForce * energyMng.EnergyBoostValue, ForceMode.Impulse);
                     //ANMERKUNG: falls Boosten energie verbrauchen soll hier abziehen
 
-                    boosting = true;
+                    Boosting = true;
                 }
                 else
                 {
-                    boosting = false;
+                    Boosting = false;
                 }
-
             }
 
         }
@@ -80,12 +86,23 @@ public class PlayerBoost : MonoBehaviour
             timerSlowDown = 0;
             timerBoost = 0;
             slowedDown = false;
-            boosting = false;
+            Boosting = false;
         }
 
 
     }
 
+    private IEnumerator AllowToDestroyDestroyables()
+    {
+        dealDamage = true;
+        Debug.Log(dealDamage);
+        yield return new WaitForSeconds(2);
+
+        dealDamage = false;
+        Debug.Log(dealDamage);
+
+        yield return null;
+    }
 
     void BoostNotWorking()
     {
@@ -93,7 +110,7 @@ public class PlayerBoost : MonoBehaviour
         {
             if (boostButtonPressedInLastFrame == false)
             {
-                boosting = true;
+                Boosting = true;
                 allowBoost = true;
             }
 
@@ -110,7 +127,7 @@ public class PlayerBoost : MonoBehaviour
         {
             timerSlowDown += Time.deltaTime;
 
-            if (boosting == true)
+            if (Boosting == true)
             {
                 /*
                 if (timerSlowDown < slowDownDuration)
@@ -132,7 +149,7 @@ public class PlayerBoost : MonoBehaviour
                 }
                 else
                 {
-                    boosting = false;
+                    Boosting = false;
                     allowBoost = false;
                 }
             }
@@ -146,7 +163,7 @@ public class PlayerBoost : MonoBehaviour
         }
 
 
-        if (Input.GetButton("X") == false && boostButtonPressedInLastFrame == true && boosting == false)
+        if (Input.GetButton("X") == false && boostButtonPressedInLastFrame == true && Boosting == false)
         {
             // boostButtonPressedInLastFrame = false;
         }

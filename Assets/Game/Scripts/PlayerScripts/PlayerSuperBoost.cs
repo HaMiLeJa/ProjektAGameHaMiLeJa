@@ -19,6 +19,8 @@ public class PlayerSuperBoost : MonoBehaviour
     Vector3 boostDirection;
     bool directionSet = false;
 
+    [HideInInspector] public bool dealDamage = false;
+    [Tooltip("For how long Player can damage de Destroyables")] [SerializeField] float dealDamageDuration;
 
     void Start()
     {
@@ -31,6 +33,8 @@ public class PlayerSuperBoost : MonoBehaviour
     {
         SuperBoost();
     }
+
+   
 
     void SuperBoost() //Wait(SetDirection) and Boost
     {
@@ -63,8 +67,9 @@ public class PlayerSuperBoost : MonoBehaviour
                 // Boost in Richtung
                 if (directionSet == true && timerBoost < boostDuration)
                 {
-                    
-                       
+                    if(dealDamage == false)
+                        StartCoroutine(AllowToDestroyDestroyables());
+
                     timerBoost += Time.deltaTime;
                     Boosting = true;
                     rb.AddForce(boostDirection.normalized * boostForce * energyMng.EnergyBoostValue * 3, ForceMode.Impulse); //*3 zum zeigen
@@ -86,5 +91,17 @@ public class PlayerSuperBoost : MonoBehaviour
             directionSet = false;
             Boosting = false;
         }
+    }
+
+    private IEnumerator AllowToDestroyDestroyables()
+    {
+        dealDamage = true;
+        Debug.Log(dealDamage);
+        yield return new WaitForSeconds(2);
+
+        dealDamage = false;
+        Debug.Log(dealDamage);
+
+        yield return null;
     }
 }

@@ -11,6 +11,8 @@ TagManager:
   - Enemy
   - Defense
   - Wall
+  - Destroyable
+  - EnergyGenerator
   layers:
   - Default
   - TransparentFX

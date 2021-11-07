@@ -83,13 +83,13 @@ public class PlayerMovement : MonoBehaviour
         MovementDirection = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
         movement = MovementDirection * Time.deltaTime * StandardMovementSpeed * energyMng.EnergyMovementValue;
        
-        /*
+        
         if (shadowDash.currentShadowDashForce != 0)
         {
             movement *= shadowDash.currentShadowDashForce;
             shadowDash.mr.enabled = true;
         }
-        */
+        
 
         rb.velocity = (rb.velocity + movement);
     }
@@ -197,10 +197,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Wall")
+        if (collision.gameObject.tag == "EnergyGenerator")
         {
-            Debug.Log("Collision with wall");
-
             energyMng.Energy += collision.gameObject.GetComponent<EnergyGenerator>().GeneratedEnergy;
 
             collision.gameObject.GetComponent<EnergyGenerator>().GeneratedEnergy = 0;
