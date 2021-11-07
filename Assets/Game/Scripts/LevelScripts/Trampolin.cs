@@ -7,8 +7,8 @@ public class Trampolin : MonoBehaviour
     
     float timer;
     [SerializeField] float reboundDuration = 0.2f;
-    [SerializeField] float force = 0.2f;
-    [SerializeField] float velocityInfluence = 0.2f;
+    [SerializeField] float force = 0.3f;
+    [SerializeField] float velocityInfluence = 0.5f;
 
     Rigidbody playerRb;
     PlayerMovement playerMov;
@@ -24,7 +24,7 @@ public class Trampolin : MonoBehaviour
         playerMov = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
 
         if(playerMov.rebounded == true)
@@ -50,9 +50,6 @@ public class Trampolin : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
 
-            //richtung bestimmen, aus der der Spieler kommt
-
-
 
             playerMov.rebounded = true;
 
@@ -61,7 +58,12 @@ public class Trampolin : MonoBehaviour
 
 
             direction = new Vector3(0, 1, 0);  //Input.GetAxis("Horizontal")
+
+
+
             ReboundMovement = new Vector3(0, direction.y * yReboundVelocity, 0) * force;
+
+            ReboundMovement.y = Mathf.Clamp(ReboundMovement.y, 1f, 2.5f);
         }
     }
 }
