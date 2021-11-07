@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Lei_Folder/Scenes/Enemy_Movement.unity
+    path: Assets/Old/LeiOld/Scenes/Enemy_Movement.unity
     guid: 98ebef37c1c1a9f44a1aff9034c5f5be
   m_configObjects: {}
