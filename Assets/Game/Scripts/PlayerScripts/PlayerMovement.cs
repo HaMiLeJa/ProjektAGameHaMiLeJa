@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     // void ControlVelocity
     public float SlowDownMultiplicator = 0.99f;
 
-    // void basic boos
+    // void basic boost
     [SerializeField] float boostDuration = 0.1f;
     bool boostButtonPressedInLastFrame = false;
     bool allowBoost = false;
@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     public bool boosting;
 
     // void Basic Jump
+    bool jumping = false;
     [SerializeField] float forceJump = 50;
     [SerializeField] float jumpDuration = 0.1f;
     float timerJump;
@@ -35,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
     // void GroundCheck und Gravity
     [SerializeField] bool OnGround = false;
     float distanceToGround;
+    [SerializeField] float fallDownSpeed = 1;
 
     [SerializeField] [Tooltip("Turn off if you dont want to loose energy")] bool reduceEnergy = true;
     [Tooltip("Just for Debug use")] public Vector3 Velocity; //Debug
@@ -71,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = rb.velocity * 0.9f;
         }
 
-        //BasicJump();
+        BasicJump();
     }
 
     void Movement()
@@ -82,16 +84,22 @@ public class PlayerMovement : MonoBehaviour
 
         MovementDirection = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
         movement = MovementDirection * Time.deltaTime * StandardMovementSpeed * energyMng.EnergyMovementValue;
-       
-        
+
+        /*
         if (shadowDash.currentShadowDashForce != 0)
         {
             movement *= shadowDash.currentShadowDashForce;
             shadowDash.mr.enabled = true;
         }
-        
+        */
 
-        rb.velocity = (rb.velocity + movement);
+        if (shadowDash.currentShadowDashForce != 0.5f)
+        {
+
+           // rb.velocity = (rb.velocity + movement * shadowDash.currentShadowDashForce);
+        }
+        
+            rb.velocity = (rb.velocity + movement);
     }
 
 
@@ -111,7 +119,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetButton("B"))
         {
-
             if (jumpButtonPressedInLastFrame == false) //OnGround == true &&
             {
                 allowJump = true;
@@ -122,8 +129,9 @@ public class PlayerMovement : MonoBehaviour
 
             if (allowJump == true && timerJump < jumpDuration)
             {
+                jumping = true;
                 timerJump += Time.deltaTime;
-                rb.AddForce(Vector3.up * forceJump);
+                rb.AddForce(this.transform.up * forceJump, ForceMode.Impulse);
             }
 
         }
@@ -132,6 +140,7 @@ public class PlayerMovement : MonoBehaviour
             timerJump = 0;
             jumpButtonPressedInLastFrame = false;
             allowJump = false;
+            jumping = false;
         }
     }
 
@@ -191,6 +200,13 @@ public class PlayerMovement : MonoBehaviour
             {
                 OnGround = false;
             }
+        }
+
+
+
+        if(OnGround == false && jumping == false)
+        {
+            rb.AddForce(Vector3.down * fallDownSpeed);
         }
 
     }
