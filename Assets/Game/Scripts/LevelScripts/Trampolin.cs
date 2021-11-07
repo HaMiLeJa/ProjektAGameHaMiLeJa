@@ -8,6 +8,7 @@ public class Trampolin : MonoBehaviour
     float timer;
     [SerializeField] float reboundDuration = 0.2f;
     [SerializeField] float force = 0.2f;
+    [SerializeField] float velocityInfluence = 0.2f;
 
     Rigidbody playerRb;
     PlayerMovement playerMov;
@@ -55,10 +56,12 @@ public class Trampolin : MonoBehaviour
 
             playerMov.rebounded = true;
 
-            yReboundVelocity = Mathf.Abs(playerRb.velocity.y);
+            yReboundVelocity = Mathf.Abs(playerRb.velocity.y * velocityInfluence);
+            //yReboundVelocity = Mathf.Clamp(yReboundVelocity, 5, 9);
 
-            direction = new Vector3(0, 1, 0);
-            ReboundMovement = new Vector3(0, direction.y, 0) * force;
+
+            direction = new Vector3(0, 1, 0);  //Input.GetAxis("Horizontal")
+            ReboundMovement = new Vector3(0, direction.y * yReboundVelocity, 0) * force;
         }
     }
 }
