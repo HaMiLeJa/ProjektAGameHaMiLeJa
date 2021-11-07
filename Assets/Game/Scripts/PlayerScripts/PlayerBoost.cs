@@ -8,7 +8,6 @@ public class PlayerBoost : MonoBehaviour
     EnergyManager energyMng;
     PlayerMovement playerMov;
 
-    // void basic boos
     [SerializeField] float boostDuration = 0.1f;
     bool boostButtonPressedInLastFrame = false;
     bool allowBoost = true;
@@ -16,14 +15,10 @@ public class PlayerBoost : MonoBehaviour
     [SerializeField] float boostForce = 1;
     public bool boosting;
 
-    // void Basic Jump
-    [SerializeField] float forceJump = 50;
-    [SerializeField] float jumpDuration = 0.1f;
-    float timerJump;
-    bool jumpButtonPressedInLastFrame = false;
-    bool allowJump = false;
-
-    Vector3 boostDirection;
+    float timerSlowDown;
+    [SerializeField] float slowDownDuration;
+    bool slowedDown = false;
+    [SerializeField] float slowDownValue;
 
     void Start()
     {
@@ -34,47 +29,127 @@ public class PlayerBoost : MonoBehaviour
 
     void FixedUpdate()
     {
-        //BasicBoost();
         Boost();
     }
 
     void Boost() // Dash: wird langsamer und dann wuuuuush
     {
-
-    }
-
-    void BasicBoost()
-    {
-        if (Input.GetButton("X"))
+        if(Input.GetButton("X"))
         {
-
             if (boostButtonPressedInLastFrame == false)
             {
                 allowBoost = true;
             }
-
             boostButtonPressedInLastFrame = true;
 
-            if (allowBoost == true & timerBoost < boostDuration)
-            {
-                timerBoost += Time.deltaTime;
 
-                rb.AddForce((playerMov.MovementDirection.normalized * boostForce * energyMng.EnergyBoostValue) + (Vector3.up * forceJump), ForceMode.Impulse);
-                //ANMERKUNG: falls Boosten energie verbrauchen soll hier abziehen
-
-                boosting = true;
-            }
-            else
+            if (allowBoost == true)
             {
-                boosting = false;
+                timerSlowDown += Time.deltaTime;
+
+                if(timerSlowDown < slowDownDuration)
+                {
+                    rb.velocity *= 0.9f;
+                }
+                else
+                {
+                    slowedDown = true;
+                }
+
+                if (slowedDown == true & timerBoost < boostDuration)
+                {
+                    timerBoost += Time.deltaTime;
+
+                    rb.AddForce(playerMov.MovementDirection.normalized * boostForce * energyMng.EnergyBoostValue, ForceMode.Impulse);
+                    //ANMERKUNG: falls Boosten energie verbrauchen soll hier abziehen
+
+                    boosting = true;
+                }
+                else
+                {
+                    boosting = false;
+                }
+
             }
+
         }
         else
         {
-            timerBoost = 0;
             boostButtonPressedInLastFrame = false;
             allowBoost = false;
+            timerSlowDown = 0;
+            timerBoost = 0;
+            slowedDown = false;
+            boosting = false;
         }
+
+
     }
 
+
+    void BoostNotWorking()
+    {
+        if (Input.GetButton("X"))
+        {
+            if (boostButtonPressedInLastFrame == false)
+            {
+                boosting = true;
+                allowBoost = true;
+            }
+
+            boostButtonPressedInLastFrame = true;
+        }
+        else
+        {
+            boostButtonPressedInLastFrame = false;
+        }
+
+
+
+        if (allowBoost == true)
+        {
+            timerSlowDown += Time.deltaTime;
+
+            if (boosting == true)
+            {
+                /*
+                if (timerSlowDown < slowDownDuration)
+                {
+                    rb.velocity *= 0.9f;
+                }
+                else
+                {
+                    slowedDown = true;
+                }
+                */
+
+                if (timerBoost < boostDuration) //slowedDown == true && 
+                {
+                    timerBoost += Time.deltaTime;
+
+                    rb.AddForce(playerMov.MovementDirection.normalized * boostForce * energyMng.EnergyBoostValue, ForceMode.Impulse);
+                    //ANMERKUNG: falls Boosten energie verbrauchen soll hier abziehen
+                }
+                else
+                {
+                    boosting = false;
+                    allowBoost = false;
+                }
+            }
+            else
+            {
+                timerSlowDown = 0;
+                timerBoost = 0;
+                slowedDown = false;
+            }
+
+        }
+
+
+        if (Input.GetButton("X") == false && boostButtonPressedInLastFrame == true && boosting == false)
+        {
+            // boostButtonPressedInLastFrame = false;
+        }
+    }
+    
 }

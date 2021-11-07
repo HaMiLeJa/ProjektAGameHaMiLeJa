@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     // void basic boos
     [SerializeField] float boostDuration = 0.1f;
     bool boostButtonPressedInLastFrame = false;
-    bool allowBoost = true;
+    bool allowBoost = false;
     float timerBoost;
     [SerializeField] float boostForce = 1;
     public bool boosting;
@@ -39,6 +39,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] [Tooltip("Turn off if you dont want to loose energy")] bool reduceEnergy = true;
     [Tooltip("Just for Debug use")] public Vector3 Velocity; //Debug
 
+    ShadowDash shadowDash;
+
     private void Awake()
     {
     }
@@ -47,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = this.GetComponent<Rigidbody>();
         energyMng = EnergyManager.Instance;
+        shadowDash = this.GetComponent<ShadowDash>();
     }
 
 
@@ -61,9 +64,14 @@ public class PlayerMovement : MonoBehaviour
         if (reduceEnergy == true)
             ControlVelocity();
 
-        //BasicJump();
-        //BasicBoost();
 
+        //Stopp
+        if (Input.GetButton("Y"))
+        {
+            rb.velocity = rb.velocity * 0.9f;
+        }
+
+        //BasicJump();
     }
 
     void Movement()
@@ -72,15 +80,16 @@ public class PlayerMovement : MonoBehaviour
         strafeMovement = transform.right * Input.GetAxis("Horizontal");
         forwardMovement = transform.forward * Input.GetAxis("Vertical");
 
-        MovementDirection =
-            forwardMovement +
-            strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
+        MovementDirection = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
         movement = MovementDirection * Time.deltaTime * StandardMovementSpeed * energyMng.EnergyMovementValue;
-        // if (ShadowDash.currentShadowDashForce != 0)
-        // {
-        //     movement *= ShadowDash.currentShadowDashForce;
-        //     ShadowDash.mr.enabled = true;
-        // }
+       
+        /*
+        if (shadowDash.currentShadowDashForce != 0)
+        {
+            movement *= shadowDash.currentShadowDashForce;
+            shadowDash.mr.enabled = true;
+        }
+        */
 
         rb.velocity = (rb.velocity + movement);
     }
@@ -90,22 +99,12 @@ public class PlayerMovement : MonoBehaviour
 
     void ControlVelocity()
     {
-        //Stopp
-        if (Input.GetButton("Y"))
-        {
-            rb.velocity = new Vector3(0.001f, 0.001f, 0.001f);
-        }
-
-
-
-
         if (strafeMovement == Vector3.zero && forwardMovement == Vector3.zero || Input.GetButton("Y")) //Wenn kein Input    
         {
             // Abnahme Velocity und Energie, wenn kein Input erfolgt automatisch über das Physicsystem
             // Abnahme Energy
             energyMng.ReduceEnergy();
         }
-
     }
 
     void BasicJump()

@@ -10,7 +10,7 @@ public class PlayerSuperBoost : MonoBehaviour
 
     [SerializeField] float boostDuration = 0.1f;
     bool boostButtonPressedInLastFrame = false;
-    bool allowBoost = true;
+    bool allowBoost = false;
     float timerBoost;
     [SerializeField] float boostForce = 1;
     public bool Boosting;
@@ -34,8 +34,6 @@ public class PlayerSuperBoost : MonoBehaviour
 
     void SuperBoost() //Wait(SetDirection) and Boost
     {
-        //währenddesen normale Movement sperren (?) und verringerung der Velocity verhindern
-        // oder evt Player anhalten lassen
 
         if (Input.GetButton("A")) // Boost ist abbrechbar, indem der A Knopf losgelassen wird
         {

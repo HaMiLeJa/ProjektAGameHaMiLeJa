@@ -16,13 +16,25 @@ public class ShadowDash : MonoBehaviour
     [SerializeField] private float disappearingDuringShadowDashEnd;
 
     private MeshRenderer mr;
+
+    PlayerMovement playerMov;
     
+
+    Rigidbody rb;
+
     #endregion
     
     private void Awake()
     {
         mr = GetComponent<MeshRenderer>();
     }
+
+    private void Start()
+    {
+        playerMov = this.GetComponent<PlayerMovement>();
+        rb = this.GetComponent<Rigidbody>();
+    }
+
     void Update()
     {
         
@@ -40,7 +52,9 @@ public class ShadowDash : MonoBehaviour
         #region Add Dash to current Speed
         if (currentShadowDashForce != 0 )
         {
-            
+           
+
+
             //Janina ich möchte gerne das momentane mov speed mit currentShadowDashForce multiplizieren, ich weiß aber nicht wo ich das bei Playermov kann
             //   ---->>>> MOVEMENTSPEEDAUSPLAYERMOVEMENT  <<<<----- *= currentShadowDashForce;
             mr.enabled = true;
@@ -69,7 +83,7 @@ public class ShadowDash : MonoBehaviour
             mr.enabled = true;
             t += Time.deltaTime;
             float curveValue = shadowDashcurve.Evaluate(t / ShadowDashDuration);
-            currentShadowDashForce += ShadowDashForce * curveValue * Time.deltaTime;
+            currentShadowDashForce += ShadowDashForce * curveValue * Time.deltaTime;  // * EnergyManager.Instance.EnergyShadowDashValue
             if (currentShadowDashForce >= disappearingDuringShadowDashStart && currentShadowDashForce <= disappearingDuringShadowDashEnd) 
                 mr.enabled = false;
 
