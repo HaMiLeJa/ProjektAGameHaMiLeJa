@@ -100,12 +100,12 @@ public class PlayerMovement : MonoBehaviour
         }
         */
 
-        if (shadowDash.currentShadowDashForce != 0.5f)
+        if (shadowDash.currentShadowDashForce != 0f)
         {
 
-           // rb.velocity = (rb.velocity + movement * shadowDash.currentShadowDashForce);
+           rb.velocity = (rb.velocity + movement * shadowDash.currentShadowDashForce);
         }
-        
+        else
             rb.velocity = (rb.velocity + movement);
     }
 
@@ -126,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetButton("B"))
         {
-            if (jumpButtonPressedInLastFrame == false) //OnGround == true &&
+            if (OnGround == true && jumpButtonPressedInLastFrame == false) //OnGround == true &&
             {
                 allowJump = true;
             }

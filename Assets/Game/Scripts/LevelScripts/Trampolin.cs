@@ -57,9 +57,9 @@ public class Trampolin : MonoBehaviour
             //yReboundVelocity = Mathf.Clamp(yReboundVelocity, 5, 9);
 
 
-            direction = new Vector3(0, 1, 0);  //Input.GetAxis("Horizontal")
+            //direction = new Vector3(0, 1, 0);  //Input.GetAxis("Horizontal")
 
-
+            direction = Vector3.up;
 
             ReboundMovement = new Vector3(0, direction.y * yReboundVelocity, 0) * force;
 
