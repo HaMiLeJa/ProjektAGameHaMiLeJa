@@ -96,6 +96,8 @@ public class ShadowDash : MonoBehaviour
 
     private IEnumerator ShadowDashCoroutine()
     {
+        Vector3 velocity = rb.velocity;
+
         float t = 0;
         // gameObject.layer = LayerMask.NameToLayer("PlayerDashing");
         while (t < ShadowDashDuration)
@@ -103,7 +105,10 @@ public class ShadowDash : MonoBehaviour
            
             mr.enabled = true;
             t += Time.deltaTime;
-            float curveValue = shadowDashcurve.Evaluate(t / ShadowDashDuration);
+            float curveValue = shadowDashcurve.Evaluate(t ); // / ShadowDashDuration
+
+            Debug.Log(curveValue);
+
             currentShadowDashForce += ShadowDashForce * curveValue * Time.deltaTime; 
             if (currentShadowDashForce >= disappearingDuringShadowDashStart && currentShadowDashForce <= disappearingDuringShadowDashEnd) 
             {
@@ -112,6 +117,11 @@ public class ShadowDash : MonoBehaviour
             }
             yield return null;
         }
+
+
+        rb.velocity = rb.velocity / 2;
+
+        //rb.velocity = velocity;
 
         currentShadowDashForce = 0;
         isShadowDashing = false;

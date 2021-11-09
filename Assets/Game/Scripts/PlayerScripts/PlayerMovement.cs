@@ -68,7 +68,9 @@ public class PlayerMovement : MonoBehaviour
 
         GroundCheck();
 
-        Movement();
+        //Movement();
+
+        MovementAlternative();
 
         if (reduceEnergy == true)
             ControlVelocity();
@@ -111,7 +113,30 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = (rb.velocity + movement);
     }
 
+    void MovementAlternative()
+    {
+        //Bewegung
 
+        
+        
+            strafeMovement = transform.right * Input.GetAxis("Horizontal");
+            forwardMovement = transform.forward * Input.GetAxis("Vertical");
+
+            MovementDirection = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
+            movement = MovementDirection * Time.deltaTime * StandardMovementSpeed * energyMng.EnergyMovementValue;
+        
+
+
+        if (shadowDash.currentShadowDashForce != 0f)
+        {
+            rb.AddForce(movement.normalized * shadowDash.currentShadowDashForce * 5);
+            //rb.velocity = rb.velocity * shadowDash.currentShadowDashForce *0.5f;
+        }
+        else
+        {
+            rb.AddForce(movement);
+        }
+    }
 
 
     void ControlVelocity()
