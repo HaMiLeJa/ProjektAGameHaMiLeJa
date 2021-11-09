@@ -9,9 +9,9 @@ public class DownDash : MonoBehaviour
     GameManager gameMng;
     PlayerMovement playerMov;
 
-    [SerializeField] float speed = 3;
+    [SerializeField] float speed = 8;
 
-    [SerializeField] float timer;
+    float timer;
     [SerializeField] float boostDuration = 0.1f;
     [SerializeField] bool boostingDown = false;
 
@@ -28,7 +28,7 @@ public class DownDash : MonoBehaviour
         playerMov = this.GetComponent<PlayerMovement>();
     }
         // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (Input.GetButton(gameMng.DownDash))
         {
@@ -36,14 +36,13 @@ public class DownDash : MonoBehaviour
 
             if (timer < boostDuration)
             {
-                boostingDown = true;
-                rb.AddForce(rb.velocity.normalized + Vector3.down * speed, ForceMode.Impulse);
+               
+               
 
                 if (playerMov.OnGround == false && playerMov.OnGround == false)
                 {
-                    //Vector3 direction = new Vector3(rb.velocity.x, -1, rb.velocity.z);
-                    //direction = direction.normalized;
-
+                    boostingDown = true;
+                    rb.AddForce((rb.velocity.normalized + Vector3.down) * speed, ForceMode.Impulse);
 
                 }
             }
@@ -54,7 +53,7 @@ public class DownDash : MonoBehaviour
         else
         {
             timer = 0;
-            boostingDown = true;
+            boostingDown = false;
         }
         
     }

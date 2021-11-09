@@ -81,6 +81,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         BasicJump();
+
+        HightControl();
     }
 
     void Movement()
@@ -149,6 +151,17 @@ public class PlayerMovement : MonoBehaviour
             allowJump = false;
             jumping = false;
         }
+    }
+
+    void HightControl()
+    {
+        if(this.rb.position.y >= 60)
+        {
+           rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -100f, -0.01f ), rb.velocity.y);
+
+            //rb.velocity = new Vector3(rb.velocity.x, Mathf.Lerp(rb.velocity.y, -1 , 0.1f), rb.velocity.y);
+        }
+
     }
 
 
