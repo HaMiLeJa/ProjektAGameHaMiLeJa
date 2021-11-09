@@ -19,6 +19,7 @@ public class ShadowDash : MonoBehaviour
     public MeshRenderer mr;
 
     PlayerMovement playerMov;
+    GameManager gameMng;
     
 
     Rigidbody rb;
@@ -34,6 +35,9 @@ public class ShadowDash : MonoBehaviour
     {
         playerMov = this.GetComponent<PlayerMovement>();
         rb = this.GetComponent<Rigidbody>();
+
+
+        gameMng = FindObjectOfType<GameManager>();
     }
 
     void Update()
@@ -48,7 +52,7 @@ public class ShadowDash : MonoBehaviour
         
         #region ShadowDashInputKey
         
-        if (Input.GetKeyDown(KeyCode.G) && isShadowDashing == false)
+        if (Input.GetKeyDown(KeyCode.G) && isShadowDashing == false || Input.GetButton(gameMng.ShadowDash) && isShadowDashing == false)
         {
            
             isShadowDashing = true;

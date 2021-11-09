@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnergyManager : MonoBehaviour
 {
-    public static EnergyManager Instance;
 
     [Tooltip ("How much Energy the Player currently has")]
     [Range(0.1f, 10)] public float Energy = 1;
@@ -16,18 +15,6 @@ public class EnergyManager : MonoBehaviour
 
 
     public float ReduceEnergyMulitplicator = 0.9f;
-
-    private void Awake()
-    {
-        if(EnergyManager.Instance == null)
-        {
-            EnergyManager.Instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
 
 
     void Update()

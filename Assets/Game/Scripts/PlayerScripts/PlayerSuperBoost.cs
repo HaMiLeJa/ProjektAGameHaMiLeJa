@@ -7,6 +7,7 @@ public class PlayerSuperBoost : MonoBehaviour
     Rigidbody rb;
     EnergyManager energyMng;
     PlayerMovement playerMov;
+    GameManager gameMng;
 
     [SerializeField] float boostDuration = 0.1f;
     bool boostButtonPressedInLastFrame = false;
@@ -25,8 +26,10 @@ public class PlayerSuperBoost : MonoBehaviour
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        energyMng = EnergyManager.Instance;
+        energyMng = FindObjectOfType<EnergyManager>();
         playerMov = this.GetComponent<PlayerMovement>();
+
+        gameMng = FindObjectOfType<GameManager>();
     }
 
     void FixedUpdate()
@@ -39,7 +42,7 @@ public class PlayerSuperBoost : MonoBehaviour
     void SuperBoost() //Wait(SetDirection) and Boost
     {
 
-        if (Input.GetButton("A")) // Boost ist abbrechbar, indem der A Knopf losgelassen wird
+        if (Input.GetButton(gameMng.SuperDash)) // Boost ist abbrechbar, indem der A Knopf losgelassen wird
         {
             if (boostButtonPressedInLastFrame == false)
             {

@@ -8,6 +8,8 @@ public class PlayerBoost : MonoBehaviour
     EnergyManager energyMng;
     PlayerMovement playerMov;
 
+    GameManager gameMng;
+
     [SerializeField] float boostDuration = 0.1f;
     bool boostButtonPressedInLastFrame = false;
     bool allowBoost = true;
@@ -27,8 +29,11 @@ public class PlayerBoost : MonoBehaviour
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        energyMng = EnergyManager.Instance;
+        energyMng = FindObjectOfType<EnergyManager>();
         playerMov = this.GetComponent<PlayerMovement>();
+
+
+        gameMng = FindObjectOfType<GameManager>();
     }
 
     void FixedUpdate()
@@ -38,7 +43,7 @@ public class PlayerBoost : MonoBehaviour
 
     void Boost() // Dash: wird langsamer und dann wuuuuush
     {
-        if(Input.GetButton("X"))
+        if(Input.GetButton(gameMng.Dash))
         {
             if (boostButtonPressedInLastFrame == false)
             {

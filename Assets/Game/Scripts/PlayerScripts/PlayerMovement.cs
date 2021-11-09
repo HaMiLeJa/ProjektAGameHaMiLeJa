@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     Rigidbody rb;
     EnergyManager energyMng;
+    GameManager gameMng;
 
     //Movement
     Vector3 strafeMovement;
@@ -17,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     // void ControlVelocity
     public float SlowDownMultiplicator = 0.99f;
 
+    /*
     // void basic boost
     [SerializeField] float boostDuration = 0.1f;
     bool boostButtonPressedInLastFrame = false;
@@ -24,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     float timerBoost;
     [SerializeField] float boostForce = 1;
     public bool boosting;
+    */
 
     // void Basic Jump
     bool jumping = false;
@@ -53,7 +56,8 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        energyMng = EnergyManager.Instance;
+        energyMng = FindObjectOfType<EnergyManager>();
+        gameMng = FindObjectOfType<GameManager>();
         shadowDash = this.GetComponent<ShadowDash>();
     }
 
@@ -71,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         //Stopp
-        if (Input.GetButton("Y"))
+        if (Input.GetButton(gameMng.Stop))
         {
             rb.velocity = rb.velocity * 0.9f;
         }
@@ -147,6 +151,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
+    #region BasicBoost code (Not Used here)
+    /*
     void BasicBoost()
     {
         if (Input.GetButton("X"))
@@ -180,10 +187,10 @@ public class PlayerMovement : MonoBehaviour
             allowBoost = false;
         }
     }
+    */
 
-    
+    #endregion
 
-   
 
     void GroundCheck()
     {

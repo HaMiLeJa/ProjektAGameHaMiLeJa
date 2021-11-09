@@ -4,33 +4,23 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager Instance;
 
+    EnergyManager energyMng;
     [SerializeField] TMPro.TMP_Text energy;
 
 
-    private void Awake()
-    {
-        if (UIManager.Instance == null)
-        {
-            UIManager.Instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
-
     void Start()
     {
-        
+        energyMng = FindObjectOfType<EnergyManager>();
     }
+   
 
   
     void Update()
     {
         
-        energy.text = ("Energy: " + EnergyManager.Instance.Energy);
+        energy.text = ("Energy: " + energyMng.Energy);
+
     }
 
 
