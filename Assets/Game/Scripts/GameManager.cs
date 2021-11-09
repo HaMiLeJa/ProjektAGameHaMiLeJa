@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
     [Tooltip("Controller Input: Use X, Y, A or B.")]
     public string SuperDash = "A";
 
+    [Tooltip("Controller Input: Use X, Y, A or B.")]
+    public string DownDash = "RightBumper";
+
     [Tooltip("For Debug use")]
     public string Stop = "LeftBumper";
     #endregion

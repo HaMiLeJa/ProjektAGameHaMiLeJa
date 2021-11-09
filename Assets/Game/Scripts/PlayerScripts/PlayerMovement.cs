@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     bool allowJump = false;
 
     // void GroundCheck und Gravity
-    [SerializeField] bool OnGround = false;
+    public bool OnGround = false;
     float distanceToGround;
     [SerializeField] float fallDownSpeed = 1;
 
@@ -214,18 +214,20 @@ public class PlayerMovement : MonoBehaviour
 
         // Idee: die Addforce auch in akutelle bewegungsrichtung?
         
+
+        
         if(OnGround == false && jumping == false) //&&rebounding == false
         {
             //Vector3 direction = new Vector3(rb.velocity.x, -1, rb.velocity.z);
             //direction = direction.normalized;
 
-            rb.AddForce(Vector3.down * fallDownSpeed);
+            rb.AddForce(rb.velocity.normalized + Vector3.down * fallDownSpeed);
         }
         if(OnGround == false && rebounded == false)
         {
-            rb.AddForce(Vector3.down * fallDownSpeed);
+            rb.AddForce(rb.velocity.normalized + Vector3.down * fallDownSpeed);
         }
-
+        
 
 
     }

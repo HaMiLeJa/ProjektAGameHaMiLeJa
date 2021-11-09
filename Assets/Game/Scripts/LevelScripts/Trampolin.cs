@@ -38,8 +38,6 @@ public class Trampolin : MonoBehaviour
             else 
             {
                 playerMov.rebounded = false;
-                Debug.Log("2");
-
                 timer = 0;
             }
         }
@@ -54,7 +52,7 @@ public class Trampolin : MonoBehaviour
             playerMov.rebounded = true;
 
             yReboundVelocity = Mathf.Abs(playerRb.velocity.y * velocityInfluence);
-            //yReboundVelocity = Mathf.Clamp(yReboundVelocity, 5, 9);
+            yReboundVelocity = Mathf.Clamp(yReboundVelocity, 5, 9);
 
 
             //direction = new Vector3(0, 1, 0);  //Input.GetAxis("Horizontal")
