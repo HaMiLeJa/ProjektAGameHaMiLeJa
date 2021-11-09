@@ -23,6 +23,8 @@ public class PlayerSuperBoost : MonoBehaviour
     [HideInInspector] public bool dealDamage = false;
     [Tooltip("For how long Player can damage de Destroyables")] [SerializeField] float dealDamageDuration;
 
+    [SerializeField] GameObject circle;
+
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
@@ -30,6 +32,10 @@ public class PlayerSuperBoost : MonoBehaviour
         playerMov = this.GetComponent<PlayerMovement>();
 
         gameMng = FindObjectOfType<GameManager>();
+
+
+        circle.SetActive(false);
+
     }
 
     void FixedUpdate()
@@ -58,12 +64,15 @@ public class PlayerSuperBoost : MonoBehaviour
 
                 if (setDirectionTimer < 1f)
                 {
+                    circle.SetActive(true);
                     rb.velocity = new Vector3(0, 0, 0);
                 }
                 else
                 {
+                    //Circle.SetActive(false);
                     boostDirection = playerMov.MovementDirection;
                     directionSet = true;
+                    circle.SetActive(false);
                 }
 
 
