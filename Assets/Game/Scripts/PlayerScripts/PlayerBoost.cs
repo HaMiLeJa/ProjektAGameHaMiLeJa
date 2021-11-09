@@ -12,18 +12,18 @@ public class PlayerBoost : MonoBehaviour
 
     [SerializeField] float boostDuration = 0.1f;
     bool boostButtonPressedInLastFrame = false;
-    bool allowBoost = true;
+    [SerializeField] bool allowBoost = false;
     float timerBoost;
     [SerializeField] float boostForce = 1;
     public bool Boosting;
 
     float timerSlowDown;
-    [SerializeField] float slowDownDuration;
+    [SerializeField] float slowDownDuration = 0.1f;
     bool slowedDown = false;
-    [SerializeField] float slowDownValue;
+    [SerializeField] float slowDownValue = 0.999f;
 
     [HideInInspector] public bool dealDamage = false;
-    [Tooltip("For how long Player can damage de Destroyables")] [SerializeField] float dealDamageDuration;
+    [Tooltip("For how long Player can damage de Destroyables")] [SerializeField] float dealDamageDuration = 1.5f;
 
 
     void Start()
@@ -45,55 +45,62 @@ public class PlayerBoost : MonoBehaviour
     {
         if(Input.GetButton(gameMng.Dash))
         {
-            if (boostButtonPressedInLastFrame == false)
+            if (boostButtonPressedInLastFrame == false && allowBoost == false)
             {
+                boostButtonPressedInLastFrame = true;
+                Debug.Log("allowed");
                 allowBoost = true;
             }
-            boostButtonPressedInLastFrame = true;
-
-
-            if (allowBoost == true)
-            {
-                timerSlowDown += Time.deltaTime;
-
-                if(timerSlowDown < slowDownDuration)
-                {
-                    rb.velocity *= 0.9f;
-                }
-                else
-                {
-                    slowedDown = true;
-                }
-
-                if (slowedDown == true & timerBoost < boostDuration)
-                {
-                    if (dealDamage == false)
-                        StartCoroutine(AllowToDestroyDestroyables());
-
-                    timerBoost += Time.deltaTime;
-
-                    rb.AddForce(playerMov.MovementDirection.normalized * boostForce * energyMng.EnergyBoostValue, ForceMode.Impulse);
-                    //ANMERKUNG: falls Boosten energie verbrauchen soll hier abziehen
-
-                    Boosting = true;
-                }
-                else
-                {
-                    Boosting = false;
-                }
-            }
-
+            
         }
         else
         {
+            
+        }
+        
+        if(allowBoost == true)
+        {
+            Boosting = true;
+
+            timerSlowDown += Time.deltaTime;
+
+            if (timerSlowDown < slowDownDuration)
+            {
+                rb.velocity *= 0.9f;
+            }
+            else
+            {
+                slowedDown = true;
+            }
+
+            if (slowedDown == true & timerBoost < boostDuration)
+            {
+                if (dealDamage == false)
+                    StartCoroutine(AllowToDestroyDestroyables());
+
+                timerBoost += Time.deltaTime;
+
+                rb.AddForce(playerMov.MovementDirection.normalized * boostForce * energyMng.EnergyBoostValue, ForceMode.Impulse);
+                //ANMERKUNG: falls Boosten energie verbrauchen soll hier abziehen
+
+                
+            }
+
+            if (timerBoost > boostDuration && slowedDown == true)
+                allowBoost = false;
+        }
+        else
+        {
+            
+            Boosting = false;
             boostButtonPressedInLastFrame = false;
             allowBoost = false;
             timerSlowDown = 0;
             timerBoost = 0;
             slowedDown = false;
             Boosting = false;
+            
         }
-
 
     }
 
@@ -171,5 +178,60 @@ public class PlayerBoost : MonoBehaviour
             // boostButtonPressedInLastFrame = false;
         }
     }
-    
+
+    void BoostSave() // Dash: wird langsamer und dann wuuuuush
+    {
+        if (Input.GetButton(gameMng.Dash))
+        {
+            if (boostButtonPressedInLastFrame == false)
+            {
+                allowBoost = true;
+            }
+            boostButtonPressedInLastFrame = true;
+
+
+            if (allowBoost == true)
+            {
+                timerSlowDown += Time.deltaTime;
+
+                if (timerSlowDown < slowDownDuration)
+                {
+                    rb.velocity *= 0.9f;
+                }
+                else
+                {
+                    slowedDown = true;
+                }
+
+                if (slowedDown == true & timerBoost < boostDuration)
+                {
+                    if (dealDamage == false)
+                        StartCoroutine(AllowToDestroyDestroyables());
+
+                    timerBoost += Time.deltaTime;
+
+                    rb.AddForce(playerMov.MovementDirection.normalized * boostForce * energyMng.EnergyBoostValue, ForceMode.Impulse);
+                    //ANMERKUNG: falls Boosten energie verbrauchen soll hier abziehen
+
+                    Boosting = true;
+                }
+                else
+                {
+                    Boosting = false;
+                }
+            }
+
+        }
+        else
+        {
+            boostButtonPressedInLastFrame = false;
+            allowBoost = false;
+            timerSlowDown = 0;
+            timerBoost = 0;
+            slowedDown = false;
+            Boosting = false;
+        }
+
+
+    }
 }

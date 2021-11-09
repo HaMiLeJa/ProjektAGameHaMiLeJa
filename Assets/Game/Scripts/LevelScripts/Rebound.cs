@@ -37,7 +37,6 @@ public class Rebound : MonoBehaviour
             {
                 timer = 0;
                 collided = false;
-                Debug.Log("Reset");
             }
         }
     }

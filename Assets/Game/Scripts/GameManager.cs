@@ -6,16 +6,16 @@ public class GameManager : MonoBehaviour
 {
     #region Keys on Controller
     [Tooltip ("Controller Input: Use X, Y, A or B.")]
-    public string Jump;
+    public string Jump = "B";
     [Tooltip("Controller Input: Use X, Y, A or B.")]
-    public string Dash;
+    public string Dash = "X";
     [Tooltip("Controller Input: Use X, Y, A or B.")]
-    public string ShadowDash;
+    public string ShadowDash = "Y";
     [Tooltip("Controller Input: Use X, Y, A or B.")]
-    public string SuperDash;
+    public string SuperDash = "A";
 
     [Tooltip("For Debug use")]
-    public string Stop;
+    public string Stop = "LeftBumper";
     #endregion
 
 
