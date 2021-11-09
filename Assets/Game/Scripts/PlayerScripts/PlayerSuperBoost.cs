@@ -8,13 +8,15 @@ public class PlayerSuperBoost : MonoBehaviour
     EnergyManager energyMng;
     PlayerMovement playerMov;
     GameManager gameMng;
+    PlayerBoost dash;
+    ShadowDash shadowDash;
 
     [SerializeField] float boostDuration = 0.1f;
     bool boostButtonPressedInLastFrame = false;
     bool allowBoost = false;
     float timerBoost;
     [SerializeField] float boostForce = 1;
-    public bool Boosting;
+    public bool Boosting; //used to lock bools
 
     [SerializeField] float setDirectionTimer;
     Vector3 boostDirection;
@@ -30,6 +32,10 @@ public class PlayerSuperBoost : MonoBehaviour
         rb = this.GetComponent<Rigidbody>();
         energyMng = FindObjectOfType<EnergyManager>();
         playerMov = this.GetComponent<PlayerMovement>();
+
+        dash = this.GetComponent<PlayerBoost>();
+        shadowDash = this.GetComponent<ShadowDash>();
+
 
         gameMng = FindObjectOfType<GameManager>();
 
@@ -47,6 +53,8 @@ public class PlayerSuperBoost : MonoBehaviour
 
     void SuperBoost() //Wait(SetDirection) and Boost
     {
+        if (dash.Boosting == true || shadowDash.isShadowDashing == true) return;
+
 
         if (Input.GetButton(gameMng.SuperDash)) // Boost ist abbrechbar, indem der A Knopf losgelassen wird
         {
@@ -64,6 +72,7 @@ public class PlayerSuperBoost : MonoBehaviour
 
                 if (setDirectionTimer < 1f)
                 {
+                    Boosting = true;
                     circle.SetActive(true);
                     rb.velocity = new Vector3(0, 0, 0);
                 }
@@ -83,7 +92,7 @@ public class PlayerSuperBoost : MonoBehaviour
                         StartCoroutine(AllowToDestroyDestroyables());
 
                     timerBoost += Time.deltaTime;
-                    Boosting = true;
+                    
                     rb.AddForce(boostDirection.normalized * boostForce * energyMng.EnergyBoostValue * 3, ForceMode.Impulse); //*3 zum zeigen
                 }
                 else
@@ -102,6 +111,8 @@ public class PlayerSuperBoost : MonoBehaviour
 
             directionSet = false;
             Boosting = false;
+
+            circle.SetActive(false);
         }
     }
 

@@ -9,7 +9,7 @@ public class ShadowDash : MonoBehaviour
     [SerializeField] private float ShadowDashForce;
     [SerializeField] private float ShadowDashDuration;
     [SerializeField] private AnimationCurve shadowDashcurve;
-    [SerializeField] public bool isShadowDashing = false;
+    [SerializeField] public bool isShadowDashing = false; //used to lock other boosts
     [SerializeField] private Coroutine shadowDashCoroutine;
     [SerializeField] public float currentShadowDashForce = 0.0f;
     [SerializeField] private float disappearingDuringShadowDashStart;
@@ -20,6 +20,8 @@ public class ShadowDash : MonoBehaviour
 
     PlayerMovement playerMov;
     GameManager gameMng;
+    PlayerBoost dash;
+    PlayerSuperBoost superDash;
     
 
     Rigidbody rb;
@@ -36,12 +38,16 @@ public class ShadowDash : MonoBehaviour
         playerMov = this.GetComponent<PlayerMovement>();
         rb = this.GetComponent<Rigidbody>();
 
+        dash = this.GetComponent<PlayerBoost>();
+        superDash = this.GetComponent<PlayerSuperBoost>();
 
         gameMng = FindObjectOfType<GameManager>();
     }
 
     void Update()
     {
+        if (dash.Boosting == true || superDash.Boosting == true) return;
+
         
         if (mr.enabled == false)
             dust.Play();

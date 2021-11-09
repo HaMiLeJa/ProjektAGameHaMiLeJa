@@ -7,6 +7,8 @@ public class PlayerBoost : MonoBehaviour
     Rigidbody rb;
     EnergyManager energyMng;
     PlayerMovement playerMov;
+    ShadowDash shadowDash;
+    PlayerSuperBoost superDash;
 
     GameManager gameMng;
 
@@ -31,7 +33,8 @@ public class PlayerBoost : MonoBehaviour
         rb = this.GetComponent<Rigidbody>();
         energyMng = FindObjectOfType<EnergyManager>();
         playerMov = this.GetComponent<PlayerMovement>();
-
+        shadowDash = this.GetComponent<ShadowDash>();
+        superDash = this.GetComponent<PlayerSuperBoost>();
 
         gameMng = FindObjectOfType<GameManager>();
     }
@@ -43,6 +46,8 @@ public class PlayerBoost : MonoBehaviour
 
     void Boost() // Dash: wird langsamer und dann wuuuuush
     {
+        if (shadowDash.isShadowDashing == true || superDash.Boosting == true) return;
+
         if(Input.GetButton(gameMng.Dash))
         {
             if (boostButtonPressedInLastFrame == false && allowBoost == false)
@@ -60,7 +65,7 @@ public class PlayerBoost : MonoBehaviour
         
         if(allowBoost == true)
         {
-            Boosting = true;
+            Boosting = true; //used to lock the other boosts
 
             timerSlowDown += Time.deltaTime;
 
