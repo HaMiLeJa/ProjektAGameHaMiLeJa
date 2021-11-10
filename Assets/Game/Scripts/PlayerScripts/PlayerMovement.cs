@@ -11,7 +11,9 @@ public class PlayerMovement : MonoBehaviour
     //Movement
     Vector3 strafeMovement;
     Vector3 forwardMovement;
-    public float StandardMovementSpeed = 3;
+
+    [Tooltip("if you reduce de PlayerMovementSpeed you have to increase the MinimalRequiredEnergyForMovement in the EnergyManager")]
+    public float StandardMovementSpeed = 10;
     Vector3 movement; //Umbennen
     [HideInInspector] public Vector3 MovementDirection;
 
@@ -156,6 +158,8 @@ public class PlayerMovement : MonoBehaviour
 
     void ControlVelocity()
     {
+        if (OnGround == false) return;
+
         if (strafeMovement == Vector3.zero && forwardMovement == Vector3.zero || Input.GetButton("Y")) //Wenn kein Input    
         {
             // Abnahme Velocity und Energie, wenn kein Input erfolgt automatisch über das Physicsystem
