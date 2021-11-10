@@ -15,7 +15,7 @@ public class Collectable : MonoBehaviour
     void Start()
     {
         CollectableRigidbody = GetComponent<Rigidbody2D>();
-        Player = GameObject.Find("Player");
+        Player = GameObject.FindGameObjectWithTag("Player");
     }
 
  #region Destroy
