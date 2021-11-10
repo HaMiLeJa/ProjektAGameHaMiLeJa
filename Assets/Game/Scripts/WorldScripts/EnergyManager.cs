@@ -205,7 +205,7 @@ public class EnergyManager : MonoBehaviour
 
     public void ReduceEnergy()
     {
-        //Energy *= ReduceEnergyMulitplicator;
+        Energy *= ReduceEnergyMulitplicator;
         Energy = Mathf.Clamp(Energy, 0f, MaxEnergy);
 
     }
