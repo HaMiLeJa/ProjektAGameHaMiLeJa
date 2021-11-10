@@ -187,14 +187,15 @@ public class EnergyManager : MonoBehaviour
     #endregion
 
 
-  
+    [Tooltip("if you reduce de PlayerMovementSpeed you have to increase this value")]
+    [SerializeField] float MinimalRequiredEnergyForMovement = 0.7f;
 
     void EnergyValues()
     {   
         EnergyMovementValue = Energy * 1f;
-        if (EnergyMovementValue < 0.7f)
+        if (EnergyMovementValue < MinimalRequiredEnergyForMovement)
         {
-            EnergyMovementValue = 0.7f;
+            EnergyMovementValue = MinimalRequiredEnergyForMovement;
         }
 
         EnergyBoostValue = Energy * 1.2f;
