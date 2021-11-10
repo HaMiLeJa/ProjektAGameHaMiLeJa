@@ -140,7 +140,7 @@ MonoBehaviour:
   jumpDuration: 0.1
   OnGround: 1
   fallDownSpeed: 20
-  reduceEnergy: 0
+  reduceEnergy: 1
   Velocity: {x: 0, y: -0.000009536743, z: 0}
   rebounded: 0
   InNoInputZone: 0
