@@ -75,13 +75,6 @@ public class PlayerMovement : MonoBehaviour
         if (reduceEnergy == true)
             ControlVelocity();
 
-
-        //Stopp
-        if (Input.GetButton(gameMng.Stop))
-        {
-            rb.velocity = rb.velocity * 0.9f;
-        }
-
         BasicJump();
 
         HightControl();
@@ -113,6 +106,8 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = (rb.velocity + movement);
     }
 
+    [HideInInspector] public bool InNoInputZone = false;
+
     void CombinedMovement()
     {
         //Bewegung
@@ -129,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(movement.normalized * shadowDash.currentShadowDashForce * 5);
             //rb.velocity = rb.velocity * shadowDash.currentShadowDashForce *0.5f;
         }
-        else
+        else if(InNoInputZone == false )
             rb.velocity = (rb.velocity + movement);
     }
 

@@ -18,8 +18,9 @@ public class UIManager : MonoBehaviour
   
     void Update()
     {
-        
-        energy.text = ("Energy: " + energyMng.Energy);
+        float displayedEnergy = Mathf.Clamp(energyMng.Energy, 0, 5);
+
+        energy.text = ("Energy: " + displayedEnergy);
 
     }
 
