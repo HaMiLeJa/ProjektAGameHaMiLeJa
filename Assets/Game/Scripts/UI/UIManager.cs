@@ -8,6 +8,8 @@ public class UIManager : MonoBehaviour
     EnergyManager energyMng;
     [SerializeField] TMPro.TMP_Text energy;
 
+    [SerializeField] TMPro.TMP_Text savedEnergy;
+
 
     void Start()
     {
@@ -18,9 +20,11 @@ public class UIManager : MonoBehaviour
   
     void Update()
     {
-        float displayedEnergy = Mathf.Clamp(energyMng.Energy, 0, 5);
+        //Ordentlich machen
+        float displayedEnergy = Mathf.Clamp(energyMng.Energy, 0, energyMng.MaxEnergy);
 
         energy.text = ("Energy: " + displayedEnergy);
+        savedEnergy.text = ("Saved Energy: " + energyMng.SavedEnergy);
 
     }
 

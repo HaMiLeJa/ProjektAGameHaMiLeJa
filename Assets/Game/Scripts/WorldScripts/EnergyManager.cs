@@ -8,6 +8,9 @@ public class EnergyManager : MonoBehaviour
 
     [Tooltip ("How much Energy the Player currently has")]
     [Range(0.5f, 5)] public float Energy = 1;
+
+    [HideInInspector] public float MaxEnergy = 5;
+
     public float SavedEnergy = 0;
 
     [HideInInspector] public float EnergyMovementValue;
@@ -32,11 +35,13 @@ public class EnergyManager : MonoBehaviour
 
         // WEnn ernergie 0 ist x sekuden warten und wieder etwas hoch setzten, damit man sich wieder bewegen aknn   (Akutell wird die Energy in PlayerMovement geclampt, sodass nie nie kleiner als 0,4 wird)
 
-        if (Energy > 5)
+        if (Energy > MaxEnergy)
         {
-            Energy = 5;
+            Energy = MaxEnergy;
         }
 
+
+        //Benötiger Energiwert als vorraussetzung?
         SaveEnergy();
 
        
@@ -76,8 +81,8 @@ public class EnergyManager : MonoBehaviour
         #endregion
     }
 
-    bool buttonPressedinLastFrame = false;
-    
+
+    #region SaveEnergy (Abbrechbar)
     void SaveEnergy()
 {
         if (Input.GetButton(gameMng.SaveEnergy))
@@ -106,7 +111,11 @@ public class EnergyManager : MonoBehaviour
             }
         }
     }
-    
+    #endregion
+
+    #region SaveEnergy über Coroutine (nicht abbrechbar)
+
+    bool buttonPressedinLastFrame = false;
     void SaveEnergy1()
     {
         if (Input.GetButton(gameMng.SaveEnergy))
@@ -175,68 +184,11 @@ public class EnergyManager : MonoBehaviour
         */
     }
 
+    #endregion
 
 
+  
 
-    #region save
-    void SaveEnergXXy()
-    {
-        if (Input.GetButton(gameMng.SaveEnergy))
-        {
-
-                savingEnergy = true;
-        }
-        else
-            savingEnergy = false;
-
-
-
-
-        if (savingEnergy == true)
-        {
-            if (Energy >= 0)
-            {
-                float transferedEnergy = 0;
-
-                transferedEnergy = Time.deltaTime;
-                Energy = Energy - Time.deltaTime;
-                SavedEnergy = SavedEnergy + transferedEnergy;
-            }
-            else
-            {
-                savingEnergy = false;
-                regenerateMinimalEnergy = true;
-            }
-        }
-
-        if (regenerateMinimalEnergy == true)
-        {
-            regenerateMinimalEnergy = false;
-            StartCoroutine(RegeneratiMinimalEnergyXX());
-        }
-    }
-
-    IEnumerator RegeneratiMinimalEnergyXX()
-    {
-        
-
-        yield return new WaitForSeconds(0.4f);
-
-        while(Energy >= 0.5f)
-        {
-            Energy += Time.deltaTime * 0.1f;
-
-            yield return null;
-        }
-
-        Energy = Mathf.Clamp(Energy, 0.5f, 5);
-
-        
-        yield return null;
-        Debug.Log("Q");
-    }
-
-    #endregion 
     void EnergyValues()
     {   
         EnergyMovementValue = Energy * 1f;
@@ -245,7 +197,7 @@ public class EnergyManager : MonoBehaviour
             EnergyMovementValue = 0.7f;
         }
 
-        EnergyBoostValue = Energy * 1f;
+        EnergyBoostValue = Energy * 1.2f;
         EnergySuperBoostValue = Energy * 1.4f;
 
         //EnergyShadowDashValue = Energy * 1.5f;
@@ -254,7 +206,7 @@ public class EnergyManager : MonoBehaviour
     public void ReduceEnergy()
     {
         //Energy *= ReduceEnergyMulitplicator;
-        Energy = Mathf.Clamp(Energy, 0f, 5);
+        Energy = Mathf.Clamp(Energy, 0f, MaxEnergy);
 
     }
 }
