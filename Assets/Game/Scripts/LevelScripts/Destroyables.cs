@@ -37,7 +37,7 @@ public class Destroyables : MonoBehaviour
                 currentLife -= 1;
             }
 
-            if (player.GetComponent<PlayerSuperBoost>().dealDamage == true)
+            if (player.GetComponent<PlayerStartDash>().dealDamage == true)
             {
                 currentLife -= 4;
             }

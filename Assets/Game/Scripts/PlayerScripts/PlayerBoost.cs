@@ -5,10 +5,9 @@ using UnityEngine;
 public class PlayerBoost : MonoBehaviour
 {
     Rigidbody rb;
-    EnergyManager energyMng;
     PlayerMovement playerMov;
     ShadowDash shadowDash;
-    PlayerSuperBoost superDash;
+    PlayerStartDash superDash;
 
     GameManager gameMng;
 
@@ -31,10 +30,9 @@ public class PlayerBoost : MonoBehaviour
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        energyMng = FindObjectOfType<EnergyManager>();
         playerMov = this.GetComponent<PlayerMovement>();
         shadowDash = this.GetComponent<ShadowDash>();
-        superDash = this.GetComponent<PlayerSuperBoost>();
+        superDash = this.GetComponent<PlayerStartDash>();
 
         gameMng = FindObjectOfType<GameManager>();
     }
@@ -47,6 +45,7 @@ public class PlayerBoost : MonoBehaviour
     void Boost() // Dash: wird langsamer und dann wuuuuush
     {
         if (shadowDash.isShadowDashing == true || superDash.Boosting == true) return;
+        if (rb.velocity.x == 0 || rb.velocity.z == 0) return; //kein kleiner Boost am Anfang erlaubt!
 
         if(Input.GetButton(gameMng.Dash))
         {
@@ -85,7 +84,7 @@ public class PlayerBoost : MonoBehaviour
 
                 timerBoost += Time.deltaTime;
 
-                rb.AddForce(playerMov.MovementDirection.normalized * boostForce * energyMng.EnergyBoostValue, ForceMode.Impulse);
+                rb.AddForce(playerMov.MovementDirection.normalized * boostForce, ForceMode.Impulse);
                 //ANMERKUNG: falls Boosten energie verbrauchen soll hier abziehen
 
                 
@@ -159,7 +158,7 @@ public class PlayerBoost : MonoBehaviour
                 {
                     timerBoost += Time.deltaTime;
 
-                    rb.AddForce(playerMov.MovementDirection.normalized * boostForce * energyMng.EnergyBoostValue, ForceMode.Impulse);
+                    rb.AddForce(playerMov.MovementDirection.normalized * boostForce, ForceMode.Impulse);
                     //ANMERKUNG: falls Boosten energie verbrauchen soll hier abziehen
                 }
                 else
@@ -215,7 +214,7 @@ public class PlayerBoost : MonoBehaviour
 
                     timerBoost += Time.deltaTime;
 
-                    rb.AddForce(playerMov.MovementDirection.normalized * boostForce * energyMng.EnergyBoostValue, ForceMode.Impulse);
+                    rb.AddForce(playerMov.MovementDirection.normalized * boostForce, ForceMode.Impulse);
                     //ANMERKUNG: falls Boosten energie verbrauchen soll hier abziehen
 
                     Boosting = true;

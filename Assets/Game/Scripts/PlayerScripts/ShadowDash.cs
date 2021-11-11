@@ -21,7 +21,7 @@ public class ShadowDash : MonoBehaviour
     PlayerMovement playerMov;
     GameManager gameMng;
     PlayerBoost dash;
-    PlayerSuperBoost superDash;
+    PlayerStartDash superDash;
     
 
     Rigidbody rb;
@@ -39,7 +39,7 @@ public class ShadowDash : MonoBehaviour
         rb = this.GetComponent<Rigidbody>();
 
         dash = this.GetComponent<PlayerBoost>();
-        superDash = this.GetComponent<PlayerSuperBoost>();
+        superDash = this.GetComponent<PlayerStartDash>();
 
         gameMng = FindObjectOfType<GameManager>();
     }
@@ -47,8 +47,9 @@ public class ShadowDash : MonoBehaviour
     void Update()
     {
         if (dash.Boosting == true || superDash.Boosting == true) return;
+        if (rb.velocity.x == 0 || rb.velocity.z == 0) return; //kein kleiner Boost am Anfang erlaubt!
 
-        
+
         if (mr.enabled == false)
             dust.Play();
         else

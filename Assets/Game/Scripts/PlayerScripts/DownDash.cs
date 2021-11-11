@@ -5,7 +5,6 @@ using UnityEngine;
 public class DownDash : MonoBehaviour
 {
     Rigidbody rb;
-    EnergyManager energyMng;
     GameManager gameMng;
     PlayerMovement playerMov;
 
@@ -23,7 +22,6 @@ public class DownDash : MonoBehaviour
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        energyMng = FindObjectOfType<EnergyManager>();
         gameMng = FindObjectOfType<GameManager>();
         playerMov = this.GetComponent<PlayerMovement>();
     }

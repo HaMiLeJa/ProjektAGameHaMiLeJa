@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     [Tooltip("Controller Input: Use X, Y, A or B.")]
     public string DownDash = "RightBumper";
 
-    public string SaveEnergy = "LeftBumper";
+    
 
     #endregion
 

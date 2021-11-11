@@ -5,31 +5,19 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     Rigidbody rb;
-    EnergyManager energyMng;
     GameManager gameMng;
 
-    //Movement
-    Vector3 strafeMovement;
-    Vector3 forwardMovement;
 
-    [Tooltip("if you reduce de PlayerMovementSpeed you have to increase the MinimalRequiredEnergyForMovement in the EnergyManager")]
-    public float StandardMovementSpeed = 10;
-    Vector3 movement; //Umbennen
-    [HideInInspector] public Vector3 MovementDirection;
+
+    [Tooltip("Speed with which the player can influence the movement")]
+    public float StandardMovementSpeed = 5;
+
+    [HideInInspector]public Vector3 MovementDirection;
 
     // void ControlVelocity
     public float SlowDownMultiplicator = 0.99f;
 
-    /*
-    // void basic boost
-    [SerializeField] float boostDuration = 0.1f;
-    bool boostButtonPressedInLastFrame = false;
-    bool allowBoost = false;
-    float timerBoost;
-    [SerializeField] float boostForce = 1;
-    public bool boosting;
-    */
-
+    
     // void Basic Jump
     bool jumping = false;
     [SerializeField] float forceJump = 50;
@@ -43,7 +31,6 @@ public class PlayerMovement : MonoBehaviour
     float distanceToGround;
     [SerializeField] float fallDownSpeed = 1;
 
-    [SerializeField] [Tooltip("Turn off if you dont want to loose energy")] bool reduceEnergy = true;
     [Tooltip("Just for Debug use")] public Vector3 Velocity; //Debug
 
     ShadowDash shadowDash;
@@ -58,7 +45,6 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        energyMng = FindObjectOfType<EnergyManager>();
         gameMng = FindObjectOfType<GameManager>();
         shadowDash = this.GetComponent<ShadowDash>();
     }
@@ -70,102 +56,50 @@ public class PlayerMovement : MonoBehaviour
 
         GroundCheck();
 
-        //Movement();
+        
 
-        CombinedMovement();
+        CorrectMovement();
 
-        if (reduceEnergy == true)
-            ControlVelocity();
 
         BasicJump();
 
         HightControl();
     }
 
-    void Movement()
-    {
-        //Bewegung
-        strafeMovement = transform.right * Input.GetAxis("Horizontal");
-        forwardMovement = transform.forward * Input.GetAxis("Vertical");
-
-        MovementDirection = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
-        movement = MovementDirection * Time.deltaTime * StandardMovementSpeed * energyMng.EnergyMovementValue;
-
-        /*
-        if (shadowDash.currentShadowDashForce != 0)
-        {
-            movement *= shadowDash.currentShadowDashForce;
-            shadowDash.mr.enabled = true;
-        }
-        */
-
-        if (shadowDash.currentShadowDashForce != 0f)
-        {
-
-           rb.velocity = (rb.velocity + movement * shadowDash.currentShadowDashForce);
-        }
-        else
-            rb.velocity = (rb.velocity + movement);
-    }
+   
 
     [HideInInspector] public bool InNoInputZone = false;
 
-    void CombinedMovement()
+    void CorrectMovement()
     {
         //Bewegung
-        strafeMovement = transform.right * Input.GetAxis("Horizontal");
-        forwardMovement = transform.forward * Input.GetAxis("Vertical");
+        Vector3 strafeMovement = transform.right * Input.GetAxis("Horizontal");
+        Vector3 forwardMovement = transform.forward * Input.GetAxis("Vertical");
 
         MovementDirection = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
-        movement = MovementDirection * Time.deltaTime * StandardMovementSpeed * energyMng.EnergyMovementValue;
-
-
-
-        if (shadowDash.currentShadowDashForce != 0f)
-        {
-            rb.AddForce(movement.normalized * shadowDash.currentShadowDashForce * 5);
-            //rb.velocity = rb.velocity * shadowDash.currentShadowDashForce *0.5f;
-        }
-        else if(InNoInputZone == false )
-            rb.velocity = (rb.velocity + movement);
-    }
-
-    void MovementAlternative()
-    {
-        //Bewegung
-
-        
-        
-            strafeMovement = transform.right * Input.GetAxis("Horizontal");
-            forwardMovement = transform.forward * Input.GetAxis("Vertical");
-
-            MovementDirection = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
-            movement = MovementDirection * Time.deltaTime * StandardMovementSpeed * energyMng.EnergyMovementValue;
-        
+        Vector3 movement = MovementDirection * Time.deltaTime * StandardMovementSpeed;
 
 
         if (shadowDash.currentShadowDashForce != 0f)
         {
             rb.AddForce(movement.normalized * shadowDash.currentShadowDashForce * 5);
-            //rb.velocity = rb.velocity * shadowDash.currentShadowDashForce *0.5f;
+
         }
-        else
+        else if (Velocity.x != 0 && Velocity.z != 0)
         {
-            rb.AddForce(movement);
+            float veloctyPower = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.z);
+
+            rb.velocity = (rb.velocity + movement * veloctyPower/4);  // sollte sich bei hoher Geschwindigkeit verstärken ; Wert von ca 5
+            //rb.AddForce(movement, ForceMode.Force);
         }
+
     }
+
 
 
     void ControlVelocity()
     {
-        if (OnGround == false) return;
-
-        if (strafeMovement == Vector3.zero && forwardMovement == Vector3.zero || Input.GetButton("Y")) //Wenn kein Input    
-        {
-            // Abnahme Velocity und Energie, wenn kein Input erfolgt automatisch über das Physicsystem
-            // Abnahme Energy
-            energyMng.ReduceEnergy();
-        }
+        
     }
 
     void BasicJump()
@@ -211,6 +145,15 @@ public class PlayerMovement : MonoBehaviour
 
     #region BasicBoost code (Not Used here)
     /*
+     * 
+    // void basic boost
+    [SerializeField] float boostDuration = 0.1f;
+    bool boostButtonPressedInLastFrame = false;
+    bool allowBoost = false;
+    float timerBoost;
+    [SerializeField] float boostForce = 1;
+    public bool boosting;
+   
     void BasicBoost()
     {
         if (Input.GetButton("X"))
@@ -289,15 +232,5 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "EnergyGenerator")
-        {
-            energyMng.Energy += collision.gameObject.GetComponent<EnergyGenerator>().GeneratedEnergy;
-
-            collision.gameObject.GetComponent<EnergyGenerator>().GeneratedEnergy = 0;
-
-        }
-    }
     
 }
