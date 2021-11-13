@@ -7,7 +7,8 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody rb;
     GameManager gameMng;
 
-
+    public bool OnBoostForwardHex;
+    public float currentHexForce;
 
     [Tooltip("Speed with which the player can influence the movement")]
     public float StandardMovementSpeed = 5;
@@ -38,6 +39,8 @@ public class PlayerMovement : MonoBehaviour
     // Trampolin
     public bool rebounded = false;
 
+    [HideInInspector] public bool InNoInputZone = false;
+
     private void Awake()
     {
     }
@@ -56,10 +59,11 @@ public class PlayerMovement : MonoBehaviour
 
         GroundCheck();
 
-        
 
-        CorrectMovement();
 
+        //CorrectMovement();
+
+        TestCorrectMovement();
 
         BasicJump();
 
@@ -68,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
 
    
 
-    [HideInInspector] public bool InNoInputZone = false;
+    
 
     void CorrectMovement()
     {
@@ -87,15 +91,56 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (Velocity.x != 0 && Velocity.z != 0)
         {
-            float veloctyPower = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.z);
+            float velocityPower = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.z);
 
-            rb.velocity = (rb.velocity + movement * veloctyPower/4);  // sollte sich bei hoher Geschwindigkeit verstärken ; Wert von ca 5
+            rb.velocity = (rb.velocity + movement * velocityPower/4);  // sollte sich bei hoher Geschwindigkeit verstärken ; Wert von ca 5
+
+
+
+            //rb.AddForce(movement, ForceMode.Force);
+        }
+       
+
+    }
+
+
+    void TestCorrectMovement()
+    {
+        //Bewegung
+        Vector3 strafeMovement = transform.right * Input.GetAxis("Horizontal");
+        Vector3 forwardMovement = transform.forward * Input.GetAxis("Vertical");
+
+        MovementDirection = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
+        Vector3 movement = MovementDirection * Time.deltaTime * StandardMovementSpeed;
+
+
+        if (shadowDash.currentShadowDashForce != 0f)
+        {
+            rb.AddForce(movement.normalized * shadowDash.currentShadowDashForce * 5);
+
+        }
+        else if (OnBoostForwardHex == true)
+        {
+            rb.AddForce(movement.normalized * currentHexForce * 5);
+        }
+        
+        else
+        {
+            float velocityPower = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.z);
+
+            rb.velocity = (rb.velocity + movement);  // sollte sich bei hoher Geschwindigkeit verstärken ; Wert von ca 5
+
+
+
             //rb.AddForce(movement, ForceMode.Force);
         }
 
     }
 
+    void Bounce()
+    {
 
+    }
 
     void ControlVelocity()
     {
@@ -232,5 +277,20 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+        /*
+        if (collision.gameObject.tag == "Wall")
+        {
+            float bouncyness = 0.5f;
+
+            rb.velocity = new Vector3(-rb.velocity.x * bouncyness, rb.velocity.y, -rb.velocity.z * bouncyness);
+
+        }
+        */
+        
+    }
+
+
 }

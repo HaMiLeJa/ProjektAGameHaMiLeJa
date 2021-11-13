@@ -52,7 +52,6 @@ public class PlayerBoost : MonoBehaviour
             if (boostButtonPressedInLastFrame == false && allowBoost == false)
             {
                 boostButtonPressedInLastFrame = true;
-                Debug.Log("allowed");
                 allowBoost = true;
             }
             

@@ -15,6 +15,7 @@ TagManager:
   - EnergyGenerator
   - Trampolin
   - Rebound
+  - BoostForward
   layers:
   - Default
   - TransparentFX

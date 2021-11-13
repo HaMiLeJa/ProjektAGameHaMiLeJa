@@ -18,7 +18,6 @@ public class ShadowDash : MonoBehaviour
 
     public MeshRenderer mr;
 
-    PlayerMovement playerMov;
     GameManager gameMng;
     PlayerBoost dash;
     PlayerStartDash superDash;
@@ -35,7 +34,6 @@ public class ShadowDash : MonoBehaviour
 
     private void Start()
     {
-        playerMov = this.GetComponent<PlayerMovement>();
         rb = this.GetComponent<Rigidbody>();
 
         dash = this.GetComponent<PlayerBoost>();
@@ -44,7 +42,7 @@ public class ShadowDash : MonoBehaviour
         gameMng = FindObjectOfType<GameManager>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (dash.Boosting == true || superDash.Boosting == true) return;
         if (rb.velocity.x == 0 || rb.velocity.z == 0) return; //kein kleiner Boost am Anfang erlaubt!
@@ -108,7 +106,6 @@ public class ShadowDash : MonoBehaviour
             t += Time.deltaTime;
             float curveValue = shadowDashcurve.Evaluate(t ); // / ShadowDashDuration
 
-            Debug.Log(curveValue);
 
             currentShadowDashForce += ShadowDashForce * curveValue * Time.deltaTime; 
             if (currentShadowDashForce >= disappearingDuringShadowDashStart && currentShadowDashForce <= disappearingDuringShadowDashEnd) 
