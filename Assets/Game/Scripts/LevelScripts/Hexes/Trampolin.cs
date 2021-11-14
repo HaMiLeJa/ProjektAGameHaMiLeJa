@@ -6,14 +6,14 @@ public class Trampolin : MonoBehaviour
 {
     
     float timer;
-    [SerializeField] float reboundDuration = 0.2f;
-    [SerializeField] float force = 0.3f;
-    [SerializeField] float velocityInfluence = 0.5f;
+    float reboundDuration = 0.2f;
+    [SerializeField] float force = 8f;
+    //[SerializeField] float velocityInfluence = 0.5f;
 
     Rigidbody playerRb;
     PlayerMovement playerMov;
 
-    float yReboundVelocity;
+    //float yReboundVelocity;
 
     Vector3 direction;
     Vector3 ReboundMovement;
@@ -34,6 +34,7 @@ public class Trampolin : MonoBehaviour
             if (timer < reboundDuration)
             {
                 playerRb.AddForce(ReboundMovement, ForceMode.Impulse);
+                playerRb.velocity *= 0.8f;
             }
             else 
             {
@@ -43,25 +44,30 @@ public class Trampolin : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if(collision.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
 
 
             playerMov.rebounded = true;
 
-            yReboundVelocity = Mathf.Abs(playerRb.velocity.y * velocityInfluence);
-            yReboundVelocity = Mathf.Clamp(yReboundVelocity, 5, 9);
+            //yReboundVelocity = Mathf.Abs(playerRb.velocity.y * velocityInfluence);
+            //yReboundVelocity = Mathf.Clamp(yReboundVelocity, 1f, 5);
 
-
-            //direction = new Vector3(0, 1, 0);  //Input.GetAxis("Horizontal")
+            
 
             direction = Vector3.up;
 
-            ReboundMovement = new Vector3(0, direction.y * yReboundVelocity, 0) * force;
+            ReboundMovement = direction * force; //new Vector3(0, direction.y * yReboundVelocity, 0) * force;
 
-            ReboundMovement.y = Mathf.Clamp(ReboundMovement.y, 1f, 2.5f);
+
+
+            //playerRb.velocity = new Vector3(playerRb.velocity.x / 2, playerRb.velocity.y, playerRb.velocity.z / 2);
+
+
+            //ReboundMovement.y = Mathf.Clamp(ReboundMovement.y, 1f, 6f);
         }
     }
+   
 }

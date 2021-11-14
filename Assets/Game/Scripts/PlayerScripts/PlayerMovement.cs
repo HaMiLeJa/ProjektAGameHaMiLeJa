@@ -41,6 +41,8 @@ public class PlayerMovement : MonoBehaviour
 
     [HideInInspector] public bool InNoInputZone = false;
 
+    [SerializeField] float totalVelocity;
+
     private void Awake()
     {
     }
@@ -59,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
 
         GroundCheck();
 
-
+        totalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.y) + Mathf.Abs(Velocity.z);
 
         //CorrectMovement();
 
@@ -114,6 +116,10 @@ public class PlayerMovement : MonoBehaviour
         Vector3 movement = MovementDirection * Time.deltaTime * StandardMovementSpeed;
 
 
+       
+
+
+
         if (shadowDash.currentShadowDashForce != 0f)
         {
             rb.AddForce(movement.normalized * shadowDash.currentShadowDashForce * 5);
@@ -123,10 +129,12 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForce(movement.normalized * currentHexForce * 5);
         }
-        
         else
         {
-            float velocityPower = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.z);
+            if (rebounded == true) //eig unnötig
+                return;
+
+           // float velocityPower = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.z);
 
             rb.velocity = (rb.velocity + movement);  // sollte sich bei hoher Geschwindigkeit verstärken ; Wert von ca 5
 
@@ -268,7 +276,7 @@ public class PlayerMovement : MonoBehaviour
 
             rb.AddForce(rb.velocity.normalized + Vector3.down * fallDownSpeed);
         }
-        if(OnGround == false && rebounded == false)
+        else if(OnGround == false && rebounded == false) //Trampolin
         {
             rb.AddForce(rb.velocity.normalized + Vector3.down * fallDownSpeed);
         }
