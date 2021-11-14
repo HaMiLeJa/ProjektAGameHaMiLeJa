@@ -80,7 +80,7 @@ public class BoostForward : MonoBehaviour
 
 
 
-            playerMov.currentHexForce += BoostForce * curveValue * Time.deltaTime;
+            playerMov.currentHexFowardForce += BoostForce * curveValue * Time.deltaTime;
 
 
             playerMov.OnBoostForwardHex = true;
@@ -91,7 +91,7 @@ public class BoostForward : MonoBehaviour
         PlayerRb.velocity = PlayerRb.velocity / 2;
 
         playerMov.OnBoostForwardHex = false;
-        playerMov.currentHexForce = 0;
+        playerMov.currentHexFowardForce = 0;
         IsHexBoosting = false;
     }
 

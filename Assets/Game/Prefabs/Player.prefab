@@ -133,7 +133,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa62afb1a163454b9b434e65509c4ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StandardMovementSpeed: 5
+  OnBoostForwardHex: 0
+  currentHexFowardForce: 0
+  OnChangeDirectionHex: 0
+  currentHexChangeDirectionForce: 0
+  StandardMovementSpeed: 10
   MovementDirection: {x: 0, y: 0, z: 0}
   SlowDownMultiplicator: 0.99
   forceJump: 3
@@ -143,6 +147,7 @@ MonoBehaviour:
   Velocity: {x: 0, y: -0.000009536743, z: 0}
   rebounded: 0
   InNoInputZone: 0
+  totalVelocity: 0
 --- !u!114 &8453995144495873955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,14 +160,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c23a69259ad69646ae52bf7732edc92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boostDuration: 0.2
-  allowBoost: 0
-  boostForce: 1
-  Boosting: 0
-  slowDownDuration: 0.1
-  slowDownValue: 0.999
-  dealDamage: 0
-  dealDamageDuration: 1.5
+  BoostForce: 75
+  BoostDuration: 0.8
+  BoostDashcurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.07722473
+      value: 0.8872185
+      inSlope: -0.06228697
+      outSlope: -0.06228697
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.21274602
+      value: 0.8691571
+      inSlope: -1.6402314
+      outSlope: -1.6402314
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.45299765
+      value: 0.095985055
+      inSlope: -0.75956947
+      outSlope: -0.75956947
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.8032895
+      value: 0.6911438
+      inSlope: 0.86614144
+      outSlope: 0.86614144
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.1269531
+      value: 0.7019043
+      inSlope: 0.03324589
+      outSlope: 0.03324589
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  IsBoosting: 0
+  currentBoostforce: 0
 --- !u!114 &8453995144495873954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,7 +228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boostDuration: 0.1
-  boostForce: 50
+  boostForce: 25
   Boosting: 0
   setDirectionTimer: 0
   dealDamage: 0

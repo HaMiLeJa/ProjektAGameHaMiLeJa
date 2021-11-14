@@ -32,10 +32,12 @@ public class Destroyables : MonoBehaviour
                 return;
             }
 
+            /*
             if(player.GetComponent<PlayerBoost>().dealDamage == true)
             {
                 currentLife -= 1;
             }
+            */
 
             if (player.GetComponent<PlayerStartDash>().dealDamage == true)
             {

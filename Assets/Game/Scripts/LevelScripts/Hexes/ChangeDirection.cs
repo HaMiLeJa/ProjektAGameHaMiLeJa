@@ -9,13 +9,9 @@ public class ChangeDirection : MonoBehaviour
     [SerializeField] private float BoostForce = 200f;
     private float BoostDuration = 0.8f;
     [SerializeField] private AnimationCurve BoostCurve;
-    [SerializeField] public bool IsHexBoosting = false; //used to lock other boosts
-    private Coroutine shadowDashCoroutine;
-
-
-
-    PlayerMovement playerMov;
-
+    private bool isChangingDirection = false;
+    private Coroutine changeDirectionCoroutine;
+    private bool allowChangeDirection = true;
 
 
     Rigidbody PlayerRb;
@@ -25,8 +21,6 @@ public class ChangeDirection : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
 
 
-
-        playerMov = player.GetComponent<PlayerMovement>();
         PlayerRb = player.GetComponent<Rigidbody>();
 
     }
@@ -42,6 +36,9 @@ public class ChangeDirection : MonoBehaviour
     {
         if (other.gameObject == player)
         {
+            if (allowChangeDirection == false) return;
+
+            allowChangeDirection = false;
             ShadowDashStarter();
 
         }
@@ -50,16 +47,22 @@ public class ChangeDirection : MonoBehaviour
 
     public void ShadowDashStarter()
     {
-        if (shadowDashCoroutine != null)
-            StopCoroutine(shadowDashCoroutine);
+        if (changeDirectionCoroutine != null)
+            StopCoroutine(changeDirectionCoroutine);
 
-        shadowDashCoroutine = StartCoroutine(HexBoostForwardCoroutine());
+
+        isChangingDirection = true;
+        changeDirectionCoroutine = StartCoroutine(ChangeDirectionCoroutine());
     }
 
-    private IEnumerator HexBoostForwardCoroutine()
+    private IEnumerator ChangeDirectionCoroutine()
     {
         Vector3 velocity = PlayerRb.velocity;
 
+        PlayerRb.velocity = velocity * -1;
+        yield return new WaitForSeconds(0.5f);
+
+        /*
         float t = 0;
 
         while (t < BoostDuration)
@@ -69,20 +72,31 @@ public class ChangeDirection : MonoBehaviour
             float curveValue = BoostCurve.Evaluate(t);
 
 
+            
+
+            playerMov.currentHexChangeDirectionForce -= BoostForce * curveValue * Time.deltaTime;
 
 
-            playerMov.currentHexForce -= BoostForce * curveValue * Time.deltaTime;
-
-
-            playerMov.OnBoostForwardHex = true;
+            playerMov.OnChangeDirectionHex = true;
             yield return null;
         }
+        */
+
+       // PlayerRb.velocity = PlayerRb.velocity / 2;
+
+        //playerMov.OnChangeDirectionHex = false;
+       // playerMov.currentHexChangeDirectionForce = 0;
+        isChangingDirection = false;
 
 
-        //PlayerRb.velocity = PlayerRb.velocity / 2;
+        yield return null;
+    }
 
-        playerMov.OnBoostForwardHex = false;
-        playerMov.currentHexForce = 0;
-        IsHexBoosting = false;
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.gameObject == player)
+        {
+            allowChangeDirection = true; ;
+        }
     }
 }

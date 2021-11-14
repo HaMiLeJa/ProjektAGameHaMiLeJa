@@ -8,7 +8,10 @@ public class PlayerMovement : MonoBehaviour
     GameManager gameMng;
 
     public bool OnBoostForwardHex;
-    public float currentHexForce;
+    public float currentHexFowardForce;
+    public bool OnChangeDirectionHex;
+    public float currentHexChangeDirectionForce;
+    
 
     [Tooltip("Speed with which the player can influence the movement")]
     public float StandardMovementSpeed = 5;
@@ -35,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
     [Tooltip("Just for Debug use")] public Vector3 Velocity; //Debug
 
     ShadowDash shadowDash;
+    PlayerBoost playerBoost;
     
     // Trampolin
     public bool rebounded = false;
@@ -52,6 +56,7 @@ public class PlayerMovement : MonoBehaviour
         rb = this.GetComponent<Rigidbody>();
         gameMng = FindObjectOfType<GameManager>();
         shadowDash = this.GetComponent<ShadowDash>();
+        playerBoost = this.GetComponent<PlayerBoost>();
     }
 
 
@@ -76,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
 
     
 
-    void CorrectMovement()
+    void CorrectMovement() //Ergänzen
     {
         //Bewegung
         Vector3 strafeMovement = transform.right * Input.GetAxis("Horizontal");
@@ -125,9 +130,17 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(movement.normalized * shadowDash.currentShadowDashForce * 5);
 
         }
+        else if(playerBoost.currentBoostforce != 0f)
+        {
+            rb.AddForce(movement.normalized * playerBoost.currentBoostforce * 5);
+        }
         else if (OnBoostForwardHex == true)
         {
-            rb.AddForce(movement.normalized * currentHexForce * 5);
+            rb.AddForce(movement.normalized * currentHexFowardForce * 5);
+        }
+        else if(OnChangeDirectionHex == true)
+        {
+            rb.AddForce(movement.normalized * currentHexChangeDirectionForce * 5); 
         }
         else
         {

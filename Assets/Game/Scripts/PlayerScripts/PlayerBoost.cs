@@ -4,6 +4,105 @@ using UnityEngine;
 
 public class PlayerBoost : MonoBehaviour
 {
+    #region Inspector
+
+    [SerializeField] private float BoostForce;
+    [SerializeField] private float BoostDuration;
+    [SerializeField] private AnimationCurve BoostDashcurve;
+    [SerializeField] public bool IsBoosting = false; //used to lock other boosts
+    [SerializeField] private Coroutine boostCoroutine;
+    [SerializeField] public float currentBoostforce = 0.0f;
+    
+    GameManager gameMng;
+    PlayerStartDash superDash;
+    ShadowDash shadowDash;
+
+    Rigidbody rb;
+
+    #endregion
+
+    private void Awake()
+    {
+       
+    }
+
+    private void Start()
+    {
+        rb = this.GetComponent<Rigidbody>();
+
+        superDash = this.GetComponent<PlayerStartDash>();
+        shadowDash = this.GetComponent<ShadowDash>();
+
+        gameMng = FindObjectOfType<GameManager>();
+    }
+
+    void FixedUpdate()
+    {
+        if (shadowDash.isShadowDashing == true || superDash.Boosting == true) return;
+        if (rb.velocity.x == 0 || rb.velocity.z == 0) return; //kein kleiner Boost am Anfang erlaubt!
+
+
+        if (Input.GetButton(gameMng.Dash) && IsBoosting == false)
+        {
+
+            IsBoosting = true;
+            BoostStarter();
+        }
+
+       
+
+
+       
+        if (currentBoostforce != 0)
+        {
+
+
+            //mr.enabled = true;
+        }
+        
+
+    }
+
+    #region Shadowdash Coroutine
+
+    public void BoostStarter()
+    {
+        if (boostCoroutine != null)
+            StopCoroutine(boostCoroutine);
+
+        boostCoroutine = StartCoroutine(BoostCoroutine());
+    }
+
+    private IEnumerator BoostCoroutine()
+    {
+        Vector3 velocity = rb.velocity;
+
+        float t = 0;
+        while (t < BoostDuration)
+        {
+
+            t += Time.deltaTime;
+            float curveValue = BoostDashcurve.Evaluate(t); // / ShadowDashDuration
+
+
+            currentBoostforce += BoostForce * curveValue * Time.deltaTime;
+           
+            yield return null;
+        }
+
+
+        rb.velocity = rb.velocity / 2;
+
+        //rb.velocity = velocity;
+
+        currentBoostforce = 0;
+        IsBoosting = false;
+    }
+
+    #endregion
+
+    #region OldBoostCode
+    /*
     Rigidbody rb;
     PlayerMovement playerMov;
     ShadowDash shadowDash;
@@ -142,16 +241,16 @@ public class PlayerBoost : MonoBehaviour
 
             if (Boosting == true)
             {
-                /*
-                if (timerSlowDown < slowDownDuration)
+                
+                //if (timerSlowDown < slowDownDuration)
                 {
-                    rb.velocity *= 0.9f;
+                //    rb.velocity *= 0.9f;
                 }
                 else
                 {
-                    slowedDown = true;
+                  //  slowedDown = true;
                 }
-                */
+                
 
                 if (timerBoost < boostDuration) //slowedDown == true && 
                 {
@@ -237,4 +336,6 @@ public class PlayerBoost : MonoBehaviour
 
 
     }
+*/
+    #endregion
 }

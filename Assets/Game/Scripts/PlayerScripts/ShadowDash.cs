@@ -44,7 +44,7 @@ public class ShadowDash : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (dash.Boosting == true || superDash.Boosting == true) return;
+        if (dash.IsBoosting == true ||superDash.Boosting == true) return;   //dash.Boosting == true || 
         if (rb.velocity.x == 0 || rb.velocity.z == 0) return; //kein kleiner Boost am Anfang erlaubt!
 
 

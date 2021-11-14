@@ -51,7 +51,7 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
 
     void SuperBoost() //Wait(SetDirection) and Boost
     {
-        if (dash.Boosting == true || shadowDash.isShadowDashing == true) return;
+        if (dash.IsBoosting == true || shadowDash.isShadowDashing == true) return;
 
 
         if (Input.GetButton(gameMng.SuperDash)) // Boost ist abbrechbar, indem der A Knopf losgelassen wird
