@@ -196,10 +196,13 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void HightControl()
-    {
+    { 
         if(this.rb.position.y >= 60)
         {
            rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -100f, -0.01f ), rb.velocity.y);
+
+            //Idee: stattdessen eine force nach unten? das sollte flüssigeren übergang machen
+
 
             //rb.velocity = new Vector3(rb.velocity.x, Mathf.Lerp(rb.velocity.y, -1 , 0.1f), rb.velocity.y);
         }
