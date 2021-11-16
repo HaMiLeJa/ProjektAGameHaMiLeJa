@@ -39,7 +39,7 @@ public class PlayerBoost : MonoBehaviour
     void FixedUpdate()
     {
         if (shadowDash.isShadowDashing == true || superDash.Boosting == true) return;
-        if (rb.velocity.x == 0 || rb.velocity.z == 0) return; //kein kleiner Boost am Anfang erlaubt!
+        // if (rb.velocity.x == 0 || rb.velocity.z == 0) return; //kein kleiner Boost am Anfang erlaubt!
 
 
         if (Input.GetButton(gameMng.Dash) && IsBoosting == false)

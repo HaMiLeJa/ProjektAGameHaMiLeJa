@@ -46,10 +46,10 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public bool InNoInputZone = false;
 
     [SerializeField] float totalVelocity;
+    [SerializeField] float velociyInfluence = 0.1f;
 
-    private void Awake()
-    {
-    }
+
+
 
     void Start()
     {
@@ -78,9 +78,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
    
-
-    
-
     void CorrectMovement() //Ergänzen
     {
         //Bewegung
@@ -147,9 +144,10 @@ public class PlayerMovement : MonoBehaviour
             if (rebounded == true) //eig unnötig
                 return;
 
-           // float velocityPower = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.z);
+            totalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.z);
+            float velocityPower = totalVelocity * velociyInfluence;
 
-            rb.velocity = (rb.velocity + movement);  // sollte sich bei hoher Geschwindigkeit verstärken ; Wert von ca 5
+            rb.velocity = (rb.velocity + (movement * velocityPower));  // sollte sich bei hoher Geschwindigkeit verstärken ; Wert von ca 5
 
 
 
