@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Destroyables : MonoBehaviour
 {
-    [SerializeField] float lifeStartAmount = 5;
+    [SerializeField] float lifeStartAmount = 100;
     [Tooltip ("Dont change. Its Set to lifeStartAmount in the code")] [SerializeField] float currentLife;
+    
 
 
     void Start()
     {
         currentLife = lifeStartAmount;
+        
     }
 
     void Update()
@@ -32,19 +34,16 @@ public class Destroyables : MonoBehaviour
                 return;
             }
 
-            /*
-            if(player.GetComponent<PlayerBoost>().dealDamage == true)
-            {
-                currentLife -= 1;
-            }
-            */
 
-            if (player.GetComponent<PlayerStartDash>().dealDamage == true)
-            {
-                currentLife -= 4;
-            }
+            Rigidbody playerRb = player.GetComponent<Rigidbody>();
+            float totalVelocity = Mathf.Abs(playerRb.velocity.x) + Mathf.Abs(playerRb.velocity.y) + Mathf.Abs(playerRb.velocity.z);
 
-            if(currentLife <= 0)
+            float multiplicator = 0.4f;
+
+            currentLife -= totalVelocity * multiplicator;
+
+
+            if (currentLife <= 0)
             {
                 Destroy(this.gameObject);
             }

@@ -17,9 +17,9 @@ public class GameManager : MonoBehaviour
     [Tooltip("Controller Input: Use X, Y, A or B.")]
     public string DownDash = "RightBumper";
 
-    
-
     #endregion
+
+
 
 
     void Update()

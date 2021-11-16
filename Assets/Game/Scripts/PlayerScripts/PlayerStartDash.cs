@@ -21,7 +21,7 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
     Vector3 boostDirection;
     bool directionSet = false;
 
-    [HideInInspector] public bool dealDamage = false;
+    //[HideInInspector] public bool dealDamage = false;
     [Tooltip("For how long Player can damage de Destroyables")] [SerializeField] float dealDamageDuration;
 
     [SerializeField] GameObject circle;
@@ -86,8 +86,8 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
                 // Boost in Richtung
                 if (directionSet == true && timerBoost < boostDuration)
                 {
-                    if(dealDamage == false)
-                        StartCoroutine(AllowToDestroyDestroyables());
+                  //  if(dealDamage == false)
+                       // StartCoroutine(AllowToDestroyDestroyables());
 
                     timerBoost += Time.deltaTime;
                     
@@ -114,6 +114,7 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
         }
     }
 
+    /*
     private IEnumerator AllowToDestroyDestroyables()
     {
         dealDamage = true;
@@ -123,4 +124,5 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
 
         yield return null;
     }
+    */
 }
