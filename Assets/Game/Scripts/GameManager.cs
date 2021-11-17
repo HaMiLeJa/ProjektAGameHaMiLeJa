@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -28,5 +29,14 @@ public class GameManager : MonoBehaviour
         {
             Application.Quit();
         }
+
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            string currentScene = SceneManager.GetActiveScene().name;
+
+            SceneManager.LoadScene(currentScene);
+        }
     }
+
+
 }

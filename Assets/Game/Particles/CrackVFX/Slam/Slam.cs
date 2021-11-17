@@ -12,8 +12,8 @@ public class Slam : MonoBehaviour
         {
             
             Instantiate (Slamparticle, SpawnPoint.position, SpawnPoint.rotation);
-            Slamparticle.SetActive(false);
-            Slamparticle.SetActive(true);
+            //Slamparticle.SetActive(false);
+            //Slamparticle.SetActive(true);
            
         }
     }

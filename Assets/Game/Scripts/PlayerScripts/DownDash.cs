@@ -14,6 +14,13 @@ public class DownDash : MonoBehaviour
     [SerializeField] float boostDuration = 0.1f;
     [SerializeField] bool boostingDown = false;
 
+    
+    [SerializeField]  ParticleSystem SlamParticlePrefab;
+    ParticleSystem SlamObject;
+
+    bool particleCoroutineStartet = false;
+    
+
 
     private void Awake()
     {
@@ -25,7 +32,7 @@ public class DownDash : MonoBehaviour
         gameMng = FindObjectOfType<GameManager>();
         playerMov = this.GetComponent<PlayerMovement>();
     }
-        // Update is called once per frame
+
     void FixedUpdate()
     {
         if (Input.GetButton(gameMng.DownDash))
@@ -34,8 +41,11 @@ public class DownDash : MonoBehaviour
 
             if (timer < boostDuration)
             {
-               
-               
+                if (particleCoroutineStartet == false)
+                {
+                    particleCoroutineStartet = true;
+                    //StartCoroutine(PlayParticle());
+                }
 
                 if (playerMov.OnGround == false && playerMov.OnGround == false)
                 {
@@ -52,7 +62,42 @@ public class DownDash : MonoBehaviour
         {
             timer = 0;
             boostingDown = false;
+            //StopCoroutine(PlayParticle());
+
+            /*if(SlamObject != null)
+                Destroy(SlamObject); */
+
+
+            particleCoroutineStartet = false;
+            
         }
-        
+
     }
+
+    /*
+
+    IEnumerator PlayParticle()
+    {
+        while (playerMov.OnGround == false)
+        {
+            yield return null;
+        }
+
+
+        SlamObject = Instantiate(SlamParticlePrefab, this.transform.position, this.transform.rotation);
+
+        SlamObject.Play();
+        
+        while (SlamObject.isPlaying == true)
+        {
+            yield return null;
+        }
+
+        if (SlamObject != null)
+            Destroy(SlamObject);
+
+        yield return null;
+
+    }
+    */
 }
