@@ -29,7 +29,7 @@ public class ShadowDash : MonoBehaviour
     
     private void Awake()
     {
-        mr = GetComponent<MeshRenderer>();
+        mr = GetComponentInChildren<MeshRenderer>();
     }
 
     private void Start()
