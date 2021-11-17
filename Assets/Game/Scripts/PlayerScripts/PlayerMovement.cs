@@ -139,6 +139,13 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForce(movement.normalized * currentHexChangeDirectionForce * 5); 
         }
+        else if(OnGround == false)
+        {
+            totalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.z);
+            float velocityPower = totalVelocity * velociyInfluence/2;
+
+            rb.velocity = (rb.velocity + (movement * velocityPower));
+        }
         else
         {
             if (rebounded == true) //eig unnötig
