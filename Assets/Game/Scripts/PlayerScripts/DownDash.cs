@@ -10,8 +10,8 @@ public class DownDash : MonoBehaviour
 
     [SerializeField] float speed = 8;
 
-    float timer;
-    [SerializeField] float boostDuration = 0.1f;
+    private float timer;
+    private float boostDuration = 0.1f;
     [SerializeField] bool boostingDown = false;
 
     

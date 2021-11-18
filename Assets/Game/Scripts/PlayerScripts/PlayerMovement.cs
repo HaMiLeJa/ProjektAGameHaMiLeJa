@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     
 
     [Tooltip("Speed with which the player can influence the movement")]
-    public float StandardMovementSpeed = 5;
+    public float StandardMovementSpeed = 10;
 
     [HideInInspector]public Vector3 MovementDirection;
 
@@ -24,8 +24,8 @@ public class PlayerMovement : MonoBehaviour
     
     // void Basic Jump
     bool jumping = false;
-    [SerializeField] float forceJump = 50;
-    [SerializeField] float jumpDuration = 0.1f;
+    [SerializeField] float forceJump = 3;
+    float jumpDuration = 0.1f;
     float timerJump;
     bool jumpButtonPressedInLastFrame = false;
     bool allowJump = false;
@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
     // void GroundCheck und Gravity
     public bool OnGround = false;
     float distanceToGround;
-    [SerializeField] float fallDownSpeed = 1;
+    [SerializeField] float fallDownSpeed = 20;
 
     [Tooltip("Just for Debug use")] public Vector3 Velocity; //Debug
 
@@ -49,6 +49,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float velociyInfluence = 0.1f;
 
 
+    // Hight Control
+    private float highControlForce = 5;
+    [Tooltip("Choose max Hight")] [Range (10, 60)] [SerializeField] float maxHight = 50f;
 
 
     void Start()
@@ -204,9 +207,11 @@ public class PlayerMovement : MonoBehaviour
 
     void HightControl()
     { 
-        if(this.rb.position.y >= 60)
+        if(this.rb.position.y >= maxHight)
         {
-           rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -100f, -0.01f ), rb.velocity.y);
+            rb.AddForce(Vector3.down * highControlForce * rb.transform.position.y);
+
+           //rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -100f, -0.01f ), rb.velocity.y);
 
             //Idee: stattdessen eine force nach unten? das sollte flüssigeren übergang machen
 

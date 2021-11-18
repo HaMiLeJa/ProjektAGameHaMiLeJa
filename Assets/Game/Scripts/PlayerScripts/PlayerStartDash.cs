@@ -10,11 +10,11 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
     PlayerBoost dash;
     ShadowDash shadowDash;
 
-    [SerializeField] float boostDuration = 0.1f;
+    float boostDuration = 0.1f;
     bool boostButtonPressedInLastFrame = false;
     bool allowBoost = false;
     float timerBoost;
-    [SerializeField] float boostForce = 1000f;
+    [SerializeField] float boostForce = 15;
     public bool Boosting; //used to lock bools
 
     [SerializeField] float setDirectionTimer;
@@ -22,7 +22,7 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
     bool directionSet = false;
 
     //[HideInInspector] public bool dealDamage = false;
-    [Tooltip("For how long Player can damage de Destroyables")] [SerializeField] float dealDamageDuration;
+    //[Tooltip("For how long Player can damage de Destroyables")] [SerializeField] float dealDamageDuration;
 
     [SerializeField] GameObject circle;
 

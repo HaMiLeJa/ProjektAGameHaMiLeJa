@@ -6,12 +6,12 @@ public class PlayerBoost : MonoBehaviour
 {
     #region Inspector
 
-    [SerializeField] private float BoostForce;
-    [SerializeField] private float BoostDuration;
+    [SerializeField] private float BoostForce = 75;
+    private float BoostDuration = 0.8f;
     [SerializeField] private AnimationCurve BoostDashcurve;
     [SerializeField] public bool IsBoosting = false; //used to lock other boosts
     [SerializeField] private Coroutine boostCoroutine;
-    [SerializeField] public float currentBoostforce = 0.0f;
+    [HideInInspector] public float currentBoostforce = 0.0f;
     
     GameManager gameMng;
     PlayerStartDash superDash;
