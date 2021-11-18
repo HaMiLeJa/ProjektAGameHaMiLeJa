@@ -15,11 +15,10 @@ public class DownDash : MonoBehaviour
     [SerializeField] bool boostingDown = false;
 
     
-    [SerializeField]  ParticleSystem SlamParticlePrefab;
-    ParticleSystem SlamObject;
+    [SerializeField] GameObject SlamParent;
 
-    bool particleCoroutineStartet = false;
-    
+    bool particleCoroutineStarted = false;
+    [SerializeField] GameObject PlayerParticleParent;
 
 
     private void Awake()
@@ -35,16 +34,16 @@ public class DownDash : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Input.GetButton(gameMng.DownDash))
+        if (Input.GetButton(gameMng.DownDash) && playerMov.OnGround == false)
         {
             timer += Time.deltaTime;
 
             if (timer < boostDuration)
             {
-                if (particleCoroutineStartet == false)
+                if (particleCoroutineStarted == false)
                 {
-                    particleCoroutineStartet = true;
-                    //StartCoroutine(PlayParticle());
+                    particleCoroutineStarted = true;
+                    StartCoroutine(PlayParticle());
                 }
 
                 if (playerMov.OnGround == false && playerMov.OnGround == false)
@@ -68,13 +67,13 @@ public class DownDash : MonoBehaviour
                 Destroy(SlamObject); */
 
 
-            particleCoroutineStartet = false;
+            particleCoroutineStarted = false;
             
         }
 
     }
 
-    /*
+    
 
     IEnumerator PlayParticle()
     {
@@ -83,21 +82,19 @@ public class DownDash : MonoBehaviour
             yield return null;
         }
 
+        Debug.Log("Coroutine");
 
-        SlamObject = Instantiate(SlamParticlePrefab, this.transform.position, this.transform.rotation);
 
-        SlamObject.Play();
+        GameObject slam = Instantiate(SlamParent, this.transform.position, this.transform.rotation, PlayerParticleParent.transform);
+       // slam.SetActive(true);
+
+        slam.GetComponent<SlamParentScript>().Detach();
+
+
         
-        while (SlamObject.isPlaying == true)
-        {
-            yield return null;
-        }
-
-        if (SlamObject != null)
-            Destroy(SlamObject);
 
         yield return null;
 
     }
-    */
+    
 }
