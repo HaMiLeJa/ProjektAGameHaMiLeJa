@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
 
     // Hight Control
     private float highControlForce = 5;
-    [Tooltip("Choose max Hight")] [Range (10, 60)] [SerializeField] float maxHight = 50f;
+    [Tooltip("Choose max Hight")] [Range (10, 60)] [SerializeField] float maxHight = 30;
 
 
     void Start()

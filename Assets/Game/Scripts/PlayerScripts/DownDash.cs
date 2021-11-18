@@ -8,6 +8,9 @@ public class DownDash : MonoBehaviour
     GameManager gameMng;
     PlayerMovement playerMov;
 
+   [SerializeField] bool buttonPressedInLastFrame = false;
+    [SerializeField]  bool touchedGround = true;
+
     [SerializeField] float speed = 8;
 
     private float timer;
@@ -34,7 +37,24 @@ public class DownDash : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Input.GetButton(gameMng.DownDash) && playerMov.OnGround == false)
+        
+
+        if (Input.GetButton(gameMng.DownDash) ) //&& touchedGround == true
+        {
+            if (playerMov.OnGround == false && buttonPressedInLastFrame == false)
+            {
+                boostingDown = true;
+                buttonPressedInLastFrame = true;
+                touchedGround = false;
+            }
+        }
+        else
+        {
+            buttonPressedInLastFrame = false;
+        }
+
+
+        if (boostingDown == true)
         {
             timer += Time.deltaTime;
 
@@ -46,34 +66,30 @@ public class DownDash : MonoBehaviour
                     StartCoroutine(PlayParticle());
                 }
 
-                if (playerMov.OnGround == false && playerMov.OnGround == false)
-                {
-                    boostingDown = true;
-                    rb.AddForce((rb.velocity.normalized + Vector3.down) * speed, ForceMode.Impulse);
+                rb.AddForce((rb.velocity.normalized/2 + Vector3.down) * speed, ForceMode.Impulse);
 
-                }
             }
             else
+            {
+                
+            }
+
+            if(playerMov.OnGround == true)
+            {                   //Stoppbewegung         //je nach winkel stopp oder rollen
+                //rb.velocity = new Vector3 (0, 0, 0); //(rb.velocity.x, 0, rb.velocity.z)
+                timer = 0;
+                particleCoroutineStarted = false;
                 boostingDown = false;
+                touchedGround = true;
+            }
 
         }
-        else
-        {
-            timer = 0;
-            boostingDown = false;
-            //StopCoroutine(PlayParticle());
-
-            /*if(SlamObject != null)
-                Destroy(SlamObject); */
 
 
-            particleCoroutineStarted = false;
-            
-        }
 
     }
 
-    
+
 
     IEnumerator PlayParticle()
     {

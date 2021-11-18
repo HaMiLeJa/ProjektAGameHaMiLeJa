@@ -34,8 +34,7 @@ public class Trampolin : MonoBehaviour
             if (timer < reboundDuration)
             {
                 playerRb.AddForce(ReboundMovement, ForceMode.Impulse);
-                Debug.Log("2");
-                //playerRb.velocity *= 0.8f;
+                
             }
             else 
             {
@@ -57,23 +56,13 @@ public class Trampolin : MonoBehaviour
 
             playerMov.rebounded = true;
 
-            //yReboundVelocity = Mathf.Abs(playerRb.velocity.y * velocityInfluence);
-            //yReboundVelocity = Mathf.Clamp(yReboundVelocity, 1f, 5);
-
-            
-
             direction = Vector3.up;
 
             ReboundMovement = direction * (force * 10) * Time.deltaTime; //new Vector3(0, direction.y * yReboundVelocity, 0) * force;
 
-            Debug.Log("1");
             playerRb.velocity = new Vector3(playerRb.velocity.x * 0.1f, playerRb.velocity.y, playerRb.velocity.z * 0.1f);
 
 
-            //playerRb.velocity = new Vector3(playerRb.velocity.x / 2, playerRb.velocity.y, playerRb.velocity.z / 2);
-
-
-            //ReboundMovement.y = Mathf.Clamp(ReboundMovement.y, 1f, 6f);
         }
     }
 
