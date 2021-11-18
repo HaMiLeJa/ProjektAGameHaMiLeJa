@@ -39,9 +39,9 @@ Material:
     - Boolean_d6ec3925dd6a4c3e9d8c8614ab8f2497: 1
     - Vector1_9332d7f3787040cdb0dfb2f02e854f43: 1
     m_Colors:
-    - GlowColor: {r: 0.23529412, g: 1.9686275, b: 0.18039216, a: 0}
+    - GlowColor: {r: 92.36079, g: 766.9961, b: 72.28236, a: 0}
     - Vector2_6A93A1CF: {r: 1, g: 1, b: 0, a: 0}
-    - _Color: {r: 0, g: 0.23139456, b: 0.6886792, a: 0}
+    - _Color: {r: 0.13683698, g: 0.17002855, b: 0.23584908, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &2710649149715850212
 MonoBehaviour:

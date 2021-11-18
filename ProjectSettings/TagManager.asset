@@ -17,6 +17,7 @@ TagManager:
   - Rebound
   - BoostForward
   - Portal
+  - Hex
   layers:
   - Default
   - TransparentFX
