@@ -7,9 +7,9 @@ using UnityEngine;
 public class Hex : MonoBehaviour
 {
    #region Inspector
-   GameObject Player;
-   //Create a new cube primitive to set the color on
-    [SerializeField] private GlowHighlight highlight;
+   [SerializeField]  GameObject Player;
+   
+    private GlowHighlight highlight;
     private HexCoordinates hexCoordinates;
     [SerializeField] protected HexType hexType;
 
@@ -39,7 +39,7 @@ public class Hex : MonoBehaviour
 
     private void Awake()
     {
-        Player = GameObject.FindGameObjectWithTag("Player");
+        
         hexCoordinates = GetComponent<HexCoordinates>();
         highlight = GetComponent<GlowHighlight>();
 
