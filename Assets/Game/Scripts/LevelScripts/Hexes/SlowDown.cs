@@ -28,12 +28,10 @@ public class SlowDown : MonoBehaviour
 
     public void SlowDownStarter()
     {
-        /*   if (slowDownCoroutine != null)
+           if (slowDownCoroutine != null)
                StopCoroutine(slowDownCoroutine);
 
-           slowDownCoroutine = StartCoroutine(SlowDownCoroutine());*/
-
-        StartCoroutine(SlowDownCoroutine()); ;
+           slowDownCoroutine = StartCoroutine(SlowDownCoroutine());
     }
 
     private IEnumerator SlowDownCoroutine()
