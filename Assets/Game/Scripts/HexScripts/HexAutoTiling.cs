@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class HexAutoTiling : HexGrid
 {
@@ -10,10 +11,8 @@ public class HexAutoTiling : HexGrid
     // Start is called before the first frame update
     void Awake()
     {
-        playerLocation = GameObject.FindGameObjectWithTag("Player");
-        if(HexesToBeMoved != null){
+        playerLocation = GameObject.Find("Player");
         HexesToBeMoved.AddRange(GameObject.FindGameObjectsWithTag("Hex"));
-        }
        
     }
 
@@ -21,8 +20,6 @@ public class HexAutoTiling : HexGrid
     void FixedUpdate()
     {
         
-        if( !(Input.GetKeyDown(KeyCode.P)))
-        {
         foreach (GameObject hex in HexesToBeMoved )
         {
             if(playerLocation.transform.position.z -205 > hex.transform.position.z)
@@ -39,9 +36,11 @@ public class HexAutoTiling : HexGrid
                 hex.transform.position = new Vector3(hex.transform.position.x+344.5f, hex.transform.position.y, hex.transform.position.z);
 
         }
-        }
+        
+    
         
         
     }
 
+  
 }

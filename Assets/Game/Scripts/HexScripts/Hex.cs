@@ -7,11 +7,9 @@ using UnityEngine;
 public class Hex : MonoBehaviour
 {
    #region Inspector
-   GameObject Player;
-   //Create a new cube primitive to set the color on
-   [SerializeField] private GlowHighlight highlight;
+    [SerializeField] private GlowHighlight highlight;
     private HexCoordinates hexCoordinates;
-    [SerializeField] protected HexType hexType;
+    [SerializeField] private HexType hexType;
     #endregion
     public Vector3Int HexCoords => hexCoordinates.GetHexCoords();
 
@@ -22,7 +20,7 @@ public class Hex : MonoBehaviour
         {
             HexType.Water => 20,
             HexType.Default => 10,
-            HexType.SlowDown => 15,
+            HexType.Slow => 15,
             _ => throw new Exception($"Hex of type {hexType} not supported")
         };
     
@@ -33,12 +31,10 @@ public class Hex : MonoBehaviour
 
     private void Awake()
     {
-        Player = GameObject.FindGameObjectWithTag("Player");
         hexCoordinates = GetComponent<HexCoordinates>();
         highlight = GetComponent<GlowHighlight>();
-
     }
-    
+
     #region  HighlightHexs
     public void EnableHighlight()
     {
@@ -59,56 +55,15 @@ public class Hex : MonoBehaviour
     {
         highlight.HighlightValidPath();
     }
-    
-    
-    
-    #endregion
-    
-    #region OnTriggerHexTypes
-    private void OnTriggerEnter(Collider collision)
-    {
-        if (collision.gameObject == Player)
-        {  
-            if ((hexType == HexType.SlowDown))
-            {
-                ;
-            }
-            
-            if ((hexType == HexType.Trampolin))
-            {
-                
-            }
-            
-            if ((hexType == HexType.ChangeDirection))
-            {
-                
-            }
-            
-            if ((hexType == HexType.ChangeDirection))
-            {
-                
-            }
-        }
-        
-        
-    }
-    
-    
 }
 #endregion
-
 
 public enum HexType
 {
     None,
     Default,
-    SlowDown,
-    Trampolin,
-    ChangeDirection,
-    BoostForward,
+    Slow,
     Water,
     Building,
     Obstacle
 }
-
-
