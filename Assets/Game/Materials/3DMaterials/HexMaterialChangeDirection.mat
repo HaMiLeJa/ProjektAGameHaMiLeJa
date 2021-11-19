@@ -114,6 +114,8 @@ Material:
     - _Color: {r: 0.8490566, g: 0.7129061, b: 0.17221431, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _metallness: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 0}
+    - _smoothness: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &7680699096810684926
 MonoBehaviour:

@@ -50,8 +50,6 @@ public class Hex : MonoBehaviour
         gameMng = GameObject.Find("GameManager");
 
         slowDown = gameMng.GetComponentInChildren<SlowDown>();
-
-        slowDown = gameMng.GetComponentInChildren<SlowDown>();
         boostForward = gameMng.GetComponentInChildren<BoostForward>();
         changeDirection = gameMng.GetComponentInChildren<ChangeDirection>();
         trampolin = gameMng.GetComponentInChildren<Trampolin>();
