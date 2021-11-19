@@ -77,11 +77,18 @@ public class ChangeDirection : MonoBehaviour
         yield return null;
     }
 
+    /*
     private void OnTriggerExit(Collider other)
     {
         if(other.gameObject == player)
         {
-            allowChangeDirection = true; ;
+            allowChangeDirection = true;
         }
+    }
+    */
+
+    public void ChangeDirectionEnd()
+    {
+        allowChangeDirection = true;
     }
 }
