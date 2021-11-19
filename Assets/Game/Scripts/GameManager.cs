@@ -30,12 +30,13 @@ public class GameManager : MonoBehaviour
             Application.Quit();
         }
 
+        /*
         if(Input.GetKeyDown(KeyCode.P))
         {
             string currentScene = SceneManager.GetActiveScene().name;
-
             SceneManager.LoadScene(currentScene);
         }
+        */
     }
 
 

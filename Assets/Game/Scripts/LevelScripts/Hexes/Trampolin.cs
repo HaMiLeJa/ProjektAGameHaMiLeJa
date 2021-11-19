@@ -48,25 +48,14 @@ public class Trampolin : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void TrampolinStarter()
     {
-        if (other.gameObject.tag == "Player")
-        {
+        playerMov.rebounded = true;
 
+        direction = Vector3.up;
 
-            playerMov.rebounded = true;
+        ReboundMovement = direction * (force * 10) * Time.deltaTime; //new Vector3(0, direction.y * yReboundVelocity, 0) * force;
 
-            direction = Vector3.up;
-
-            ReboundMovement = direction * (force * 10) * Time.deltaTime; //new Vector3(0, direction.y * yReboundVelocity, 0) * force;
-
-            playerRb.velocity = new Vector3(playerRb.velocity.x * 0.1f, playerRb.velocity.y, playerRb.velocity.z * 0.1f);
-
-
-        }
+        playerRb.velocity = new Vector3(playerRb.velocity.x * 0.1f, playerRb.velocity.y, playerRb.velocity.z * 0.1f);
     }
-
-
-    
-
 }

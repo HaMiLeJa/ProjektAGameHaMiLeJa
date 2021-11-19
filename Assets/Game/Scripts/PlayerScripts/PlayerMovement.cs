@@ -136,6 +136,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (OnBoostForwardHex == true)
         {
+            //mvoement beim aktivieren des Hexes abspeichern und hier benutzen statt den aktualisierbaren movement wert
             rb.AddForce(movement.normalized * currentHexFowardForce * 5);
         }
         else if(OnChangeDirectionHex == true)
@@ -291,7 +292,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        // Idee: die Addforce auch in akutelle bewegungsrichtung?
+        
         
 
         

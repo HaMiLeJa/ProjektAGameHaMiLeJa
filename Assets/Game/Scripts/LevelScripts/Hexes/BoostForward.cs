@@ -32,37 +32,13 @@ public class BoostForward : MonoBehaviour
 
     }
 
-    void FixedUpdate()
+    public void BoostForwardStarter()
     {
-        
-    }
-
-
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject == player)
-        {
-            ShadowDashStarter();
-
-            //velocity = playerRb.velocity;
-
-            /*
-            if (BoostCoroutine != null)
-                StopCoroutine(BoostCoroutine);
-
-            BoostCoroutine = StartCoroutine(SpeedUpAndDown());
-            */
-        }
-    }
-
-
-    public void ShadowDashStarter()
-    {
-        if (shadowDashCoroutine != null)
+       /* if (shadowDashCoroutine != null)
             StopCoroutine(shadowDashCoroutine);
 
-        shadowDashCoroutine = StartCoroutine(HexBoostForwardCoroutine());
+        shadowDashCoroutine = StartCoroutine(HexBoostForwardCoroutine());*/
+        StartCoroutine(HexBoostForwardCoroutine());
     }
 
     private IEnumerator HexBoostForwardCoroutine()
@@ -70,7 +46,7 @@ public class BoostForward : MonoBehaviour
         Vector3 velocity = PlayerRb.velocity;
 
         float t = 0;
-       
+        Debug.Log("B");
         while (t < BoostDuration)
         {
 
@@ -79,7 +55,7 @@ public class BoostForward : MonoBehaviour
 
 
 
-
+            //
             playerMov.currentHexFowardForce += BoostForce * curveValue * Time.deltaTime;
 
 

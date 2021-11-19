@@ -25,31 +25,16 @@ public class ChangeDirection : MonoBehaviour
 
     }
 
-    void FixedUpdate()
+    public void ChangeDirectionStarter()
     {
+        if (allowChangeDirection == false) return;
 
-    }
+        allowChangeDirection = false;
 
-
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject == player)
-        {
-            if (allowChangeDirection == false) return;
-
-            allowChangeDirection = false;
-            ShadowDashStarter();
-
-        }
-    }
-
-
-    public void ShadowDashStarter()
-    {
+        
         if (changeDirectionCoroutine != null)
             StopCoroutine(changeDirectionCoroutine);
-
+        
 
         isChangingDirection = true;
         changeDirectionCoroutine = StartCoroutine(ChangeDirectionCoroutine());

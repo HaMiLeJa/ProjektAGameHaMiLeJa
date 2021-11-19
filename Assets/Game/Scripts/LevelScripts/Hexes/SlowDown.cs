@@ -25,37 +25,24 @@ public class SlowDown : MonoBehaviour
 
     }
 
-    void FixedUpdate()
+
+    public void SlowDownStarter()
     {
+        /*   if (slowDownCoroutine != null)
+               StopCoroutine(slowDownCoroutine);
 
-    }
+           slowDownCoroutine = StartCoroutine(SlowDownCoroutine());*/
 
-
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject == player)
-        {
-            ShadowDashStarter();
-
-        }
-    }
-
-
-    public void ShadowDashStarter()
-    {
-        if (slowDownCoroutine != null)
-            StopCoroutine(slowDownCoroutine);
-
-        slowDownCoroutine = StartCoroutine(SlowDownCoroutine());
+        StartCoroutine(SlowDownCoroutine()); ;
     }
 
     private IEnumerator SlowDownCoroutine()
     {
+        Debug.Log("S");
         Vector3 velocity = PlayerRb.velocity;
 
         float t = 0;
-        Vector3 halfVelocity = velocity * 0.5f;
+       // Vector3 halfVelocity = velocity * 0.5f;
 
         while (t < SlowDownDuration)
         {
