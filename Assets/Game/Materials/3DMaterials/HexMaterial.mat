@@ -117,10 +117,14 @@ Material:
     - GlowColor: {r: 0, g: 0, b: 0, a: 0}
     - Vector2_6A93A1CF: {r: 1, g: 1, b: 0, a: 0}
     - _BaseColor: {r: 0.26111722, g: 0.21337666, b: 0.3301887, a: 1}
-    - _Color: {r: 0.094777204, g: 0.0734692, b: 0.122641504, a: 1}
+    - _Color: {r: 0.21804911, g: 0.25097898, b: 0.26415092, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GlowColor: {r: 0.926429, g: 1.811321, b: 0.2648629, a: 0}
+    - _HexColor: {r: 0.08018869, g: 1, b: 0.54491985, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _emission: {r: 0, g: 0, b: 0, a: 0}
+    - _metallness: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 0}
+    - _smoothness: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &7680699096810684926
 MonoBehaviour:
