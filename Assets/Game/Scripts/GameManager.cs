@@ -19,12 +19,15 @@ public class GameManager : MonoBehaviour
     public string DownDash = "RightBumper";
 
     #endregion
+[SerializeField]
+    private float Skyboxspeed;
 
 
 
 
     void Update()
     {
+        RenderSettings.skybox.SetFloat("_Rotation", Time.time*Skyboxspeed);
         if(Input.GetKey(KeyCode.Escape))
         {
             Application.Quit();
