@@ -9,10 +9,16 @@ public class Hex : MonoBehaviour
    #region Inspector
    GameObject Player;
    //Create a new cube primitive to set the color on
-   [SerializeField] private GlowHighlight highlight;
+    [SerializeField] private GlowHighlight highlight;
     private HexCoordinates hexCoordinates;
     [SerializeField] protected HexType hexType;
-    #endregion
+
+    GameObject gameMng;
+    SlowDown slowDown;
+    BoostForward boostForward;
+    ChangeDirection changeDirection;
+    Trampolin trampolin;
+        #endregion
     public Vector3Int HexCoords => hexCoordinates.GetHexCoords();
 
     
@@ -38,7 +44,19 @@ public class Hex : MonoBehaviour
         highlight = GetComponent<GlowHighlight>();
 
     }
-    
+
+    private void Start()
+    {
+        gameMng = GameObject.Find("GameManager");
+
+        slowDown = gameMng.GetComponentInChildren<SlowDown>();
+
+        slowDown = gameMng.GetComponentInChildren<SlowDown>();
+        boostForward = gameMng.GetComponentInChildren<BoostForward>();
+        changeDirection = gameMng.GetComponentInChildren<ChangeDirection>();
+        trampolin = gameMng.GetComponentInChildren<Trampolin>();
+    }
+
     #region  HighlightHexs
     public void EnableHighlight()
     {
@@ -71,22 +89,22 @@ public class Hex : MonoBehaviour
         {  
             if ((hexType == HexType.SlowDown))
             {
-                ;
+                slowDown.SlowDownStarter();
             }
             
             if ((hexType == HexType.Trampolin))
             {
-                
+                trampolin.TrampolinStarter();
             }
             
             if ((hexType == HexType.ChangeDirection))
             {
-                
+                changeDirection.ChangeDirectionStarter();
             }
             
-            if ((hexType == HexType.ChangeDirection))
+            if ((hexType == HexType.BoostForward))
             {
-                
+                boostForward.BoostForwardStarter();
             }
         }
         
