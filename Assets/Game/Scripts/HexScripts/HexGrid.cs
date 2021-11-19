@@ -7,20 +7,20 @@ public class HexGrid : MonoBehaviour
 {   
     
     public GameObject plane;
-    public GameObject player;
+  
 
     private int radius = 5;
     private int planeOffset = 10;
 
     private Vector3 startPos = Vector3.zero;
 
-    private int XPlayerMove => (int)(player.transform.position.x - startPos.x);
-    private int ZPlayerMove => (int)(player.transform.position.z - startPos.z);
-
-    int XPlayerLocation => (int)Mathf.Floor(player.transform.position.x / planeOffset) * planeOffset;
-     int ZPlayerLocation => (int)Mathf.Floor(player.transform.position.z / planeOffset) * planeOffset;
+    // private int XPlayerMove => (int)(player.transform.position.x - startPos.x);
+    // private int ZPlayerMove => (int)(player.transform.position.z - startPos.z);
+    //
+    // int XPlayerLocation => (int)Mathf.Floor(player.transform.position.x / planeOffset) * planeOffset;
+    //  int ZPlayerLocation => (int)Mathf.Floor(player.transform.position.z / planeOffset) * planeOffset;
     
-    Hashtable tilePlane = new Hashtable();
+    // Hashtable tilePlane = new Hashtable();
     
     #region Dictonarys
     
@@ -30,6 +30,8 @@ public class HexGrid : MonoBehaviour
    
     private void Start()
     {
+        
+       
         foreach (Hex hex in FindObjectsOfType<Hex>())
         {
             
@@ -64,13 +66,13 @@ public void Update()
         }
     }*/
 }
-private bool hasPlayerMoved(int playerX, int playerZ) 
-{
-    if (Mathf.Abs(XPlayerMove) >= planeOffset || Mathf.Abs(ZPlayerMove) >= planeOffset){
-        return true;
-    }
-    return false;
-}
+// private bool hasPlayerMoved(int playerX, int playerZ) 
+// {
+//     if (Mathf.Abs(XPlayerMove) >= planeOffset || Mathf.Abs(ZPlayerMove) >= planeOffset){
+//         return true;
+//     }
+//     return false;
+// }
 
 
 
