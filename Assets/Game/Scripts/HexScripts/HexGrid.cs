@@ -6,11 +6,11 @@ using UnityEngine;
 public class HexGrid : MonoBehaviour
 {   
     
-    public GameObject plane;
+  //  public GameObject plane;
   
 
-    private int radius = 5;
-    private int planeOffset = 10;
+    // private int radius = 5;
+    // private int planeOffset = 10;
 
     private Vector3 startPos = Vector3.zero;
 

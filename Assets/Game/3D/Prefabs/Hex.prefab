@@ -39,10 +39,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2845948622894205850}
-  - component: {fileID: 3465156328266142516}
   - component: {fileID: 6604176501229558660}
   - component: {fileID: 6283924566819129580}
   - component: {fileID: 2985820778343212737}
+  - component: {fileID: 9002549393317884401}
   m_Layer: 8
   m_Name: Hex
   m_TagString: Hex
@@ -66,20 +66,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3465156328266142516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6510926736812468260}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b60e3edc1808cb74d88cf96ddb35b34f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highlight: {fileID: 0}
-  hexType: 1
 --- !u!114 &6604176501229558660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,6 +105,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.4468505, y: 1.0430715, z: 1.3904114}
   m_Center: {x: -0.012096521, y: 0.021536302, z: -0.013354627}
+--- !u!114 &9002549393317884401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6510926736812468260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b60e3edc1808cb74d88cf96ddb35b34f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlight: {fileID: 0}
+  hexType: 1
 --- !u!1 &8586191793409563930
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,15 +163,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2845948622894205850, guid: 232357c143d828349b834734be249923, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.92
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 2845948622894205850, guid: 232357c143d828349b834734be249923, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.92
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2845948622894205850, guid: 232357c143d828349b834734be249923, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.92
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 2845948622894205850, guid: 232357c143d828349b834734be249923, type: 3}
       propertyPath: m_LocalPosition.x
