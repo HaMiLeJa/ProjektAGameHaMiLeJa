@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 
-
+[ExecuteAlways]
 public class BenderManager : MonoBehaviour
 {
   
