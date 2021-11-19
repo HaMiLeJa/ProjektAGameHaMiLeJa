@@ -99,7 +99,7 @@ Material:
     - Vector1_b86587bba83b4d298bcf0c3645aee580: 0
     - Vector1_cf86a053aa2c40e78a605292021f44c3: 3
     - _AlphaClip: 0
-    - _BendingAmount: 0.005
+    - _BendingAmount: 0.0051
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0

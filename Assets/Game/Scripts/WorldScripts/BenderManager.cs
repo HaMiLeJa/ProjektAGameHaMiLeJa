@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 
-[ExecuteAlways]
+
 public class BenderManager : MonoBehaviour
 {
   
@@ -15,8 +15,8 @@ public class BenderManager : MonoBehaviour
     Shader.PropertyToID("_BendingAmount");
   
   //Inspector
-  [SerializeField]
-  private bool enablePlanet = default;
+  
+  private bool enablePlanet = true;
 
   [SerializeField]
   [Range(-0.1f, 0.1f)]
@@ -75,7 +75,7 @@ public class BenderManager : MonoBehaviour
   private static void OnBeginCameraRendering (ScriptableRenderContext ctx,
                                               Camera cam)
   {
-    cam.cullingMatrix = Matrix4x4.Ortho(-99, 99, -99, 99, 0.001f, 99) *
+    cam.cullingMatrix = Matrix4x4.Ortho(-999, 999, -999, 999, 0.0001f, 999) *
                         cam.worldToCameraMatrix;
   }
   private static void OnEndCameraRendering (ScriptableRenderContext ctx,

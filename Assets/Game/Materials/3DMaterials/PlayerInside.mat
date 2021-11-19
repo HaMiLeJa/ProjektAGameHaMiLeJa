@@ -83,7 +83,7 @@ Material:
     - DynamicGlow: 1
     - GlowPower: 0.9
     - _AlphaClip: 0
-    - _BendingAmount: 0.005
+    - _BendingAmount: 0.0051
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
