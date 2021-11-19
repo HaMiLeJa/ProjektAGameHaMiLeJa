@@ -34,11 +34,10 @@ public class BoostForward : MonoBehaviour
 
     public void BoostForwardStarter()
     {
-       /* if (shadowDashCoroutine != null)
+        if (shadowDashCoroutine != null)
             StopCoroutine(shadowDashCoroutine);
 
-        shadowDashCoroutine = StartCoroutine(HexBoostForwardCoroutine());*/
-        StartCoroutine(HexBoostForwardCoroutine());
+        shadowDashCoroutine = StartCoroutine(HexBoostForwardCoroutine());
     }
 
     private IEnumerator HexBoostForwardCoroutine()
