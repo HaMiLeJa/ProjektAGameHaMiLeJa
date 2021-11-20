@@ -8,6 +8,8 @@ public class NoInputZone : MonoBehaviour
     {
 
     }
+
+    /*
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Player")
@@ -25,4 +27,5 @@ public class NoInputZone : MonoBehaviour
             Debug.Log("NoInputZone Exit");
         }
     }
+    */
 }

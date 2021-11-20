@@ -79,7 +79,6 @@ public class Hex : MonoBehaviour
     {
         if (collision.gameObject == Player)
         {
-            Debug.Log("T");
             if ((hexType == HexType.SlowDown))
             {
                 SlowDownStarter();
@@ -87,7 +86,6 @@ public class Hex : MonoBehaviour
             
             if ((hexType == HexType.Trampolin))
             {
-                Debug.Log("OnTriggerT");
                 TrampolinStarter();
             }
             
@@ -107,12 +105,12 @@ public class Hex : MonoBehaviour
     #endregion
 
 
-    [SerializeField] private AnimationCurve boostCurve;
+    
 
     #region ChangeDirection
 
-    [SerializeField] private float ChangeDirectionBoostForce = 200f;
-    private float ChangeDirectionBoostDuration = 0.8f;
+    //[SerializeField] private float ChangeDirectionBoostForce = 200f;
+    //private float ChangeDirectionBoostDuration = 0.8f;
     private bool isChangingDirection = false;
     private Coroutine changeDirectionCoroutine;
     private bool allowChangeDirection = true;
@@ -136,9 +134,9 @@ public class Hex : MonoBehaviour
 
     private IEnumerator ChangeDirectionCoroutine()
     {
-        Vector3 velocity = playerRb.velocity;
+        
 
-        playerRb.velocity = velocity * -1;
+        playerRb.velocity = playerRb.velocity * -1;
         yield return new WaitForSeconds(0.5f);
 
         isChangingDirection = false;
@@ -156,8 +154,8 @@ public class Hex : MonoBehaviour
     #endregion
 
     #region SlowDown
-
-    [SerializeField] private float SlowDownForce = 400f;
+    [SerializeField] private AnimationCurve slowDownCurve;
+    //[SerializeField] private float SlowDownForce = 400f;
     private float SlowDownDuration = 0.4f;
     
     private bool IsSlowingDown = false; //used to lock other boosts
@@ -174,16 +172,15 @@ public class Hex : MonoBehaviour
 
     private IEnumerator SlowDownCoroutine()
     {
-        
-        Vector3 velocity = playerRb.velocity;
-
         float t = 0;
         // Vector3 halfVelocity = velocity * 0.5f;
+
+        playerRb.velocity = playerRb.velocity / 2;
 
         while (t < SlowDownDuration)
         {
             t += Time.deltaTime;
-            float curveValue = boostCurve.Evaluate(t);
+            float curveValue = slowDownCurve.Evaluate(t);
 
             playerRb.velocity *= 0.99f;
             yield return null;
@@ -195,10 +192,12 @@ public class Hex : MonoBehaviour
     #endregion
 
     #region BoostForward
+
     [SerializeField] private float BoostForce = 200f;
     private float BoostDuration = 0.8f;
     public bool IsHexBoosting = false; //used to lock other boosts
     private Coroutine hexBoostForwardCoroutine;
+    [SerializeField] private AnimationCurve boostCurve;
 
     public void BoostForwardStarter()
     {

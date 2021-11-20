@@ -10,11 +10,11 @@ public class PlayerMovement : MonoBehaviour
     public bool OnBoostForwardHex;
     public float currentHexFowardForce;
     public bool OnChangeDirectionHex;
-    public float currentHexChangeDirectionForce;
+    //public float currentHexChangeDirectionForce;
     
 
     [Tooltip("Speed with which the player can influence the movement")]
-    public float StandardMovementSpeed = 10;
+   // public float StandardMovementSpeed = 10;
 
     [HideInInspector]public Vector3 MovementDirection;
 
@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
     // Trampolin
     public bool rebounded = false;
 
-    [HideInInspector] public bool InNoInputZone = false;
+//    [HideInInspector] public bool InNoInputZone = false;
 
     [SerializeField] float totalVelocity;
     [SerializeField] float velociyInfluence = 0.1f;
@@ -73,83 +73,53 @@ public class PlayerMovement : MonoBehaviour
 
         //CorrectMovement();
 
-        TestCorrectMovement();
+        CorrectMovement();
 
         BasicJump();
 
         HightControl();
     }
 
-   
-    void CorrectMovement() //Ergänzen
+    void CorrectMovement()
     {
         //Bewegung
         Vector3 strafeMovement = transform.right * Input.GetAxis("Horizontal");
         Vector3 forwardMovement = transform.forward * Input.GetAxis("Vertical");
 
         MovementDirection = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
-        Vector3 movement = MovementDirection * Time.deltaTime * StandardMovementSpeed;
+        //Vector3 movement = MovementDirection * Time.deltaTime * StandardMovementSpeed;
 
 
         if (shadowDash.currentShadowDashForce != 0f)
         {
-            rb.AddForce(movement.normalized * shadowDash.currentShadowDashForce * 5);
-
-        }
-        else if (Velocity.x != 0 && Velocity.z != 0)
-        {
-            float velocityPower = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.z);
-
-            rb.velocity = (rb.velocity + movement * velocityPower/4);  // sollte sich bei hoher Geschwindigkeit verstärken ; Wert von ca 5
-
-
-
-            //rb.AddForce(movement, ForceMode.Force);
-        }
-       
-
-    }
-
-
-    void TestCorrectMovement()
-    {
-        //Bewegung
-        Vector3 strafeMovement = transform.right * Input.GetAxis("Horizontal");
-        Vector3 forwardMovement = transform.forward * Input.GetAxis("Vertical");
-
-        MovementDirection = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
-        Vector3 movement = MovementDirection * Time.deltaTime * StandardMovementSpeed;
-
-
-       
-
-
-
-        if (shadowDash.currentShadowDashForce != 0f)
-        {
-            rb.AddForce(movement.normalized * shadowDash.currentShadowDashForce * 5);
+            rb.AddForce(MovementDirection.normalized * shadowDash.currentShadowDashForce * 5);
 
         }
         else if(playerBoost.currentBoostforce != 0f)
         {
-            rb.AddForce(movement.normalized * playerBoost.currentBoostforce * 5);
+            rb.AddForce(MovementDirection.normalized * playerBoost.currentBoostforce * 5);
         }
         else if (OnBoostForwardHex == true)
         {
-            //mvoement beim aktivieren des Hexes abspeichern und hier benutzen statt den aktualisierbaren movement wert
-            rb.AddForce(movement.normalized * currentHexFowardForce * 5);
+            
+            //rb.AddForce(MovementDirection.normalized * currentHexFowardForce * 5);
+            rb.AddForce(rb.velocity.normalized * currentHexFowardForce * 5);
         }
         else if(OnChangeDirectionHex == true)
         {
-            rb.AddForce(movement.normalized * currentHexChangeDirectionForce * 5); 
+            rb.AddForce(rb.velocity.normalized * 5); //*currentHexChangeDirectionForce 
+
+
         }
         else if(OnGround == false)
         {
             totalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.z);
             float velocityPower = totalVelocity * velociyInfluence/2;
 
-            rb.velocity = (rb.velocity + (movement * velocityPower));
+            rb.velocity = (rb.velocity + (MovementDirection * velocityPower));
         }
+
+        /*
         else
         {
             if (rebounded == true) //eig unnötig
@@ -164,6 +134,7 @@ public class PlayerMovement : MonoBehaviour
 
             //rb.AddForce(movement, ForceMode.Force);
         }
+        */
 
     }
 
