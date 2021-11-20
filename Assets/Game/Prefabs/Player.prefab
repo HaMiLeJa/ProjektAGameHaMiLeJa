@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c468d85aac5749459005d958f4566bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boostForce: 25
+  boostForce: 30
   Boosting: 0
   setDirectionTimer: 0
   circle: {fileID: 5424782762397273218}
@@ -264,6 +264,7 @@ MonoBehaviour:
   worldMask:
     serializedVersion: 2
     m_Bits: 128
+  myCollider: {fileID: 4498330986242300557}
 --- !u!114 &4498330986242300597
 MonoBehaviour:
   m_ObjectHideFlags: 0

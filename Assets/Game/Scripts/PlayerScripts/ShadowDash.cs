@@ -29,8 +29,11 @@ public class ShadowDash : MonoBehaviour
     int playerLayerInt;
     int playerNoCollisionLayerInt;
 
+    bool colliding = true;
+    [SerializeField] SphereCollider myCollider;
+
     #endregion
-    
+
     private void Awake()
     {
         mr = GetComponentInChildren<MeshRenderer>();
@@ -51,7 +54,7 @@ public class ShadowDash : MonoBehaviour
 
         Debug.Log(playerNoCollisionLayerInt);
         
-        myCollider = this.gameObject.GetComponent<SphereCollider>();
+        //myCollider = this.gameObject.GetComponent<SphereCollider>();
 
     }
 
@@ -106,38 +109,28 @@ public class ShadowDash : MonoBehaviour
         shadowDashCoroutine = StartCoroutine(ShadowDashCoroutine());
     }
 
-
-    //List<Collider> hitColliders = new List<Collider>();
-
-    //Collider[] hitColliders;
-   // ContactFilter contactFilter = new ContactFilter();
-
-    
-    bool colliding = true;
-    SphereCollider myCollider;
-
     private IEnumerator ShadowDashCoroutine()
     {
         Vector3 velocity = rb.velocity;
 
         float t = 0;
-        
+
         this.gameObject.layer = playerNoCollisionLayerInt;
         bool colliding = true;
 
         while (t < ShadowDashDuration)
         {
-           
+
             mr.enabled = true;
             t += Time.deltaTime;
-            float curveValue = shadowDashcurve.Evaluate(t ); // / ShadowDashDuration
+            float curveValue = shadowDashcurve.Evaluate(t); // / ShadowDashDuration
 
 
-            currentShadowDashForce += ShadowDashForce * curveValue * Time.deltaTime; 
-            if (currentShadowDashForce >= disappearingDuringShadowDashStart && currentShadowDashForce <= disappearingDuringShadowDashEnd) 
+            currentShadowDashForce += ShadowDashForce * curveValue * Time.deltaTime;
+            if (currentShadowDashForce >= disappearingDuringShadowDashStart && currentShadowDashForce <= disappearingDuringShadowDashEnd)
             {
                 mr.enabled = false;
-       
+
             }
             yield return null;
         }
@@ -148,27 +141,107 @@ public class ShadowDash : MonoBehaviour
         //rb.velocity = velocity;
 
 
-        while(colliding == true)
+        while (colliding == true)
         {
             Collider[] hitColliders;
 
-            hitColliders = Physics.OverlapSphere(this.transform.position, myCollider.radius, LayerMask.GetMask("World"));
+            hitColliders = Physics.OverlapSphere(this.transform.position, myCollider.radius, 7); //LayerMask.GetMask("World")
 
-             
+
             if (hitColliders.Length == 0)
             {
                 colliding = false;
                 Debug.Log("notColliding");
+                this.gameObject.layer = playerLayerInt;
             }
         }
 
 
-        this.gameObject.layer = playerLayerInt;
-        
+
+
 
         currentShadowDashForce = 0;
         isShadowDashing = false;
     }
-    
+
+    #endregion
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(this.transform.position, myCollider.radius +2);
+    }
+
+
+    #region alternative 
+    /*
+        private IEnumerator ShadowDashCoroutineX()
+        {
+            Vector3 velocity = rb.velocity;
+
+            float t = 0;
+
+            //this.gameObject.layer = playerNoCollisionLayerInt;
+            bool colliding = true;
+
+            while (t < ShadowDashDuration)
+            {
+
+                mr.enabled = true;
+                t += Time.deltaTime;
+                float curveValue = shadowDashcurve.Evaluate(t); // / ShadowDashDuration
+
+
+                currentShadowDashForce += ShadowDashForce * curveValue * Time.deltaTime;
+                if (currentShadowDashForce >= disappearingDuringShadowDashStart && currentShadowDashForce <= disappearingDuringShadowDashEnd)
+                {
+                    mr.enabled = false;
+
+                }
+                yield return null;
+            }
+
+
+            rb.velocity = rb.velocity / 2;
+
+            //rb.velocity = velocity;
+
+            List<Collider> setToTriggerColliders = new List<Collider>();
+
+            while (colliding == true)
+            {
+                Collider[] hitColliders;
+                hitColliders = Physics.OverlapSphere(this.transform.position, myCollider.radius + 2, worldMask); //LayerMask.GetMask("World") // 7
+                Debug.Log(hitColliders.Length);
+
+                foreach (Collider col in hitColliders)
+                {
+                    col.isTrigger = true;
+
+
+                    if (setToTriggerColliders.Contains(col) == false)
+                        setToTriggerColliders.Add(col);
+                    Debug.Log("set to trigger");
+                }
+
+                if (hitColliders.Length == 0)
+                {
+                    colliding = false;
+                    Debug.Log("notColliding");
+                    //this.gameObject.layer = playerLayerInt;
+                }
+
+                //yield return null;
+            }
+
+            foreach (Collider col in setToTriggerColliders)
+            {
+                col.isTrigger = false;
+            }
+
+            currentShadowDashForce = 0;
+            isShadowDashing = false;
+        }
+    */
     #endregion
 }
