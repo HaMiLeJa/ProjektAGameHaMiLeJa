@@ -30,8 +30,8 @@ TagManager:
   - Hex
   - PlanetSurface
   - Shield
-  - 
-  - 
+  - Player
+  - PlayerNoCollision
   - 
   - 
   - 

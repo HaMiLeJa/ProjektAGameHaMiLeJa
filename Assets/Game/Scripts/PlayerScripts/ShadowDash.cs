@@ -25,6 +25,10 @@ public class ShadowDash : MonoBehaviour
 
     Rigidbody rb;
 
+    [SerializeField] LayerMask worldMask;
+    int playerLayerInt;
+    int playerNoCollisionLayerInt;
+
     #endregion
     
     private void Awake()
@@ -40,6 +44,15 @@ public class ShadowDash : MonoBehaviour
         superDash = this.GetComponent<PlayerStartDash>();
 
         gameMng = FindObjectOfType<GameManager>();
+
+        playerLayerInt = LayerMask.NameToLayer("Player");
+        playerNoCollisionLayerInt = LayerMask.NameToLayer("PlayerNoCollision");
+
+
+        Debug.Log(playerNoCollisionLayerInt);
+        
+        myCollider = this.gameObject.GetComponent<SphereCollider>();
+
     }
 
     void FixedUpdate()
@@ -93,12 +106,25 @@ public class ShadowDash : MonoBehaviour
         shadowDashCoroutine = StartCoroutine(ShadowDashCoroutine());
     }
 
+
+    //List<Collider> hitColliders = new List<Collider>();
+
+    //Collider[] hitColliders;
+   // ContactFilter contactFilter = new ContactFilter();
+
+    
+    bool colliding = true;
+    SphereCollider myCollider;
+
     private IEnumerator ShadowDashCoroutine()
     {
         Vector3 velocity = rb.velocity;
 
         float t = 0;
-        // gameObject.layer = LayerMask.NameToLayer("PlayerDashing");
+        
+        this.gameObject.layer = playerNoCollisionLayerInt;
+        bool colliding = true;
+
         while (t < ShadowDashDuration)
         {
            
@@ -121,9 +147,27 @@ public class ShadowDash : MonoBehaviour
 
         //rb.velocity = velocity;
 
+
+        while(colliding == true)
+        {
+            Collider[] hitColliders;
+
+            hitColliders = Physics.OverlapSphere(this.transform.position, myCollider.radius, LayerMask.GetMask("World"));
+
+             
+            if (hitColliders.Length == 0)
+            {
+                colliding = false;
+                Debug.Log("notColliding");
+            }
+        }
+
+
+        this.gameObject.layer = playerLayerInt;
+        
+
         currentShadowDashForce = 0;
         isShadowDashing = false;
-        //  gameObject.layer = LayerMask.NameToLayer("Player");
     }
     
     #endregion
