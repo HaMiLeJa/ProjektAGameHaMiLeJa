@@ -14,6 +14,6 @@ public class CollectingManager : MonoBehaviour
 
     void Update()
     {
-        collectedTextMesh.text = counterCaught.ToString();
+        //collectedTextMesh.text = counterCaught.ToString();
     }
 }

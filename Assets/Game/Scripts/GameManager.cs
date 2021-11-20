@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,16 +18,29 @@ public class GameManager : MonoBehaviour
     [Tooltip("Controller Input: Use X, Y, A or B.")]
     public string DownDash = "RightBumper";
 
-    public string SaveEnergy = "LeftBumper";
-
     #endregion
+[SerializeField]
+    private float Skyboxspeed;
+
+
 
 
     void Update()
     {
+        RenderSettings.skybox.SetFloat("_Rotation", Time.time*Skyboxspeed);
         if(Input.GetKey(KeyCode.Escape))
         {
             Application.Quit();
         }
+
+        /*
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            string currentScene = SceneManager.GetActiveScene().name;
+            SceneManager.LoadScene(currentScene);
+        }
+        */
     }
+
+
 }

@@ -5,35 +5,27 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     Rigidbody rb;
-    EnergyManager energyMng;
     GameManager gameMng;
 
-    //Movement
-    Vector3 strafeMovement;
-    Vector3 forwardMovement;
+    public bool OnBoostForwardHex;
+    public float currentHexFowardForce;
+    public bool OnChangeDirectionHex;
+    //public float currentHexChangeDirectionForce;
+    
 
-    [Tooltip("if you reduce de PlayerMovementSpeed you have to increase the MinimalRequiredEnergyForMovement in the EnergyManager")]
-    public float StandardMovementSpeed = 10;
-    Vector3 movement; //Umbennen
-    [HideInInspector] public Vector3 MovementDirection;
+    [Tooltip("Speed with which the player can influence the movement")]
+   // public float StandardMovementSpeed = 10;
+
+    [HideInInspector]public Vector3 MovementDirection;
 
     // void ControlVelocity
     public float SlowDownMultiplicator = 0.99f;
 
-    /*
-    // void basic boost
-    [SerializeField] float boostDuration = 0.1f;
-    bool boostButtonPressedInLastFrame = false;
-    bool allowBoost = false;
-    float timerBoost;
-    [SerializeField] float boostForce = 1;
-    public bool boosting;
-    */
-
+    
     // void Basic Jump
     bool jumping = false;
-    [SerializeField] float forceJump = 50;
-    [SerializeField] float jumpDuration = 0.1f;
+    [SerializeField] float forceJump = 3;
+    float jumpDuration = 0.1f;
     float timerJump;
     bool jumpButtonPressedInLastFrame = false;
     bool allowJump = false;
@@ -41,26 +33,33 @@ public class PlayerMovement : MonoBehaviour
     // void GroundCheck und Gravity
     public bool OnGround = false;
     float distanceToGround;
-    [SerializeField] float fallDownSpeed = 1;
+    [SerializeField] float fallDownSpeed = 20;
 
-    [SerializeField] [Tooltip("Turn off if you dont want to loose energy")] bool reduceEnergy = true;
     [Tooltip("Just for Debug use")] public Vector3 Velocity; //Debug
 
     ShadowDash shadowDash;
+    PlayerBoost playerBoost;
     
     // Trampolin
     public bool rebounded = false;
 
-    private void Awake()
-    {
-    }
+//    [HideInInspector] public bool InNoInputZone = false;
+
+    [SerializeField] float totalVelocity;
+    [SerializeField] float velociyInfluence = 0.1f;
+
+
+    // Hight Control
+    private float highControlForce = 5;
+    [Tooltip("Choose max Hight")] [Range (10, 60)] [SerializeField] float maxHight = 30;
+
 
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        energyMng = FindObjectOfType<EnergyManager>();
         gameMng = FindObjectOfType<GameManager>();
         shadowDash = this.GetComponent<ShadowDash>();
+        playerBoost = this.GetComponent<PlayerBoost>();
     }
 
 
@@ -70,102 +69,83 @@ public class PlayerMovement : MonoBehaviour
 
         GroundCheck();
 
-        //Movement();
+        totalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.y) + Mathf.Abs(Velocity.z);
 
-        CombinedMovement();
+        //CorrectMovement();
 
-        if (reduceEnergy == true)
-            ControlVelocity();
+        CorrectMovement();
 
         BasicJump();
 
         HightControl();
     }
 
-    void Movement()
+    void CorrectMovement()
     {
         //Bewegung
-        strafeMovement = transform.right * Input.GetAxis("Horizontal");
-        forwardMovement = transform.forward * Input.GetAxis("Vertical");
+        Vector3 strafeMovement = transform.right * Input.GetAxis("Horizontal");
+        Vector3 forwardMovement = transform.forward * Input.GetAxis("Vertical");
 
         MovementDirection = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
-        movement = MovementDirection * Time.deltaTime * StandardMovementSpeed * energyMng.EnergyMovementValue;
+        //Vector3 movement = MovementDirection * Time.deltaTime * StandardMovementSpeed;
+
+
+        if (shadowDash.currentShadowDashForce != 0f)
+        {
+            rb.AddForce(MovementDirection.normalized * shadowDash.currentShadowDashForce * 5);
+
+        }
+        else if(playerBoost.currentBoostforce != 0f)
+        {
+            rb.AddForce(MovementDirection.normalized * playerBoost.currentBoostforce * 5);
+        }
+        else if (OnBoostForwardHex == true)
+        {
+            
+            //rb.AddForce(MovementDirection.normalized * currentHexFowardForce * 5);
+            rb.AddForce(rb.velocity.normalized * currentHexFowardForce * 5);
+        }
+        else if(OnChangeDirectionHex == true)
+        {
+            rb.AddForce(rb.velocity.normalized * 5); //*currentHexChangeDirectionForce 
+
+
+        }
+        else if(OnGround == false)
+        {
+            totalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.z);
+            float velocityPower = totalVelocity * velociyInfluence/2;
+
+            rb.velocity = (rb.velocity + (MovementDirection * velocityPower));
+        }
 
         /*
-        if (shadowDash.currentShadowDashForce != 0)
+        else
         {
-            movement *= shadowDash.currentShadowDashForce;
-            shadowDash.mr.enabled = true;
+            if (rebounded == true) //eig unnötig
+                return;
+
+            totalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.z);
+            float velocityPower = totalVelocity * velociyInfluence;
+
+            rb.velocity = (rb.velocity + (movement * velocityPower));  // sollte sich bei hoher Geschwindigkeit verstärken ; Wert von ca 5
+
+
+
+            //rb.AddForce(movement, ForceMode.Force);
         }
         */
 
-        if (shadowDash.currentShadowDashForce != 0f)
-        {
-
-           rb.velocity = (rb.velocity + movement * shadowDash.currentShadowDashForce);
-        }
-        else
-            rb.velocity = (rb.velocity + movement);
     }
 
-    [HideInInspector] public bool InNoInputZone = false;
-
-    void CombinedMovement()
+    void Bounce()
     {
-        //Bewegung
-        strafeMovement = transform.right * Input.GetAxis("Horizontal");
-        forwardMovement = transform.forward * Input.GetAxis("Vertical");
 
-        MovementDirection = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
-        movement = MovementDirection * Time.deltaTime * StandardMovementSpeed * energyMng.EnergyMovementValue;
-
-
-
-        if (shadowDash.currentShadowDashForce != 0f)
-        {
-            rb.AddForce(movement.normalized * shadowDash.currentShadowDashForce * 5);
-            //rb.velocity = rb.velocity * shadowDash.currentShadowDashForce *0.5f;
-        }
-        else if(InNoInputZone == false )
-            rb.velocity = (rb.velocity + movement);
     }
-
-    void MovementAlternative()
-    {
-        //Bewegung
-
-        
-        
-            strafeMovement = transform.right * Input.GetAxis("Horizontal");
-            forwardMovement = transform.forward * Input.GetAxis("Vertical");
-
-            MovementDirection = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
-            movement = MovementDirection * Time.deltaTime * StandardMovementSpeed * energyMng.EnergyMovementValue;
-        
-
-
-        if (shadowDash.currentShadowDashForce != 0f)
-        {
-            rb.AddForce(movement.normalized * shadowDash.currentShadowDashForce * 5);
-            //rb.velocity = rb.velocity * shadowDash.currentShadowDashForce *0.5f;
-        }
-        else
-        {
-            rb.AddForce(movement);
-        }
-    }
-
 
     void ControlVelocity()
     {
-        if (OnGround == false) return;
-
-        if (strafeMovement == Vector3.zero && forwardMovement == Vector3.zero || Input.GetButton("Y")) //Wenn kein Input    
-        {
-            // Abnahme Velocity und Energie, wenn kein Input erfolgt automatisch über das Physicsystem
-            // Abnahme Energy
-            energyMng.ReduceEnergy();
-        }
+        
     }
 
     void BasicJump()
@@ -198,10 +178,15 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void HightControl()
-    {
-        if(this.rb.position.y >= 60)
+    { 
+        if(this.rb.position.y >= maxHight)
         {
-           rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -100f, -0.01f ), rb.velocity.y);
+            rb.AddForce(Vector3.down * highControlForce * rb.transform.position.y);
+
+           //rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -100f, -0.01f ), rb.velocity.y);
+
+            //Idee: stattdessen eine force nach unten? das sollte flüssigeren übergang machen
+
 
             //rb.velocity = new Vector3(rb.velocity.x, Mathf.Lerp(rb.velocity.y, -1 , 0.1f), rb.velocity.y);
         }
@@ -211,6 +196,15 @@ public class PlayerMovement : MonoBehaviour
 
     #region BasicBoost code (Not Used here)
     /*
+     * 
+    // void basic boost
+    [SerializeField] float boostDuration = 0.1f;
+    bool boostButtonPressedInLastFrame = false;
+    bool allowBoost = false;
+    float timerBoost;
+    [SerializeField] float boostForce = 1;
+    public bool boosting;
+   
     void BasicBoost()
     {
         if (Input.GetButton("X"))
@@ -269,7 +263,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        // Idee: die Addforce auch in akutelle bewegungsrichtung?
+        
         
 
         
@@ -280,7 +274,7 @@ public class PlayerMovement : MonoBehaviour
 
             rb.AddForce(rb.velocity.normalized + Vector3.down * fallDownSpeed);
         }
-        if(OnGround == false && rebounded == false)
+        else if(OnGround == false && rebounded == false) //Trampolin
         {
             rb.AddForce(rb.velocity.normalized + Vector3.down * fallDownSpeed);
         }
@@ -291,13 +285,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "EnergyGenerator")
+        
+        /*
+        if (collision.gameObject.tag == "Wall")
         {
-            energyMng.Energy += collision.gameObject.GetComponent<EnergyGenerator>().GeneratedEnergy;
+            float bouncyness = 0.5f;
 
-            collision.gameObject.GetComponent<EnergyGenerator>().GeneratedEnergy = 0;
+            rb.velocity = new Vector3(-rb.velocity.x * bouncyness, rb.velocity.y, -rb.velocity.z * bouncyness);
 
         }
+        */
+        
     }
-    
+
+
 }

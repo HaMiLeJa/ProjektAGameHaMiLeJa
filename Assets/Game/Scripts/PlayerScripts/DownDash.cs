@@ -5,15 +5,23 @@ using UnityEngine;
 public class DownDash : MonoBehaviour
 {
     Rigidbody rb;
-    EnergyManager energyMng;
     GameManager gameMng;
     PlayerMovement playerMov;
 
+   [SerializeField] bool buttonPressedInLastFrame = false;
+    [SerializeField]  bool touchedGround = true;
+
     [SerializeField] float speed = 8;
 
-    float timer;
-    [SerializeField] float boostDuration = 0.1f;
+    private float timer;
+    private float boostDuration = 0.1f;
     [SerializeField] bool boostingDown = false;
+
+    
+    [SerializeField] GameObject SlamParent;
+
+    bool particleCoroutineStarted = false;
+    [SerializeField] GameObject PlayerParticleParent;
 
 
     private void Awake()
@@ -23,38 +31,86 @@ public class DownDash : MonoBehaviour
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        energyMng = FindObjectOfType<EnergyManager>();
         gameMng = FindObjectOfType<GameManager>();
         playerMov = this.GetComponent<PlayerMovement>();
     }
-        // Update is called once per frame
+
     void FixedUpdate()
     {
-        if (Input.GetButton(gameMng.DownDash))
+        
+
+        if (Input.GetButton(gameMng.DownDash) ) //&& touchedGround == true
+        {
+            if (playerMov.OnGround == false && buttonPressedInLastFrame == false)
+            {
+                boostingDown = true;
+                buttonPressedInLastFrame = true;
+                touchedGround = false;
+            }
+        }
+        else
+        {
+            buttonPressedInLastFrame = false;
+        }
+
+
+        if (boostingDown == true)
         {
             timer += Time.deltaTime;
 
             if (timer < boostDuration)
             {
-               
-               
-
-                if (playerMov.OnGround == false && playerMov.OnGround == false)
+                if (particleCoroutineStarted == false)
                 {
-                    boostingDown = true;
-                    rb.AddForce((rb.velocity.normalized + Vector3.down) * speed, ForceMode.Impulse);
-
+                    particleCoroutineStarted = true;
+                    StartCoroutine(PlayParticle());
                 }
+
+                rb.AddForce((rb.velocity.normalized/2 + Vector3.down) * speed, ForceMode.Impulse);
+
             }
             else
+            {
+                
+            }
+
+            if(playerMov.OnGround == true)
+            {                   //Stoppbewegung         //je nach winkel stopp oder rollen
+                //rb.velocity = new Vector3 (0, 0, 0); //(rb.velocity.x, 0, rb.velocity.z)
+                timer = 0;
+                particleCoroutineStarted = false;
                 boostingDown = false;
+                touchedGround = true;
+            }
 
         }
-        else
-        {
-            timer = 0;
-            boostingDown = false;
-        }
-        
+
+
+
     }
+
+
+
+    IEnumerator PlayParticle()
+    {
+        while (playerMov.OnGround == false)
+        {
+            yield return null;
+        }
+
+        Debug.Log("Coroutine");
+
+
+        GameObject slam = Instantiate(SlamParent, this.transform.position, this.transform.rotation, PlayerParticleParent.transform);
+       // slam.SetActive(true);
+
+        slam.GetComponent<SlamParentScript>().Detach();
+
+
+        
+
+        yield return null;
+
+    }
+    
 }

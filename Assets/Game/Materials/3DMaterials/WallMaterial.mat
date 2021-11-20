@@ -109,9 +109,11 @@ Material:
     m_Colors:
     - Vector2_6A93A1CF: {r: 1, g: 1, b: 0, a: 0}
     - _BaseColor: {r: 0.9811321, g: 0.9811138, b: 0.14346743, a: 1}
-    - _Color: {r: 0.7735849, g: 0.003648994, b: 0.003648994, a: 1}
+    - _Color: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _metallness: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 0}
+    - _smoothness: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &8539121198222722671
 MonoBehaviour:

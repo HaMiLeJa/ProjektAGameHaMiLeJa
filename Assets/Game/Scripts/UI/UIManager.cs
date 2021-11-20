@@ -5,26 +5,19 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
 
-    EnergyManager energyMng;
-    [SerializeField] TMPro.TMP_Text energy;
-
-    [SerializeField] TMPro.TMP_Text savedEnergy;
+  
 
 
     void Start()
     {
-        energyMng = FindObjectOfType<EnergyManager>();
+       
     }
    
 
   
     void Update()
     {
-        //Ordentlich machen
-        float displayedEnergy = Mathf.Clamp(energyMng.Energy, 0, energyMng.MaxEnergy);
-
-        energy.text = ("Energy: " + displayedEnergy);
-        savedEnergy.text = ("Saved Energy: " + energyMng.SavedEnergy);
+        
 
     }
 

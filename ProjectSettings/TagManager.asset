@@ -15,6 +15,9 @@ TagManager:
   - EnergyGenerator
   - Trampolin
   - Rebound
+  - BoostForward
+  - Portal
+  - Hex
   layers:
   - Default
   - TransparentFX
@@ -26,7 +29,7 @@ TagManager:
   - World
   - Hex
   - PlanetSurface
-  - 
+  - Shield
   - 
   - 
   - 

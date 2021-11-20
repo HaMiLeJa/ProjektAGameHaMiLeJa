@@ -4,11 +4,109 @@ using UnityEngine;
 
 public class PlayerBoost : MonoBehaviour
 {
+    #region Inspector
+
+    [SerializeField] private float BoostForce = 75;
+    private float BoostDuration = 0.8f;
+    [SerializeField] private AnimationCurve BoostDashcurve;
+    [SerializeField] public bool IsBoosting = false; //used to lock other boosts
+    [SerializeField] private Coroutine boostCoroutine;
+    [HideInInspector] public float currentBoostforce = 0.0f;
+    
+    GameManager gameMng;
+    PlayerStartDash superDash;
+    ShadowDash shadowDash;
+
     Rigidbody rb;
-    EnergyManager energyMng;
+
+    #endregion
+
+    private void Awake()
+    {
+       
+    }
+
+    private void Start()
+    {
+        rb = this.GetComponent<Rigidbody>();
+
+        superDash = this.GetComponent<PlayerStartDash>();
+        shadowDash = this.GetComponent<ShadowDash>();
+
+        gameMng = FindObjectOfType<GameManager>();
+    }
+
+    void FixedUpdate()
+    {
+        if (shadowDash.isShadowDashing == true || superDash.Boosting == true) return;
+        // if (rb.velocity.x == 0 || rb.velocity.z == 0) return; //kein kleiner Boost am Anfang erlaubt!
+
+
+        if (Input.GetButton(gameMng.Dash) && IsBoosting == false)
+        {
+
+            IsBoosting = true;
+            BoostStarter();
+        }
+
+       
+
+
+       
+        if (currentBoostforce != 0)
+        {
+
+
+            //mr.enabled = true;
+        }
+        
+
+    }
+
+    #region Shadowdash Coroutine
+
+    public void BoostStarter()
+    {
+        if (boostCoroutine != null)
+            StopCoroutine(boostCoroutine);
+
+        boostCoroutine = StartCoroutine(BoostCoroutine());
+    }
+
+    private IEnumerator BoostCoroutine()
+    {
+        Vector3 velocity = rb.velocity;
+
+        float t = 0;
+        while (t < BoostDuration)
+        {
+
+            t += Time.deltaTime;
+            float curveValue = BoostDashcurve.Evaluate(t); // / ShadowDashDuration
+
+
+            currentBoostforce += BoostForce * curveValue * Time.deltaTime;
+           
+            yield return null;
+        }
+
+
+        rb.velocity = rb.velocity / 2;
+
+        //rb.velocity = velocity;
+
+        currentBoostforce = 0;
+        IsBoosting = false;
+    }
+
+    #endregion
+
+    #region OldBoostCode
+    /*
+    Rigidbody rb;
     PlayerMovement playerMov;
     ShadowDash shadowDash;
-    PlayerSuperBoost superDash;
+    PlayerStartDash superDash;
 
     GameManager gameMng;
 
@@ -31,10 +129,9 @@ public class PlayerBoost : MonoBehaviour
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        energyMng = FindObjectOfType<EnergyManager>();
         playerMov = this.GetComponent<PlayerMovement>();
         shadowDash = this.GetComponent<ShadowDash>();
-        superDash = this.GetComponent<PlayerSuperBoost>();
+        superDash = this.GetComponent<PlayerStartDash>();
 
         gameMng = FindObjectOfType<GameManager>();
     }
@@ -47,13 +144,13 @@ public class PlayerBoost : MonoBehaviour
     void Boost() // Dash: wird langsamer und dann wuuuuush
     {
         if (shadowDash.isShadowDashing == true || superDash.Boosting == true) return;
+        if (rb.velocity.x == 0 || rb.velocity.z == 0) return; //kein kleiner Boost am Anfang erlaubt!
 
         if(Input.GetButton(gameMng.Dash))
         {
             if (boostButtonPressedInLastFrame == false && allowBoost == false)
             {
                 boostButtonPressedInLastFrame = true;
-                Debug.Log("allowed");
                 allowBoost = true;
             }
             
@@ -85,7 +182,7 @@ public class PlayerBoost : MonoBehaviour
 
                 timerBoost += Time.deltaTime;
 
-                rb.AddForce(playerMov.MovementDirection.normalized * boostForce * energyMng.EnergyBoostValue, ForceMode.Impulse);
+                rb.AddForce(playerMov.MovementDirection.normalized * boostForce, ForceMode.Impulse);
                 //ANMERKUNG: falls Boosten energie verbrauchen soll hier abziehen
 
                 
@@ -144,22 +241,22 @@ public class PlayerBoost : MonoBehaviour
 
             if (Boosting == true)
             {
-                /*
-                if (timerSlowDown < slowDownDuration)
+                
+                //if (timerSlowDown < slowDownDuration)
                 {
-                    rb.velocity *= 0.9f;
+                //    rb.velocity *= 0.9f;
                 }
                 else
                 {
-                    slowedDown = true;
+                  //  slowedDown = true;
                 }
-                */
+                
 
                 if (timerBoost < boostDuration) //slowedDown == true && 
                 {
                     timerBoost += Time.deltaTime;
 
-                    rb.AddForce(playerMov.MovementDirection.normalized * boostForce * energyMng.EnergyBoostValue, ForceMode.Impulse);
+                    rb.AddForce(playerMov.MovementDirection.normalized * boostForce, ForceMode.Impulse);
                     //ANMERKUNG: falls Boosten energie verbrauchen soll hier abziehen
                 }
                 else
@@ -215,7 +312,7 @@ public class PlayerBoost : MonoBehaviour
 
                     timerBoost += Time.deltaTime;
 
-                    rb.AddForce(playerMov.MovementDirection.normalized * boostForce * energyMng.EnergyBoostValue, ForceMode.Impulse);
+                    rb.AddForce(playerMov.MovementDirection.normalized * boostForce, ForceMode.Impulse);
                     //ANMERKUNG: falls Boosten energie verbrauchen soll hier abziehen
 
                     Boosting = true;
@@ -239,4 +336,6 @@ public class PlayerBoost : MonoBehaviour
 
 
     }
+*/
+    #endregion
 }
