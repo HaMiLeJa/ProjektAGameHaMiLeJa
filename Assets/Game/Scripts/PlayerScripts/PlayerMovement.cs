@@ -248,10 +248,9 @@ public class PlayerMovement : MonoBehaviour
         //GroundControl
 
         RaycastHit hit = new RaycastHit();
-        if (Physics.Raycast(transform.position, -transform.up, out hit, 10, LayerMask.GetMask("Hex")))
+        if (Physics.Raycast(transform.position, -transform.up, out hit, 10, 8)) //LayerMask.GetMask("Hex")
         {
             distanceToGround = hit.distance;
-            //Debug.Log(distanceToGround);
 
             if (distanceToGround <= 1.6f) //Wert müsste evt über den Spielverlauf hin angepasst werden
             {
@@ -262,7 +261,32 @@ public class PlayerMovement : MonoBehaviour
                 OnGround = false;
             }
         }
+        else if(Physics.Raycast(transform.position, -transform.up, out hit, 10, 7)) //LayerMask.GetMask("World")
+        {
+            distanceToGround = hit.distance;
 
+            if (distanceToGround <= 1.6f) //Wert müsste evt über den Spielverlauf hin angepasst werden
+            {
+                OnGround = true;
+            }
+            else
+            {
+                OnGround = false;
+            }
+        }
+        else if(Physics.Raycast(transform.position, -transform.up, out hit, 10, 6)) //LayerMask.GetMask("Level")
+        {
+            distanceToGround = hit.distance;
+
+            if (distanceToGround <= 1.6f) //Wert müsste evt über den Spielverlauf hin angepasst werden
+            {
+                OnGround = true;
+            }
+            else
+            {
+                OnGround = false;
+            }
+        }
         
         
 
