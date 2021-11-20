@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c23a69259ad69646ae52bf7732edc92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BoostForce: 75
+  BoostForce: 50
   BoostDashcurve:
     serializedVersion: 2
     m_Curve:
@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c468d85aac5749459005d958f4566bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boostForce: 15
+  boostForce: 25
   Boosting: 0
   setDirectionTimer: 0
   circle: {fileID: 5424782762397273218}
