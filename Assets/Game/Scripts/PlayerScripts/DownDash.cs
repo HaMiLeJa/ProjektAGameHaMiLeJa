@@ -23,10 +23,9 @@ public class DownDash : MonoBehaviour
     bool particleCoroutineStarted = false;
     [SerializeField] GameObject PlayerParticleParent;
 
+    [SerializeField] ParticleSystem smashParticle;
 
-    private void Awake()
-    {
-    }
+
 
     void Start()
     {
@@ -45,7 +44,7 @@ public class DownDash : MonoBehaviour
             {
                 boostingDown = true;
                 buttonPressedInLastFrame = true;
-                touchedGround = false;
+                //touchedGround = false;
             }
         }
         else
@@ -60,14 +59,19 @@ public class DownDash : MonoBehaviour
 
             if (timer < boostDuration)
             {
+
+                /*
                 if (particleCoroutineStarted == false)
                 {
                     particleCoroutineStarted = true;
                     StartCoroutine(PlayParticle());
+
+                    
                 }
+                */
 
                 rb.AddForce((rb.velocity.normalized/2 + Vector3.down) * speed, ForceMode.Impulse);
-
+                
             }
             else
             {
@@ -76,11 +80,14 @@ public class DownDash : MonoBehaviour
 
             if(playerMov.OnGround == true)
             {                   //Stoppbewegung         //je nach winkel stopp oder rollen
-                //rb.velocity = new Vector3 (0, 0, 0); //(rb.velocity.x, 0, rb.velocity.z)
+                rb.velocity = new Vector3 (0, 0, 0); //(rb.velocity.x, 0, rb.velocity.z)
                 timer = 0;
                 particleCoroutineStarted = false;
+
+                smashParticle.Play();
+
                 boostingDown = false;
-                touchedGround = true;
+                //touchedGround = true;
             }
 
         }
@@ -89,7 +96,7 @@ public class DownDash : MonoBehaviour
 
     }
 
-
+    
 
     IEnumerator PlayParticle()
     {

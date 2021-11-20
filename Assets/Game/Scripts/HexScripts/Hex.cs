@@ -47,6 +47,7 @@ public class Hex : MonoBehaviour
         Player = GameObject.FindGameObjectWithTag("Player");
         playerRb = Player.GetComponent<Rigidbody>();
         playerMov = Player.GetComponent<PlayerMovement>();
+
     }
 
     #region  HighlightHexs
