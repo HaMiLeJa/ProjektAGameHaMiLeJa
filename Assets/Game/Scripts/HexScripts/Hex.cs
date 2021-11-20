@@ -7,17 +7,14 @@ using UnityEngine;
 public class Hex : MonoBehaviour
 {
    #region Inspector
-   [SerializeField]  GameObject Player;
-   
+    GameObject Player;
+    private Rigidbody playerRb;
+    PlayerMovement playerMov;
+
     private GlowHighlight highlight;
     private HexCoordinates hexCoordinates;
     [SerializeField] protected HexType hexType;
 
-    GameObject gameMng;
-    SlowDown slowDown;
-    BoostForward boostForward;
-    ChangeDirection changeDirection;
-    Trampolin trampolin;
         #endregion
     public Vector3Int HexCoords => hexCoordinates.GetHexCoords();
 
@@ -47,12 +44,9 @@ public class Hex : MonoBehaviour
 
     private void Start()
     {
-        gameMng = GameObject.Find("GameManager");
-
-        slowDown = gameMng.GetComponentInChildren<SlowDown>();
-        boostForward = gameMng.GetComponentInChildren<BoostForward>();
-        changeDirection = gameMng.GetComponentInChildren<ChangeDirection>();
-        trampolin = gameMng.GetComponentInChildren<Trampolin>();
+        Player = GameObject.FindGameObjectWithTag("Player");
+        playerRb = Player.GetComponent<Rigidbody>();
+        playerMov = Player.GetComponent<PlayerMovement>();
     }
 
     #region  HighlightHexs
@@ -84,34 +78,215 @@ public class Hex : MonoBehaviour
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject == Player)
-        {  
+        {
+            Debug.Log("T");
             if ((hexType == HexType.SlowDown))
             {
-                slowDown.SlowDownStarter();
+                SlowDownStarter();
             }
             
             if ((hexType == HexType.Trampolin))
             {
-                trampolin.TrampolinStarter();
+                Debug.Log("OnTriggerT");
+                TrampolinStarter();
             }
             
             if ((hexType == HexType.ChangeDirection))
             {
-                changeDirection.ChangeDirectionStarter();
+                ChangeDirectionStarter();
             }
             
             if ((hexType == HexType.BoostForward))
             {
-                boostForward.BoostForwardStarter();
+                BoostForwardStarter();
             }
         }
         
         
     }
+    #endregion
+
+
+    [SerializeField] private AnimationCurve boostCurve;
+
+    #region ChangeDirection
+
+    [SerializeField] private float ChangeDirectionBoostForce = 200f;
+    private float ChangeDirectionBoostDuration = 0.8f;
+    private bool isChangingDirection = false;
+    private Coroutine changeDirectionCoroutine;
+    private bool allowChangeDirection = true;
+
+    public void ChangeDirectionStarter()
+    {
+        Debug.Log("C");
+
+        if (allowChangeDirection == false) return;
+
+        allowChangeDirection = false;
+
+
+        if (changeDirectionCoroutine != null)
+            StopCoroutine(changeDirectionCoroutine);
+
+
+        isChangingDirection = true;
+        changeDirectionCoroutine = StartCoroutine(ChangeDirectionCoroutine());
+    }
+
+    private IEnumerator ChangeDirectionCoroutine()
+    {
+        Vector3 velocity = playerRb.velocity;
+
+        playerRb.velocity = velocity * -1;
+        yield return new WaitForSeconds(0.5f);
+
+        isChangingDirection = false;
+        yield return null;
+    }
+
     
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.gameObject == Player)
+        {
+            allowChangeDirection = true;
+        }
+    }
+    #endregion
+
+    #region SlowDown
+
+    [SerializeField] private float SlowDownForce = 400f;
+    private float SlowDownDuration = 0.4f;
     
+    private bool IsSlowingDown = false; //used to lock other boosts
+    private Coroutine slowDownCoroutine;
+
+    public void SlowDownStarter()
+    {
+        Debug.Log("S");
+        if (slowDownCoroutine != null)
+            StopCoroutine(slowDownCoroutine);
+
+        slowDownCoroutine = StartCoroutine(SlowDownCoroutine());
+    }
+
+    private IEnumerator SlowDownCoroutine()
+    {
+        
+        Vector3 velocity = playerRb.velocity;
+
+        float t = 0;
+        // Vector3 halfVelocity = velocity * 0.5f;
+
+        while (t < SlowDownDuration)
+        {
+            t += Time.deltaTime;
+            float curveValue = boostCurve.Evaluate(t);
+
+            playerRb.velocity *= 0.99f;
+            yield return null;
+        }
+
+        IsSlowingDown = false;
+    }
+
+    #endregion
+
+    #region BoostForward
+    [SerializeField] private float BoostForce = 200f;
+    private float BoostDuration = 0.8f;
+    public bool IsHexBoosting = false; //used to lock other boosts
+    private Coroutine hexBoostForwardCoroutine;
+
+    public void BoostForwardStarter()
+    {
+        Debug.Log("B");
+
+        if (hexBoostForwardCoroutine != null)
+            StopCoroutine(hexBoostForwardCoroutine);
+
+        hexBoostForwardCoroutine = StartCoroutine(HexBoostForwardCoroutine());
+    }
+
+    private IEnumerator HexBoostForwardCoroutine()
+    {
+        float t = 0;
+        while (t < BoostDuration)
+        {
+
+            t += Time.deltaTime;
+            float curveValue = boostCurve.Evaluate(t);
+
+            playerMov.currentHexFowardForce += BoostForce * curveValue * Time.deltaTime;
+
+            playerMov.OnBoostForwardHex = true;
+            yield return null;
+        }
+
+        playerRb.velocity = playerRb.velocity / 2;
+
+        playerMov.OnBoostForwardHex = false;
+        playerMov.currentHexFowardForce = 0;
+        IsHexBoosting = false;
+    }
+
+    #endregion
+
+    #region Trampolin
+
+    float reboundDuration = 0.2f;
+    [SerializeField] float TramoplinForce = 15f;
+    //[SerializeField] float velocityInfluence = 0.5f;
+    private Coroutine trampolinCoroutine;
+
+    Vector3 direction;
+    Vector3 ReboundMovement;
+    
+    public void TrampolinStarter()
+    {
+        playerMov.rebounded = true;
+
+        direction = Vector3.up;
+
+        ReboundMovement = direction * (TramoplinForce * 10) * Time.deltaTime; //new Vector3(0, direction.y * yReboundVelocity, 0) * force;
+
+        playerRb.velocity = new Vector3(playerRb.velocity.x * 0.1f, playerRb.velocity.y, playerRb.velocity.z * 0.1f);
+        Debug.Log("T");
+
+        if (trampolinCoroutine != null)
+            StopCoroutine(trampolinCoroutine);
+
+        trampolinCoroutine = StartCoroutine(TrampolinCoroutine());
+    }
+
+    IEnumerator TrampolinCoroutine()
+    {
+        float timer = 0;
+
+        while (playerMov.rebounded == true)
+        {
+            timer += Time.deltaTime;
+
+            if (timer < reboundDuration)
+            {
+                playerRb.AddForce(ReboundMovement, ForceMode.Impulse);
+
+            }
+            else
+            {
+                playerMov.rebounded = false;
+                timer = 0;
+            }
+        }
+
+        yield return null;
+    }
+
+    #endregion 
 }
-#endregion
+
 
 
 public enum HexType
@@ -126,5 +301,4 @@ public enum HexType
     Building,
     Obstacle
 }
-
 
