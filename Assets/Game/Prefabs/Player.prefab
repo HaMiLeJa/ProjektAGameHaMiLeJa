@@ -99,8 +99,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 1.1466734
+  m_Center: {x: 0, y: 0.6466735, z: 0}
 --- !u!114 &4498330986242300547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,7 +118,7 @@ MonoBehaviour:
   OnChangeDirectionHex: 0
   MovementDirection: {x: 0, y: 0, z: 0}
   SlowDownMultiplicator: 0.99
-  forceJump: 5
+  forceJump: 3.5
   OnGround: 1
   fallDownSpeed: 40
   distance: 1.6
@@ -335,7 +335,7 @@ Transform:
   m_GameObject: {fileID: 5018722040126948370}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 5422289937533297309}
   - {fileID: 8037341747764881939}
