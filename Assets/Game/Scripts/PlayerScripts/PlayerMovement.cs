@@ -30,28 +30,36 @@ public class PlayerMovement : MonoBehaviour
     bool jumpButtonPressedInLastFrame = false;
     bool allowJump = false;
 
+    [Space]
     // void GroundCheck und Gravity
     public bool OnGround = false;
     float distanceToGround;
     [SerializeField] float fallDownSpeed = 20;
+    [Range(0, 10)]
+    [SerializeField] float distance = 1.6f;
+    [SerializeField] LayerMask hexMask;
+    [SerializeField] LayerMask worldMask;
+    [SerializeField] LayerMask levelMask;
 
     [Tooltip("Just for Debug use")] public Vector3 Velocity; //Debug
 
     ShadowDash shadowDash;
     PlayerBoost playerBoost;
-    
+
+    [Space]
     // Trampolin
     public bool rebounded = false;
 
-//    [HideInInspector] public bool InNoInputZone = false;
+//  [HideInInspector] public bool InNoInputZone = false;
 
     [SerializeField] float totalVelocity;
     [SerializeField] float velociyInfluence = 0.1f;
-
+    [Space]
 
     // Hight Control
     private float highControlForce = 5;
     [Tooltip("Choose max Hight")] [Range (10, 60)] [SerializeField] float maxHight = 30;
+
 
 
     void Start()
@@ -177,6 +185,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+ 
     void HightControl()
     { 
         if(this.rb.position.y >= maxHight)
@@ -241,14 +250,30 @@ public class PlayerMovement : MonoBehaviour
     */
 
     #endregion
-
-
+  
     void GroundCheck()
     {
         //GroundControl
 
         RaycastHit hit = new RaycastHit();
-        if (Physics.Raycast(transform.position, -transform.up, out hit, 10, 8)) //LayerMask.GetMask("Hex")
+        if (Physics.Raycast(transform.position, -transform.up, out hit, 10, hexMask)) //LayerMask.GetMask("Hex")
+        {
+            distanceToGround = hit.distance;
+            Debug.Log("3");
+            if (distanceToGround <= distance) //Wert müsste evt über den Spielverlauf hin angepasst werden 1.6
+            {
+                Debug.Log("1");
+                OnGround = true;
+            }
+            else
+            {
+                Debug.Log("2");
+                OnGround = false;
+            }
+        }
+
+        
+        else if(Physics.Raycast(transform.position, -transform.up, out hit, 10, worldMask)) //LayerMask.GetMask("World")
         {
             distanceToGround = hit.distance;
 
@@ -261,7 +286,7 @@ public class PlayerMovement : MonoBehaviour
                 OnGround = false;
             }
         }
-        else if(Physics.Raycast(transform.position, -transform.up, out hit, 10, 7)) //LayerMask.GetMask("World")
+        else if(Physics.Raycast(transform.position, -transform.up, out hit, 10, levelMask)) //LayerMask.GetMask("Level")
         {
             distanceToGround = hit.distance;
 
@@ -274,19 +299,7 @@ public class PlayerMovement : MonoBehaviour
                 OnGround = false;
             }
         }
-        else if(Physics.Raycast(transform.position, -transform.up, out hit, 10, 6)) //LayerMask.GetMask("Level")
-        {
-            distanceToGround = hit.distance;
-
-            if (distanceToGround <= 1.6f) //Wert müsste evt über den Spielverlauf hin angepasst werden
-            {
-                OnGround = true;
-            }
-            else
-            {
-                OnGround = false;
-            }
-        }
+        
         
         
 
@@ -302,9 +315,6 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForce(rb.velocity.normalized + Vector3.down * fallDownSpeed);
         }
-        
-
-
     }
 
     private void OnCollisionEnter(Collision collision)

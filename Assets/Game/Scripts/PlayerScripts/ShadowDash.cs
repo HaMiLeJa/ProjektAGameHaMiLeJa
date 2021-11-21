@@ -51,9 +51,6 @@ public class ShadowDash : MonoBehaviour
         playerLayerInt = LayerMask.NameToLayer("Player");
         playerNoCollisionLayerInt = LayerMask.NameToLayer("PlayerNoCollision");
 
-
-        Debug.Log(playerNoCollisionLayerInt);
-        
         //myCollider = this.gameObject.GetComponent<SphereCollider>();
 
     }
@@ -109,6 +106,8 @@ public class ShadowDash : MonoBehaviour
         shadowDashCoroutine = StartCoroutine(ShadowDashCoroutine());
     }
 
+    
+
     private IEnumerator ShadowDashCoroutine()
     {
         Vector3 velocity = rb.velocity;
@@ -145,7 +144,7 @@ public class ShadowDash : MonoBehaviour
         {
             Collider[] hitColliders;
 
-            hitColliders = Physics.OverlapSphere(this.transform.position, myCollider.radius, 7); //LayerMask.GetMask("World")
+            hitColliders = Physics.OverlapSphere(this.transform.position, myCollider.radius, worldMask); //LayerMask.GetMask("World")
 
 
             if (hitColliders.Length == 0)

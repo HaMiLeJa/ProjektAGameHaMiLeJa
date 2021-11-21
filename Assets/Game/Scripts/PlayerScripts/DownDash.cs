@@ -89,11 +89,7 @@ public class DownDash : MonoBehaviour
                 boostingDown = false;
                 //touchedGround = true;
             }
-
         }
-
-
-
     }
 
     
