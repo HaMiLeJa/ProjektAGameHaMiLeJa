@@ -46,7 +46,7 @@ public class ShadowDash : MonoBehaviour
         dash = this.GetComponent<PlayerBoost>();
         superDash = this.GetComponent<PlayerStartDash>();
 
-        gameMng = FindObjectOfType<GameManager>();
+        gameMng = GameManager.Instance;
 
         playerLayerInt = LayerMask.NameToLayer("Player");
         playerNoCollisionLayerInt = LayerMask.NameToLayer("PlayerNoCollision");
@@ -57,8 +57,9 @@ public class ShadowDash : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (gameMng.AllowMovement == false) return;
         if (dash.IsBoosting == true ||superDash.Boosting == true) return;   //dash.Boosting == true || 
-        if (rb.velocity.x == 0 || rb.velocity.z == 0) return; //kein kleiner Boost am Anfang erlaubt!
+        //if (rb.velocity.x == 0 || rb.velocity.z == 0) return; //kein kleiner Boost am Anfang erlaubt!
 
 
         if (mr.enabled == false)
@@ -165,11 +166,6 @@ public class ShadowDash : MonoBehaviour
 
     #endregion
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(this.transform.position, myCollider.radius +2);
-    }
 
 
     #region alternative 

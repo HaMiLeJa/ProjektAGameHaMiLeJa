@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Trampolin : MonoBehaviour
 {
-    
+    GameManager gameMng;
     float timer;
     float reboundDuration = 0.2f;
     [SerializeField]  float force = 15f;

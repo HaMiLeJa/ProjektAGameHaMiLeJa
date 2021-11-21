@@ -10,6 +10,7 @@ public class Hex : MonoBehaviour
     GameObject Player;
     private Rigidbody playerRb;
     PlayerMovement playerMov;
+    GameManager gameMng;
 
     private GlowHighlight highlight;
     private HexCoordinates hexCoordinates;
@@ -44,10 +45,10 @@ public class Hex : MonoBehaviour
 
     private void Start()
     {
+        gameMng = GameManager.Instance;
         Player = GameObject.FindGameObjectWithTag("Player");
         playerRb = Player.GetComponent<Rigidbody>();
         playerMov = Player.GetComponent<PlayerMovement>();
-
     }
 
     #region  HighlightHexs
@@ -114,15 +115,19 @@ public class Hex : MonoBehaviour
     //private float ChangeDirectionBoostDuration = 0.8f;
     private bool isChangingDirection = false;
     private Coroutine changeDirectionCoroutine;
-    private bool allowChangeDirection = true;
+    private bool allowStartChangeDirection = true;
 
     public void ChangeDirectionStarter()
     {
         Debug.Log("C");
 
-        if (allowChangeDirection == false) return;
+        gameMng.ChangeDirectionCounter++;
+        if (gameMng.AllowChangeDirection == false) return;
 
-        allowChangeDirection = false;
+
+        if (allowStartChangeDirection == false) return;
+
+        allowStartChangeDirection = false;
 
 
         if (changeDirectionCoroutine != null)
@@ -149,7 +154,7 @@ public class Hex : MonoBehaviour
     {
         if(other.gameObject == Player)
         {
-            allowChangeDirection = true;
+            allowStartChangeDirection = true;
         }
     }
     #endregion
@@ -195,15 +200,17 @@ public class Hex : MonoBehaviour
     #region BoostForward
 
     [SerializeField] private float BoostForce = 200f;
-    private float BoostDuration = 0.8f;
+    private float BoostDuration = 0.4f;
     public bool IsHexBoosting = false; //used to lock other boosts
     private Coroutine hexBoostForwardCoroutine;
-    [SerializeField] private AnimationCurve boostCurve;
+   // [SerializeField] private AnimationCurve boostCurve;
 
     public void BoostForwardStarter()
     {
-        Debug.Log("B");
+        gameMng.BoostForwardCounter++;
+        if (gameMng.AllowBoostForward == false) return;
 
+        Debug.Log("B");
         if (hexBoostForwardCoroutine != null)
             StopCoroutine(hexBoostForwardCoroutine);
 
@@ -213,16 +220,20 @@ public class Hex : MonoBehaviour
     private IEnumerator HexBoostForwardCoroutine()
     {
         float t = 0;
+        playerMov.OnBoostForwardHex = true;
+
         while (t < BoostDuration)
         {
 
             t += Time.deltaTime;
-            float curveValue = boostCurve.Evaluate(t);
+            //float curveValue = boostCurve.Evaluate(t);
 
-            playerMov.currentHexFowardForce += BoostForce * curveValue * Time.deltaTime;
+           // playerMov.currentHexFowardForce += BoostForce * curveValue * Time.deltaTime; -> Boost DuratioN:0.8
 
-            playerMov.OnBoostForwardHex = true;
-            yield return null;
+            playerMov.currentHexFowardForce = 80;
+
+
+             yield return null;
         }
 
         playerRb.velocity = playerRb.velocity / 2;
@@ -246,6 +257,8 @@ public class Hex : MonoBehaviour
     
     public void TrampolinStarter()
     {
+        if (gameMng.AllowMovement == false) return;
+
         playerMov.rebounded = true;
 
         direction = Vector3.up;
@@ -271,6 +284,7 @@ public class Hex : MonoBehaviour
 
             if (timer < reboundDuration)
             {
+                if (gameMng.AllowMovement == false) break;
                 playerRb.AddForce(ReboundMovement, ForceMode.Impulse);
 
             }

@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        gameMng = FindObjectOfType<GameManager>();
+        gameMng = GameManager.Instance;
         shadowDash = this.GetComponent<ShadowDash>();
         playerBoost = this.GetComponent<PlayerBoost>();
     }
@@ -76,16 +76,14 @@ public class PlayerMovement : MonoBehaviour
         Velocity = rb.velocity; //Debug
 
         GroundCheck();
-
+        HightControl();
         totalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.y) + Mathf.Abs(Velocity.z);
 
-        //CorrectMovement();
+
+        if (gameMng.AllowMovement == false) return;
 
         CorrectMovement();
-
         BasicJump();
-
-        HightControl();
     }
 
     void CorrectMovement()
@@ -110,7 +108,6 @@ public class PlayerMovement : MonoBehaviour
         else if (OnBoostForwardHex == true)
         {
             
-            //rb.AddForce(MovementDirection.normalized * currentHexFowardForce * 5);
             rb.AddForce(rb.velocity.normalized * currentHexFowardForce * 5);
         }
         else if(OnChangeDirectionHex == true)
@@ -158,7 +155,7 @@ public class PlayerMovement : MonoBehaviour
 
     void BasicJump()
     {
-        if (Input.GetButton("B"))
+        if (Input.GetButton(gameMng.Jump))
         {
             if (OnGround == true && jumpButtonPressedInLastFrame == false) //OnGround == true &&
             {
@@ -259,15 +256,13 @@ public class PlayerMovement : MonoBehaviour
         if (Physics.Raycast(transform.position, -transform.up, out hit, 10, hexMask)) //LayerMask.GetMask("Hex")
         {
             distanceToGround = hit.distance;
-            Debug.Log("3");
+
             if (distanceToGround <= distance) //Wert müsste evt über den Spielverlauf hin angepasst werden 1.6
             {
-                Debug.Log("1");
                 OnGround = true;
             }
             else
             {
-                Debug.Log("2");
                 OnGround = false;
             }
         }
@@ -332,5 +327,17 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
+    //CollectEnergy
+    /*
+      private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "EnergyGenerator")
+        {
+            energyMng.Energy += collision.gameObject.GetComponent<EnergyGenerator>().GeneratedEnergy;
 
+            collision.gameObject.GetComponent<EnergyGenerator>().GeneratedEnergy = 0;
+
+        }
+    }
+    */
 }

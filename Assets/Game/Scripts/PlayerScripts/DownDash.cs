@@ -30,14 +30,12 @@ public class DownDash : MonoBehaviour
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        gameMng = FindObjectOfType<GameManager>();
+        gameMng = GameManager.Instance;
         playerMov = this.GetComponent<PlayerMovement>();
     }
 
     void FixedUpdate()
     {
-        
-
         if (Input.GetButton(gameMng.DownDash) ) //&& touchedGround == true
         {
             if (playerMov.OnGround == false && buttonPressedInLastFrame == false)
@@ -65,8 +63,6 @@ public class DownDash : MonoBehaviour
                 {
                     particleCoroutineStarted = true;
                     StartCoroutine(PlayParticle());
-
-                    
                 }
                 */
 
@@ -81,18 +77,36 @@ public class DownDash : MonoBehaviour
             if(playerMov.OnGround == true)
             {                   //Stoppbewegung         //je nach winkel stopp oder rollen
                 rb.velocity = new Vector3 (0, 0, 0); //(rb.velocity.x, 0, rb.velocity.z)
+                boostingDown = false;
+                StartCoroutine(DisableMovement());
+
                 timer = 0;
                 particleCoroutineStarted = false;
 
                 smashParticle.Play();
 
-                boostingDown = false;
+                
                 //touchedGround = true;
             }
         }
     }
 
-    
+    IEnumerator DisableMovement()
+    {
+        Vector3 pos = this.transform.position;
+        gameMng.AllowMovement = false;
+
+        float timer = 0;
+        while (timer < 3)
+        {
+            timer += Time.deltaTime;
+            this.transform.position = pos;
+            yield return null;
+        }
+
+        gameMng.AllowMovement = true;
+        yield return null;
+    }
 
     IEnumerator PlayParticle()
     {
@@ -116,4 +130,5 @@ public class DownDash : MonoBehaviour
 
     }
     
+
 }

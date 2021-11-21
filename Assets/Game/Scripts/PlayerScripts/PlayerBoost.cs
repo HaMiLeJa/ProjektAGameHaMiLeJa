@@ -33,26 +33,22 @@ public class PlayerBoost : MonoBehaviour
         superDash = this.GetComponent<PlayerStartDash>();
         shadowDash = this.GetComponent<ShadowDash>();
 
-        gameMng = FindObjectOfType<GameManager>();
+        gameMng = GameManager.Instance;
     }
 
     void FixedUpdate()
     {
+        if (gameMng.AllowMovement == false) return;
         if (shadowDash.isShadowDashing == true || superDash.Boosting == true) return;
         // if (rb.velocity.x == 0 || rb.velocity.z == 0) return; //kein kleiner Boost am Anfang erlaubt!
 
 
         if (Input.GetButton(gameMng.Dash) && IsBoosting == false)
         {
-
             IsBoosting = true;
             BoostStarter();
         }
 
-       
-
-
-       
         if (currentBoostforce != 0)
         {
 
@@ -82,11 +78,14 @@ public class PlayerBoost : MonoBehaviour
         {
 
             t += Time.deltaTime;
-            float curveValue = BoostDashcurve.Evaluate(t); // / ShadowDashDuration
+            float curveValue = BoostDashcurve.Evaluate(t);
 
 
             currentBoostforce += BoostForce * curveValue * Time.deltaTime;
-           
+
+            
+
+
             yield return null;
         }
 
