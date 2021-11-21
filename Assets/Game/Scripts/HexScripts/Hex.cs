@@ -10,6 +10,7 @@ public class Hex : MonoBehaviour
     GameObject Player;
     private Rigidbody playerRb;
     PlayerMovement playerMov;
+    GameManager gameMng;
 
     private GlowHighlight highlight;
     private HexCoordinates hexCoordinates;
@@ -44,10 +45,10 @@ public class Hex : MonoBehaviour
 
     private void Start()
     {
+        gameMng = GameManager.Instance;
         Player = GameObject.FindGameObjectWithTag("Player");
         playerRb = Player.GetComponent<Rigidbody>();
         playerMov = Player.GetComponent<PlayerMovement>();
-
     }
 
     #region  HighlightHexs
@@ -246,6 +247,8 @@ public class Hex : MonoBehaviour
     
     public void TrampolinStarter()
     {
+        if (gameMng.AllowMovement == false) return;
+
         playerMov.rebounded = true;
 
         direction = Vector3.up;
@@ -271,6 +274,7 @@ public class Hex : MonoBehaviour
 
             if (timer < reboundDuration)
             {
+                if (gameMng.AllowMovement == false) break;
                 playerRb.AddForce(ReboundMovement, ForceMode.Impulse);
 
             }

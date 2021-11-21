@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
+
     #region Keys on Controller
     [Tooltip ("Controller Input: Use X, Y, A or B.")]
     public string Jump = "B";
@@ -19,11 +21,23 @@ public class GameManager : MonoBehaviour
     public string DownDash = "RightBumper";
 
     #endregion
-[SerializeField]
-    private float Skyboxspeed;
 
+    [Space]
 
+    [SerializeField] private float Skyboxspeed;
+    public bool AllowMovement = true;
 
+    private void Awake()
+    {
+        if(GameManager.Instance != null)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            GameManager.Instance = this;
+        }
+    }
 
     void Update()
     {

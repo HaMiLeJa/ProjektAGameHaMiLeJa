@@ -27,6 +27,7 @@ public class ChangeDirection : MonoBehaviour
 
     public void ChangeDirectionStarter()
     {
+
         if (allowChangeDirection == false) return;
 
         allowChangeDirection = false;
@@ -56,9 +57,6 @@ public class ChangeDirection : MonoBehaviour
             t += Time.deltaTime;
             float curveValue = BoostCurve.Evaluate(t);
 
-
-            
-
             playerMov.currentHexChangeDirectionForce -= BoostForce * curveValue * Time.deltaTime;
 
 
@@ -72,7 +70,6 @@ public class ChangeDirection : MonoBehaviour
         //playerMov.OnChangeDirectionHex = false;
        // playerMov.currentHexChangeDirectionForce = 0;
         isChangingDirection = false;
-
 
         yield return null;
     }

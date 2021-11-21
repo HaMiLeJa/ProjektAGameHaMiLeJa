@@ -34,16 +34,14 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
         dash = this.GetComponent<PlayerBoost>();
         shadowDash = this.GetComponent<ShadowDash>();
 
-
-        gameMng = FindObjectOfType<GameManager>();
-
+        gameMng = GameManager.Instance;
 
         circle.SetActive(false);
-
     }
 
     void FixedUpdate()
     {
+        if (gameMng.AllowMovement == false) return;
         SuperBoost();
     }
 

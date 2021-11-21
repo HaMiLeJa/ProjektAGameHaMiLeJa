@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        gameMng = FindObjectOfType<GameManager>();
+        gameMng = GameManager.Instance;
         shadowDash = this.GetComponent<ShadowDash>();
         playerBoost = this.GetComponent<PlayerBoost>();
     }
@@ -76,16 +76,14 @@ public class PlayerMovement : MonoBehaviour
         Velocity = rb.velocity; //Debug
 
         GroundCheck();
-
+        HightControl();
         totalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.y) + Mathf.Abs(Velocity.z);
 
-        //CorrectMovement();
+
+        if (gameMng.AllowMovement == false) return;
 
         CorrectMovement();
-
         BasicJump();
-
-        HightControl();
     }
 
     void CorrectMovement()
@@ -158,7 +156,7 @@ public class PlayerMovement : MonoBehaviour
 
     void BasicJump()
     {
-        if (Input.GetButton("B"))
+        if (Input.GetButton(gameMng.Jump))
         {
             if (OnGround == true && jumpButtonPressedInLastFrame == false) //OnGround == true &&
             {
@@ -332,5 +330,17 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
+    //CollectEnergy
+    /*
+      private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "EnergyGenerator")
+        {
+            energyMng.Energy += collision.gameObject.GetComponent<EnergyGenerator>().GeneratedEnergy;
 
+            collision.gameObject.GetComponent<EnergyGenerator>().GeneratedEnergy = 0;
+
+        }
+    }
+    */
 }

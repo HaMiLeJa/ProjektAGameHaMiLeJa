@@ -33,11 +33,12 @@ public class PlayerBoost : MonoBehaviour
         superDash = this.GetComponent<PlayerStartDash>();
         shadowDash = this.GetComponent<ShadowDash>();
 
-        gameMng = FindObjectOfType<GameManager>();
+        gameMng = GameManager.Instance;
     }
 
     void FixedUpdate()
     {
+        if (gameMng.AllowMovement == false) return;
         if (shadowDash.isShadowDashing == true || superDash.Boosting == true) return;
         // if (rb.velocity.x == 0 || rb.velocity.z == 0) return; //kein kleiner Boost am Anfang erlaubt!
 
@@ -49,10 +50,6 @@ public class PlayerBoost : MonoBehaviour
             BoostStarter();
         }
 
-       
-
-
-       
         if (currentBoostforce != 0)
         {
 
