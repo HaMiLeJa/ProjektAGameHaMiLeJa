@@ -166,11 +166,6 @@ public class ShadowDash : MonoBehaviour
 
     #endregion
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(this.transform.position, myCollider.radius +2);
-    }
 
 
     #region alternative 

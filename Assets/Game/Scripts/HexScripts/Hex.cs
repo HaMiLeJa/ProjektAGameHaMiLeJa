@@ -196,10 +196,10 @@ public class Hex : MonoBehaviour
     #region BoostForward
 
     [SerializeField] private float BoostForce = 200f;
-    private float BoostDuration = 0.8f;
+    private float BoostDuration = 0.4f;
     public bool IsHexBoosting = false; //used to lock other boosts
     private Coroutine hexBoostForwardCoroutine;
-    [SerializeField] private AnimationCurve boostCurve;
+   // [SerializeField] private AnimationCurve boostCurve;
 
     public void BoostForwardStarter()
     {
@@ -214,16 +214,20 @@ public class Hex : MonoBehaviour
     private IEnumerator HexBoostForwardCoroutine()
     {
         float t = 0;
+        playerMov.OnBoostForwardHex = true;
+
         while (t < BoostDuration)
         {
 
             t += Time.deltaTime;
-            float curveValue = boostCurve.Evaluate(t);
+            //float curveValue = boostCurve.Evaluate(t);
 
-            playerMov.currentHexFowardForce += BoostForce * curveValue * Time.deltaTime;
+           // playerMov.currentHexFowardForce += BoostForce * curveValue * Time.deltaTime; -> Boost DuratioN:0.8
 
-            playerMov.OnBoostForwardHex = true;
-            yield return null;
+            playerMov.currentHexFowardForce = 80;
+
+
+             yield return null;
         }
 
         playerRb.velocity = playerRb.velocity / 2;

@@ -45,7 +45,6 @@ public class PlayerBoost : MonoBehaviour
 
         if (Input.GetButton(gameMng.Dash) && IsBoosting == false)
         {
-
             IsBoosting = true;
             BoostStarter();
         }
@@ -79,11 +78,14 @@ public class PlayerBoost : MonoBehaviour
         {
 
             t += Time.deltaTime;
-            float curveValue = BoostDashcurve.Evaluate(t); // / ShadowDashDuration
+            float curveValue = BoostDashcurve.Evaluate(t);
 
 
             currentBoostforce += BoostForce * curveValue * Time.deltaTime;
-           
+
+            
+
+
             yield return null;
         }
 

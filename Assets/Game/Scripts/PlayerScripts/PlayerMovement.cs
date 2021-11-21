@@ -108,7 +108,6 @@ public class PlayerMovement : MonoBehaviour
         else if (OnBoostForwardHex == true)
         {
             
-            //rb.AddForce(MovementDirection.normalized * currentHexFowardForce * 5);
             rb.AddForce(rb.velocity.normalized * currentHexFowardForce * 5);
         }
         else if(OnChangeDirectionHex == true)
@@ -257,15 +256,13 @@ public class PlayerMovement : MonoBehaviour
         if (Physics.Raycast(transform.position, -transform.up, out hit, 10, hexMask)) //LayerMask.GetMask("Hex")
         {
             distanceToGround = hit.distance;
-            Debug.Log("3");
+
             if (distanceToGround <= distance) //Wert müsste evt über den Spielverlauf hin angepasst werden 1.6
             {
-                Debug.Log("1");
                 OnGround = true;
             }
             else
             {
-                Debug.Log("2");
                 OnGround = false;
             }
         }
