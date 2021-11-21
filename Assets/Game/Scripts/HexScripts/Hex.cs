@@ -115,15 +115,19 @@ public class Hex : MonoBehaviour
     //private float ChangeDirectionBoostDuration = 0.8f;
     private bool isChangingDirection = false;
     private Coroutine changeDirectionCoroutine;
-    private bool allowChangeDirection = true;
+    private bool allowStartChangeDirection = true;
 
     public void ChangeDirectionStarter()
     {
         Debug.Log("C");
 
-        if (allowChangeDirection == false) return;
+        gameMng.ChangeDirectionCounter++;
+        if (gameMng.AllowChangeDirection == false) return;
 
-        allowChangeDirection = false;
+
+        if (allowStartChangeDirection == false) return;
+
+        allowStartChangeDirection = false;
 
 
         if (changeDirectionCoroutine != null)
@@ -150,7 +154,7 @@ public class Hex : MonoBehaviour
     {
         if(other.gameObject == Player)
         {
-            allowChangeDirection = true;
+            allowStartChangeDirection = true;
         }
     }
     #endregion
@@ -203,8 +207,10 @@ public class Hex : MonoBehaviour
 
     public void BoostForwardStarter()
     {
-        Debug.Log("B");
+        gameMng.BoostForwardCounter++;
+        if (gameMng.AllowBoostForward == false) return;
 
+        Debug.Log("B");
         if (hexBoostForwardCoroutine != null)
             StopCoroutine(hexBoostForwardCoroutine);
 
