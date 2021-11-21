@@ -36,8 +36,11 @@ public class DownDash : MonoBehaviour
 
     void FixedUpdate()
     {
+        
+
         if (Input.GetButton(gameMng.DownDash) ) //&& touchedGround == true
         {
+            if (gameMng.AllowMovement == false) return;
             if (playerMov.OnGround == false && buttonPressedInLastFrame == false)
             {
                 boostingDown = true;
@@ -95,6 +98,7 @@ public class DownDash : MonoBehaviour
     {
         Vector3 pos = this.transform.position;
         gameMng.AllowMovement = false;
+        gameMng.AllowHexEffects = false;
 
         float timer = 0;
         while (timer < 3)
@@ -105,6 +109,7 @@ public class DownDash : MonoBehaviour
         }
 
         gameMng.AllowMovement = true;
+        gameMng.AllowHexEffects = true;
         yield return null;
     }
 

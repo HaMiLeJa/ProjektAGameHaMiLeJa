@@ -121,6 +121,8 @@ public class Hex : MonoBehaviour
     {
         Debug.Log("C");
 
+        if (gameMng.AllowHexEffects == false) return;
+
         gameMng.ChangeDirectionCounter++;
         if (gameMng.AllowChangeDirection == false) return;
 
@@ -169,6 +171,7 @@ public class Hex : MonoBehaviour
 
     public void SlowDownStarter()
     {
+        if (gameMng.AllowHexEffects == false) return;
         Debug.Log("S");
         if (slowDownCoroutine != null)
             StopCoroutine(slowDownCoroutine);
@@ -185,6 +188,7 @@ public class Hex : MonoBehaviour
 
         while (t < SlowDownDuration)
         {
+            if (gameMng.AllowHexEffects == false) break;
             t += Time.deltaTime;
             float curveValue = slowDownCurve.Evaluate(t);
 
@@ -207,6 +211,8 @@ public class Hex : MonoBehaviour
 
     public void BoostForwardStarter()
     {
+        if (gameMng.AllowHexEffects == false) return;
+
         gameMng.BoostForwardCounter++;
         if (gameMng.AllowBoostForward == false) return;
 
@@ -224,7 +230,7 @@ public class Hex : MonoBehaviour
 
         while (t < BoostDuration)
         {
-
+            if (gameMng.AllowHexEffects == false) break;
             t += Time.deltaTime;
             //float curveValue = boostCurve.Evaluate(t);
 
@@ -257,7 +263,7 @@ public class Hex : MonoBehaviour
     
     public void TrampolinStarter()
     {
-        if (gameMng.AllowMovement == false) return;
+        if (gameMng.AllowHexEffects == false) return;
 
         playerMov.rebounded = true;
 
@@ -284,7 +290,7 @@ public class Hex : MonoBehaviour
 
             if (timer < reboundDuration)
             {
-                if (gameMng.AllowMovement == false) break;
+                if (gameMng.AllowHexEffects == false) break;
                 playerRb.AddForce(ReboundMovement, ForceMode.Impulse);
 
             }
