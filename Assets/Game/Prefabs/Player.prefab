@@ -121,11 +121,21 @@ MonoBehaviour:
   forceJump: 5
   OnGround: 1
   fallDownSpeed: 40
+  distance: 1.6
+  hexMask:
+    serializedVersion: 2
+    m_Bits: 256
+  worldMask:
+    serializedVersion: 2
+    m_Bits: 128
+  levelMask:
+    serializedVersion: 2
+    m_Bits: 64
   Velocity: {x: 0, y: -0.000009536743, z: 0}
   rebounded: 0
   totalVelocity: 0
   velociyInfluence: 0.1
-  maxHight: 25
+  maxHight: 35
 --- !u!114 &4498330986242300552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,7 +273,7 @@ MonoBehaviour:
   mr: {fileID: 5422289937533297311}
   worldMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
   myCollider: {fileID: 4498330986242300557}
 --- !u!114 &4498330986242300597
 MonoBehaviour:
