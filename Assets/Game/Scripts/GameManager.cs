@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private float Skyboxspeed;
     public bool AllowMovement = true;
+    public bool AllowHexEffects = true;
 
     private void Awake()
     {

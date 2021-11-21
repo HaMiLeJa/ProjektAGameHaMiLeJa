@@ -113,6 +113,8 @@ public class ShadowDash : MonoBehaviour
     {
         Vector3 velocity = rb.velocity;
 
+        
+
         float t = 0;
 
         this.gameObject.layer = playerNoCollisionLayerInt;
@@ -130,6 +132,7 @@ public class ShadowDash : MonoBehaviour
             if (currentShadowDashForce >= disappearingDuringShadowDashStart && currentShadowDashForce <= disappearingDuringShadowDashEnd)
             {
                 mr.enabled = false;
+                gameMng.AllowHexEffects = false;
 
             }
             yield return null;
@@ -153,6 +156,7 @@ public class ShadowDash : MonoBehaviour
                 colliding = false;
                 Debug.Log("notColliding");
                 this.gameObject.layer = playerLayerInt;
+                gameMng.AllowHexEffects = true;
             }
         }
 
