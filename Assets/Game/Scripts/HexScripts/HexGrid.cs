@@ -6,22 +6,6 @@ using UnityEngine;
 public class HexGrid : MonoBehaviour
 {   
     
-  //  public GameObject plane;
-  
-
-    // private int radius = 5;
-    // private int planeOffset = 10;
-
-    private Vector3 startPos = Vector3.zero;
-
-    // private int XPlayerMove => (int)(player.transform.position.x - startPos.x);
-    // private int ZPlayerMove => (int)(player.transform.position.z - startPos.z);
-    //
-    // int XPlayerLocation => (int)Mathf.Floor(player.transform.position.x / planeOffset) * planeOffset;
-    //  int ZPlayerLocation => (int)Mathf.Floor(player.transform.position.z / planeOffset) * planeOffset;
-    
-    // Hashtable tilePlane = new Hashtable();
-    
     #region Dictonarys
     
     protected Dictionary<Vector3Int, Hex> hexTileDict = new Dictionary<Vector3Int, Hex>();
@@ -40,40 +24,6 @@ public class HexGrid : MonoBehaviour
 
     }
 #region GetNeighbours
-
-
-public void Update()
-{
- 
-
-    
-    
-    /*if (Input.GetKeyDown(KeyCode.N))
-    {
-        foreach (Hex hex in FindObjectsOfType<Hex>())
-        {
-            if(startPos.x-90 > hex.transform.position.x)
-                hex.transform.position = new Vector3(hex.transform.position.x+298, hex.transform.position.y, hex.transform.position.z);
-        }
-    }
-    
-    if(Input.GetKeyDown(KeyCode.M))
-    {
-        foreach (Hex hex in FindObjectsOfType<Hex>())
-        {
-            if(startPos.x+205 < hex.transform.position.x)
-                hex.transform.position = new Vector3(hex.transform.position.x-298, hex.transform.position.y, hex.transform.position.z);
-        }
-    }*/
-}
-// private bool hasPlayerMoved(int playerX, int playerZ) 
-// {
-//     if (Mathf.Abs(XPlayerMove) >= planeOffset || Mathf.Abs(ZPlayerMove) >= planeOffset){
-//         return true;
-//     }
-//     return false;
-// }
-
 
 
 public Hex GetTileAt(Vector3Int hexCoordinates)

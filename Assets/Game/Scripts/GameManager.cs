@@ -50,13 +50,13 @@ public class GameManager : MonoBehaviour
 
         ControlEffectHexAmount();
 
-        /*
+        
         if(Input.GetKeyDown(KeyCode.P))
         {
             string currentScene = SceneManager.GetActiveScene().name;
             SceneManager.LoadScene(currentScene);
         }
-        */
+        
     }
 
 

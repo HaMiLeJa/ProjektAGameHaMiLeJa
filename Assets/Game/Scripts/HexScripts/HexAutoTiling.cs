@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,41 +6,80 @@ using UnityEngine;
 public class HexAutoTiling : HexGrid
 {
     public static List<GameObject> HexesToBeMoved = new List<GameObject>();
+    private int startTilingTreshhold = 65;
+    private bool playerHasMoved = true;
+    [SerializeField] GameObject playerLocation;
 
-    GameObject playerLocation;
+    private float xPlusSnapShotPos;
+    private float xMinusSnapShotPos;
+    private float zPlusSnapShotPos;
+    private float zMinusSnapShotPos;
+
+    private float tilingTreshold = 307.5f;
+    private float zTilingDistance = 438;
+    private float xTilingDistance = 517;
+    
+    
 
     // Start is called before the first frame update
     void Awake()
-    {
-        playerLocation = GameObject.FindGameObjectWithTag("Player");
-        if (HexesToBeMoved != null)
-        {
-            HexesToBeMoved.AddRange(GameObject.FindGameObjectsWithTag("Hex"));
-        }
+    {   HexesToBeMoved.Clear();
+        HexesToBeMoved.AddRange(GameObject.FindGameObjectsWithTag("Hex"));
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        foreach (GameObject hex in HexesToBeMoved)
+        if (playerHasMoved)
         {
-            if (playerLocation.transform.position.z + 307.5f < hex.transform.position.z)
-                hex.transform.position = new Vector3(hex.transform.position.x, hex.transform.position.y,
-                    hex.transform.position.z - 438);
+             xPlusSnapShotPos = playerLocation.transform.position.x + startTilingTreshhold;
+             xMinusSnapShotPos = playerLocation.transform.position.x - startTilingTreshhold;
+            
+             zPlusSnapShotPos = playerLocation.transform.position.z + startTilingTreshhold;
+             zMinusSnapShotPos = playerLocation.transform.position.z - startTilingTreshhold;
 
-            if (playerLocation.transform.position.z - 307.5f > hex.transform.position.z)
-                hex.transform.position = new Vector3(hex.transform.position.x, hex.transform.position.y,
-                    hex.transform.position.z + 438);
+             playerHasMoved = false;
+        }
+        
+        if (playerLocation.transform.position.x > xPlusSnapShotPos  ||
+            playerLocation.transform.position.x < xMinusSnapShotPos ||
+            playerLocation.transform.position.z > zPlusSnapShotPos  ||
+            playerLocation.transform.position.z < zMinusSnapShotPos )
+        {
+            
+        foreach (GameObject hex in HexesToBeMoved)
+        {   if ( hex == null)
+            return;
+            if (playerLocation.transform.position.z + tilingTreshold < hex.transform.position.z)
+                hex.transform.position = new Vector3(
+                    hex.transform.position.x,
+                    hex.transform.position.y,
+                    hex.transform.position.z - zTilingDistance);
+            
+            if (playerLocation.transform.position.z - tilingTreshold > hex.transform.position.z)
+                hex.transform.position = new Vector3(
+                    hex.transform.position.x,
+                    hex.transform.position.y,
+                    hex.transform.position.z + zTilingDistance);
+            
+            if (playerLocation.transform.position.x + tilingTreshold < hex.transform.position.x)
+                hex.transform.position = new Vector3(
+                    hex.transform.position.x - xTilingDistance,
+                    hex.transform.position.y,
+                    hex.transform.position.z);
+            
+            if (playerLocation.transform.position.x - tilingTreshold > hex.transform.position.x)
+                hex.transform.position = new Vector3(
+                    hex.transform.position.x + xTilingDistance,
+                    hex.transform.position.y,
+                    hex.transform.position.z);
 
-            if (playerLocation.transform.position.x + 307.5f < hex.transform.position.x)
-                hex.transform.position = new Vector3(hex.transform.position.x - 517, hex.transform.position.y,
-                    hex.transform.position.z);
-            if (playerLocation.transform.position.x - 307.5f > hex.transform.position.x)
-                hex.transform.position = new Vector3(hex.transform.position.x + 517, hex.transform.position.y,
-                    hex.transform.position.z);
+            playerHasMoved = true;
+        }
+        
         }
     }
-
+        
 }
 
 
