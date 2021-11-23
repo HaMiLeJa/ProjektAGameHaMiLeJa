@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    
 
     #region Keys on Controller
     [Tooltip ("Controller Input: Use X, Y, A or B.")]
@@ -22,12 +22,24 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    #region Events
+
+    public delegate void DestroyableDestroyed(float value);
+    public DestroyableDestroyed onDestroyableDestroyed;
+
+    #endregion
+
+
+    #region Inspector
     [Space]
 
     [SerializeField] private float Skyboxspeed;
     public bool AllowMovement = true;
     public bool AllowHexEffects = true;
+    #endregion
 
+    #region Singleton
+    public static GameManager Instance;
     private void Awake()
     {
         if(GameManager.Instance != null)
@@ -39,6 +51,7 @@ public class GameManager : MonoBehaviour
             GameManager.Instance = this;
         }
     }
+    #endregion
 
     void Update()
     {

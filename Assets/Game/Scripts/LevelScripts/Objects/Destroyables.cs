@@ -6,7 +6,8 @@ public class Destroyables : MonoBehaviour
 {
     [SerializeField] float lifeStartAmount = 100;
     [Tooltip ("Dont change. Its Set to lifeStartAmount in the code")] [SerializeField] float currentLife;
-    
+
+    [Tooltip("How many Points the player gets if this wall is destroyed")] [SerializeField] float value = 1; 
 
 
     void Start()
@@ -43,8 +44,11 @@ public class Destroyables : MonoBehaviour
             currentLife -= totalVelocity * multiplicator;
 
 
-            if (currentLife <= 0)
+            if (currentLife < 0)
             {
+
+                GameManager.Instance.onDestroyableDestroyed?.Invoke(value); //Call Event
+
                 Destroy(this.gameObject);
             }
         }
