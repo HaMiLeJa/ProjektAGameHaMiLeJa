@@ -42,12 +42,6 @@ public class EnergyManager : MonoBehaviour
         }
 
 
-       
-
-       
-
-
-       
     }
 
 

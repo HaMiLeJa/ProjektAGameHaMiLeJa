@@ -6,6 +6,8 @@ public class PlayerBoost : MonoBehaviour
 {
     #region Inspector
 
+    [SerializeField] float boostCost = 1;
+    [Space]
     [SerializeField] private float BoostForce = 75;
     private float BoostDuration = 0.8f;
     [SerializeField] private AnimationCurve BoostDashcurve;
@@ -19,12 +21,9 @@ public class PlayerBoost : MonoBehaviour
 
     Rigidbody rb;
 
-    #endregion
+    
 
-    private void Awake()
-    {
-       
-    }
+    #endregion
 
     private void Start()
     {
@@ -67,11 +66,17 @@ public class PlayerBoost : MonoBehaviour
             StopCoroutine(boostCoroutine);
 
         boostCoroutine = StartCoroutine(BoostCoroutine());
+
+        
     }
 
     private IEnumerator BoostCoroutine()
     {
+
+        Debug.Log("BB");
+        GameManager.Instance.onUIEnergyChange?.Invoke(-boostCost);
         Vector3 velocity = rb.velocity;
+        
 
         float t = 0;
         while (t < BoostDuration)
@@ -96,6 +101,7 @@ public class PlayerBoost : MonoBehaviour
 
         currentBoostforce = 0;
         IsBoosting = false;
+        GameManager.Instance.onEnergyChange?.Invoke(-boostCost);
     }
 
     #endregion

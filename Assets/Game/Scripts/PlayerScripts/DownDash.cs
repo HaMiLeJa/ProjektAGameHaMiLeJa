@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class DownDash : MonoBehaviour
 {
+    #region Inspector
+    
+
     Rigidbody rb;
     GameManager gameMng;
     PlayerMovement playerMov;
 
-   [SerializeField] bool buttonPressedInLastFrame = false;
+    [SerializeField] float boostCost = 1;
+    [Space]
+    [SerializeField] bool buttonPressedInLastFrame = false;
     [SerializeField]  bool touchedGround = true;
 
     [SerializeField] float speed = 8;
@@ -24,7 +29,7 @@ public class DownDash : MonoBehaviour
     [SerializeField] GameObject PlayerParticleParent;
 
     [SerializeField] ParticleSystem smashParticle;
-
+    #endregion
 
 
     void Start()
@@ -37,7 +42,6 @@ public class DownDash : MonoBehaviour
     void FixedUpdate()
     {
         
-
         if (Input.GetButton(gameMng.DownDash) ) //&& touchedGround == true
         {
             if (gameMng.AllowMovement == false) return;
@@ -45,6 +49,8 @@ public class DownDash : MonoBehaviour
             {
                 boostingDown = true;
                 buttonPressedInLastFrame = true;
+
+                GameManager.Instance.onUIEnergyChange?.Invoke(-boostCost);
                 //touchedGround = false;
             }
         }
@@ -110,6 +116,9 @@ public class DownDash : MonoBehaviour
 
         gameMng.AllowMovement = true;
         gameMng.AllowHexEffects = true;
+
+        GameManager.Instance.onEnergyChange?.Invoke(-boostCost);
+
         yield return null;
     }
 
