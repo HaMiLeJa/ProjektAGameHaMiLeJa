@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class ResourceManager : MonoBehaviour //for points and energy
 {
-   
-    GameManager gameMng;
 
-    [Tooltip ("How many points the player have") ]public float DestroyablePoints = 0;
+    GameManager gameMng;
+    GameObject player;
+    PlayerStartDash startDash;
+
+    [Tooltip("How many points the player have")] public float DestroyablePoints = 0;
+    [Space]
+    [SerializeField] float EnergyStartAmount = 10;
+    public float CurrentEnergy;
+    public float CurrentUIEnergy;
+    [Tooltip("A limit of how many Energy the player can have")] [SerializeField] float MaxEnergyAmount = 20f;
+   
 
 
     #region Singleton
@@ -29,8 +37,20 @@ public class ResourceManager : MonoBehaviour //for points and energy
     {
         DestroyablePoints = 0;
         gameMng = GameManager.Instance;
+        CurrentEnergy = EnergyStartAmount;
+        CurrentUIEnergy = EnergyStartAmount;
+        UIManager.Instance.UpdateEnergyUI(1);
 
-        gameMng.onDestroyableDestroyed += ResourceManager.Instance.UpdateDestroyablePoints;
+        player = GameObject.FindGameObjectWithTag("Player");
+        startDash = player.GetComponent<PlayerStartDash>();
+
+        gameMng.onDestroyableDestroyed += UpdateDestroyablePoints;
+        gameMng.onEnergyChange += ModifyEnergy;
+        gameMng.onEnergyChange += CheckEnergyAmount;
+        gameMng.onUIEnergyChange += ModifyUIEnergy;
+
+
+
 
     }
 
@@ -40,10 +60,43 @@ public class ResourceManager : MonoBehaviour //for points and energy
         
     }
 
-
-
-    public void UpdateDestroyablePoints(float value)
+    void UpdateDestroyablePoints(float value)
     {
         DestroyablePoints += value;
+    }
+
+    void ModifyEnergy(float value)
+    {
+        CurrentEnergy += value;
+        //falls die Energyanzeige Falsch ist, hier UI Update aufrufen statt über Event
+
+        
+
+    }
+
+    void ModifyUIEnergy(float value)
+    {
+        CurrentUIEnergy += value;
+        
+    }
+
+    void CheckEnergyAmount(float value)
+    {
+
+        if (CurrentEnergy <= 0)
+        {
+            //if (startDash.Boosting == true) return;
+
+            gameMng.AllowMovement = false;
+        }
+        else
+        {
+            gameMng.AllowMovement = true;
+        }
+
+        if(CurrentEnergy >= MaxEnergyAmount)
+        {
+            CurrentEnergy = MaxEnergyAmount;
+        }
     }
 }

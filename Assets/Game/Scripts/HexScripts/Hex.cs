@@ -119,8 +119,6 @@ public class Hex : MonoBehaviour
 
     public void ChangeDirectionStarter()
     {
-        Debug.Log("C");
-
         if (gameMng.AllowHexEffects == false) return;
 
         gameMng.ChangeDirectionCounter++;
@@ -172,7 +170,7 @@ public class Hex : MonoBehaviour
     public void SlowDownStarter()
     {
         if (gameMng.AllowHexEffects == false) return;
-        Debug.Log("S");
+        
         if (slowDownCoroutine != null)
             StopCoroutine(slowDownCoroutine);
 
@@ -216,7 +214,6 @@ public class Hex : MonoBehaviour
         gameMng.BoostForwardCounter++;
         if (gameMng.AllowBoostForward == false) return;
 
-        Debug.Log("B");
         if (hexBoostForwardCoroutine != null)
             StopCoroutine(hexBoostForwardCoroutine);
 
@@ -272,7 +269,7 @@ public class Hex : MonoBehaviour
         ReboundMovement = direction * (TramoplinForce * 10) * Time.deltaTime; //new Vector3(0, direction.y * yReboundVelocity, 0) * force;
 
         playerRb.velocity = new Vector3(playerRb.velocity.x * 0.1f, playerRb.velocity.y, playerRb.velocity.z * 0.1f);
-        Debug.Log("T");
+        
 
         if (trampolinCoroutine != null)
             StopCoroutine(trampolinCoroutine);
