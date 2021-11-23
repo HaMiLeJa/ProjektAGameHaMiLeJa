@@ -32,5 +32,10 @@ public static class MathLibary
 		float t = InverseLerp(iMin, iMax, v);
 		return Mathf.LerpUnclamped( oMin, oMax, t );
 	}
+	public static float RemapClamped( float iMin, float iMax, float oMin, float oMax, float v ) 
+	{
+		float t = InverseLerp(iMin, iMax, v);
+		return Mathf.Lerp( oMin, oMax, t );
+	}
 
 }

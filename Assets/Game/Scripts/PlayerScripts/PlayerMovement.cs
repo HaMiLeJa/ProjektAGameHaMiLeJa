@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     #region Inspector
-    Rigidbody rb;
+    [HideInInspector] public Rigidbody rb;
     GameManager gameMng;
 
     public bool OnBoostForwardHex;
