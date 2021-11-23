@@ -5,7 +5,8 @@ using UnityEngine;
 public class ShadowDash : MonoBehaviour
 {
     #region Inspector
-    
+    [SerializeField] float boostCost = 1;
+    [Space]
     [SerializeField] private float ShadowDashForce;
     [SerializeField] private float ShadowDashDuration;
     [SerializeField] private AnimationCurve shadowDashcurve;
@@ -112,8 +113,8 @@ public class ShadowDash : MonoBehaviour
     private IEnumerator ShadowDashCoroutine()
     {
         Vector3 velocity = rb.velocity;
+        GameManager.Instance.onUIEnergyChange?.Invoke(-boostCost);
 
-        
 
         float t = 0;
 
@@ -166,6 +167,7 @@ public class ShadowDash : MonoBehaviour
 
         currentShadowDashForce = 0;
         isShadowDashing = false;
+        GameManager.Instance.onEnergyChange?.Invoke(-boostCost);
     }
 
     #endregion

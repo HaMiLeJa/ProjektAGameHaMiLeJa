@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing to give the player super speed
 {
+    #region Inspector
+    [SerializeField] float boostCost = 1;
+    [Space]
+
     Rigidbody rb;
     PlayerMovement playerMov;
     GameManager gameMng;
@@ -12,8 +16,10 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
 
     float boostDuration = 0.1f;
     bool boostButtonPressedInLastFrame = false;
-    bool allowBoost = false;
+    bool boostButtonPressedInLastFrame2 = false;
+    bool allowSetDirection = false;
     float timerBoost;
+    [Space]
     [SerializeField] float boostForce = 15;
     public bool Boosting; //used to lock bools
 
@@ -25,6 +31,11 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
     //[Tooltip("For how long Player can damage de Destroyables")] [SerializeField] float dealDamageDuration;
 
     [SerializeField] GameObject circle;
+
+    Coroutine coroutine;
+    bool coroutineStarted = false;
+
+    #endregion
 
     void Start()
     {
@@ -45,62 +56,37 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
         SuperBoost();
     }
 
-   
+    //bool eventActivated = false;
 
     void SuperBoost() //Wait(SetDirection) and Boost
     {
         if (dash.IsBoosting == true || shadowDash.isShadowDashing == true) return;
 
-
-        if (Input.GetButton(gameMng.SuperDash)) // Boost ist abbrechbar, indem der A Knopf losgelassen wird
+        if (Input.GetButton(gameMng.SuperDash))
         {
             if (boostButtonPressedInLastFrame == false)
             {
-                allowBoost = true;
+                allowSetDirection = true;
             }
             boostButtonPressedInLastFrame = true;
 
 
-            if (allowBoost == true)
+            if (allowSetDirection == true)
             {
-                // X Sekunden, um Richtung zu bestimmen 
-                setDirectionTimer += Time.deltaTime;
-
-                if (setDirectionTimer < 1f)
-                {
-                    Boosting = true;
-                    circle.SetActive(true);
-                    rb.velocity = new Vector3(0, 0, 0);
-                }
-                else
-                {
-                    //Circle.SetActive(false);
-                    boostDirection = playerMov.MovementDirection;
-                    directionSet = true;
-                    circle.SetActive(false);
-                }
-
-
-                // Boost in Richtung
-                if (directionSet == true && timerBoost < boostDuration)
-                {
-                  //  if(dealDamage == false)
-                       // StartCoroutine(AllowToDestroyDestroyables());
-
-                    timerBoost += Time.deltaTime;
-                    
-                    rb.AddForce(boostDirection.normalized * boostForce, ForceMode.Impulse); //*3 zum zeigen
-                }
-                else
-                {
-                    Boosting = false;
-                }
+                SetDirecton();
             }
+
+            /*
+            if (directionSet == true && started == false)
+            {
+                StartDashStarter();
+            }*/
+
         }
-        else
+        else //if (coroutineStarted == false)
         {
             boostButtonPressedInLastFrame = false;
-            allowBoost = false;
+            allowSetDirection = false;
 
             setDirectionTimer = 0;
             timerBoost = 0;
@@ -109,18 +95,109 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
             Boosting = false;
 
             circle.SetActive(false);
+
+            //coroutine = null;
+            // eventActivated = false;
+        }
+
+        // && started == false
+        if (Input.GetButton(gameMng.SuperDash) && directionSet == true) 
+        {
+            if (boostButtonPressedInLastFrame2 == false)
+            {
+                StartDashStarter();
+            }
+            boostButtonPressedInLastFrame2 = true;
+        }
+        else
+        {
+            boostButtonPressedInLastFrame2 = false;
+            //started = false
         }
     }
 
-    /*
-    private IEnumerator AllowToDestroyDestroyables()
+    void SetDirecton()
     {
-        dealDamage = true;
-        yield return new WaitForSeconds(dealDamageDuration);
+        setDirectionTimer += Time.deltaTime;
 
-        dealDamage = false;
+        if (setDirectionTimer < 1f)
+        {
+            Boosting = true;
+            circle.SetActive(true);
+            rb.velocity = new Vector3(0, 0, 0);
+        }
+        else
+        {
+            boostDirection = playerMov.MovementDirection;
+           // allowSetDirection = false; //Addet
+            directionSet = true;
+            circle.SetActive(false);
+        }
+    }
 
+    bool started = false;
+
+    void StartDashStarter()
+    {
+        started = true;
+        //if (Boosting == true) return;
+
+       // Boosting = true;
+
+
+        if (coroutine != null)
+            StopCoroutine(coroutine);
+
+        coroutine = StartCoroutine(StartDashCoroutine());
+
+        if (directionSet == true) //&& timerBoost < boostDuration
+        {
+            // timerBoost += Time.deltaTime;
+            //rb.AddForce(boostDirection.normalized * boostForce, ForceMode.Impulse); //*3 zum zeigen
+
+            /*
+            if (coroutineStarted == false)
+            {
+                coroutineStarted = true;
+
+                if (coroutine == null)
+                    coroutine = StartCoroutine(StartDashCoroutine());
+
+            }
+            */
+            
+
+
+        }
+        else
+        {
+            //Boosting = false;
+        }
+    }
+
+
+    IEnumerator StartDashCoroutine()
+    {
+        Debug.Log("Coro");
+        GameManager.Instance.onUIEnergyChange?.Invoke(-boostCost);
+        float timer = 0;
+
+        while (timer < boostDuration)
+        {
+            timer += Time.deltaTime;
+
+            rb.AddForce(boostDirection.normalized * boostForce, ForceMode.Impulse);
+            yield return null;
+
+        }
+
+        Boosting = false;
+        coroutineStarted = false;
+
+        GameManager.Instance.onEnergyChange?.Invoke(-boostCost);
+
+        started = false;
         yield return null;
     }
-    */
+
 }

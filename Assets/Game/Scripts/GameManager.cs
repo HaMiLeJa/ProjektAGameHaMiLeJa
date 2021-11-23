@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    
-
     #region Keys on Controller
     [Tooltip ("Controller Input: Use X, Y, A or B.")]
     public string Jump = "B";
@@ -27,15 +25,23 @@ public class GameManager : MonoBehaviour
     public delegate void DestroyableDestroyed(float value);
     public DestroyableDestroyed onDestroyableDestroyed;
 
+    public delegate void EnergyChange(float value); //Managing the Energy Value (gain and loss)
+    public EnergyChange onEnergyChange;
+
+    public delegate void EnergyChangeUI(float value); //Managing the Energy Value (gain and loss)
+    public EnergyChange onUIEnergyChange;
+
     #endregion
 
 
     #region Inspector
     [Space]
-
     [SerializeField] private float Skyboxspeed;
     public bool AllowMovement = true;
     public bool AllowHexEffects = true;
+
+    GameObject player;
+    Rigidbody playerRb;
     #endregion
 
     #region Singleton
@@ -53,6 +59,12 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerRb = player.GetComponent<Rigidbody>();
+    }
+
     void Update()
     {
         RenderSettings.skybox.SetFloat("_Rotation", Time.time*Skyboxspeed);
@@ -69,9 +81,21 @@ public class GameManager : MonoBehaviour
             string currentScene = SceneManager.GetActiveScene().name;
             SceneManager.LoadScene(currentScene);
         }
-        
+
+
+        CheckForEndOfGame();
     }
 
+    void CheckForEndOfGame()
+    {
+        if(ResourceManager.Instance.CurrentEnergy == 0)
+        {
+            if(playerRb.velocity == Vector3.zero)
+            {
+                UIManager.Instance.ShowEndMessage();
+            }
+        }
+    }
 
     #region Control Hex Effect Amount
     [HideInInspector] public int ChangeDirectionCounter;

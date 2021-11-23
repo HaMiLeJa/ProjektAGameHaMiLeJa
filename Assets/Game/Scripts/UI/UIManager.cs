@@ -7,21 +7,43 @@ public class UIManager : MonoBehaviour
     GameManager gameMng;
 
     public TMPro.TMP_Text DestroyablePoints;
+    public TMPro.TMP_Text CurrentEnergy;
+    [SerializeField] GameObject EndMessage;
 
+
+
+    #region Singleton
+    public static UIManager Instance;
+    private void Awake()
+    {
+        if (UIManager.Instance != null)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            UIManager.Instance = this;
+        }
+    }
+    #endregion
 
     void Start()
     {
         gameMng = GameManager.Instance;
 
         gameMng.onDestroyableDestroyed += UpdateDestroyableUI;
+        //gameMng.onUIEnergyChange += UpdateEnergyUI;
+
+        //UpdateEnergyUI(1);
+        EndMessage.SetActive(false);
     }
    
 
   
     void Update()
     {
-        
 
+       CurrentEnergy.text = "Energy: " + ResourceManager.Instance.CurrentUIEnergy.ToString();
     }
 
 
@@ -31,6 +53,16 @@ public class UIManager : MonoBehaviour
         DestroyablePoints.text = ResourceManager.Instance.DestroyablePoints.ToString();
     }
 
-    // Schreibt hier bitte Methoden, in denen das UI geupdatet wird und Ruft diese dann in den anderen Scripten auf (z.b. über Events), damit das UI nicht permanet unnütig geupdated wird
-    // das hier hat ein Singleton pattern, also könnt ihr in anderen Scripten mit UIManager.Instance.methodenname darauf zugreifen
-}
+
+    public void UpdateEnergyUI(float value)
+    {
+        CurrentEnergy.text = "Energy: " + ResourceManager.Instance.CurrentUIEnergy.ToString();
+    }
+
+
+    public void ShowEndMessage()
+    {
+        EndMessage.SetActive(true);
+    }
+
+  }

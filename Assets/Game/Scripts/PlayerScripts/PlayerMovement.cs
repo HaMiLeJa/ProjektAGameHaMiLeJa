@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    #region Inspector
     Rigidbody rb;
     GameManager gameMng;
 
@@ -41,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] LayerMask worldMask;
     [SerializeField] LayerMask levelMask;
 
-    [Tooltip("Just for Debug use")] public Vector3 Velocity; //Debug
+    public Vector3 Velocity; //Debug
 
     ShadowDash shadowDash;
     PlayerBoost playerBoost;
@@ -50,17 +51,17 @@ public class PlayerMovement : MonoBehaviour
     // Trampolin
     public bool rebounded = false;
 
-//  [HideInInspector] public bool InNoInputZone = false;
+    //  [HideInInspector] public bool InNoInputZone = false;
 
     [SerializeField] float totalVelocity;
-    [SerializeField] float velociyInfluence = 0.1f;
+    [SerializeField] float velocityInfluence = 0.1f;
     [Space]
 
     // Hight Control
     private float highControlForce = 5;
     [Tooltip("Choose max Hight")] [Range (10, 60)] [SerializeField] float maxHight = 30;
 
-
+    #endregion
 
     void Start()
     {
@@ -119,7 +120,7 @@ public class PlayerMovement : MonoBehaviour
         else if(OnGround == false)
         {
             totalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.z);
-            float velocityPower = totalVelocity * velociyInfluence/2;
+            float velocityPower = totalVelocity * velocityInfluence/2;
 
             rb.velocity = (rb.velocity + (MovementDirection * velocityPower));
         }
@@ -312,20 +313,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        
-        /*
-        if (collision.gameObject.tag == "Wall")
-        {
-            float bouncyness = 0.5f;
-
-            rb.velocity = new Vector3(-rb.velocity.x * bouncyness, rb.velocity.y, -rb.velocity.z * bouncyness);
-
-        }
-        */
-        
-    }
+   
 
     //CollectEnergy
     /*

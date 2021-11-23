@@ -134,7 +134,7 @@ MonoBehaviour:
   Velocity: {x: 0, y: -0.000009536743, z: 0}
   rebounded: 0
   totalVelocity: 0
-  velociyInfluence: 0.1
+  velocityInfluence: 0.1
   maxHight: 35
 --- !u!114 &4498330986242300552
 MonoBehaviour:
@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c23a69259ad69646ae52bf7732edc92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boostCost: 1
   BoostForce: 50
   BoostDashcurve:
     serializedVersion: 2
@@ -196,6 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c468d85aac5749459005d958f4566bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boostCost: 1
   boostForce: 30
   Boosting: 0
   setDirectionTimer: 0
@@ -212,6 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b297dbe61a5dbb4aa6be732ae9b002b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boostCost: 1
   ShadowDashForce: 75
   ShadowDashDuration: 0.8
   shadowDashcurve:
@@ -273,7 +276,7 @@ MonoBehaviour:
   mr: {fileID: 5422289937533297311}
   worldMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   myCollider: {fileID: 4498330986242300557}
 --- !u!114 &4498330986242300597
 MonoBehaviour:
@@ -303,6 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbdb24216f19be24d96a269603b13e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boostCost: 1
   buttonPressedInLastFrame: 0
   touchedGround: 1
   speed: 15

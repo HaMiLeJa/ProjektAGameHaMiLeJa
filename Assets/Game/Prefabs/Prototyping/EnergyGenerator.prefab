@@ -16,7 +16,7 @@ GameObject:
   m_Layer: 7
   m_Name: EnergyGenerator
   m_TagString: EnergyGenerator
-  m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 8635041418365726315}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -15.07, y: -13.107124, z: -14.82}
-  m_LocalScale: {x: 2.5478, y: 5.0120325, z: 2.5478}
+  m_LocalScale: {x: 3, y: 9.97, z: 3}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 40a74576a6f1f9c41936afa218fbdd1c, type: 2}
+  - {fileID: 2100000, guid: 7a06bf60ce0d803469d1b2c30d045e0f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,6 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 047e248dce515a2469292d16590c6c3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GeneratedEnergy: 0
-  maxEnergy: 1
-  energyGenerationRate: 0.1
+  generatedEnergy: 0
+  maxEnergy: 4
+  energyGenerationAmount: 1
+  energyGenerationRate: 5
