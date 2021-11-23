@@ -18,6 +18,7 @@ TagManager:
   - BoostForward
   - Portal
   - Hex
+  - Curve
   layers:
   - Default
   - TransparentFX
