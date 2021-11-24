@@ -109,6 +109,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generatedEnergy: 0
-  maxEnergy: 4
-  energyGenerationAmount: 1
-  energyGenerationRate: 5
+  maxEnergy: 10
+  energyGenerationAmount: 4
+  energyGenerationRate: 2

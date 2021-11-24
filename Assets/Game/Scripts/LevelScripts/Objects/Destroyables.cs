@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Destroyables : MonoBehaviour
 {
-    [SerializeField] float lifeStartAmount = 100;
+    [SerializeField] float lifeStartAmount = 20; //=100
     [Tooltip ("Dont change. Its Set to lifeStartAmount in the code")] [SerializeField] float currentLife;
 
     [Tooltip("How many Points the player gets if this wall is destroyed")] [SerializeField] float value = 1; 
