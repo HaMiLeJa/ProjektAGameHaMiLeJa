@@ -51,6 +51,11 @@ public static class  NewParent
     {
         
         HexCheck();
+        if (Hex == null)
+        {
+            Debug.Log("Beweg mal das Objekt höher oder überhaupt in die Nähe von Hexes");
+            return;
+        }
         SetParent(Hex);
         SetParent(Props);
 
@@ -60,58 +65,38 @@ public static class  NewParent
         LevelObj.transform.parent = newParent.transform;
         if (newParent.transform.parent != null)
         {
-            Debug.Log("Player's Grand parent: " + LevelObj.transform.parent.parent.name);
+            Debug.Log("Das Objekt wurde in [Props] unter >>> " + LevelObj.transform.parent.parent.name +" <<< platziert");
         }
     }
     
     static void   HexCheck()
     {
         RaycastHit hit = new RaycastHit();
-        if (Physics.SphereCast(LevelObj.transform.position, 5, -LevelObj.transform.up, out hit, 100000, LayerMask.GetMask("Hex"))) //LayerMask.GetMask("Hex")
-        {   
+        float sphereCastRadius = 0.1f;
+        float sphereCastRadiusStop = 500;
+        float sphereCastRadiusDown = sphereCastRadius;
+        float sphereCastRadiusUp = sphereCastRadius;
+        
+        while (Hex == null && sphereCastRadiusDown <sphereCastRadiusStop)
+        {
+            if (Physics.SphereCast(LevelObj.transform.position, sphereCastRadiusDown,-LevelObj.transform.up, out hit, 1000, LayerMask.GetMask("Hex"))) //LayerMask.GetMask("Hex")
+        {
             Hex = hit.transform.gameObject;
-            /*
-            #region  Need Bugfix
-            
-           float angle = 60;
-           // angle = angle * Mathf.Deg2Rad;
-            //Vector3 dir = new Vector3(Mathf.Sin(angle), 0, Mathf.Cos(angle));
-            
-            Vector3 dir = Quaternion.AngleAxis(angle, Vector3.forward) * Vector3.right;
-
-            if (Hex == null) {
-                if (Physics.Raycast(LevelObj.transform.position, -LevelObj.transform.up*dir.x, out hit, 100000,
-                    LayerMask.GetMask("Hex")))
-                {
-                    
-                    Hex = hit.transform.gameObject;
-                } }
-            
-            if (Hex == null) {
-                if (Physics.Raycast(LevelObj.transform.position, -LevelObj.transform.up*-dir.x, out hit, 100000,
-                    LayerMask.GetMask("Hex")))
-                { 
-                    Hex = hit.transform.gameObject;
-                } }
-            
-            if (Hex == null) {
-                if (Physics.Raycast(LevelObj.transform.position, -LevelObj.transform.up*dir.z, out hit, 100000,
-                    LayerMask.GetMask("Hex")))
-                { 
-                    Hex = hit.transform.gameObject;
-                } }
-            
-            if (Hex == null) {
-                if (Physics.Raycast(LevelObj.transform.position, -LevelObj.transform.up*-dir.z, out hit, 100000,
-                    LayerMask.GetMask("Hex")))
-                { 
-                    Hex = hit.transform.gameObject;
-                } }
-            
-            #endregion
-            */
-            
             Props = Hex.transform.GetChild(1).gameObject;
+        }
+            sphereCastRadiusDown++;
+        }
+
+        while (Hex == null && sphereCastRadiusUp < sphereCastRadiusStop)
+        {
+            if (Physics.SphereCast(LevelObj.transform.position, sphereCastRadiusUp, LevelObj.transform.up, out hit, 1000,
+                LayerMask.GetMask("Hex"))) 
+            {
+                Hex = hit.transform.gameObject;
+                Props = Hex.transform.GetChild(1).gameObject;
+            }
+
+            sphereCastRadiusUp++;
         }
     }
 }
