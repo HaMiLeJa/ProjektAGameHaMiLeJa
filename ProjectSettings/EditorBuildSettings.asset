@@ -8,10 +8,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Game/Scenes/Prototyp24.11/PrototypStartMenu.unity
     guid: acb86445b6a44cb41820f6abea8b10f3
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Scenes/ArbeitsszeneJanina.unity
     guid: 3ec07d5c0c7f2974aaa8e390f9de4f89
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Scenes/ArbeitsszeneLeiPrototypeCorrectWorldSetup.unity
     guid: aad80edb4d3bad749a147fabc8933046
+  - enabled: 1
+    path: Assets/Game/Scenes/Prototyp24.11/LevelprototypJanina.unity
+    guid: 22db372b34018a04c8b35cc8371d5632
+  - enabled: 1
+    path: Assets/Game/Scenes/Prototyp24.11/LevelPrototypLei.unity
+    guid: 3eabee13b9591c04aa995b7af83a3830
   m_configObjects: {}
