@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-
+/*
 public static class TransformX
 {
     private const string UNDO_STR_SNAP = "transform Objects";
@@ -28,3 +28,5 @@ public static class TransformX
     
  
 }
+
+*/
