@@ -5,8 +5,6 @@ using UnityEngine;
 public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing to give the player super speed
 {
     #region Inspector
-    [SerializeField] float boostCost = 1;
-    [Space]
 
     Rigidbody rb;
     PlayerMovement playerMov;
@@ -179,7 +177,7 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
     IEnumerator StartDashCoroutine()
     {
         Debug.Log("Coro");
-        GameManager.Instance.onUIEnergyChange?.Invoke(-boostCost);
+        GameManager.Instance.onUIEnergyChange?.Invoke(-gameMng.StartDashCosts);
         float timer = 0;
 
         while (timer < boostDuration)
@@ -194,7 +192,7 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
         Boosting = false;
         coroutineStarted = false;
 
-        GameManager.Instance.onEnergyChange?.Invoke(-boostCost);
+        GameManager.Instance.onEnergyChange?.Invoke(-gameMng.StartDashCosts);
 
         started = false;
         yield return null;

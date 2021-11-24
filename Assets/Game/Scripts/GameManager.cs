@@ -5,7 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+
     #region Keys on Controller
+[Header("Keys on Controller")]
     [Tooltip ("Controller Input: Use X, Y, A or B.")]
     public string Jump = "B";
     [Tooltip("Controller Input: Use X, Y, A or B.")]
@@ -33,6 +35,13 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    #region BoostCosts
+    [Header("Boost Costs")]
+    public float StartDashCosts = 1;
+    public float DashCosts = 1;
+    public float ShadowDashCosts = 1;
+    public float DownDashCosts = 1;
+    #endregion
 
     #region Inspector
     [Space]
@@ -82,6 +91,10 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(currentScene);
         }
 
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            SceneManager.LoadScene("PrototypStartMenu");
+        }
 
         CheckForEndOfGame();
     }
@@ -109,7 +122,7 @@ public class GameManager : MonoBehaviour
     {
 
         // Boost Forward
-        if(BoostForwardCounter <= 3)
+        if(BoostForwardCounter <= 5)
         {
             AllowBoostForward = true;
         }
@@ -122,7 +135,7 @@ public class GameManager : MonoBehaviour
         if(BoostForwardCounter >0)
         {
             tBoostHex += Time.deltaTime;
-            if (tBoostHex > 3)
+            if (tBoostHex > 2)
             {
                 BoostForwardCounter--;
                 tBoostHex = 0;
