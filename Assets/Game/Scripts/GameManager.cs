@@ -82,6 +82,10 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(currentScene);
         }
 
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            SceneManager.LoadScene("PrototypStartMenu");
+        }
 
         CheckForEndOfGame();
     }
