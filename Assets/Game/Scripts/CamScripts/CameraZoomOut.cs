@@ -32,9 +32,9 @@ public class CameraZoomOut : MonoBehaviour
     void FixedUpdate()
     {
         xVelocity = math.abs(_playerMovement.rb.velocity.x);
-        Debug.Log("x Velocity"+ xVelocity);
+      //  Debug.Log("x Velocity"+ xVelocity);
         zVelocity = math.abs(_playerMovement.rb.velocity.z);
-        Debug.Log("z Velocity"+ zVelocity);
+      //  Debug.Log("z Velocity"+ zVelocity);
         xzVelocity = xVelocity + zVelocity;
         if (xzVelocity < zVelocity + HorizontalVerticalStartZoom)
             xzVelocity = zVelocity*2;
@@ -43,10 +43,10 @@ public class CameraZoomOut : MonoBehaviour
 
             lerpedValue = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, cashedFov, maxFov, xzVelocity);
         
-        Debug.Log(lerpedValue);
+       // Debug.Log(lerpedValue);
         if(cashedFov+ZoomOutDelay < lerpedValue)
         vcam.m_Lens.FieldOfView = Mathf.Lerp(vcam.m_Lens.FieldOfView, lerpedValue, zoomOutRoughness*Time.deltaTime);
-        Debug.Log(zoomOutRoughness * Time.deltaTime);
+       // Debug.Log(zoomOutRoughness * Time.deltaTime);
     }
     
 

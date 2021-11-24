@@ -8,12 +8,24 @@ public class PrototypMenuManager : MonoBehaviour
     
     public void OnButtonA()
     {
-        SceneManager.LoadScene("ArbeitsszeneJanina");
+        SceneManager.LoadScene("PrototyplevelJanina");
     }
 
     public void OnButtonB()
     {
-        SceneManager.LoadScene("ArbeitsszeneLeiPrototypeCorrectWorldSetup");
+        SceneManager.LoadScene("PrototypLevelLei");
+
+    }
+
+    public void OnButtonKamera()
+    {
+        SceneManager.LoadScene("Kamerszene");
+
+    }
+
+    public void OnButtonCurves()
+    {
+        SceneManager.LoadScene("Kurvenszene");
 
     }
 }

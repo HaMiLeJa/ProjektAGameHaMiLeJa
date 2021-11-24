@@ -11,7 +11,7 @@ public class DownDash : MonoBehaviour
     GameManager gameMng;
     PlayerMovement playerMov;
 
-    [SerializeField] float boostCost = 1;
+    //[SerializeField] float boostCost = 1;
     [Space]
     [SerializeField] bool buttonPressedInLastFrame = false;
     [SerializeField]  bool touchedGround = true;
@@ -42,7 +42,7 @@ public class DownDash : MonoBehaviour
     void FixedUpdate()
     {
         
-        if (Input.GetButton(gameMng.DownDash) ) //&& touchedGround == true
+        if (Input.GetButton("A") ) //&& touchedGround == true
         {
             if (gameMng.AllowMovement == false) return;
             if (playerMov.OnGround == false && buttonPressedInLastFrame == false)

@@ -5,7 +5,7 @@ using UnityEngine;
 public class ShadowDash : MonoBehaviour
 {
     #region Inspector
-    [SerializeField] float boostCost = 1;
+    //[SerializeField] float boostCost = 1;
     [Space]
     [SerializeField] private float ShadowDashForce;
     [SerializeField] private float ShadowDashDuration;
