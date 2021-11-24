@@ -4,6 +4,8 @@ using UnityEditor;
 //verschiedene Gizmos die wir immer wieder nutzen können
 public static class GizmoLibary 
 {
+
+#if UNITY_EDITOR
 	// zeichnen einen  wireframe circle
 	public static void DrawWireCircle( Vector3 pos, Quaternion rot, float radius, int detail = 32 ) 
 	{
@@ -25,6 +27,7 @@ public static class GizmoLibary
 	}
 
 	// Zeichnet einen gizmoartigen Satz von drei farbigen Koordinatenachsenlinien 
+
 	public static void DrawOrientedPoint( OrientedPoint op ) 
 	{
 		void DrawAxis( Color color, Vector3 axis ) 
@@ -37,4 +40,5 @@ public static class GizmoLibary
 		DrawAxis( Handles.zAxisColor, Vector3.forward );
 		Gizmos.color = Color.white;
 	}
+#endif
 }

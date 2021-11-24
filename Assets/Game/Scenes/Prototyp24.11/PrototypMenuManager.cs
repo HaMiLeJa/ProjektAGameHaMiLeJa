@@ -5,21 +5,27 @@ using UnityEngine.SceneManagement;
 
 public class PrototypMenuManager : MonoBehaviour
 {
-    
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+            Application.Quit();
+    }
+
     public void OnButtonA()
     {
-        SceneManager.LoadScene("PrototyplevelJanina");
+        SceneManager.LoadScene("LevelprototypJanina");
     }
 
     public void OnButtonB()
     {
-        SceneManager.LoadScene("PrototypLevelLei");
+        SceneManager.LoadScene("LevelPrototypLei");
 
     }
 
     public void OnButtonKamera()
     {
-        SceneManager.LoadScene("Kamerszene");
+        SceneManager.LoadScene("Kameraszene");
 
     }
 

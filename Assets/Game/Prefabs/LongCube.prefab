@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8700998244381337526}
   - component: {fileID: 9113244873608267141}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: LongCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 3301481189719144176}
   - component: {fileID: 5567500794069650150}
   - component: {fileID: 6091004528535521596}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: pCube1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

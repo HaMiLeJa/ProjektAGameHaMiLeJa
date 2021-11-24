@@ -20,4 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Game/Scenes/Prototyp24.11/LevelPrototypLei.unity
     guid: 3eabee13b9591c04aa995b7af83a3830
+  - enabled: 1
+    path: Assets/Game/Scenes/Prototyp24.11/Kameraszene.unity
+    guid: 8c20e6bc04aaed746884ebd2e1ed523f
+  - enabled: 1
+    path: Assets/Game/Scenes/Prototyp24.11/Kurvenszene.unity
+    guid: e04454e006c0bb242bfca07146f38f7d
   m_configObjects: {}
