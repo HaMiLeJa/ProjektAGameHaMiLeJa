@@ -6,7 +6,7 @@ public class PlayerBoost : MonoBehaviour
 {
     #region Inspector
 
-    [SerializeField] float boostCost = 1;
+    //[SerializeField] float boostCost = 1;
     [Space]
     [SerializeField] private float BoostForce = 75;
     private float BoostDuration = 0.8f;
@@ -42,7 +42,7 @@ public class PlayerBoost : MonoBehaviour
         // if (rb.velocity.x == 0 || rb.velocity.z == 0) return; //kein kleiner Boost am Anfang erlaubt!
 
 
-        if (Input.GetButton(gameMng.Dash) && IsBoosting == false)
+        if (Input.GetAxisRaw("RightTrigger") != 0 && IsBoosting == false)
         {
             IsBoosting = true;
             BoostStarter();
@@ -72,8 +72,6 @@ public class PlayerBoost : MonoBehaviour
 
     private IEnumerator BoostCoroutine()
     {
-
-        Debug.Log("BB");
         GameManager.Instance.onUIEnergyChange?.Invoke(-gameMng.DashCosts);
         Vector3 velocity = rb.velocity;
         

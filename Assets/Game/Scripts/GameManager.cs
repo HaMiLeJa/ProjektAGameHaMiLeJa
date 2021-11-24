@@ -8,17 +8,17 @@ public class GameManager : MonoBehaviour
 
     #region Keys on Controller
 [Header("Keys on Controller")]
-    [Tooltip ("Controller Input: Use X, Y, A or B.")]
-    public string Jump = "B";
-    [Tooltip("Controller Input: Use X, Y, A or B.")]
-    public string Dash = "X";
-    [Tooltip("Controller Input: Use X, Y, A or B.")]
-    public string ShadowDash = "Y";
-    [Tooltip("Controller Input: Use X, Y, A or B.")]
-    public string SuperDash = "A";
 
-    [Tooltip("Controller Input: Use X, Y, A or B.")]
-    public string DownDash = "RightBumper";
+    
+
+   // [HideInInspector] public string Dash = "X";
+    //[HideInInspector] public string SuperDash = "LeftTrigger";
+
+    [HideInInspector] public string ShadowDash = "RightBumper";
+
+
+    [HideInInspector] public string Jump = "B";
+   // [HideInInspector] public string DownDash = "A";
 
     #endregion
 
