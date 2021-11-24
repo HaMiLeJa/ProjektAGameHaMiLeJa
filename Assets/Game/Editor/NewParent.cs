@@ -39,6 +39,7 @@ public static class  NewParent
             
         {
             go.transform.parent = null;
+            Debug.Log("Das Objekt ["+ go +"] wurde unparented");
         }
       
     }
@@ -65,7 +66,7 @@ public static class  NewParent
         LevelObj.transform.parent = newParent.transform;
         if (newParent.transform.parent != null)
         {
-            Debug.Log("Das Objekt wurde in [Props] unter >>> " + LevelObj.transform.parent.parent.name +" <<< platziert");
+            Debug.Log("Das Objekt ["+ LevelObj +"] wurde in [Props] unter >>> " + LevelObj.transform.parent.parent.name +" <<< platziert");
         }
     }
     
