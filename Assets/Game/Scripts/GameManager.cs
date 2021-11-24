@@ -122,7 +122,7 @@ public class GameManager : MonoBehaviour
     {
 
         // Boost Forward
-        if(BoostForwardCounter <= 3)
+        if(BoostForwardCounter <= 5)
         {
             AllowBoostForward = true;
         }
@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviour
         if(BoostForwardCounter >0)
         {
             tBoostHex += Time.deltaTime;
-            if (tBoostHex > 3)
+            if (tBoostHex > 2)
             {
                 BoostForwardCounter--;
                 tBoostHex = 0;
