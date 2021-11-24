@@ -113,7 +113,7 @@ public class ShadowDash : MonoBehaviour
     private IEnumerator ShadowDashCoroutine()
     {
         Vector3 velocity = rb.velocity;
-        GameManager.Instance.onUIEnergyChange?.Invoke(-boostCost);
+        GameManager.Instance.onUIEnergyChange?.Invoke(-gameMng.ShadowDashCosts);
 
 
         float t = 0;
@@ -167,7 +167,7 @@ public class ShadowDash : MonoBehaviour
 
         currentShadowDashForce = 0;
         isShadowDashing = false;
-        GameManager.Instance.onEnergyChange?.Invoke(-boostCost);
+        GameManager.Instance.onEnergyChange?.Invoke(-gameMng.ShadowDashCosts);
     }
 
     #endregion

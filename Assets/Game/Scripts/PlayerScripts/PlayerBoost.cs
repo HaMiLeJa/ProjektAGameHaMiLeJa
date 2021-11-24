@@ -74,7 +74,7 @@ public class PlayerBoost : MonoBehaviour
     {
 
         Debug.Log("BB");
-        GameManager.Instance.onUIEnergyChange?.Invoke(-boostCost);
+        GameManager.Instance.onUIEnergyChange?.Invoke(-gameMng.DashCosts);
         Vector3 velocity = rb.velocity;
         
 
@@ -101,7 +101,7 @@ public class PlayerBoost : MonoBehaviour
 
         currentBoostforce = 0;
         IsBoosting = false;
-        GameManager.Instance.onEnergyChange?.Invoke(-boostCost);
+        GameManager.Instance.onEnergyChange?.Invoke(-gameMng.DashCosts);
     }
 
     #endregion

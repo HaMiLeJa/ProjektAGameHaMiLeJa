@@ -46,8 +46,8 @@ public class ResourceManager : MonoBehaviour //for points and energy
 
         gameMng.onDestroyableDestroyed += UpdateDestroyablePoints;
         gameMng.onEnergyChange += ModifyEnergy;
-        gameMng.onEnergyChange += CheckEnergyAmount;
         gameMng.onUIEnergyChange += ModifyUIEnergy;
+        gameMng.onEnergyChange += CheckEnergyAmount;
 
 
 
@@ -101,6 +101,8 @@ public class ResourceManager : MonoBehaviour //for points and energy
         if(CurrentEnergy >= MaxEnergyAmount)
         {
             CurrentEnergy = MaxEnergyAmount;
+            CurrentUIEnergy = MaxEnergyAmount;
+            Debug.Log("Max Energy");
         }
     }
 }

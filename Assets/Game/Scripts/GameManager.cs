@@ -5,7 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+
     #region Keys on Controller
+[Header("Keys on Controller")]
     [Tooltip ("Controller Input: Use X, Y, A or B.")]
     public string Jump = "B";
     [Tooltip("Controller Input: Use X, Y, A or B.")]
@@ -33,6 +35,13 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    #region BoostCosts
+    [Header("Boost Costs")]
+    public float StartDashCosts = 1;
+    public float DashCosts = 1;
+    public float ShadowDashCosts = 1;
+    public float DownDashCosts = 1;
+    #endregion
 
     #region Inspector
     [Space]
