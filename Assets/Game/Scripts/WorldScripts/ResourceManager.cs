@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class ResourceManager : MonoBehaviour //for points and energy
 {
+   
 
     GameManager gameMng;
-    GameObject player;
-    PlayerStartDash startDash;
 
+    public bool DisableEnergyCosts = false;
+    [Space]
     [Tooltip("How many points the player have")] public float DestroyablePoints = 0;
     [Space]
     [SerializeField] float EnergyStartAmount = 10;
-    public float CurrentEnergy;
-    public float CurrentUIEnergy;
+    [HideInInspector] public float CurrentEnergy;
+    [HideInInspector] public float CurrentUIEnergy;
     [Tooltip("A limit of how many Energy the player can have")] [SerializeField] float MaxEnergyAmount = 20f;
    
 
@@ -41,8 +42,7 @@ public class ResourceManager : MonoBehaviour //for points and energy
         CurrentUIEnergy = EnergyStartAmount;
         UIManager.Instance.UpdateEnergyUI(1);
 
-        player = GameObject.FindGameObjectWithTag("Player");
-        startDash = player.GetComponent<PlayerStartDash>();
+        
 
         gameMng.onDestroyableDestroyed += UpdateDestroyablePoints;
         gameMng.onEnergyChange += ModifyEnergy;
@@ -57,7 +57,11 @@ public class ResourceManager : MonoBehaviour //for points and energy
     
     void Update()
     {
-        
+        if (DisableEnergyCosts == true)
+        {
+            CurrentEnergy = 25;
+            CurrentUIEnergy = 25;
+        }
     }
 
     void UpdateDestroyablePoints(float value)

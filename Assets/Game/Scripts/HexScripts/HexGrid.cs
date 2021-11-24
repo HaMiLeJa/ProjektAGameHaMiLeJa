@@ -5,25 +5,35 @@ using UnityEngine;
 
 public class HexGrid : MonoBehaviour
 {   
-    
+    private HexCoordinates hexCoordinates;
     #region Dictonarys
     
     protected Dictionary<Vector3Int, Hex> hexTileDict = new Dictionary<Vector3Int, Hex>();
     protected Dictionary<Vector3Int, List<Vector3Int>> hexTileNeighboursDict = new Dictionary<Vector3Int, List<Vector3Int>>();
+    
     #endregion
-   
+    
     private void Start()
     {
-        
-       
-        foreach (Hex hex in FindObjectsOfType<Hex>())
+
+         foreach (Hex hex in FindObjectsOfType<Hex>())
         {
-            
-            hexTileDict[hex.HexCoords] = hex;
+             hexCoordinates = this.GetComponent<HexCoordinates>();
+             hexTileDict[hex.HexCoords] = hex;
         }
+        //
+        // foreach (KeyValuePair<K, V> entry in dict) {
+        //     Console.WriteLine(entry.Key + " : " + entry.Value);
+        // }
 
     }
-#region GetNeighbours
+      // HIER MIRO HIER foreach (KeyValuePair<Vector3Int, Hex> in
+    public Dictionary<Vector3Int, Hex> HexTileDict
+    {
+        get => hexTileDict;
+        set => hexTileDict = value;
+    }
+    #region GetNeighbours
 
 
 public Hex GetTileAt(Vector3Int hexCoordinates)

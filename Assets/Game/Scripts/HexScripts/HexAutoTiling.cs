@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HexAutoTiling : HexGrid
+public class HexAutoTiling : MonoBehaviour
 {
     public static List<GameObject> HexesToBeMoved = new List<GameObject>();
     private int startTilingTreshhold = 65;
-    private bool playerHasMoved = true;
-    [SerializeField] GameObject playerLocation;
+    
+     private HexCoordinates hexCoordinates;
+
+     [SerializeField] GameObject playerLocation;
 
     private float xPlusSnapShotPos;
     private float xMinusSnapShotPos;
@@ -23,14 +25,17 @@ public class HexAutoTiling : HexGrid
 
     // Start is called before the first frame update
     void Awake()
-    {   HexesToBeMoved.Clear();
+    
+    {   
+        hexCoordinates = this.GetComponent<HexCoordinates>();
+        HexesToBeMoved.Clear();
         HexesToBeMoved.AddRange(GameObject.FindGameObjectsWithTag("Hex"));
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (playerHasMoved)
+        if (HexCoordinates.playerHasMoved)
         {
              xPlusSnapShotPos = playerLocation.transform.position.x + startTilingTreshhold;
              xMinusSnapShotPos = playerLocation.transform.position.x - startTilingTreshhold;
@@ -38,7 +43,7 @@ public class HexAutoTiling : HexGrid
              zPlusSnapShotPos = playerLocation.transform.position.z + startTilingTreshhold;
              zMinusSnapShotPos = playerLocation.transform.position.z - startTilingTreshhold;
 
-             playerHasMoved = false;
+             HexCoordinates.playerHasMoved = false;
         }
         
         if (playerLocation.transform.position.x > xPlusSnapShotPos  ||
@@ -73,8 +78,10 @@ public class HexAutoTiling : HexGrid
                     hex.transform.position.x + xTilingDistance,
                     hex.transform.position.y,
                     hex.transform.position.z);
+            
+                 
 
-            playerHasMoved = true;
+            HexCoordinates.playerHasMoved = true;
         }
         
         }
