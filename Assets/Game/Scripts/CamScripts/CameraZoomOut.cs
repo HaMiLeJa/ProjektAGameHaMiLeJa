@@ -17,8 +17,8 @@ public class CameraZoomOut : MonoBehaviour
    [Tooltip("Ab wann wird gezoomed abhängig vom movement")] [SerializeField] private float  StartZoomingValue = 0.01f;
    [Tooltip("Bis wann wird gezoomed abhängig vom movement")] [SerializeField] private float StopZoomingValue = 100;
    [Range(0.01f, 20)]
-   [Tooltip("Wie Smooth soll die Kamera zwischen den Werten Lerpen")] [SerializeField] private float zoomOutRoughness = 3;
-   [Range(0, 20)]
+   [Tooltip("Wie Smooth soll die Kamera zwischen den Werten Lerpen")] [SerializeField] private float zoomOutRoughness = 2;
+   [Range(0, 50)]
    [Tooltip("Davor wird nichts gemacht")] [SerializeField] private float ZoomOutDelay = 3;
    [Range(0, 30)]
    [Tooltip("Vertikale und Horizontale Achse start zoom")] [SerializeField] private float HorizontalVerticalStartZoom = 3;
