@@ -77,10 +77,11 @@ public static class  NewParent
         float sphereCastRadiusStop = 500;
         float sphereCastRadiusDown = sphereCastRadius;
         float sphereCastRadiusUp = sphereCastRadius;
+        float maxRayDistance = 1000;
         
-        while (Hex == null && sphereCastRadiusDown <sphereCastRadiusStop)
+        while (Hex == null && sphereCastRadiusDown <sphereCastRadiusStop*0.5f)
         {
-            if (Physics.SphereCast(LevelObj.transform.position, sphereCastRadiusDown,-LevelObj.transform.up, out hit, 1000, LayerMask.GetMask("Hex"))) //LayerMask.GetMask("Hex")
+            if (Physics.SphereCast(LevelObj.transform.position, sphereCastRadiusDown,-LevelObj.transform.up, out hit, maxRayDistance, LayerMask.GetMask("Hex"))) //LayerMask.GetMask("Hex")
         {
             Hex = hit.transform.gameObject;
             Props = Hex.transform.GetChild(1).gameObject;
@@ -88,9 +89,31 @@ public static class  NewParent
             sphereCastRadiusDown++;
         }
 
+        while (Hex == null && sphereCastRadiusUp < sphereCastRadiusStop*0.5f)
+        {
+            if (Physics.SphereCast(LevelObj.transform.position, sphereCastRadiusUp, LevelObj.transform.up, out hit, maxRayDistance,
+                LayerMask.GetMask("Hex"))) 
+            {
+                Hex = hit.transform.gameObject;
+                Props = Hex.transform.GetChild(1).gameObject;
+            }
+
+            sphereCastRadiusUp++;
+        }
+        
+        while (Hex == null && sphereCastRadiusDown <sphereCastRadiusStop)
+        {
+            if (Physics.SphereCast(LevelObj.transform.position, sphereCastRadiusDown,-LevelObj.transform.up, out hit, maxRayDistance, LayerMask.GetMask("Hex"))) //LayerMask.GetMask("Hex")
+            {
+                Hex = hit.transform.gameObject;
+                Props = Hex.transform.GetChild(1).gameObject;
+            }
+            sphereCastRadiusDown++;
+        }
+        
         while (Hex == null && sphereCastRadiusUp < sphereCastRadiusStop)
         {
-            if (Physics.SphereCast(LevelObj.transform.position, sphereCastRadiusUp, LevelObj.transform.up, out hit, 1000,
+            if (Physics.SphereCast(LevelObj.transform.position, sphereCastRadiusUp, LevelObj.transform.up, out hit, maxRayDistance,
                 LayerMask.GetMask("Hex"))) 
             {
                 Hex = hit.transform.gameObject;
