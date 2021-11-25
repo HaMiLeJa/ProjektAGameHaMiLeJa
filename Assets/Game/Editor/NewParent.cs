@@ -7,13 +7,13 @@ using UnityEditor;
 public static class  NewParent 
 {
 
-    [MenuItem("HaMiLeYa/Parent Objects t%&Y", isValidateFunction: true)]
+    [MenuItem("HaMiLeJa/Parent Objects t%&Y", isValidateFunction: true)]
     public static bool TransformSValidate()
     {
         return Selection.gameObjects.Length > 0;
     }
     
-    [MenuItem("HaMiLeYa/Parent Objects %&Y")]
+    [MenuItem("HaMiLeJa/Parent Objects %&Y")]
     public static void ParrentTheObjects()
     {
         foreach (GameObject go in Selection.gameObjects)
@@ -25,13 +25,13 @@ public static class  NewParent
         }
 
     }
-    [MenuItem("HaMiLeYa/UnParent Objects t%&X", isValidateFunction: true)]
+    [MenuItem("HaMiLeJa/UnParent Objects t%&X", isValidateFunction: true)]
     public static bool TransformValidate()
     {
         return Selection.gameObjects.Length > 0;
     }
     
-    [MenuItem("HaMiLeYa/UnParent Objects %&X")]
+    [MenuItem("HaMiLeJa/UnParent Objects %&X")]
 
     public static void UnParentAll()
     {
