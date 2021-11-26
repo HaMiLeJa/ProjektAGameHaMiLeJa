@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public float CurrentHexFowardForce;
     [HideInInspector] public bool OnChangeDirectionHex;
     [HideInInspector] public bool OnBoostInDirectionHex;
-    [HideInInspector] public float CurrentHexInDirectionForce = 100;
+    [HideInInspector] public float CurrentHexInDirectionForce;
     [HideInInspector] public Vector3 HexInDirectionDirection;
     //public float currentHexChangeDirectionForce;
     

@@ -317,6 +317,7 @@ public class Hex : MonoBehaviour
     float YDirection = 0;
     Vector3 BoostInDirectionDirection;
     Coroutine hexBoostInDirectionCoroutine;
+    [Range (10, 40)] [SerializeField] float force = 30;
 
     float BoostInDirectionDuration = 0.3f;
     bool IsBoostingInDirection = false;
@@ -327,7 +328,7 @@ public class Hex : MonoBehaviour
         Debug.Log("InDirectionHex");
 
         BoostInDirectionDirection = new Vector3(XDirection, YDirection, ZDirection).normalized;
-
+        playerMov.CurrentHexInDirectionForce = 100;
         if (hexBoostInDirectionCoroutine != null)
             StopCoroutine(hexBoostInDirectionCoroutine);
 
@@ -338,7 +339,7 @@ public class Hex : MonoBehaviour
     {
         float t = 0;
         playerMov.OnBoostInDirectionHex = true;
-        playerRb.velocity = playerRb.velocity * 0.2f;
+        playerRb.velocity = Vector3.zero; //playerRb.velocity * 0.2f;
 
 
         while (t < BoostInDirectionDuration)
@@ -349,7 +350,7 @@ public class Hex : MonoBehaviour
             t += Time.deltaTime;
 
             playerMov.HexInDirectionDirection = BoostInDirectionDirection;
-            playerMov.CurrentHexInDirectionForce = playerMov.CurrentHexInDirectionForce * 0.99f;
+            playerMov.CurrentHexInDirectionForce = playerMov.CurrentHexInDirectionForce * 0.99f * Time.deltaTime * force;
 
 
             yield return null;

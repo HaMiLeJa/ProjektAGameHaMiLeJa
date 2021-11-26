@@ -6,9 +6,9 @@ public class EnergyGenerator : MonoBehaviour
 {
     [Tooltip("How much energy this generatior currently has")]
     [SerializeField] float generatedEnergy = 0f;
-    [SerializeField] float maxEnergy = 1;
-    [SerializeField] float energyGenerationAmount = 0.1f;
-    [SerializeField] float energyGenerationRate = 1f; //Alle 1Sekunde
+    [SerializeField] float maxEnergy = 5f; //1;
+    [SerializeField] float energyGenerationAmount = 1;//0.1f;
+    [SerializeField] float energyGenerationRate = 3; //1f; //Alle 1Sekunde
 
     //[SerializeField] GameObject player;
 
