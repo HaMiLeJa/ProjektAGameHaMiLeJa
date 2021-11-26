@@ -79,6 +79,8 @@ public class PlayerMovement : MonoBehaviour
     {
         Velocity = rb.velocity; //Debug
 
+        ControlVelocity();
+
         GroundCheck();
         HightControl();
         totalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.y) + Mathf.Abs(Velocity.z);
@@ -158,7 +160,10 @@ public class PlayerMovement : MonoBehaviour
 
     void ControlVelocity()
     {
-        
+        if(totalVelocity > 300) //von total Velocity abhängig machen
+        {
+          rb.velocity = new Vector3(rb.velocity.x * 1.1f, rb.velocity.y, rb.velocity.z * 1.0001f);
+        }
     }
 
     void BasicJump()
