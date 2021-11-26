@@ -18,8 +18,8 @@ public class HexAutoTiling : MonoBehaviour
     private float zMinusSnapShotPos;
 
     [Tooltip("ab wann soll er das Tiling anfangen?")] public float tilingTreshold = 307.5f; //default 307.5
-    [Tooltip("wie weit soll er die Tiles nach z verschieben?") ] public float zTilingDistance = 438; //default 438
-    [Tooltip("wie weit soll er die Tiles nach xverschieben")] public float xTilingDistance = 517; //default 517
+    [Tooltip("wie weit soll er die Tiles nach z verschieben?") ] public static float zTilingDistance = 598; //default 438
+    [Tooltip("wie weit soll er die Tiles nach xverschieben")] public static  float xTilingDistance = 691; //default 517
     
     
 
