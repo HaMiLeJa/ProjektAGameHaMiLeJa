@@ -61,7 +61,7 @@ public class ObjectSpawner : EditorWindow
         objectScale = EditorGUILayout.Slider("Object Scale", objectScale, 0.5f, 3f);
         objectToSpawn =
             EditorGUILayout.ObjectField("Prefab to Spawn", objectToSpawn, typeof(GameObject), false) as GameObject;
-
+        
         GUILayout.Space(5);
 
         if (GUILayout.Button("Spawn Object"))
@@ -84,13 +84,34 @@ public class ObjectSpawner : EditorWindow
         GUILayout.Label("Parent Objects ", EditorStyles.boldLabel);
         parentName = EditorGUILayout.TextField("Parent Name", parentName);
       
+        GUILayout.Space(15);
         if (GUILayout.Button("Parent recent Objects"))
         {
             addSpawnedObjectsToParent();
         }
+        
+        if (GUILayout.Button("Connect to prefab"))
+        {
+            connectBackToParent();
+        }
     }
-    
-   
+
+    void connectBackToParent()
+    {
+        foreach (GameObject preFabMe in hasAllTheRecentlySpawnedObjects)
+        {
+            GameObject newObject;
+            newObject = (GameObject)PrefabUtility.InstantiatePrefab(objectToSpawn);
+            
+            newObject.transform.position = preFabMe.transform.position;
+            newObject.transform.rotation = preFabMe.transform.rotation;
+            newObject.transform.parent = preFabMe.transform.parent;
+            String rename = preFabMe.name;
+            newObject.name = rename;
+            DestroyImmediate(preFabMe);
+ 
+        }
+    }
     private void addSpawnedObjectsToParent()
     {
         if (hasAllTheRecentlySpawnedObjects == null || parentName == string.Empty)
@@ -169,11 +190,13 @@ public class ObjectSpawner : EditorWindow
                 }
                
                 Vector3 spawnPos = new Vector3(xOffset+xRowOffset, 0f, zOffset+zRowOffset);
+               
                 GameObject newObject = Instantiate(objectToSpawn, spawnPos, Quaternion.identity);
                 newObject.name = preFix + " " + objectID + " " + postFix;
                 newObject.transform.localScale = Vector3.one * objectScale;
-
                 hasAllTheRecentlySpawnedObjects.Add(newObject);
+              
+                
                 
                 objectID++;
                 xOffset += xOffsetInput;
