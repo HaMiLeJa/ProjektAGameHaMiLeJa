@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Shield : MonoBehaviour
 {
-    Renderer renderer;
+    /*Renderer renderer;
     [SerializeField] AnimationCurve DisplacementCurve;
     [SerializeField] float DisplacementMagnitude;
     [SerializeField] float LerpSpeed;
@@ -12,19 +12,19 @@ public class Shield : MonoBehaviour
     bool shieldOn;
     Coroutine disolveCoroutine;
 
-    private Hitpoints _hitpoints;
+    // private Hitpoints _hitpoints;
     // Start is called before the first frame update
     void Start()
     {
         renderer = GetComponent<Renderer>();
-        _hitpoints = FindObjectOfType<Hitpoints>();
+        // _hitpoints = FindObjectOfType<Hitpoints>();
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        if (Input.GetMouseButtonDown(0))
+        /*if (Input.GetMouseButtonDown(0))
         {
             //  Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -41,7 +41,7 @@ public class Shield : MonoBehaviour
             }
 
         }
-    }
+    }#1#
     /*void OnCollisionEnter(Collision other)
 {
     if( other.gameObject.layer == 6){
@@ -57,7 +57,7 @@ public class Shield : MonoBehaviour
     {
         Debug.DrawRay(item.point, item.normal * 100, Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f), 10f);
     }
-    }*/
+    }#1#
     //}
 
     // private void OnCollisionEnter(Collision collision) 
@@ -71,6 +71,7 @@ public class Shield : MonoBehaviour
     //     
     // }
     
+    /*
     public void HitShield(Vector3 hitPos)
     {
         renderer.material.SetVector("_HitPos", hitPos);
@@ -92,6 +93,7 @@ public class Shield : MonoBehaviour
         }
         disolveCoroutine = StartCoroutine(Coroutine_DisolveShield(target));
     }
+    #1#
 
     IEnumerator Coroutine_HitDisplacement()
     {
@@ -114,5 +116,5 @@ public class Shield : MonoBehaviour
             lerp += Time.deltaTime * DisolveSpeed;
             yield return null;
         }
-    }
+    }*/
 }

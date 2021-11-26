@@ -4,7 +4,7 @@ using Random = UnityEngine.Random;
 
 public class Hitpoints : MonoBehaviour
 {
-   // public List<Vector3> pointsOut = new List<Vector3>();
+   /*// public List<Vector3> pointsOut = new List<Vector3>();
    public Vector3 pointOut;
     void OnCollisionEnter(Collision other)
     {
@@ -23,5 +23,5 @@ public class Hitpoints : MonoBehaviour
             Debug.DrawRay(item.point, item.normal * 100, Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f), 10f);
         }
         }
-    }
+    }*/
 }
