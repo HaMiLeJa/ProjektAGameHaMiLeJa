@@ -145,12 +145,13 @@ public class ShadowDash : MonoBehaviour
         //rb.velocity = velocity;
 
 
+        
         while (colliding == true)
         {
             Collider[] hitColliders;
 
-            hitColliders = Physics.OverlapSphere(this.transform.position, myCollider.radius + 1, worldMask); //LayerMask.GetMask("World")
-
+            hitColliders = Physics.OverlapSphere(this.transform.position, myCollider.radius + 1, LayerMask.GetMask("World")); //LayerMask.GetMask("World")
+            
 
             if (hitColliders.Length == 0)
             {
@@ -160,7 +161,7 @@ public class ShadowDash : MonoBehaviour
                 gameMng.AllowHexEffects = true;
             }
         }
-
+        
 
 
 
@@ -172,7 +173,10 @@ public class ShadowDash : MonoBehaviour
 
     #endregion
 
-
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawSphere(this.transform.position, myCollider.radius + 1);
+    }
 
     #region alternative 
     /*
@@ -245,4 +249,7 @@ public class ShadowDash : MonoBehaviour
         }
     */
     #endregion
+
+
+   
 }

@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
    // [HideInInspector] public string Dash = "X";
     //[HideInInspector] public string SuperDash = "LeftTrigger";
 
-    [HideInInspector] public string ShadowDash = "RightBumper";
+   // [HideInInspector] public string ShadowDash = "RightBumper";
 
 
     [HideInInspector] public string Jump = "B";
