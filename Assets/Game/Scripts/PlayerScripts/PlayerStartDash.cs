@@ -60,8 +60,6 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
     {
         if (dash.IsBoosting == true || shadowDash.isShadowDashing == true) return;
 
-        Debug.Log(Input.GetAxisRaw("LeftTrigger"));
-
         if (Input.GetAxisRaw("LeftTrigger") != 0)
         {
             if (boostButtonPressedInLastFrame == false)

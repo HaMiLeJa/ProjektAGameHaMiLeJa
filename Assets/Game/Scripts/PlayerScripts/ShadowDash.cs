@@ -72,7 +72,7 @@ public class ShadowDash : MonoBehaviour
         
         #region ShadowDashInputKey
         
-        if (Input.GetKeyDown(KeyCode.G) && isShadowDashing == false || Input.GetButton(gameMng.ShadowDash) && isShadowDashing == false)
+        if (Input.GetKeyDown(KeyCode.G) && isShadowDashing == false || Input.GetButton("RightBumper") && isShadowDashing == false)
         {
            
             isShadowDashing = true;
@@ -149,7 +149,7 @@ public class ShadowDash : MonoBehaviour
         {
             Collider[] hitColliders;
 
-            hitColliders = Physics.OverlapSphere(this.transform.position, myCollider.radius, worldMask); //LayerMask.GetMask("World")
+            hitColliders = Physics.OverlapSphere(this.transform.position, myCollider.radius + 1, worldMask); //LayerMask.GetMask("World")
 
 
             if (hitColliders.Length == 0)

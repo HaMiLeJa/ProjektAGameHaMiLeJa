@@ -100,6 +100,11 @@ public class Hex : MonoBehaviour
             {
                 BoostForwardStarter();
             }
+
+            if ((hexType == HexType.BoostInDirection))
+            {
+                BoostInDirectionStarter();
+            }
         }
         
         
@@ -113,6 +118,7 @@ public class Hex : MonoBehaviour
 
     //[SerializeField] private float ChangeDirectionBoostForce = 200f;
     //private float ChangeDirectionBoostDuration = 0.8f;
+    [Header ("ChangeDirection")]
     private bool isChangingDirection = false;
     private Coroutine changeDirectionCoroutine;
     private bool allowStartChangeDirection = true;
@@ -160,6 +166,7 @@ public class Hex : MonoBehaviour
     #endregion
 
     #region SlowDown
+    [Header("SlowDown")]
     [SerializeField] private AnimationCurve slowDownCurve;
     //[SerializeField] private float SlowDownForce = 400f;
     private float SlowDownDuration = 0.4f;
@@ -200,10 +207,10 @@ public class Hex : MonoBehaviour
     #endregion
 
     #region BoostForward
-
-    [SerializeField] private float BoostForce = 200f;
-    private float BoostDuration = 0.4f;
-    public bool IsHexBoosting = false; //used to lock other boosts
+    [Header("BoostForward")]
+    //[SerializeField] private float BoostForce = 200f;
+    private float BoostForwardDuration = 0.4f;
+    public bool IsHexForwardBoosting = false; //used to lock other boosts
     private Coroutine hexBoostForwardCoroutine;
    // [SerializeField] private AnimationCurve boostCurve;
 
@@ -225,7 +232,7 @@ public class Hex : MonoBehaviour
         float t = 0;
         playerMov.OnBoostForwardHex = true;
 
-        while (t < BoostDuration)
+        while (t < BoostForwardDuration)
         {
             if (gameMng.AllowHexEffects == false) break;
             t += Time.deltaTime;
@@ -233,7 +240,7 @@ public class Hex : MonoBehaviour
 
            // playerMov.currentHexFowardForce += BoostForce * curveValue * Time.deltaTime; -> Boost DuratioN:0.8
 
-            playerMov.currentHexFowardForce = 80;
+            playerMov.CurrentHexFowardForce = 80;
 
 
              yield return null;
@@ -242,14 +249,14 @@ public class Hex : MonoBehaviour
         playerRb.velocity = playerRb.velocity / 2;
 
         playerMov.OnBoostForwardHex = false;
-        playerMov.currentHexFowardForce = 0;
-        IsHexBoosting = false;
+        playerMov.CurrentHexFowardForce = 0;
+        IsHexForwardBoosting = false;
     }
 
     #endregion
 
     #region Trampolin
-
+    [Header("Trampolin")]
     float reboundDuration = 0.2f;
     [SerializeField] float TramoplinForce = 15f;
     //[SerializeField] float velocityInfluence = 0.5f;
@@ -301,7 +308,88 @@ public class Hex : MonoBehaviour
         yield return null;
     }
 
-    #endregion 
+    #endregion
+
+    #region BoostinDirection
+    [Header("BoostInDirection")]
+    [SerializeField] float XDirection =1;
+    [SerializeField] float ZDirection = 1;
+    float YDirection = 0;
+    Vector3 BoostInDirectionDirection;
+    Coroutine hexBoostInDirectionCoroutine;
+
+    float BoostInDirectionDuration = 0.3f;
+    bool IsBoostingInDirection = false;
+
+    void BoostInDirectionStarter()
+    {
+        //Allow Hex Effects
+        Debug.Log("InDirectionHex");
+
+        BoostInDirectionDirection = new Vector3(XDirection, YDirection, ZDirection).normalized;
+
+        if (hexBoostInDirectionCoroutine != null)
+            StopCoroutine(hexBoostInDirectionCoroutine);
+
+        hexBoostInDirectionCoroutine = StartCoroutine(HexBoostInDirectionCoroutine());
+    }
+
+    private IEnumerator HexBoostInDirectionCoroutine()
+    {
+        float t = 0;
+        playerMov.OnBoostInDirectionHex = true;
+        playerRb.velocity = playerRb.velocity * 0.2f;
+
+
+        while (t < BoostInDirectionDuration)
+        {
+            Debug.Log("InDirectionHexBoost");
+
+            if (gameMng.AllowHexEffects == false) break;
+            t += Time.deltaTime;
+
+            playerMov.HexInDirectionDirection = BoostInDirectionDirection;
+            playerMov.CurrentHexInDirectionForce = playerMov.CurrentHexInDirectionForce * 0.99f;
+
+
+            yield return null;
+        }
+
+        playerRb.velocity = playerRb.velocity / 2;
+
+        playerMov.OnBoostInDirectionHex = false;
+        playerMov.CurrentHexInDirectionForce = 100;
+        IsBoostingInDirection = false;
+        playerMov.HexInDirectionDirection = Vector3.zero;
+
+
+        yield return null;
+    }
+
+    #endregion
+
+
+    private void OnDrawGizmosSelected()
+    {
+        if (hexType != HexType.BoostInDirection) return;
+        BoostInDirectionDirection = new Vector3(XDirection, YDirection, ZDirection);
+
+        float arrowLength = 5f;
+
+        Vector3 forwardVector = BoostInDirectionDirection.normalized;
+        Vector3 arrowLeft = Vector3.down * arrowLength * 0.2f;
+        Vector3 arrowRight = -arrowLeft;
+
+        Vector3 arrowTip = forwardVector * arrowLength;
+        arrowLeft += forwardVector * arrowLength * .7f;
+        arrowRight += forwardVector * arrowLength * .7f;
+
+        Gizmos.color = Color.red;
+        Gizmos.matrix = transform.localToWorldMatrix;
+        Gizmos.DrawLine(arrowTip + new Vector3(0, 2, 0), this.transform.forward + new Vector3(0,2,0));
+        Gizmos.DrawLine(arrowTip + new Vector3(0, 2, 0), arrowLeft + new Vector3(0, 2, 0));
+        Gizmos.DrawLine(arrowTip + new Vector3(0, 2, 0), arrowRight + new Vector3(0, 2, 0));
+    }
 }
 
 
@@ -314,6 +402,7 @@ public enum HexType
     Trampolin,
     ChangeDirection,
     BoostForward,
+    BoostInDirection,
     Water,
     Building,
     Obstacle
