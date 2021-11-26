@@ -8,7 +8,7 @@ public class HexAutoTiling : MonoBehaviour
     public static List<GameObject> HexesToBeMoved = new List<GameObject>();
     private int startTilingTreshhold = 65;
     
-     private HexCoordinates hexCoordinates;
+    
 
      [SerializeField] GameObject playerLocation;
 
@@ -17,9 +17,9 @@ public class HexAutoTiling : MonoBehaviour
     private float zPlusSnapShotPos;
     private float zMinusSnapShotPos;
 
-    private float tilingTreshold = 307.5f;
-    private float zTilingDistance = 438;
-    private float xTilingDistance = 517;
+    [Tooltip("ab wann soll er das Tiling anfangen?")] public float tilingTreshold = 307.5f; //default 307.5
+    [Tooltip("wie weit soll er die Tiles nach z verschieben?") ] public float zTilingDistance = 438; //default 438
+    [Tooltip("wie weit soll er die Tiles nach xverschieben")] public float xTilingDistance = 517; //default 517
     
     
 
@@ -27,7 +27,7 @@ public class HexAutoTiling : MonoBehaviour
     void Awake()
     
     {   
-        hexCoordinates = this.GetComponent<HexCoordinates>();
+   
         HexesToBeMoved.Clear();
         HexesToBeMoved.AddRange(GameObject.FindGameObjectsWithTag("Hex"));
     }

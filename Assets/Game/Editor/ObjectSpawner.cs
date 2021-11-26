@@ -87,16 +87,16 @@ public class ObjectSpawner : EditorWindow
         GUILayout.Space(15);
         if (GUILayout.Button("Parent recent Objects"))
         {
-            addSpawnedObjectsToParent();
+            AddSpawnedObjectsToParent();
         }
         
         if (GUILayout.Button("Connect to prefab"))
         {
-            connectBackToParent();
+            ConnectToPrefab();
         }
     }
 
-    void connectBackToParent()
+    void ConnectToPrefab()
     {
         foreach (GameObject preFabMe in hasAllTheRecentlySpawnedObjects)
         {
@@ -112,7 +112,7 @@ public class ObjectSpawner : EditorWindow
  
         }
     }
-    private void addSpawnedObjectsToParent()
+    private void AddSpawnedObjectsToParent()
     {
         if (hasAllTheRecentlySpawnedObjects == null || parentName == string.Empty)
         {
