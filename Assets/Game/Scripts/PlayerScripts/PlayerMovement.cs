@@ -8,9 +8,12 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public Rigidbody rb;
     GameManager gameMng;
 
-    public bool OnBoostForwardHex;
-    public float currentHexFowardForce;
-    public bool OnChangeDirectionHex;
+    [HideInInspector] public bool OnBoostForwardHex;
+    [HideInInspector] public float CurrentHexFowardForce;
+    [HideInInspector] public bool OnChangeDirectionHex;
+    [HideInInspector] public bool OnBoostInDirectionHex;
+    [HideInInspector] public float CurrentHexInDirectionForce = 100;
+    [HideInInspector] public Vector3 HexInDirectionDirection;
     //public float currentHexChangeDirectionForce;
     
 
@@ -109,7 +112,11 @@ public class PlayerMovement : MonoBehaviour
         else if (OnBoostForwardHex == true)
         {
             
-            rb.AddForce(rb.velocity.normalized * currentHexFowardForce * 5);
+            rb.AddForce(rb.velocity.normalized * CurrentHexFowardForce * 5);
+        }
+        else if (OnBoostInDirectionHex == true)
+        {
+            rb.AddForce(HexInDirectionDirection * CurrentHexInDirectionForce * 100);
         }
         else if(OnChangeDirectionHex == true)
         {

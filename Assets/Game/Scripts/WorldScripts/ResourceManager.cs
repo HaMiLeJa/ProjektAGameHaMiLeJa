@@ -102,7 +102,6 @@ public class ResourceManager : MonoBehaviour //for points and energy
         {
             CurrentEnergy = MaxEnergyAmount;
             CurrentUIEnergy = MaxEnergyAmount;
-            Debug.Log("Max Energy");
         }
     }
 }
