@@ -12,7 +12,7 @@ public class ObjectSpawner : EditorWindow
     float xOffsetInput = 0;
     float zOffsetInput = 0;
     
-    int howManyRows = 0;
+    int howManyRows = 1;
     float xRowOffsetStart = 0;
     float zRowOffsetStart = 0;
     int xRowRepeatingPatternInput = 0;
@@ -66,7 +66,10 @@ public class ObjectSpawner : EditorWindow
 
         if (GUILayout.Button("Spawn Object"))
         {
-            hasAllTheRecentlySpawnedObjects.Clear();
+          /*  hasAllTheRecentlySpawnedObjects.Clear();
+            if (howManyRows == 0)
+                howManyRows = 1;
+                */
             SpawnObject();
         }
         GUILayout.Space(15);
@@ -74,6 +77,7 @@ public class ObjectSpawner : EditorWindow
         if (GUILayout.Button("Destroy recent Objects"))
         {
             DestroySpawnedObjects();
+            hasAllTheRecentlySpawnedObjects.Clear();
         }
         GUILayout.Space(15);
       
@@ -95,6 +99,7 @@ public class ObjectSpawner : EditorWindow
             return;
         }
         parentObject= new GameObject(parentName);
+        Selection.activeObject = parentObject;
         foreach(GameObject parentMe in hasAllTheRecentlySpawnedObjects)
             parentMe.transform.parent = parentObject.transform;   
     }

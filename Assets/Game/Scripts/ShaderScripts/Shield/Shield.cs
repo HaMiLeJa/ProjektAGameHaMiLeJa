@@ -11,30 +11,66 @@ public class Shield : MonoBehaviour
     [SerializeField] float DisolveSpeed;
     bool shieldOn;
     Coroutine disolveCoroutine;
+
+    private Hitpoints _hitpoints;
     // Start is called before the first frame update
     void Start()
     {
         renderer = GetComponent<Renderer>();
+        _hitpoints = FindObjectOfType<Hitpoints>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        /*if (Input.GetMouseButtonDown(0))
+
+        if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //  Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(_hitpoints.pointOut, this.transform.position, out hit))
             {
                 HitShield(hit.point);
             }
-        }
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            OpenCloseShield();
-        }*/
-    }
 
+            // }
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                OpenCloseShield();
+            }
+
+        }
+    }
+    /*void OnCollisionEnter(Collision other)
+{
+    if( other.gameObject.layer == 6){
+    // Print how many points are colliding with this transform
+    Debug.Log("Points colliding: " + other.contacts.Length);
+
+    // Print the normal of the first point in the collision.
+    Debug.Log("Normal of the first point: " + other.contacts[0].normal);
+    Debug.Log("test: " + other.contacts[0].point);
+
+    // Draw a different colored ray for every normal in the collision
+    foreach (var item in other.contacts)
+    {
+        Debug.DrawRay(item.point, item.normal * 100, Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f), 10f);
+    }
+    }*/
+    //}
+
+    // private void OnCollisionEnter(Collision collision) 
+    // {
+    //     ContactPoint[] contacts = new ContactPoint[1];
+    //     collision.GetContacts(contacts);
+    //     RaycastHit hit;
+    //     Physics.Raycast(contacts[0].point, this.gameObject.transform.position, out hit);
+    //     Debug.DrawLine(start:contacts[0].point, this.gameObject.transform.position, Color.red);
+    //     HitShield(hit.point);
+    //     
+    // }
+    
     public void HitShield(Vector3 hitPos)
     {
         renderer.material.SetVector("_HitPos", hitPos);
