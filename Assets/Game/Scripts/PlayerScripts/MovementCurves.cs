@@ -41,9 +41,10 @@ public class MovementCurves : MonoBehaviour
 
                 //FindStartpoint (and Direction?)
 
+                //Startpoint reingeben
                 if (waypointCoroutine == null)
-                    waypointCoroutine = StartCoroutine(MoveToWaypoint(0)); //Startpoint reingeben
-           }
+                    waypointCoroutine = StartCoroutine(MoveToWaypoint(startpoint));
+            }
                 
 
             
@@ -88,8 +89,6 @@ public class MovementCurves : MonoBehaviour
         
     }
 
-
-    // Update is called once per frame
     void FixedUpdate()
     {
         /*
@@ -146,12 +145,49 @@ public class MovementCurves : MonoBehaviour
         */
     }
 
+    int startpoint;
+    bool listForward = false;
+
     void FindStartpoint()
     {
-        foreach(GameObject waypoint in movementWay.Waypoints)
+        bool findingStartPoint = true;
+        float radius = 10;
+
+        while (findingStartPoint == true)
         {
-            //if player is the nearest bla bla bla
+            Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, myCollider.radius + radius, LayerMask.GetMask("Waypoints"));
+
+            radius = radius - 0.1f;
+
+            if (hitColliders.Length == 1)
+            {
+                foreach(Collider collider in hitColliders)
+                {
+                    foreach(GameObject waypoint in movementWay.Waypoints)
+                    {
+                        if(collider.gameObject == waypoint)
+                        {
+                            startpoint = movementWay.Waypoints.IndexOf(waypoint);
+                            
+
+                            if(startpoint == 0)
+                            {
+                                listForward = true;
+                            }
+                            else
+                            {
+                                listForward = false;
+                            }
+
+                        }
+                    }
+                }
+
+                findingStartPoint = false;
+
+            }
         }
+       
     }
 
 
@@ -169,14 +205,11 @@ public class MovementCurves : MonoBehaviour
         while (waypointReached == false)
         {
             GameObject waypoint = movementWay.Waypoints[point];
-            //Vector3 direction = waypoint.transform.position / waypoint.transform.position.magnitude;
+           
 
             direction = new Vector3(waypoint.transform.position.x - this.transform.position.x, waypoint.transform.position.y - this.transform.position.y, waypoint.transform.position.z - this.transform.position.z).normalized;
 
             Vector3 movement = direction * Time.deltaTime * speed;
-
-            //rb.MovePosition(this.transform.position + movement);
-
             Vector3 lerpedMovement = new Vector3(Mathf.Lerp(this.transform.position.x, this.transform.position.x + movement.x, 10), Mathf.Lerp(this.transform.position.y, this.transform.position.y + movement.y, 10), Mathf.Lerp(this.transform.position.z, this.transform.position.z + movement.z, 10));
 
             rb.MovePosition(lerpedMovement);
@@ -202,16 +235,21 @@ public class MovementCurves : MonoBehaviour
         }
 
 
+        if(listForward == true)
+        {
+            if (point >= movementWay.Waypoints.Count - 1)
+            {
+                lastWaypointReached = true;
 
-        if (point >= movementWay.Waypoints.Count - 1)
-        {
-            lastWaypointReached = true;
-            
+            }
+            else
+            {
+                StartCoroutine(MoveToWaypoint(point + 1));
+            }
         }
-        else
-        {
-            StartCoroutine(MoveToWaypoint(point + 1));
-        }
+
+        if(listForward)
+        
         
 
         yield return null;

@@ -42,7 +42,7 @@ public class PlayerBoost : MonoBehaviour
         // if (rb.velocity.x == 0 || rb.velocity.z == 0) return; //kein kleiner Boost am Anfang erlaubt!
 
 
-        if (Input.GetAxisRaw("RightTrigger") != 0 && IsBoosting == false)
+        if (Input.GetAxisRaw("RightTrigger") != 0 && IsBoosting == false || Input.GetButtonDown("X") && IsBoosting == false)
         {
             IsBoosting = true;
             BoostStarter();
