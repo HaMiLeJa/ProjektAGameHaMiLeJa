@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 4498330986242300555}
   - component: {fileID: 4498330986242300597}
   - component: {fileID: 4498330986242300554}
+  - component: {fileID: 7113652212557213417}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -115,8 +116,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   OnBoostForwardHex: 0
-  currentHexFowardForce: 0
+  CurrentHexFowardForce: 0
   OnChangeDirectionHex: 0
+  OnBoostInDirectionHex: 0
+  CurrentHexInDirectionForce: 100
+  HexInDirectionDirection: {x: 0, y: 0, z: 0}
   MovementDirection: {x: 0, y: 0, z: 0}
   SlowDownMultiplicator: 0.99
   forceJump: 3.5
@@ -311,6 +315,24 @@ MonoBehaviour:
   SlamParent: {fileID: 4658194994052893202, guid: a3edb481536fb7445816bc96f93a3167, type: 3}
   PlayerParticleParent: {fileID: 6967255096388331669}
   smashParticle: {fileID: 925468344595267504}
+--- !u!114 &7113652212557213417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4498330986242300544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 684186514e11db54d8c2c49027bf049e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnCurve: 0
+  distanceToCurve: 0
+  distance: 3
+  speed: 60
+  lastWaypointReached: 0
+  myCollider: {fileID: 4498330986242300557}
 --- !u!1 &5018722040126948370
 GameObject:
   m_ObjectHideFlags: 0
