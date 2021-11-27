@@ -180,7 +180,8 @@ public class Hex : MonoBehaviour
 
     private IEnumerator ChangeDirectionCoroutine()
     {
-        
+        if(myAudioSource.isPlaying == false)
+            myAudioSource.Play();
 
         playerRb.velocity = playerRb.velocity * -1;
         yield return new WaitForSeconds(0.5f);
@@ -428,15 +429,7 @@ public class Hex : MonoBehaviour
         Gizmos.DrawLine(arrowTip + new Vector3(0, 2, 0), arrowRight + new Vector3(0, 2, 0));
     }
 
-  void testvoid()
-    {
-        string Test = "Default";
-
-        if (Test == hexType.ToString())
-        {
-            
-        }
-    }
+  
 }
 
 
