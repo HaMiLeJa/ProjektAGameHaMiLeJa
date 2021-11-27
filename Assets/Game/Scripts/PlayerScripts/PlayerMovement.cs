@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     #region Inspector
     [HideInInspector] public Rigidbody rb;
     GameManager gameMng;
+    MovementCurves movCurves;
 
     [HideInInspector] public bool OnBoostForwardHex;
     [HideInInspector] public float CurrentHexFowardForce;
@@ -72,6 +73,7 @@ public class PlayerMovement : MonoBehaviour
         gameMng = GameManager.Instance;
         shadowDash = this.GetComponent<ShadowDash>();
         playerBoost = this.GetComponent<PlayerBoost>();
+        movCurves = this.GetComponent<MovementCurves>();
     }
 
 
@@ -82,6 +84,7 @@ public class PlayerMovement : MonoBehaviour
         ControlVelocity();
 
         GroundCheck();
+        Gravity();
         HightControl();
         totalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.y) + Mathf.Abs(Velocity.z);
 
@@ -308,24 +311,25 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         
-        
-        
+       
+    }
 
-        
-        if(OnGround == false && jumping == false) //&&rebounding == false
+   void Gravity()
+    {
+        //if (movCurves.OnCurve == true) return;
+
+        if (OnGround == false && jumping == false) //&&rebounding == false
         {
             //Vector3 direction = new Vector3(rb.velocity.x, -1, rb.velocity.z);
             //direction = direction.normalized;
 
             rb.AddForce(rb.velocity.normalized + Vector3.down * fallDownSpeed);
         }
-        else if(OnGround == false && rebounded == false) //Trampolin
+        else if (OnGround == false && rebounded == false) //Trampolin
         {
             rb.AddForce(rb.velocity.normalized + Vector3.down * fallDownSpeed);
         }
     }
-
-   
 
     //CollectEnergy
     /*
