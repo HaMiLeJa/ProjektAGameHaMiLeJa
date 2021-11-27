@@ -42,13 +42,14 @@ public class GameManager : MonoBehaviour
     public float ShadowDashCosts = 1;
     public float DownDashCosts = 1;
     #endregion
-
+    
     #region Inspector
     [Space]
     [SerializeField] private float Skyboxspeed;
     public bool AllowMovement = true;
     public bool AllowHexEffects = true;
-
+    public static float GlowEnableDelay = 0.1f;
+   public static  float GlowDisableDelay = 2.5f;
     GameObject player;
     Rigidbody playerRb;
     #endregion

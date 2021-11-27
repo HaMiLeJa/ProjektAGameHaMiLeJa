@@ -15,6 +15,7 @@ public class Hex : MonoBehaviour
     private GlowHighlight highlight;
     private HexCoordinates hexCoordinates;
     [SerializeField] protected HexType hexType;
+  
 
         #endregion
     public Vector3Int HexCoords => hexCoordinates.GetHexCoords();
@@ -105,14 +106,28 @@ public class Hex : MonoBehaviour
             {
                 BoostInDirectionStarter();
             }
+
+            StartCoroutine(EnableHighlightDelayed());
+            StartCoroutine(DisableHighlightDelayed());
         }
         
         
     }
     #endregion
-
-
     
+    IEnumerator EnableHighlightDelayed()
+    {
+    
+        yield return new WaitForSeconds(GameManager.GlowEnableDelay);
+        EnableHighlight();
+    }
+
+   
+    IEnumerator DisableHighlightDelayed()
+    {
+        yield return new WaitForSeconds(GameManager.GlowDisableDelay);
+        DisableHighlight();
+    }
 
     #region ChangeDirection
 
@@ -162,6 +177,8 @@ public class Hex : MonoBehaviour
         {
             allowStartChangeDirection = true;
         }
+
+       
     }
     #endregion
 

@@ -23,6 +23,9 @@ public class GlowHighlight : MonoBehaviour
     #endregion
 
     #region MaterialSwap
+
+  
+
     private void Awake()
     {
         PrepareMaterialDictionaries();

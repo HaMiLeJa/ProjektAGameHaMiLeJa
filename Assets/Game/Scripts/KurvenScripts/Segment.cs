@@ -89,7 +89,6 @@ public class Segment : UniqueMesh
 	}
 
 	// Gibt die Bezier Orientation zurück vom segment
-	// We need this in both world and local space! Meshes are in local space.
 	// Wir brauchen es in beidem, World- und Localspace. Meshes sind in LocalSpace, während die gizmos in world space sind.
 	// Das wird vom Segment Inspector genutzt
 	
