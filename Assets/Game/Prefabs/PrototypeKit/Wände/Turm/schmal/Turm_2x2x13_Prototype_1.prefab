@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2429510660355455665}
   - component: {fileID: 1592163788110296340}
   - component: {fileID: 3601885530727186910}
+  - component: {fileID: 5386515867754139683}
   m_Layer: 7
   m_Name: Turm_2x2x13_Prototype_1
   m_TagString: Untagged
@@ -81,3 +82,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5386515867754139683
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3097504293128937483}
+  m_Material: {fileID: 13400000, guid: 42352e1e017dce74c9f804cc74022fff, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.02, y: 0.019999998, z: 0.12999997}
+  m_Center: {x: 0.01, y: 0.009999999, z: 0.06499998}

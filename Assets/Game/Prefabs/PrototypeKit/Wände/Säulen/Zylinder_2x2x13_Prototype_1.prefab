@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2587231298426409325}
   - component: {fileID: 1461535440010321608}
   - component: {fileID: 3723524666756000258}
+  - component: {fileID: -3044376592981184325}
   m_Layer: 7
   m_Name: Zylinder_2x2x13_Prototype_1
   m_TagString: Wall
@@ -81,3 +82,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &-3044376592981184325
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2930824680913423319}
+  m_Material: {fileID: 13400000, guid: 42352e1e017dce74c9f804cc74022fff, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8069687652874352640, guid: 44cb5b1b0546b324a9cd906acbcddbe2, type: 3}
