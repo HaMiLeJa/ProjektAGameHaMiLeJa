@@ -110,26 +110,30 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(MovementDirection.normalized * shadowDash.currentShadowDashForce * 5);
 
         }
-        else if(playerBoost.currentBoostforce != 0f)
+        if(playerBoost.currentBoostforce != 0f)
         {
             rb.AddForce(MovementDirection.normalized * playerBoost.currentBoostforce * 5);
         }
-        else if (OnBoostForwardHex == true)
+
+        if (OnBoostForwardHex == true)
         {
             
             rb.AddForce(rb.velocity.normalized * CurrentHexFowardForce * 5);
         }
-        else if (OnBoostInDirectionHex == true)
+        
+        if (OnBoostInDirectionHex == true)
         {
             rb.AddForce(HexInDirectionDirection * CurrentHexInDirectionForce * 100);
         }
-        else if(OnChangeDirectionHex == true)
+        
+        if(OnChangeDirectionHex == true)
         {
             rb.AddForce(rb.velocity.normalized * 5); //*currentHexChangeDirectionForce 
 
 
         }
-        else if(OnGround == false)
+        
+        if(OnGround == false)
         {
             totalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.z);
             float velocityPower = totalVelocity * velocityInfluence/2;
