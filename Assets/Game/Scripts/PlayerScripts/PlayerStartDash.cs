@@ -60,7 +60,7 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
     {
         if (dash.IsBoosting == true || shadowDash.isShadowDashing == true) return;
 
-        if (Input.GetAxisRaw("LeftTrigger") != 0 || Input.GetButton("A"))
+        if (Input.GetAxisRaw("LeftTrigger") != 0 || Input.GetButton("Y"))
         {
             if (boostButtonPressedInLastFrame == false)
             {
@@ -99,7 +99,7 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
         }
 
         // && started == false
-        if (Input.GetAxisRaw("LeftTrigger") != 0 && directionSet == true || Input.GetButton("A") && directionSet == true) 
+        if (Input.GetAxisRaw("LeftTrigger") != 0 && directionSet == true || Input.GetButton("Y") && directionSet == true) 
         {
             if (boostButtonPressedInLastFrame2 == false)
             {
