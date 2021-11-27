@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3940584300383213394}
   - component: {fileID: 1246146634203685784}
   - component: {fileID: 741914930725110386}
+  - component: {fileID: 5839891118688821956}
   m_Layer: 7
   m_Name: Turm_2x2x13_Prototype_1_D
   m_TagString: Untagged
@@ -97,3 +98,16 @@ MonoBehaviour:
   lifeStartAmount: 100
   currentLife: 0
   value: 1
+--- !u!65 &5839891118688821956
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 741914930725110349}
+  m_Material: {fileID: 13400000, guid: 42352e1e017dce74c9f804cc74022fff, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.02, y: 0.019999998, z: 0.12999997}
+  m_Center: {x: 0.01, y: 0.009999999, z: 0.06499998}

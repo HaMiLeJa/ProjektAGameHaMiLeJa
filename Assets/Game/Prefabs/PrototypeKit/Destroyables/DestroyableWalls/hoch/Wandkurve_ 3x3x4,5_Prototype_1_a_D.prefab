@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1056012848411744951}
   - component: {fileID: 2973292054630919805}
   - component: {fileID: 3621946534618976169}
+  - component: {fileID: 3126664206025810698}
   m_Layer: 7
   m_Name: Wandkurve_ 3x3x4,5_Prototype_1_a_D
   m_TagString: Wall
@@ -97,3 +98,17 @@ MonoBehaviour:
   lifeStartAmount: 100
   currentLife: 0
   value: 1
+--- !u!64 &3126664206025810698
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3621946534618976168}
+  m_Material: {fileID: 13400000, guid: 42352e1e017dce74c9f804cc74022fff, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -253625827254376711, guid: 210841b10860dd94cac86fe99d498fae, type: 3}
