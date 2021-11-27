@@ -11,13 +11,17 @@ public class Hex : MonoBehaviour
     private Rigidbody playerRb;
     PlayerMovement playerMov;
     GameManager gameMng;
+    AudioClipsHexes audioClipHexes;
+
+    AudioSource myAudioSource;
 
     private GlowHighlight highlight;
     private HexCoordinates hexCoordinates;
     [SerializeField] protected HexType hexType;
-  
 
-        #endregion
+    AudioClip clip;
+
+    #endregion
     public Vector3Int HexCoords => hexCoordinates.GetHexCoords();
 
     
@@ -50,6 +54,21 @@ public class Hex : MonoBehaviour
         Player = GameObject.FindGameObjectWithTag("Player");
         playerRb = Player.GetComponent<Rigidbody>();
         playerMov = Player.GetComponent<PlayerMovement>();
+        audioClipHexes = AudioManager.Instance.gameObject.GetComponent<AudioClipsHexes>();
+        myAudioSource = this.GetComponent<AudioSource>();
+
+        if (hexType != HexType.Default)
+        {
+            foreach(StringAudiofileClass file in audioClipHexes.AllHexClips)
+            {
+                if(file.name == hexType.ToString())
+                {
+                    
+                    clip = file.clip;
+                    myAudioSource.clip = clip;
+                }
+            }
+        }
     }
 
     #region  HighlightHexs
@@ -225,7 +244,7 @@ public class Hex : MonoBehaviour
 
     #region BoostForward
     [Header("BoostForward")]
-    //[SerializeField] private float BoostForce = 200f;
+   [Range(10f, 80f)] [SerializeField] private float boostForce = 70f;
     private float BoostForwardDuration = 0.4f;
     public bool IsHexForwardBoosting = false; //used to lock other boosts
     private Coroutine hexBoostForwardCoroutine;
@@ -257,7 +276,7 @@ public class Hex : MonoBehaviour
 
            // playerMov.currentHexFowardForce += BoostForce * curveValue * Time.deltaTime; -> Boost DuratioN:0.8
 
-            playerMov.CurrentHexFowardForce = 80;
+            playerMov.CurrentHexFowardForce = boostForce;
 
 
              yield return null;
@@ -334,7 +353,7 @@ public class Hex : MonoBehaviour
     float YDirection = 0;
     Vector3 BoostInDirectionDirection;
     Coroutine hexBoostInDirectionCoroutine;
-    [Range (10, 40)] [SerializeField] float force = 30;
+    [Range (10, 40)] [SerializeField] float force = 20;
 
     float BoostInDirectionDuration = 0.3f;
     bool IsBoostingInDirection = false;
@@ -407,6 +426,16 @@ public class Hex : MonoBehaviour
         Gizmos.DrawLine(arrowTip + new Vector3(0, 2, 0), this.transform.forward + new Vector3(0,2,0));
         Gizmos.DrawLine(arrowTip + new Vector3(0, 2, 0), arrowLeft + new Vector3(0, 2, 0));
         Gizmos.DrawLine(arrowTip + new Vector3(0, 2, 0), arrowRight + new Vector3(0, 2, 0));
+    }
+
+  void testvoid()
+    {
+        string Test = "Default";
+
+        if (Test == hexType.ToString())
+        {
+            
+        }
     }
 }
 
