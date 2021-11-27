@@ -2,18 +2,39 @@ using System;
 using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Text;
 
 public class Shuffler : EditorWindow
 {
-    private GameObject hexGrid;
+    // To DO:  Bool Switches überarbeiten
+    private GameObject pivot;
     private bool pivotHasMoved = false;
-    private bool shuffledRight = true;
+    private bool rightAvailable = true;
+    private bool leftAvailable = true;
+    
+    private bool lastPressedLeft = false;
+    private bool lastPressedRight = false;
+    
+    private bool topAvailable = true;
+    private bool bottomAvailable = true;
+    
+    private bool lastPressedTop = false;
+    private bool lastPressedBottom = false;
+    
+    private bool inverseRT = true;
+    private bool inverseLB = true;
+    
+    private bool lastPressedInverseRT= false;
+    private bool lastPressedInverseLB = false;
+    
+    
     List<GameObject> hasAllTheHexes = new List<GameObject>();
 
     [MenuItem("HaMiLeJa/ Shuffler")]
     public static void ShowWindow()
     {
         GetWindow(typeof(Shuffler));
+        
     }
 
     private void OnGUI()
@@ -22,13 +43,11 @@ public class Shuffler : EditorWindow
 
         GUILayout.Label("Shuffler", EditorStyles.boldLabel);
 
-        hexGrid = EditorGUILayout.ObjectField("Pivot Object: ", hexGrid, typeof(GameObject), true) as GameObject;
+        pivot = EditorGUILayout.ObjectField("Pivot Object: ", pivot, typeof(GameObject), true) as GameObject;
         
         GUILayout.Space(5);
-        if (GUILayout.Button("Clear List"))
-        {
-            clearList();
-        }
+        
+        GUILayout.Label("First Chose a Pivot and make a List. Doing it once is enough.", EditorStyles.helpBox);
         GUILayout.Space(5);
         
         if (GUILayout.Button("Make List"))
@@ -36,57 +55,126 @@ public class Shuffler : EditorWindow
             safeHexesToList();
         }
 
-       
-
-     
+        GUILayout.Space(5);
+        GUILayout.Label(" Now chose how you want to shuffle. Just one Categorie [left<>right] [top<>bottom] [inverseMapRT<>InverseMaplB].", EditorStyles.helpBox);
+        GUILayout.Space(5);
+        GUILayout.Label("Don't mix Categories and remember to shuffle stuff back once you are done.", EditorStyles.helpBox);
         
         GUILayout.Space(15);
 
-      
-        if (GUILayout.Button("Shuffle right"))
+        GUI.enabled = rightAvailable;
+        
+        if (GUILayout.Button("Shuffle Right"))
         {
             moveToTheRight();
+            leftAvailable = true;
+            rightAvailable = false;
+            lastPressedRight = !lastPressedRight;
         }
 
-        //GUI.enabled = shuffledRight;
+        GUI.enabled = true;
+
+        GUI.enabled = leftAvailable;
         
         GUILayout.Space(5);
 
-        if (GUILayout.Button("Shuffle left"))
+        if (GUILayout.Button("Shuffle Left"))
         {
             moveToTheLeft();
+            leftAvailable = false;
+            rightAvailable = true;
+            lastPressedLeft = !lastPressedLeft;
         }
 
-       // GUI.enabled = true;
+        GUI.enabled = true;
         
-        GUILayout.Space(15);
+        GUI.enabled = topAvailable;
+        
+        GUILayout.Space(18);
+        
+        if (GUILayout.Button("Top"))
+        {
+            moveToTheTop();
+            topAvailable = false;
+            bottomAvailable = true;
+            lastPressedTop = !lastPressedTop;
+        }
+
+        GUI.enabled = true;
+        
+        GUI.enabled = bottomAvailable;
         
         if (GUILayout.Button("Bottom"))
         {
             moveToTheBottom();
+            topAvailable = true;
+            bottomAvailable = false;
+            lastPressedBottom = !lastPressedBottom;
         }
-        if (GUILayout.Button("Top"))
-        {
-            moveToTheTop();
-        }
+        GUILayout.Space(18);
+        GUI.enabled = true;
 
+        GUI.enabled = inverseRT;
+        
+        if (GUILayout.Button("Inverse Map RT"))
+        {
+            moveToTheRight();
+            moveToTheTop();
+
+            inverseRT = false;
+            inverseLB = true;
+            lastPressedInverseRT = !lastPressedInverseRT;
+        }
+     
+        GUI.enabled = true;
+
+        GUI.enabled = inverseLB ;
+        
+        if (GUILayout.Button("Inverse Map LB"))
+        {
+           moveToTheLeft();
+           moveToTheBottom();
+           inverseLB = false;
+           inverseRT = true;
+           lastPressedInverseLB = !lastPressedInverseLB;
+        }
+     
+        GUI.enabled = true;
+        
+        GUILayout.Space(18);
+        if (GUILayout.Button("Release Button Pressed"))
+        {
+            restAllButtons();
+        }
+        
+        
         void safeHexesToList()
         {
-            hasAllTheHexes.AddRange(GameObject.FindGameObjectsWithTag("Hex"));
-           
-        }
-
-        void clearList()
-        {
+            if (pivot == null)
+            {
+                Debug.Log("Choose a Pivot first");
+                return;
+            }
             hasAllTheHexes.Clear();
+            Debug.Log("List cleared");
+            hasAllTheHexes.AddRange(GameObject.FindGameObjectsWithTag("Hex"));
+            Debug.Log("Made new List");
         }
-
+        
+        void nullcheck()
+        {
+            if(hasAllTheHexes == null) 
+                safeHexesToList();
+        }
       
         void moveToTheTop()
         {
+            nullcheck();
+            
+            
             foreach (GameObject hex in hasAllTheHexes)
             {
-                if (hex.transform.position.z < hexGrid.transform.position.z)
+                if (hex.transform.position.z < pivot.transform.position.z)
                     hex.transform.position = new Vector3(hex.transform.position.x,
                         hex.transform.position.y, hex.transform.position.z + HexAutoTiling.zTilingDistance);
                 if (pivotHasMoved == false)
@@ -95,21 +183,32 @@ public class Shuffler : EditorWindow
 
             if (pivotHasMoved)
             {
-                hexGrid.transform.position =
-                    new Vector3(hexGrid.transform.position.x,
-                        hexGrid.transform.position.y,
-                        hexGrid.transform.position.z + (HexAutoTiling.zTilingDistance / 2));
+                pivot.transform.position =
+                    new Vector3(pivot.transform.position.x,
+                        pivot.transform.position.y,
+                        pivot.transform.position.z + (HexAutoTiling.zTilingDistance / 2));
                 pivotHasMoved = false;
             }
         }
-        
-        
-        
-        void moveToTheBottom()
+
+        void restAllButtons()
         {
+            leftAvailable = true;
+            rightAvailable = true;
+            topAvailable = true;
+            bottomAvailable = true;
+            inverseLB = true;
+            inverseRT = true;
+        }
+
+         void moveToTheBottom()
+        {
+
+            nullcheck();
+            
             foreach (GameObject hex in hasAllTheHexes)
             {
-                if (hex.transform.position.z > hexGrid.transform.position.z)
+                if (hex.transform.position.z > pivot.transform.position.z)
                     hex.transform.position = new Vector3(hex.transform.position.x,
                         hex.transform.position.y, hex.transform.position.z - HexAutoTiling.zTilingDistance);
                 if (pivotHasMoved == false)
@@ -118,10 +217,10 @@ public class Shuffler : EditorWindow
 
             if (pivotHasMoved)
             {
-                hexGrid.transform.position =
-                    new Vector3(hexGrid.transform.position.x,
-                        hexGrid.transform.position.y,
-                        hexGrid.transform.position.z - (HexAutoTiling.zTilingDistance / 2));
+                pivot.transform.position =
+                    new Vector3(pivot.transform.position.x,
+                        pivot.transform.position.y,
+                        pivot.transform.position.z - (HexAutoTiling.zTilingDistance / 2));
                 pivotHasMoved = false;
             }
         }
@@ -130,10 +229,11 @@ public class Shuffler : EditorWindow
         
         void moveToTheLeft()
         {
+            nullcheck();
           
             foreach (GameObject hex in hasAllTheHexes)
             {
-                if (hex.transform.position.x > hexGrid.transform.position.x)
+                if (hex.transform.position.x > pivot.transform.position.x)
                     hex.transform.position = new Vector3(hex.transform.position.x - HexAutoTiling.xTilingDistance,
                         hex.transform.position.y, hex.transform.position.z);
                 if (pivotHasMoved == false)
@@ -142,9 +242,9 @@ public class Shuffler : EditorWindow
 
             if (pivotHasMoved)
             {
-                hexGrid.transform.position =
-                    new Vector3(hexGrid.transform.position.x - (HexAutoTiling.xTilingDistance / 2),
-                        hexGrid.transform.position.y, hexGrid.transform.position.z);
+                pivot.transform.position =
+                    new Vector3(pivot.transform.position.x - (HexAutoTiling.xTilingDistance / 2),
+                        pivot.transform.position.y, pivot.transform.position.z);
                 pivotHasMoved = false;
             }
         }
@@ -152,11 +252,12 @@ public class Shuffler : EditorWindow
 
         void moveToTheRight()
         {
+            nullcheck();
            
                 foreach (GameObject hex in hasAllTheHexes)
             {
 
-                if (hex.transform.position.x < hexGrid.transform.position.x)
+                if (hex.transform.position.x < pivot.transform.position.x)
                     hex.transform.position = new Vector3(hex.transform.position.x + HexAutoTiling.xTilingDistance,
                         hex.transform.position.y, hex.transform.position.z);
             
@@ -167,8 +268,8 @@ public class Shuffler : EditorWindow
             
              if (pivotHasMoved)
             {
-                hexGrid.transform.position = new Vector3(hexGrid.transform.position.x + (HexAutoTiling.xTilingDistance/2),
-                    hexGrid.transform.position.y, hexGrid.transform.position.z);
+                pivot.transform.position = new Vector3(pivot.transform.position.x + (HexAutoTiling.xTilingDistance/2),
+                    pivot.transform.position.y, pivot.transform.position.z);
                 pivotHasMoved = false;
             }
         }
