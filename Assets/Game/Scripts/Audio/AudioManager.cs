@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    bool allowAudio = true;
+    [HideInInspector] public bool allowAudio = true;
 
-    [SerializeField] bool allowAudioInspector = true;
+    [SerializeField] bool allowAudioInsp = true;
 
     private void Start()
     {
 #if UNITY_EDITOR
-        allowAudio = allowAudioInspector;
+        allowAudio = allowAudioInsp;
 #endif
     }
 

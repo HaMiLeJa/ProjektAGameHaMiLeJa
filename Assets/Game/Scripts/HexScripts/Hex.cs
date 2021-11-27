@@ -11,6 +11,7 @@ public class Hex : MonoBehaviour
     private Rigidbody playerRb;
     PlayerMovement playerMov;
     GameManager gameMng;
+    AudioManager audManager;
     AudioClipsHexes audioClipHexes;
 
     AudioSource myAudioSource;
@@ -54,6 +55,7 @@ public class Hex : MonoBehaviour
         Player = GameObject.FindGameObjectWithTag("Player");
         playerRb = Player.GetComponent<Rigidbody>();
         playerMov = Player.GetComponent<PlayerMovement>();
+        audManager = AudioManager.Instance;
         audioClipHexes = AudioManager.Instance.gameObject.GetComponent<AudioClipsHexes>();
         myAudioSource = this.GetComponent<AudioSource>();
 
@@ -180,7 +182,7 @@ public class Hex : MonoBehaviour
 
     private IEnumerator ChangeDirectionCoroutine()
     {
-        if(myAudioSource.isPlaying == false)
+        if (myAudioSource.isPlaying == false && audManager.allowAudio == true)
             myAudioSource.Play();
 
         playerRb.velocity = playerRb.velocity * -1;
@@ -223,6 +225,9 @@ public class Hex : MonoBehaviour
 
     private IEnumerator SlowDownCoroutine()
     {
+        if (myAudioSource.isPlaying == false && audManager.allowAudio == true)
+            myAudioSource.Play();
+
         float t = 0;
         // Vector3 halfVelocity = velocity * 0.5f;
 
@@ -266,6 +271,9 @@ public class Hex : MonoBehaviour
 
     private IEnumerator HexBoostForwardCoroutine()
     {
+        if (myAudioSource.isPlaying == false && audManager.allowAudio == true)
+            myAudioSource.Play();
+
         float t = 0;
         playerMov.OnBoostForwardHex = true;
 
@@ -305,6 +313,9 @@ public class Hex : MonoBehaviour
     public void TrampolinStarter()
     {
         if (gameMng.AllowHexEffects == false) return;
+
+        if (myAudioSource.isPlaying == false && audManager.allowAudio == true)
+            myAudioSource.Play();
 
         playerMov.rebounded = true;
 
@@ -374,6 +385,9 @@ public class Hex : MonoBehaviour
 
     private IEnumerator HexBoostInDirectionCoroutine()
     {
+        if (myAudioSource.isPlaying == false && audManager.allowAudio == true)
+            myAudioSource.Play();
+
         float t = 0;
         playerMov.OnBoostInDirectionHex = true;
         playerRb.velocity = Vector3.zero; //playerRb.velocity * 0.2f;
