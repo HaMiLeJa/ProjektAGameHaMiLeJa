@@ -29,8 +29,6 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
                 StartPortal = true;
                 GoalPortal = false;
 
-                if (myAudioSource.isPlaying == false && AudioManager.Instance.allowAudio == true)
-                    myAudioSource.Play();
 
                 Rigidbody playerRb = player.GetComponent<Rigidbody>();
 
@@ -44,6 +42,8 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
             {
                 StartPortal = false;
 
+                if (myAudioSource.isPlaying == false && AudioManager.Instance.allowAudio == true)
+                    myAudioSource.Play();
             }
             
         }
@@ -51,7 +51,7 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.tag == player.tag)
+        if (other.tag == player.tag && GoalPortal == true)
         {
             StartPortal = false;
             GoalPortal = false;

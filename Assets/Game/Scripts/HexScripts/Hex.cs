@@ -250,7 +250,7 @@ public class Hex : MonoBehaviour
 
     #region BoostForward
     [Header("BoostForward")]
-   [Range(10f, 80f)] [SerializeField] private float boostForce = 70f;
+    [Range(10f, 80f)] [SerializeField] private float boostForce = 70f;
     private float BoostForwardDuration = 0.4f;
     public bool IsHexForwardBoosting = false; //used to lock other boosts
     private Coroutine hexBoostForwardCoroutine;
@@ -365,7 +365,7 @@ public class Hex : MonoBehaviour
     float YDirection = 0;
     Vector3 BoostInDirectionDirection;
     Coroutine hexBoostInDirectionCoroutine;
-    [Range (10, 40)] [SerializeField] float force = 20;
+    [Range (5, 30)] [SerializeField] float force = 20;
 
     float BoostInDirectionDuration = 0.3f;
     bool IsBoostingInDirection = false;

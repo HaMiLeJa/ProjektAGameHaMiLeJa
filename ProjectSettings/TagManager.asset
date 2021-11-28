@@ -19,6 +19,7 @@ TagManager:
   - Portal
   - Hex
   - Curve
+  - CurvesTrigger
   layers:
   - Default
   - TransparentFX
