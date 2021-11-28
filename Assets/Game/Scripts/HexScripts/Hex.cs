@@ -250,7 +250,7 @@ public class Hex : MonoBehaviour
 
     #region BoostForward
     [Header("BoostForward")]
-    [Range(10f, 80f)] [SerializeField] private float boostForce = 70f;
+    [Range(10f, 80f)] [SerializeField] private float borce = 50f;
     private float BoostForwardDuration = 0.4f;
     public bool IsHexForwardBoosting = false; //used to lock other boosts
     private Coroutine hexBoostForwardCoroutine;
@@ -285,7 +285,7 @@ public class Hex : MonoBehaviour
 
            // playerMov.currentHexFowardForce += BoostForce * curveValue * Time.deltaTime; -> Boost DuratioN:0.8
 
-            playerMov.CurrentHexFowardForce = boostForce;
+            playerMov.CurrentHexFowardForce = borce;
 
 
              yield return null;
