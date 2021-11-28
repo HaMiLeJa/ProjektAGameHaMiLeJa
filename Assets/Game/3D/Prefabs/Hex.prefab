@@ -170,7 +170,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  boostForce: 70
+  borce: 50
   IsHexForwardBoosting: 0
   TramoplinForce: 25
   XDirection: 1
@@ -185,8 +185,8 @@ AudioSource:
   m_GameObject: {fileID: 6510926736812468260}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300002, guid: 369e9ea0dfb4b7d4c8794c09bbe4bc2f, type: 2}
-  m_audioClip: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -3795179827610661617, guid: 369e9ea0dfb4b7d4c8794c09bbe4bc2f, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 22ba7d928b51de64fb91d12dd5ca0cb6, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.3
   m_Pitch: -1.1
