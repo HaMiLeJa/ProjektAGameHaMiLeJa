@@ -11,8 +11,11 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
     [HideInInspector] public bool StartPortal = false;
     [HideInInspector] public bool GoalPortal = false;
 
+    AudioSource myAudioSource;
+
     void Start()
     {
+        myAudioSource = this.GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
@@ -26,11 +29,13 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
                 StartPortal = true;
                 GoalPortal = false;
 
+                if (myAudioSource.isPlaying == false && AudioManager.Instance.allowAudio == true)
+                    myAudioSource.Play();
+
                 Rigidbody playerRb = player.GetComponent<Rigidbody>();
 
                 Goal.GetComponent<Portal>().GoalPortal = true;
                 
-
                 playerRb.transform.position = Goal.transform.position;
             }
 
