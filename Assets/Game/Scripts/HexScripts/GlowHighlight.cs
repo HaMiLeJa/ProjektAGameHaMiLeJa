@@ -79,6 +79,8 @@ public class GlowHighlight : MonoBehaviour
         {
             foreach (Material item in glowMaterialDictionary[renderer])
             {
+              //  if (originalGlowColor == null)
+                 //   return;
                 item.SetColor("_GlowColor", originalGlowColor);
             }
         }
