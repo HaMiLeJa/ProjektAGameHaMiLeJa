@@ -119,6 +119,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public bool AllowBoostForward;
 
     float tBoostHex;
+    float tChangeDirectionHex;
     void ControlEffectHexAmount()
     {
 
@@ -161,16 +162,17 @@ public class GameManager : MonoBehaviour
 
         if (ChangeDirectionCounter > 0)
         {
-            tBoostHex += Time.deltaTime;
-            if (tBoostHex > 3)
+            tChangeDirectionHex += Time.deltaTime;
+            if (tChangeDirectionHex > 2)
             {
                 ChangeDirectionCounter--;
-                tBoostHex = 0;
+                tChangeDirectionHex = 0;
+                Debug.Log("time up counter decreasing");
             }
         }
         else
         {
-            tBoostHex = 0;
+            tChangeDirectionHex = 0;
         }
 
     }
