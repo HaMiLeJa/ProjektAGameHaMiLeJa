@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayOnCollision : MonoBehaviour
 {
     AudioSource myAudioSource;
-    [SerializeField] GameObject player;
 
     private void Start()
     {
@@ -14,8 +13,9 @@ public class PlayOnCollision : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject == player)
+        if(collision.gameObject.tag == "Player")
         {
+            Debug.Log("Tag");
             if (myAudioSource.isPlaying == false && AudioManager.Instance.allowAudio == true)
                 myAudioSource.Play();
         }

@@ -54,7 +54,7 @@ public class Destroyables : MonoBehaviour
                 GameManager.Instance.onDestroyableDestroyed?.Invoke(value); //Call Event
 
 
-                if (myAudioSource.isPlaying == false && AudioManager.Instance.allowAudio == true)
+                if (AudioManager.Instance.allowAudio == true)
                 {
                     myAudioSource.clip = destructionClip;
                     myAudioSource.Play();

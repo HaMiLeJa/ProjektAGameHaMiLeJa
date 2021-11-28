@@ -17,7 +17,7 @@ GameObject:
   m_Layer: 7
   m_Name: Wandkurve_ 3x3x4,5_Prototype_1_b_D
   m_TagString: Wall
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
