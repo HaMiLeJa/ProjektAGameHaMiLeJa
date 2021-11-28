@@ -33,6 +33,9 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
     Coroutine coroutine;
     bool coroutineStarted = false;
 
+    AudioManager audManager;
+    [SerializeField] AudioSource audioSource;
+
     #endregion
 
     void Start()
@@ -46,6 +49,8 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
         gameMng = GameManager.Instance;
 
         circle.SetActive(false);
+
+        audManager = AudioManager.Instance;
     }
 
     void FixedUpdate()
@@ -176,9 +181,11 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
 
     IEnumerator StartDashCoroutine()
     {
-        Debug.Log("Coro");
         GameManager.Instance.onUIEnergyChange?.Invoke(-gameMng.StartDashCosts);
         float timer = 0;
+
+        if (audioSource.isPlaying == false && audManager.allowAudio == true)
+            audioSource.Play();
 
         while (timer < boostDuration)
         {

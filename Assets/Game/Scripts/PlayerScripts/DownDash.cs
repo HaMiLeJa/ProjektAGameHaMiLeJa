@@ -29,6 +29,10 @@ public class DownDash : MonoBehaviour
     [SerializeField] GameObject PlayerParticleParent;
 
     [SerializeField] ParticleSystem smashParticle;
+
+    AudioManager audManager;
+    [SerializeField] AudioSource audioSource;
+
     #endregion
 
 
@@ -37,6 +41,7 @@ public class DownDash : MonoBehaviour
         rb = this.GetComponent<Rigidbody>();
         gameMng = GameManager.Instance;
         playerMov = this.GetComponent<PlayerMovement>();
+        audManager = AudioManager.Instance;
     }
 
     void FixedUpdate()
@@ -94,7 +99,10 @@ public class DownDash : MonoBehaviour
 
                 smashParticle.Play();
 
-                
+                if (audioSource.isPlaying == false && audManager.allowAudio == true)
+                    audioSource.Play();
+
+
                 //touchedGround = true;
             }
         }

@@ -365,7 +365,7 @@ public class Hex : MonoBehaviour
     float YDirection = 0;
     Vector3 BoostInDirectionDirection;
     Coroutine hexBoostInDirectionCoroutine;
-    [Range (5, 30)] [SerializeField] float force = 20;
+    [Range (5, 20)] [SerializeField] float force = 20;
 
     float BoostInDirectionDuration = 0.3f;
     bool IsBoostingInDirection = false;

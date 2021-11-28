@@ -175,7 +175,7 @@ MonoBehaviour:
   TramoplinForce: 25
   XDirection: 1
   ZDirection: 1
-  force: 30
+  force: 10
 --- !u!82 &829100512164222232
 AudioSource:
   m_ObjectHideFlags: 0

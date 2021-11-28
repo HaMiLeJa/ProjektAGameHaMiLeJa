@@ -33,6 +33,9 @@ public class ShadowDash : MonoBehaviour
     bool colliding = true;
     [SerializeField] SphereCollider myCollider;
 
+    AudioManager audManager;
+    [SerializeField] AudioSource audioSource;
+
     #endregion
 
     private void Awake()
@@ -53,6 +56,8 @@ public class ShadowDash : MonoBehaviour
         playerNoCollisionLayerInt = LayerMask.NameToLayer("PlayerNoCollision");
 
         //myCollider = this.gameObject.GetComponent<SphereCollider>();
+
+        audManager = AudioManager.Instance;
 
     }
 
@@ -115,6 +120,8 @@ public class ShadowDash : MonoBehaviour
         Vector3 velocity = rb.velocity;
         GameManager.Instance.onUIEnergyChange?.Invoke(-gameMng.ShadowDashCosts);
 
+        if (audioSource.isPlaying == false && audManager.allowAudio == true)
+            audioSource.Play();
 
         float t = 0;
 

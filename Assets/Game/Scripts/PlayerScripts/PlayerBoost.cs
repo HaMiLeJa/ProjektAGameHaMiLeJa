@@ -18,10 +18,12 @@ public class PlayerBoost : MonoBehaviour
     GameManager gameMng;
     PlayerStartDash superDash;
     ShadowDash shadowDash;
+    AudioManager audManager;
+    [SerializeField] AudioSource audioSource;
 
     Rigidbody rb;
 
-    
+   
 
     #endregion
 
@@ -33,6 +35,9 @@ public class PlayerBoost : MonoBehaviour
         shadowDash = this.GetComponent<ShadowDash>();
 
         gameMng = GameManager.Instance;
+        audManager = AudioManager.Instance;
+
+        //audioSource = 
     }
 
     void FixedUpdate()
@@ -74,7 +79,10 @@ public class PlayerBoost : MonoBehaviour
     {
         GameManager.Instance.onUIEnergyChange?.Invoke(-gameMng.DashCosts);
         Vector3 velocity = rb.velocity;
-        
+
+        if (audioSource.isPlaying == false && audManager.allowAudio == true)
+            audioSource.Play();
+
 
         float t = 0;
         while (t < BoostDuration)
