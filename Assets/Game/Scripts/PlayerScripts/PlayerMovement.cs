@@ -179,13 +179,18 @@ public class PlayerMovement : MonoBehaviour
           rb.velocity = new Vector3(rb.velocity.x * 1.1f, rb.velocity.y, rb.velocity.z * 1.0001f);
         }
 
-        /*
-        if(Velocity != Vector3.zero)
+        
+        if(Velocity == Vector3.zero)
+        {
+            if (basedrumAudioSource.isPlaying == false && audManager.allowAudio == true)
+                basedrumAudioSource.Stop();
+        }
+        else
         {
             if (basedrumAudioSource.isPlaying == false && audManager.allowAudio == true)
                 basedrumAudioSource.Play();
         }
-        */
+        
 
     }
 
