@@ -6,7 +6,7 @@ public class TriggerZones : MonoBehaviour
 {
     public GameObject PartnerZone;
 
-    [Tooltip ("1: Zone at beginning, 2: Zone at End")] 
+    [Tooltip ("0: Zone at beginning, 1: Zone at End")] 
     public int ZoneNumber;
     /*
     [SerializeField] GameObject player;

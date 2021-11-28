@@ -65,6 +65,12 @@ public class PlayerMovement : MonoBehaviour
     private float highControlForce = 5;
     [Tooltip("Choose max Hight")] [Range (10, 60)] [SerializeField] float maxHight = 30;
 
+    [Space]
+    [SerializeField] AudioSource jumpAudioSource;
+    [SerializeField] AudioSource basedrumAudioSource;
+    AudioManager audManager;
+    
+
     #endregion
 
     void Start()
@@ -74,6 +80,7 @@ public class PlayerMovement : MonoBehaviour
         shadowDash = this.GetComponent<ShadowDash>();
         playerBoost = this.GetComponent<PlayerBoost>();
         movCurves = this.GetComponent<MovementCurves>();
+        audManager = AudioManager.Instance;
     }
 
 
@@ -171,6 +178,15 @@ public class PlayerMovement : MonoBehaviour
         {
           rb.velocity = new Vector3(rb.velocity.x * 1.1f, rb.velocity.y, rb.velocity.z * 1.0001f);
         }
+
+        /*
+        if(Velocity != Vector3.zero)
+        {
+            if (basedrumAudioSource.isPlaying == false && audManager.allowAudio == true)
+                basedrumAudioSource.Play();
+        }
+        */
+
     }
 
     void BasicJump()
@@ -180,6 +196,9 @@ public class PlayerMovement : MonoBehaviour
             if (OnGround == true && jumpButtonPressedInLastFrame == false) //OnGround == true &&
             {
                 allowJump = true;
+
+                if (jumpAudioSource.isPlaying == false && audManager.allowAudio == true)
+                    jumpAudioSource.Play();
             }
 
             jumpButtonPressedInLastFrame = true;
