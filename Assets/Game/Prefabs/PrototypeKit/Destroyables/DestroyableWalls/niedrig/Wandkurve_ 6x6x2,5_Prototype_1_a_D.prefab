@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -1461072107794969084}
   m_Layer: 7
   m_Name: Wandkurve_ 6x6x2,5_Prototype_1_a_D
-  m_TagString: Wall
+  m_TagString: Destroyable
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
