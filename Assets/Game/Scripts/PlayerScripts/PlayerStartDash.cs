@@ -18,7 +18,7 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
     bool allowSetDirection = false;
     float timerBoost;
     [Space]
-    [SerializeField] float boostForce = 15;
+    [SerializeField] float boostForce = 60;
     public bool Boosting; //used to lock bools
 
     [SerializeField] float setDirectionTimer;
@@ -191,7 +191,7 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
         {
             timer += Time.deltaTime;
 
-            rb.AddForce(boostDirection.normalized * boostForce, ForceMode.Impulse);
+            rb.AddForce(boostDirection.normalized * boostForce * Time.deltaTime * 10, ForceMode.Impulse);
             yield return null;
 
         }
