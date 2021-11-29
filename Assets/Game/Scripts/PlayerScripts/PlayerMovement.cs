@@ -53,9 +53,9 @@ public class PlayerMovement : MonoBehaviour
     
     [Space]
     [Header("Max Velocity")]
-    [Tooltip("Was könnte der Spieler maximal erreichen erreichen")] [SerializeField] private float maxSpeed = 350;
+    [Tooltip("Was könnte der Spieler maximal erreichen erreichen")] [SerializeField] private float maxSpeed = 500;
     [Tooltip("Ab wann wird die geschwindigkeit begrenzt (ein klein wenig Kontrollverlust)")] 
-    [SerializeField] private int maxSpeedLimitStartClamping= 240;
+    [SerializeField] private int maxSpeedLimitStartClamping= 420;
     [Space]
     
     ShadowDash shadowDash;
