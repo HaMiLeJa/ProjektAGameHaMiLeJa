@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Mathematics;
+using UnityEngine.Video;
+using UnityEngine.XR;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -47,7 +50,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] LayerMask levelMask;
 
     public Vector3 Velocity; //Debug
-
+    
+    [Space]
+    [Header("Max Velocity")]
+    [Tooltip("Was könnte der Spieler maximal erreichen erreichen")] [SerializeField] private float maxSpeed = 350;
+    [Tooltip("Ab wann wird die geschwindigkeit begrenzt (ein klein wenig Kontrollverlust)")] 
+    [SerializeField] private int maxSpeedLimitStartClamping= 240;
+    [Space]
+    
     ShadowDash shadowDash;
     PlayerBoost playerBoost;
 
@@ -86,6 +96,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        MaxVelocity();
         Velocity = rb.velocity; //Debug
 
         ControlVelocity();
@@ -103,6 +114,20 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public Vector3 ForwardDirection;
+    
+    
+    void MaxVelocity()
+    {
+        if ((math.abs(rb.velocity.x) + math.abs(rb.velocity.z)) > maxSpeedLimitStartClamping)
+        {
+            Debug.Log("Enter limit velocity");
+            float xVelocityMax = Mathf.Min(Mathf.Abs(rb.velocity.x), maxSpeed) * Mathf.Sign(rb.velocity.x);
+            float zVelocityMax = Mathf.Min(Mathf.Abs(rb.velocity.z), maxSpeed) * Mathf.Sign(rb.velocity.z);
+
+            rb.velocity = new Vector3(xVelocityMax, rb.velocity.y, zVelocityMax);
+        }
+        
+    }
     void CorrectMovement()
     {
         //Bewegung
