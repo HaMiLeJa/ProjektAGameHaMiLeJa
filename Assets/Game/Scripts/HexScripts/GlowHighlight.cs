@@ -47,8 +47,9 @@ public class GlowHighlight : MonoBehaviour
                 if (cachedGlowMaterials.TryGetValue(originalMaterials[i].color, out mat) == false)
                 {
                     mat = new Material(glowMaterial);
-                  
-                    if (mat.color != null)
+
+                    if (mat.color == null) 
+                        continue;
                     mat.color = originalMaterials[i].color;
                     cachedGlowMaterials[mat.color] = mat;
                 }
