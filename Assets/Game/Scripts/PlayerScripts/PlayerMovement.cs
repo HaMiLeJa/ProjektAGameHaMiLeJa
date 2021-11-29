@@ -52,10 +52,10 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 Velocity; //Debug
     
     [Space]
-    [Header("Max Velocity")]
-    [Tooltip("Was könnte der Spieler maximal erreichen erreichen")] [SerializeField] private float maxSpeed = 500;
+    [Header("Max Velocity - Spitzen abfangen")]
+    [Tooltip("Was könnte der Spieler maximal erreichen erreichen")] [SerializeField] private float maxSpeed = 1000;
     [Tooltip("Ab wann wird die geschwindigkeit begrenzt (ein klein wenig Kontrollverlust)")] 
-    [SerializeField] private int maxSpeedLimitStartClamping= 420;
+    [SerializeField] private int maxSpeedLimitStartClamping= 800;
     [Space]
     
     ShadowDash shadowDash;
