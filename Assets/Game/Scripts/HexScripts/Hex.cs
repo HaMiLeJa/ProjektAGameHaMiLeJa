@@ -309,7 +309,7 @@ public class Hex : MonoBehaviour
     #region Trampolin
     [Header("Trampolin")]
     float reboundDuration = 0.2f;
-    [SerializeField] float TramoplinForce = 15f;
+    [SerializeField] float tramoplinForce = 15f;
     //[SerializeField] float velocityInfluence = 0.5f;
     private Coroutine trampolinCoroutine;
 
@@ -346,7 +346,7 @@ public class Hex : MonoBehaviour
                 if (gameMng.AllowHexEffects == false) break;
 
                 Vector3 direction = Vector3.up;
-                Vector3 ReboundMovement = direction * (TramoplinForce * 5) * Time.deltaTime;
+                Vector3 ReboundMovement = direction * (tramoplinForce * 10) * Time.deltaTime;
 
                 playerRb.AddForce(ReboundMovement, ForceMode.Impulse);
 

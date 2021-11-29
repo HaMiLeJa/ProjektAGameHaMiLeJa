@@ -174,7 +174,7 @@ MonoBehaviour:
   SlowDownValue: 0.99
   forwardForce: 77
   IsHexForwardBoosting: 0
-  TramoplinForce: 600
+  tramoplinForce: 11
   XDirection: 1
   ZDirection: 1
   boostInDForce: 70

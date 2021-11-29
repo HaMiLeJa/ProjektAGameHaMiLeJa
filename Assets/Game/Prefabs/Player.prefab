@@ -361,7 +361,7 @@ AudioSource:
   m_GameObject: {fileID: 1400427518174268669}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300002, guid: 2b44ee1b951765f42aefcaded94eac6b, type: 2}
+  OutputAudioMixerGroup: {fileID: -6985389557279502106, guid: 369e9ea0dfb4b7d4c8794c09bbe4bc2f, type: 2}
   m_audioClip: {fileID: 8300000, guid: 4b96d4f5dd1a94041a61b746db2efef2, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.77
@@ -532,7 +532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa62afb1a163454b9b434e65509c4ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
+  rb: {fileID: 4498330986242300546}
   OnBoostForwardHex: 0
   CurrentHexFowardForce: 0
   OnChangeDirectionHex: 0
@@ -541,9 +541,9 @@ MonoBehaviour:
   HexInDirectionDirection: {x: 0, y: 0, z: 0}
   MovementDirection: {x: 0, y: 0, z: 0}
   SlowDownMultiplicator: 0.99
-  forceJump: 3.5
+  forceJump: 110
   OnGround: 1
-  fallDownSpeed: 50
+  fallDownSpeed: 800
   distance: 1.6
   hexMask:
     serializedVersion: 2
@@ -554,7 +554,7 @@ MonoBehaviour:
   levelMask:
     serializedVersion: 2
     m_Bits: 64
-  Velocity: {x: 0, y: -0.000009536743, z: 0}
+  Velocity: {x: 0, y: 0, z: 0}
   rebounded: 0
   totalVelocity: 0
   velocityInfluence: 0.1
@@ -574,7 +574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c23a69259ad69646ae52bf7732edc92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BoostForce: 60
+  BoostForce: 110
   BoostDashcurve:
     serializedVersion: 2
     m_Curve:
@@ -734,7 +734,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonPressedInLastFrame: 0
   touchedGround: 1
-  speed: 15
+  speed: 5
   boostingDown: 0
   SlamParent: {fileID: 4658194994052893202, guid: a3edb481536fb7445816bc96f93a3167, type: 3}
   PlayerParticleParent: {fileID: 6967255096388331669}
