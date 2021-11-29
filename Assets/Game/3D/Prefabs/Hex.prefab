@@ -171,12 +171,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  borce: 50
+  SlowDownValue: 0.99
+  forwardForce: 77
   IsHexForwardBoosting: 0
-  TramoplinForce: 25
+  TramoplinForce: 600
   XDirection: 1
   ZDirection: 1
-  force: 10
+  boostInDForce: 70
 --- !u!82 &829100512164222232
 AudioSource:
   m_ObjectHideFlags: 0

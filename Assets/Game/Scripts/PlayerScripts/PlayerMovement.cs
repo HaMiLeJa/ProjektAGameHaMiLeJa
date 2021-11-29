@@ -102,6 +102,7 @@ public class PlayerMovement : MonoBehaviour
         BasicJump();
     }
 
+    public Vector3 ForwardDirection;
     void CorrectMovement()
     {
         //Bewegung
@@ -114,36 +115,38 @@ public class PlayerMovement : MonoBehaviour
 
         if (shadowDash.currentShadowDashForce != 0f)
         {
-            rb.AddForce(MovementDirection.normalized * shadowDash.currentShadowDashForce * 5);
+            rb.AddForce(MovementDirection.normalized * shadowDash.currentShadowDashForce * 5 * Time.deltaTime);
 
         }
         if(playerBoost.currentBoostforce != 0f)
         {
-            rb.AddForce(MovementDirection.normalized * playerBoost.currentBoostforce * 5);
+            rb.AddForce(MovementDirection.normalized * playerBoost.currentBoostforce * 100 * Time.deltaTime);
         }
 
         if (OnBoostForwardHex == true)
         {
             
-            rb.AddForce(rb.velocity.normalized * CurrentHexFowardForce * 5);
+            rb.AddForce(ForwardDirection.normalized * CurrentHexFowardForce * 200 * Time.deltaTime);
         }
         
         if (OnBoostInDirectionHex == true)
         {
-            rb.AddForce(HexInDirectionDirection * CurrentHexInDirectionForce * 100);
+            rb.AddForce(HexInDirectionDirection * CurrentHexInDirectionForce * Time.deltaTime);
         }
+        
         
         if(OnChangeDirectionHex == true)
         {
-            rb.AddForce(rb.velocity.normalized * 5); //*currentHexChangeDirectionForce 
+            rb.AddForce(rb.velocity.normalized * 20 * Time.deltaTime); //*currentHexChangeDirectionForce 
 
 
         }
+        
         
         if(OnGround == false)
         {
             totalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.z);
-            float velocityPower = totalVelocity * velocityInfluence/2;
+            float velocityPower = totalVelocity * velocityInfluence/2 * Time.deltaTime;
 
             rb.velocity = (rb.velocity + (MovementDirection * velocityPower));
         }
@@ -176,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(totalVelocity > 300) //von total Velocity abhängig machen
         {
-          rb.velocity = new Vector3(rb.velocity.x * 1.1f, rb.velocity.y, rb.velocity.z * 1.0001f);
+          rb.velocity = new Vector3(rb.velocity.x * 1.1f, rb.velocity.y, rb.velocity.z * 1.0001f * Time.deltaTime);
         }
 
         
@@ -214,7 +217,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 jumping = true;
                 timerJump += Time.deltaTime;
-                rb.AddForce(this.transform.up * forceJump, ForceMode.Impulse);
+                rb.AddForce(this.transform.up * forceJump * Time.deltaTime, ForceMode.Impulse);
             }
 
         }
@@ -232,7 +235,7 @@ public class PlayerMovement : MonoBehaviour
     { 
         if(this.rb.position.y >= maxHight)
         {
-            rb.AddForce(Vector3.down * highControlForce * rb.transform.position.y);
+            rb.AddForce(Vector3.down * highControlForce * rb.transform.position.y * Time.deltaTime);
 
            //rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -100f, -0.01f ), rb.velocity.y);
 
@@ -352,11 +355,11 @@ public class PlayerMovement : MonoBehaviour
             //Vector3 direction = new Vector3(rb.velocity.x, -1, rb.velocity.z);
             //direction = direction.normalized;
 
-            rb.AddForce(rb.velocity.normalized + Vector3.down * fallDownSpeed);
+            rb.AddForce((rb.velocity.normalized + Vector3.down) * fallDownSpeed * Time.deltaTime);
         }
         else if (OnGround == false && rebounded == false) //Trampolin
         {
-            rb.AddForce(rb.velocity.normalized + Vector3.down * fallDownSpeed);
+            rb.AddForce((rb.velocity.normalized + Vector3.down) * fallDownSpeed * Time.deltaTime);
         }
     }
 
