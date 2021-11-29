@@ -72,7 +72,6 @@ public class Hex : MonoBehaviour
                     
                     clip = file.clip;
                     myAudioSource.clip = clip;
-                    Debug.Log("ClipFound");
                 }
             }
         }
@@ -444,12 +443,9 @@ public class Hex : MonoBehaviour
 
     void PlaySound()
     {
-        
-        Debug.Log("Action");
         if (myAudioSource.isPlaying == false && audManager.allowAudio == true)
         {
             myAudioSource.Play();
-            Debug.Log("Playing");
         }
         
     }
