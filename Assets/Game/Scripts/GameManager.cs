@@ -167,7 +167,6 @@ public class GameManager : MonoBehaviour
             {
                 ChangeDirectionCounter--;
                 tChangeDirectionHex = 0;
-                Debug.Log("time up counter decreasing");
             }
         }
         else

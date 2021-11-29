@@ -14,7 +14,7 @@ public class Hex : MonoBehaviour
     AudioManager audManager;
     AudioClipsHexes audioClipHexes;
 
-    AudioSource myAudioSource;
+    [SerializeField] AudioSource myAudioSource;
 
     private GlowHighlight highlight;
     private HexCoordinates hexCoordinates;
@@ -22,10 +22,12 @@ public class Hex : MonoBehaviour
 
     AudioClip clip;
 
+
+
     #endregion
     public Vector3Int HexCoords => hexCoordinates.GetHexCoords();
 
-    
+    System.Action OnEffectHex;
     // wie weit kann die Unit laufen
     public int GetCost()
         => hexType switch
@@ -57,7 +59,9 @@ public class Hex : MonoBehaviour
         playerMov = Player.GetComponent<PlayerMovement>();
         audManager = AudioManager.Instance;
         audioClipHexes = AudioManager.Instance.gameObject.GetComponent<AudioClipsHexes>();
-        myAudioSource = this.GetComponent<AudioSource>();
+        //myAudioSource = this.GetComponent<AudioSource>();
+
+        OnEffectHex += PlaySound;
 
         if (hexType != HexType.Default)
         {
@@ -176,20 +180,20 @@ public class Hex : MonoBehaviour
             StopCoroutine(changeDirectionCoroutine);
 
 
-        isChangingDirection = true;
+       // isChangingDirection = true;
         changeDirectionCoroutine = StartCoroutine(ChangeDirectionCoroutine());
     }
 
     private IEnumerator ChangeDirectionCoroutine()
     {
-        if (myAudioSource.isPlaying == false && audManager.allowAudio == true)
-            myAudioSource.Play();
+        OnEffectHex?.Invoke();
 
         playerRb.velocity = playerRb.velocity * -1;
         yield return new WaitForSeconds(0.5f);
-
-        isChangingDirection = false;
+        playerMov.OnChangeDirectionHex = true;
+        //isChangingDirection = false;
         yield return null;
+        playerMov.OnChangeDirectionHex = false;
     }
 
     
@@ -212,6 +216,7 @@ public class Hex : MonoBehaviour
     
     private bool IsSlowingDown = false; //used to lock other boosts
     private Coroutine slowDownCoroutine;
+    [SerializeField] float SlowDownValue = 0.99f;
 
     public void SlowDownStarter()
     {
@@ -225,8 +230,7 @@ public class Hex : MonoBehaviour
 
     private IEnumerator SlowDownCoroutine()
     {
-        if (myAudioSource.isPlaying == false && audManager.allowAudio == true)
-            myAudioSource.Play();
+        OnEffectHex?.Invoke();
 
         float t = 0;
         // Vector3 halfVelocity = velocity * 0.5f;
@@ -239,7 +243,7 @@ public class Hex : MonoBehaviour
             t += Time.deltaTime;
             float curveValue = slowDownCurve.Evaluate(t);
 
-            playerRb.velocity *= 0.99f;
+            playerRb.velocity *= 0.99f; // *Time.deltaTime
             yield return null;
         }
 
@@ -250,7 +254,7 @@ public class Hex : MonoBehaviour
 
     #region BoostForward
     [Header("BoostForward")]
-    [Range(10f, 80f)] [SerializeField] private float borce = 50f;
+    [Range(50, 100)] [SerializeField] private float forwardForce = 50f;
     private float BoostForwardDuration = 0.4f;
     public bool IsHexForwardBoosting = false; //used to lock other boosts
     private Coroutine hexBoostForwardCoroutine;
@@ -271,11 +275,13 @@ public class Hex : MonoBehaviour
 
     private IEnumerator HexBoostForwardCoroutine()
     {
-        if (myAudioSource.isPlaying == false && audManager.allowAudio == true)
-            myAudioSource.Play();
+        Debug.Log("BoostForward");
+        OnEffectHex?.Invoke();
 
         float t = 0;
         playerMov.OnBoostForwardHex = true;
+
+        playerMov.ForwardDirection = this.playerRb.velocity;
 
         while (t < BoostForwardDuration)
         {
@@ -285,7 +291,7 @@ public class Hex : MonoBehaviour
 
            // playerMov.currentHexFowardForce += BoostForce * curveValue * Time.deltaTime; -> Boost DuratioN:0.8
 
-            playerMov.CurrentHexFowardForce = borce;
+            playerMov.CurrentHexFowardForce = forwardForce;
 
 
              yield return null;
@@ -303,25 +309,20 @@ public class Hex : MonoBehaviour
     #region Trampolin
     [Header("Trampolin")]
     float reboundDuration = 0.2f;
-    [SerializeField] float TramoplinForce = 15f;
+    [SerializeField] float tramoplinForce = 15f;
     //[SerializeField] float velocityInfluence = 0.5f;
     private Coroutine trampolinCoroutine;
 
-    Vector3 direction;
-    Vector3 ReboundMovement;
-    
     public void TrampolinStarter()
     {
         if (gameMng.AllowHexEffects == false) return;
 
-        if (myAudioSource.isPlaying == false && audManager.allowAudio == true)
-            myAudioSource.Play();
+        OnEffectHex?.Invoke();
+        
 
         playerMov.rebounded = true;
 
-        direction = Vector3.up;
-
-        ReboundMovement = direction * (TramoplinForce * 10) * Time.deltaTime; //new Vector3(0, direction.y * yReboundVelocity, 0) * force;
+        //new Vector3(0, direction.y * yReboundVelocity, 0) * force;
 
         playerRb.velocity = new Vector3(playerRb.velocity.x * 0.1f, playerRb.velocity.y, playerRb.velocity.z * 0.1f);
         
@@ -343,6 +344,10 @@ public class Hex : MonoBehaviour
             if (timer < reboundDuration)
             {
                 if (gameMng.AllowHexEffects == false) break;
+
+                Vector3 direction = Vector3.up;
+                Vector3 ReboundMovement = direction * (tramoplinForce * 10) * Time.deltaTime;
+
                 playerRb.AddForce(ReboundMovement, ForceMode.Impulse);
 
             }
@@ -365,7 +370,7 @@ public class Hex : MonoBehaviour
     float YDirection = 0;
     Vector3 BoostInDirectionDirection;
     Coroutine hexBoostInDirectionCoroutine;
-    [Range (5, 20)] [SerializeField] float force = 20;
+    [Range (70, 85)] [SerializeField] float boostInDForce = 80;
 
     float BoostInDirectionDuration = 0.3f;
     bool IsBoostingInDirection = false;
@@ -385,8 +390,7 @@ public class Hex : MonoBehaviour
 
     private IEnumerator HexBoostInDirectionCoroutine()
     {
-        if (myAudioSource.isPlaying == false && audManager.allowAudio == true)
-            myAudioSource.Play();
+        OnEffectHex?.Invoke();
 
         float t = 0;
         playerMov.OnBoostInDirectionHex = true;
@@ -395,19 +399,17 @@ public class Hex : MonoBehaviour
 
         while (t < BoostInDirectionDuration)
         {
-            Debug.Log("InDirectionHexBoost");
-
             if (gameMng.AllowHexEffects == false) break;
             t += Time.deltaTime;
 
             playerMov.HexInDirectionDirection = BoostInDirectionDirection;
-            playerMov.CurrentHexInDirectionForce = playerMov.CurrentHexInDirectionForce * 0.99f * Time.deltaTime * force;
+            playerMov.CurrentHexInDirectionForce = playerMov.CurrentHexInDirectionForce* Time.deltaTime * 0.99f  * boostInDForce;
 
 
             yield return null;
         }
 
-        playerRb.velocity = playerRb.velocity / 2;
+        //playerRb.velocity = playerRb.velocity / 2;
 
         playerMov.OnBoostInDirectionHex = false;
         playerMov.CurrentHexInDirectionForce = 100;
@@ -443,7 +445,15 @@ public class Hex : MonoBehaviour
         Gizmos.DrawLine(arrowTip + new Vector3(0, 2, 0), arrowRight + new Vector3(0, 2, 0));
     }
 
-  
+    void PlaySound()
+    {
+        if (myAudioSource.isPlaying == false && audManager.allowAudio == true)
+        {
+            myAudioSource.Play();
+        }
+        
+    }
+
 }
 
 

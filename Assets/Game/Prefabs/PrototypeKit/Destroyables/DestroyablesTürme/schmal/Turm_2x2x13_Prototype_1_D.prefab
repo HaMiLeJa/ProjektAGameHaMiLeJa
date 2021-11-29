@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -7756095987647889002}
   m_Layer: 7
   m_Name: Turm_2x2x13_Prototype_1_D
-  m_TagString: Untagged
+  m_TagString: Destroyable
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,8 +99,8 @@ MonoBehaviour:
   lifeStartAmount: 100
   currentLife: 0
   value: 1
-  collisionClip: {fileID: 8300000, guid: 22b7c2e110171144b86e05c420dc31ab, type: 3}
-  destructionClip: {fileID: 8300000, guid: 964d8c694d5efc3479d097ae385bbb23, type: 3}
+  collisionClip: {fileID: 8300000, guid: f28f05936b545f642b6a6ef2a0739360, type: 3}
+  destructionClip: {fileID: 8300000, guid: 751d463c6670c8c4e8e20ccf9909a934, type: 3}
 --- !u!65 &5839891118688821956
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -124,9 +124,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 6329342973038879733, guid: 2b44ee1b951765f42aefcaded94eac6b, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 9569da84f546a854b88b241e4d4c75e0, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f28f05936b545f642b6a6ef2a0739360, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.79
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -136,7 +136,7 @@ AudioSource:
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
-  Pan2D: 1
+  Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
@@ -170,7 +170,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0

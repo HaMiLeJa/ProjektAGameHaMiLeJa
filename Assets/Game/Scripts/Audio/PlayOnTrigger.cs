@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class PlayOnTrigger : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] AudioSource myAudioSource;
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.gameObject.tag == "Player")
+        {
+            if (myAudioSource.isPlaying == false && AudioManager.Instance.allowAudio == true)
+                myAudioSource.Play();
+        }
     }
 }

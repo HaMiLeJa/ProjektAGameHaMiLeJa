@@ -80,7 +80,7 @@ public class DownDash : MonoBehaviour
                 }
                 */
 
-                rb.AddForce((rb.velocity.normalized/2 + Vector3.down) * speed, ForceMode.Impulse);
+                rb.AddForce((rb.velocity.normalized/2 + Vector3.down) * speed * 100  *Time.deltaTime, ForceMode.Impulse);
                 
             }
             else
