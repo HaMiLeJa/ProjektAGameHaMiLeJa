@@ -9,6 +9,7 @@ using Cinemachine;
 public class HexAutoTiling : MonoBehaviour
 {
     public static List<GameObject> HexesToBeMoved = new List<GameObject>();
+    private HexGrid _hexGrid;
     private int startTilingTreshhold = 130;
     float treshholdMoveBackToOrigin = 1300;
     
@@ -31,9 +32,9 @@ public class HexAutoTiling : MonoBehaviour
 
     // Start is called before the first frame update
     void Awake()
-    
-    {   
-   
+
+    {
+        _hexGrid = FindObjectOfType<HexGrid>();
         HexesToBeMoved.Clear();
         HexesToBeMoved.AddRange(GameObject.FindGameObjectsWithTag("Hex"));
         
@@ -44,10 +45,31 @@ public class HexAutoTiling : MonoBehaviour
         xOriginPosition = playerLocation.transform.position.x;
         zOriginPosition = playerLocation.transform.position.z;
     }
-    // Update is called once per frame
+
     void Update()
+ 
     {
-        
+        /*
+         *  foreach (Vector3Int key in hasAllTheHexes.Keys)
+        {
+            if (key.x > test.transform.position.x)
+            {
+                hasAllTheHexes.TryGetValue(key, out var value);
+                
+                Debug.Log(value.transform.position);
+               value.transform.position = new Vector3(transform.position.x+5, value.transform.position.y , value.transform.position.z);
+               Vector3Int newKey = new Vector3Int(key.x + Mathf.CeilToInt(5 ), key.y, key.z);
+               hasAllTheHexes.Remove((key));
+               hasAllTheHexes.Add(newKey,value);
+
+            }
+            
+        }
+         */
+     
+    
+           
+        //snapshot position so it only needs to update at certain distance
         if (HexCoordinates.playerHasMoved)
         {
              xPlusSnapShotPos = playerLocation.transform.position.x + startTilingTreshhold;
@@ -64,7 +86,7 @@ public class HexAutoTiling : MonoBehaviour
             playerLocation.transform.position.z > zPlusSnapShotPos  ||
             playerLocation.transform.position.z < zMinusSnapShotPos )
         {
-            
+            //the actual hex movement
         foreach (GameObject hex in HexesToBeMoved)
         {   if ( hex == null)
             return;
@@ -91,22 +113,21 @@ public class HexAutoTiling : MonoBehaviour
                     hex.transform.position.x + xTilingDistance,
                     hex.transform.position.y,
                     hex.transform.position.z);
-            
-                 
 
             HexCoordinates.playerHasMoved = true;
         }
-        
         }
     }
 
     private void LateUpdate()
     {
-        
-        if (playerLocation.transform.position.x > treshholdMoveBackToOrigin  
+        ///return to origin
+        if ( 
+               playerLocation.transform.position.x > treshholdMoveBackToOrigin  
             || playerLocation.transform.position.x < -treshholdMoveBackToOrigin
-            ||  playerLocation.transform.position.z > treshholdMoveBackToOrigin  
-            || playerLocation.transform.position.z < -treshholdMoveBackToOrigin  )
+            || playerLocation.transform.position.z > treshholdMoveBackToOrigin  
+            || playerLocation.transform.position.z < -treshholdMoveBackToOrigin  
+            )
         {
             Vector3 moveEveryThingBack = new Vector3(
                 playerLocation.transform.position.x - (xOriginPosition),

@@ -14,7 +14,7 @@ public class Hex : MonoBehaviour
     AudioManager audManager;
     AudioClipsHexes audioClipHexes;
 
-    AudioSource myAudioSource;
+    [SerializeField] AudioSource myAudioSource;
 
     private GlowHighlight highlight;
     private HexCoordinates hexCoordinates;
@@ -22,10 +22,12 @@ public class Hex : MonoBehaviour
 
     AudioClip clip;
 
+
+
     #endregion
     public Vector3Int HexCoords => hexCoordinates.GetHexCoords();
 
-    
+    System.Action OnEffectHex;
     // wie weit kann die Unit laufen
     public int GetCost()
         => hexType switch
@@ -57,7 +59,9 @@ public class Hex : MonoBehaviour
         playerMov = Player.GetComponent<PlayerMovement>();
         audManager = AudioManager.Instance;
         audioClipHexes = AudioManager.Instance.gameObject.GetComponent<AudioClipsHexes>();
-        myAudioSource = this.GetComponent<AudioSource>();
+        //myAudioSource = this.GetComponent<AudioSource>();
+
+        OnEffectHex += PlaySound;
 
         if (hexType != HexType.Default)
         {
@@ -182,8 +186,7 @@ public class Hex : MonoBehaviour
 
     private IEnumerator ChangeDirectionCoroutine()
     {
-        if (myAudioSource.isPlaying == false && audManager.allowAudio == true)
-            myAudioSource.Play();
+        OnEffectHex?.Invoke();
 
         playerRb.velocity = playerRb.velocity * -1;
         yield return new WaitForSeconds(0.5f);
@@ -225,8 +228,7 @@ public class Hex : MonoBehaviour
 
     private IEnumerator SlowDownCoroutine()
     {
-        if (myAudioSource.isPlaying == false && audManager.allowAudio == true)
-            myAudioSource.Play();
+        OnEffectHex?.Invoke();
 
         float t = 0;
         // Vector3 halfVelocity = velocity * 0.5f;
@@ -271,8 +273,7 @@ public class Hex : MonoBehaviour
 
     private IEnumerator HexBoostForwardCoroutine()
     {
-        if (myAudioSource.isPlaying == false && audManager.allowAudio == true)
-            myAudioSource.Play();
+        OnEffectHex?.Invoke();
 
         float t = 0;
         playerMov.OnBoostForwardHex = true;
@@ -314,8 +315,8 @@ public class Hex : MonoBehaviour
     {
         if (gameMng.AllowHexEffects == false) return;
 
-        if (myAudioSource.isPlaying == false && audManager.allowAudio == true)
-            myAudioSource.Play();
+        OnEffectHex?.Invoke();
+        
 
         playerMov.rebounded = true;
 
@@ -385,8 +386,7 @@ public class Hex : MonoBehaviour
 
     private IEnumerator HexBoostInDirectionCoroutine()
     {
-        if (myAudioSource.isPlaying == false && audManager.allowAudio == true)
-            myAudioSource.Play();
+        OnEffectHex?.Invoke();
 
         float t = 0;
         playerMov.OnBoostInDirectionHex = true;
@@ -395,8 +395,6 @@ public class Hex : MonoBehaviour
 
         while (t < BoostInDirectionDuration)
         {
-            Debug.Log("InDirectionHexBoost");
-
             if (gameMng.AllowHexEffects == false) break;
             t += Time.deltaTime;
 
@@ -443,7 +441,15 @@ public class Hex : MonoBehaviour
         Gizmos.DrawLine(arrowTip + new Vector3(0, 2, 0), arrowRight + new Vector3(0, 2, 0));
     }
 
-  
+    void PlaySound()
+    {
+        if (myAudioSource.isPlaying == false && audManager.allowAudio == true)
+        {
+            myAudioSource.Play();
+        }
+        
+    }
+
 }
 
 

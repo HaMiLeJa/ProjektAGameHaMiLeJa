@@ -8,8 +8,8 @@ public class HexGrid : MonoBehaviour
     private HexCoordinates hexCoordinates;
     #region Dictonarys
     
-    protected Dictionary<Vector3Int, Hex> hexTileDict = new Dictionary<Vector3Int, Hex>();
-    protected Dictionary<Vector3Int, List<Vector3Int>> hexTileNeighboursDict = new Dictionary<Vector3Int, List<Vector3Int>>();
+    public  Dictionary<Vector3Int, Hex> hexTileDict = new Dictionary<Vector3Int, Hex>();
+   protected Dictionary<Vector3Int, List<Vector3Int>> hexTileNeighboursDict = new Dictionary<Vector3Int, List<Vector3Int>>();
     
     #endregion
     
@@ -27,7 +27,7 @@ public class HexGrid : MonoBehaviour
         // }
 
     }
-      // HIER MIRO HIER foreach (KeyValuePair<Vector3Int, Hex> in
+  
     public Dictionary<Vector3Int, Hex> HexTileDict
     {
         get => hexTileDict;
