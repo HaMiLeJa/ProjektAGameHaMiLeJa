@@ -26,7 +26,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Game/Scenes/Prototyp24.11/Kurvenszene.unity
     guid: e04454e006c0bb242bfca07146f38f7d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Scenes/MainScene.unity
     guid: 1fa7da23a843ea446be223dbf1b4460d
+  - enabled: 1
+    path: Assets/Game/Scenes/Interim/LevelInterimJanina.unity
+    guid: ba4b7103abca7764f8ed0e52fe501d79
   m_configObjects: {}
