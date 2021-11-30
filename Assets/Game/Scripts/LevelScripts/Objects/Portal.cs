@@ -49,12 +49,10 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
         
        if (GameManager.CameraTeleportActive)
        {
-<<<<<<< Updated upstream
+
            if(GameManager.ZeroOutAllowed)
                 _playerMovement.rb.velocity = Vector3.zero;
-=======
-           
->>>>>>> Stashed changes
+
            
            float  distanceCamHelperPlayer =
                (Mathf.Abs(GameManager.CameraHelper.transform.position.x) - Mathf.Abs(player.transform.position.x))
@@ -65,10 +63,10 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
            if(distanceCamHelperPlayer < 10)
                _playerMovement.rb.velocity = new Vector3(cashedXVelocity, 0, cashedZVelocity);
            
-           if (distanceCamHelperPlayer < 20 && GameManager.GiveVelocityBack)
+           if (distanceCamHelperPlayer < 20 && GameManager.StopGiveVelocityBack)
            {
               
-               GameManager.GiveVelocityBack = !GameManager.GiveVelocityBack;
+               GameManager.StopGiveVelocityBack = !GameManager.StopGiveVelocityBack;
            }
                
            
@@ -133,7 +131,7 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
                     {
 
                         GameManager.ZeroOutAllowed = true;
-                        GameManager.GiveVelocityBack = !GameManager.GiveVelocityBack;
+                        GameManager.StopGiveVelocityBack = !GameManager.StopGiveVelocityBack;
                         GameManager.CameraHelper.transform.position = player.transform.position;
                         cam.LookAt =  GameManager.CameraHelper.transform; 
                         cam.Follow =  GameManager.CameraHelper.transform;
