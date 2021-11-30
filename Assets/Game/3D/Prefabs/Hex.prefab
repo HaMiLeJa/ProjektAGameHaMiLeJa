@@ -120,64 +120,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myAudioSource: {fileID: 829100512164222232}
   hexType: 1
-  slowDownCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.07722473
-      value: 0.8872185
-      inSlope: -0.06228697
-      outSlope: -0.06228697
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.21274602
-      value: 0.8691571
-      inSlope: -1.6402314
-      outSlope: -1.6402314
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.45299765
-      value: 0.095985055
-      inSlope: -0.75956947
-      outSlope: -0.75956947
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.8032895
-      value: 0.6911438
-      inSlope: 0.86614144
-      outSlope: 0.86614144
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1.1269531
-      value: 0.7019043
-      inSlope: 0.03324589
-      outSlope: 0.03324589
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  SlowDownValue: 0.99
-  forwardForce: 77
+  forwardForce: 30
   IsHexForwardBoosting: 0
-  tramoplinForce: 11
+  tramoplinForce: 10
   XDirection: 1
   ZDirection: 1
-  boostInDForce: 70
+  boostInDForce: 25
 --- !u!82 &829100512164222232
 AudioSource:
   m_ObjectHideFlags: 0
