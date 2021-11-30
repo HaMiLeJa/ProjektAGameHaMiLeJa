@@ -145,7 +145,11 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
+
     
+    public float StartDashTimer;
+    public float ShadowDashTimer;
+    public float DownDashTimer;
 
     void CorrectMovement()
     {
@@ -157,23 +161,20 @@ public class PlayerMovement : MonoBehaviour
         //Vector3 movement = MovementDirection * Time.deltaTime * StandardMovementSpeed;
 
 
+       
+
+       
+
         if (shadowDash.currentShadowDashForce != 0f)
         {
             rb.AddForce(MovementDirection.normalized * shadowDash.currentShadowDashForce * 5 * Time.deltaTime);
 
         }
 
-        if(playerBoost.currentBoostforce != 0f)
-        {
-            rb.AddForce(MovementDirection.normalized * playerBoost.currentBoostforce * 100 * Time.deltaTime);
-        }
 
 
-      
-        
-        
         //??
-        if(OnGround == false)
+        if (OnGround == false)
         {
             totalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.z);
             float velocityPower = totalVelocity * velocityInfluence/2 * Time.deltaTime;
@@ -202,11 +203,11 @@ public class PlayerMovement : MonoBehaviour
 
     void HexEffects()
     {
-        
+        if (gameMng.AllowHexEffects == false) return;
+
         // BOOST FORWARD
         if (OnBoostForwardHex == true && BoostForwardTimer < 0.4f)
         {
-            Debug.Log("BoostForward");
             BoostForwardTimer += Time.fixedDeltaTime;
             ForwardDirection = rb.velocity.normalized;
             rb.AddForce(ForwardDirection * CurrentHexFowardForce * 500 * Time.fixedDeltaTime);
@@ -215,12 +216,10 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = rb.velocity / 2;
             OnBoostForwardHex = false;
-            Debug.Log("2");
         }
         else
         {
             BoostForwardTimer = 0;
-          
         }
         
         
@@ -245,7 +244,6 @@ public class PlayerMovement : MonoBehaviour
         // SLOW DOWN
         if (OnSlowDownHex == true && SlowDownTimer < 0.4f)
         {
-            Debug.Log("SlowDown");
             SlowDownTimer += Time.fixedDeltaTime;
             rb.velocity *= 0.9f;
         }
@@ -267,7 +265,6 @@ public class PlayerMovement : MonoBehaviour
         // TRAMPOLIN
         if (OnTrampolinHex == true && TrampolinTimer < 0.2)
         {
-            Debug.Log("HexTrampolin");
             TrampolinTimer += Time.fixedDeltaTime;
             rb.AddForce(Vector3.up * CurrentTrampolinForce * 10 * Time.fixedDeltaTime, ForceMode.Impulse); //CurrentTrampolinForce
         }
@@ -327,7 +324,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 jumping = true;
                 timerJump += Time.deltaTime;
-                rb.AddForce(this.transform.up * forceJump * Time.deltaTime, ForceMode.Impulse);
+                rb.AddForce(this.transform.up * forceJump * Time.fixedDeltaTime, ForceMode.Impulse);
             }
 
         }

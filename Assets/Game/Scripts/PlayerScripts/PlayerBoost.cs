@@ -7,9 +7,9 @@ public class PlayerBoost : MonoBehaviour
     #region Inspector
 
     //[SerializeField] float boostCost = 1;
-    [Space]
+
     [SerializeField] private float BoostForce = 75;
-    private float BoostDuration = 0.8f;
+    float boostDuration = 0.8f;
     [SerializeField] private AnimationCurve BoostDashcurve;
     [SerializeField] public bool IsBoosting = false; //used to lock other boosts
     [SerializeField] private Coroutine boostCoroutine;
@@ -19,6 +19,7 @@ public class PlayerBoost : MonoBehaviour
     PlayerStartDash superDash;
     ShadowDash shadowDash;
     AudioManager audManager;
+    PlayerMovement playerMov;
     [SerializeField] AudioSource audioSource;
 
     Rigidbody rb;
@@ -33,12 +34,15 @@ public class PlayerBoost : MonoBehaviour
 
         superDash = this.GetComponent<PlayerStartDash>();
         shadowDash = this.GetComponent<ShadowDash>();
+        playerMov = this.GetComponent<PlayerMovement>();
 
         gameMng = GameManager.Instance;
         audManager = AudioManager.Instance;
 
         //audioSource = 
     }
+
+    public float BoostTimer;
 
     void FixedUpdate()
     {
@@ -53,60 +57,71 @@ public class PlayerBoost : MonoBehaviour
             BoostStarter();
         }
 
-        if (currentBoostforce != 0)
+
+        
+        if (IsBoosting == true && BoostTimer < boostDuration)
+        {
+            // playerBoost.CurveValue
+
+            BoostTimer += Time.fixedDeltaTime;
+            rb.AddForce(playerMov.MovementDirection.normalized * CurveValue * BoostForce * 100 * Time.fixedDeltaTime);
+        }
+        else if (IsBoosting == true && BoostTimer > boostDuration)
         {
 
-
-            //mr.enabled = true;
+            rb.velocity = rb.velocity / 2;
+            IsBoosting = false;
         }
-        
+        else
+        {
+            BoostTimer = 0;
+        }
+
 
     }
+
+
+    public float CurveValue;
 
     #region Shadowdash Coroutine
 
     public void BoostStarter()
     {
+        if (audioSource.isPlaying == false && audManager.allowAudio == true)
+            audioSource.Play();
+
+        GameManager.Instance.onUIEnergyChange?.Invoke(-gameMng.DashCosts);
+
+        IsBoosting = true;
+        BoostTimer = 0;
+
         if (boostCoroutine != null)
-            StopCoroutine(boostCoroutine);
+           StopCoroutine(boostCoroutine);
 
         boostCoroutine = StartCoroutine(BoostCoroutine());
-
-        
     }
 
     private IEnumerator BoostCoroutine()
     {
-        GameManager.Instance.onUIEnergyChange?.Invoke(-gameMng.DashCosts);
-        Vector3 velocity = rb.velocity;
-
-        if (audioSource.isPlaying == false && audManager.allowAudio == true)
-            audioSource.Play();
-
-
         float t = 0;
-        while (t < BoostDuration)
+        while (t < boostDuration)
         {
 
-            t += Time.deltaTime;
-            float curveValue = BoostDashcurve.Evaluate(t);
-
-
-            currentBoostforce += BoostForce * curveValue * Time.deltaTime;
-
-            
-
+            t += Time.fixedDeltaTime;
+            CurveValue = BoostDashcurve.Evaluate(t);
+             
+            //currentBoostforce += BoostForce * CurveValue * Time.deltaTime;
 
             yield return null;
         }
 
 
-        rb.velocity = rb.velocity / 2;
+       // rb.velocity = rb.velocity / 2;
 
         //rb.velocity = velocity;
 
         currentBoostforce = 0;
-        IsBoosting = false;
+        //IsBoosting = false;
         GameManager.Instance.onEnergyChange?.Invoke(-gameMng.DashCosts);
     }
 
