@@ -535,10 +535,18 @@ MonoBehaviour:
   rb: {fileID: 4498330986242300546}
   OnBoostForwardHex: 0
   CurrentHexFowardForce: 0
+  ForwardDirection: {x: 0, y: 0, z: 0}
   OnChangeDirectionHex: 0
   OnBoostInDirectionHex: 0
   CurrentHexInDirectionForce: 100
   HexInDirectionDirection: {x: 0, y: 0, z: 0}
+  OnTrampolinHex: 0
+  CurrentTrampolinForce: 0
+  OnSlowDownHex: 0
+  TrampolinTimer: 0
+  BoostInDirectionTimer: 0
+  BoostForwardTimer: 0
+  SlowDownTimer: 0
   MovementDirection: {x: 0, y: 0, z: 0}
   SlowDownMultiplicator: 0.99
   forceJump: 110
@@ -555,13 +563,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   Velocity: {x: 0, y: 0, z: 0}
+  maxSpeed: 1000
+  maxSpeedLimitStartClamping: 800
   rebounded: 0
   totalVelocity: 0
   velocityInfluence: 0.1
   maxHight: 35
   jumpAudioSource: {fileID: 2098955657895353872}
   basedrumAudioSource: {fileID: 7320731296287951993}
-  ForwardDirection: {x: 0, y: 0, z: 0}
+  StartDashTimer: 0
+  ShadowDashTimer: 0
+  DownDashTimer: 0
 --- !u!114 &4498330986242300552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,7 +586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c23a69259ad69646ae52bf7732edc92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BoostForce: 110
+  BoostForce: 55
   BoostDashcurve:
     serializedVersion: 2
     m_Curve:
@@ -609,8 +621,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   IsBoosting: 0
-  currentBoostforce: 0
   audioSource: {fileID: 7630267529454189927}
+  CurveValue: 0
 --- !u!114 &4498330986242300553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -640,7 +652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b297dbe61a5dbb4aa6be732ae9b002b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShadowDashForce: 75
+  ShadowDashForce: 50
   ShadowDashDuration: 0.8
   shadowDashcurve:
     serializedVersion: 2
