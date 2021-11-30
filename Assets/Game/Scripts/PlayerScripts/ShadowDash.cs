@@ -22,6 +22,7 @@ public class ShadowDash : MonoBehaviour
     GameManager gameMng;
     PlayerBoost dash;
     PlayerStartDash superDash;
+    PlayerMovement playerMov;
     
 
     Rigidbody rb;
@@ -49,7 +50,7 @@ public class ShadowDash : MonoBehaviour
 
         dash = this.GetComponent<PlayerBoost>();
         superDash = this.GetComponent<PlayerStartDash>();
-
+        playerMov = this.GetComponent<PlayerMovement>();
         gameMng = GameManager.Instance;
 
         playerLayerInt = LayerMask.NameToLayer("Player");
@@ -90,27 +91,59 @@ public class ShadowDash : MonoBehaviour
         #region Add Dash to current Speed
         if (currentShadowDashForce != 0 )
         {
+            rb.AddForce(playerMov.MovementDirection.normalized * currentShadowDashForce * 400 * Time.fixedDeltaTime);
 
-
-
-            //Janina ich möchte gerne das momentane mov speed mit currentShadowDashForce multiplizieren, ich weiß aber nicht wo ich das bei Playermov kann
-            //   ---->>>> MOVEMENTSPEEDAUSPLAYERMOVEMENT  <<<<----- *= currentShadowDashForce;
-            //rb.velocity *= currentShadowDashForce;
-
-            mr.enabled = true;
+            // mr.enabled = true;
         }
         #endregion
 
+
+        if(EndShadowDash == true)
+        {
+            CheckForCollsion();
+        }
+
+
+    }
+    #region Shadowdash Coroutine
+
+    bool EndShadowDash = false;
+
+    void CheckForCollsion()
+    {
+        while (colliding == true)
+        {
+            Collider[] hitColliders;
+
+            hitColliders = Physics.OverlapSphere(this.transform.position, myCollider.radius + 1, LayerMask.GetMask("World")); //LayerMask.GetMask("World")
+
+
+            if (hitColliders.Length == 0)
+            {
+
+                this.gameObject.layer = playerLayerInt;
+                colliding = false;
+                // Debug.Log("notColliding");
+                
+                gameMng.AllowHexEffects = true;
+                mr.enabled = true;
+            }
+            else
+            {
+                Debug.Log("Colliding");
+            }
+        }
     }
 
-    #region Shadowdash Coroutine
-    
     public void ShadowDashStarter()
     {
         if (shadowDashCoroutine != null)
          StopCoroutine(shadowDashCoroutine);
         
         shadowDashCoroutine = StartCoroutine(ShadowDashCoroutine());
+
+        //this.gameObject.layer = playerNoCollisionLayerInt;
+        //colliding = true;
     }
 
     
@@ -125,58 +158,46 @@ public class ShadowDash : MonoBehaviour
 
         float t = 0;
 
-        this.gameObject.layer = playerNoCollisionLayerInt;
-        bool colliding = true;
+        
 
         while (t < ShadowDashDuration)
         {
 
             mr.enabled = true;
-            t += Time.deltaTime;
+            t += Time.fixedDeltaTime;
             float curveValue = shadowDashcurve.Evaluate(t); // / ShadowDashDuration
 
 
-            currentShadowDashForce += ShadowDashForce * curveValue * Time.deltaTime;
-            if (currentShadowDashForce >= disappearingDuringShadowDashStart && currentShadowDashForce <= disappearingDuringShadowDashEnd)
+            currentShadowDashForce += ShadowDashForce * curveValue * Time.fixedDeltaTime;
+
+            
+            if (currentShadowDashForce >= disappearingDuringShadowDashStart)  //&& currentShadowDashForce <= disappearingDuringShadowDashEnd
             {
+                this.gameObject.layer = playerNoCollisionLayerInt;
+                colliding = true;
+
                 mr.enabled = false;
                 gameMng.AllowHexEffects = false;
 
             }
-            yield return null;
+
+            yield return new WaitForFixedUpdate();
         }
 
+        EndShadowDash = true;
 
         rb.velocity = rb.velocity / 2;
 
         //rb.velocity = velocity;
 
-
-        
-        while (colliding == true)
-        {
-            Collider[] hitColliders;
-
-            hitColliders = Physics.OverlapSphere(this.transform.position, myCollider.radius + 1, LayerMask.GetMask("World")); //LayerMask.GetMask("World")
-            
-
-            if (hitColliders.Length == 0)
-            {
-                colliding = false;
-                Debug.Log("notColliding");
-                this.gameObject.layer = playerLayerInt;
-                gameMng.AllowHexEffects = true;
-            }
-        }
-        
-
-
-
-
         currentShadowDashForce = 0;
         isShadowDashing = false;
         GameManager.Instance.onEnergyChange?.Invoke(-gameMng.ShadowDashCosts);
     }
+
+    
+
+   
 
     #endregion
 

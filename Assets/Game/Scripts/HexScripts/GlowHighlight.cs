@@ -47,8 +47,9 @@ public class GlowHighlight : MonoBehaviour
                 if (cachedGlowMaterials.TryGetValue(originalMaterials[i].color, out mat) == false)
                 {
                     mat = new Material(glowMaterial);
-                  
-                    if (mat.color != null)
+
+                    if (mat.color == null) 
+                        continue;
                     mat.color = originalMaterials[i].color;
                     cachedGlowMaterials[mat.color] = mat;
                 }
@@ -68,7 +69,9 @@ public class GlowHighlight : MonoBehaviour
         foreach (Renderer renderer in glowMaterialDictionary.Keys)
         {
             foreach (Material item in glowMaterialDictionary[renderer])
-            {
+            { 
+                if (item == null)
+                    continue;
                 item.SetColor("_GlowColor", validSpaceColor);
             }
         }
@@ -80,8 +83,8 @@ public class GlowHighlight : MonoBehaviour
         {
             foreach (Material item in glowMaterialDictionary[renderer])
             {
-              //  if (originalGlowColor == null)
-                 //   return;
+                  if (item == null)
+                   continue;
                 item.SetColor("_GlowColor", originalGlowColor);
             }
         }
@@ -94,6 +97,8 @@ public class GlowHighlight : MonoBehaviour
             ResetGlowHighlight();
             foreach (Renderer renderer in originalMaterialDictionary.Keys)
             {
+                if (renderer == null)
+                    continue;
                 renderer.materials = glowMaterialDictionary[renderer];
             }
 
@@ -102,6 +107,8 @@ public class GlowHighlight : MonoBehaviour
         {
             foreach (Renderer renderer in originalMaterialDictionary.Keys)
             {
+                if (renderer == null)
+                    continue;
                 renderer.materials = originalMaterialDictionary[renderer];
             }
         }

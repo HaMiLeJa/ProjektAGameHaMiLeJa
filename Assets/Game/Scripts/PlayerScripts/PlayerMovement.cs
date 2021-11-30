@@ -1,22 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Mathematics;
+using UnityEngine.Video;
+using UnityEngine.XR;
 
 public class PlayerMovement : MonoBehaviour
 {
     #region Inspector
     [HideInInspector] public Rigidbody rb;
     GameManager gameMng;
-    MovementCurves movCurves;
 
-    [HideInInspector] public bool OnBoostForwardHex;
+
+    [HideInInspector] public bool OnBoostForwardHex = false;
     [HideInInspector] public float CurrentHexFowardForce;
-    [HideInInspector] public bool OnChangeDirectionHex;
-    [HideInInspector] public bool OnBoostInDirectionHex;
+    [HideInInspector] public Vector3 ForwardDirection;
+
+    [HideInInspector] public bool OnChangeDirectionHex = false;
+
+    [HideInInspector] public bool OnBoostInDirectionHex = false;
     [HideInInspector] public float CurrentHexInDirectionForce;
     [HideInInspector] public Vector3 HexInDirectionDirection;
     //public float currentHexChangeDirectionForce;
-    
+
+    [HideInInspector] public bool OnTrampolinHex = false;
+    [HideInInspector] public float CurrentTrampolinForce;
+
+    [HideInInspector] public bool OnSlowDownHex = false;
+
+    [HideInInspector] public float TrampolinTimer;
+    [HideInInspector] public float BoostInDirectionTimer;
+    [HideInInspector] public float BoostForwardTimer;
+    [HideInInspector] public float SlowDownTimer;
+
+
+
+
 
     [Tooltip("Speed with which the player can influence the movement")]
    // public float StandardMovementSpeed = 10;
@@ -47,7 +66,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] LayerMask levelMask;
 
     public Vector3 Velocity; //Debug
-
+    
+    [Space]
+    [Header("Max Velocity - Spitzen abfangen")]
+    [Tooltip("Was könnte der Spieler maximal erreichen erreichen")] [SerializeField] private float maxSpeed = 1000;
+    [Tooltip("Ab wann wird die geschwindigkeit begrenzt (ein klein wenig Kontrollverlust)")] 
+    [SerializeField] private int maxSpeedLimitStartClamping= 800;
+    [Space]
+    
     ShadowDash shadowDash;
     PlayerBoost playerBoost;
 
@@ -79,13 +105,13 @@ public class PlayerMovement : MonoBehaviour
         gameMng = GameManager.Instance;
         shadowDash = this.GetComponent<ShadowDash>();
         playerBoost = this.GetComponent<PlayerBoost>();
-        movCurves = this.GetComponent<MovementCurves>();
         audManager = AudioManager.Instance;
     }
 
 
     void FixedUpdate()
     {
+        MaxVelocity();
         Velocity = rb.velocity; //Debug
 
         ControlVelocity();
@@ -99,8 +125,31 @@ public class PlayerMovement : MonoBehaviour
         if (gameMng.AllowMovement == false) return;
 
         CorrectMovement();
+        HexEffects();
         BasicJump();
     }
+
+   
+    
+    
+    void MaxVelocity()
+    {
+        if ((math.abs(rb.velocity.x) + math.abs(rb.velocity.z)) > maxSpeedLimitStartClamping)
+        {
+            Debug.Log("Enter limit velocity");
+            float xVelocityMax = Mathf.Min(Mathf.Abs(rb.velocity.x), maxSpeed) * Mathf.Sign(rb.velocity.x);
+            float zVelocityMax = Mathf.Min(Mathf.Abs(rb.velocity.z), maxSpeed) * Mathf.Sign(rb.velocity.z);
+
+            rb.velocity = new Vector3(xVelocityMax, rb.velocity.y, zVelocityMax);
+        }
+        
+    }
+
+
+    
+    public float StartDashTimer;
+    public float ShadowDashTimer;
+    public float DownDashTimer;
 
     void CorrectMovement()
     {
@@ -112,38 +161,23 @@ public class PlayerMovement : MonoBehaviour
         //Vector3 movement = MovementDirection * Time.deltaTime * StandardMovementSpeed;
 
 
+       
+
+       
+
         if (shadowDash.currentShadowDashForce != 0f)
         {
-            rb.AddForce(MovementDirection.normalized * shadowDash.currentShadowDashForce * 5);
+            rb.AddForce(MovementDirection.normalized * shadowDash.currentShadowDashForce * 50 * Time.fixedDeltaTime);
 
         }
-        if(playerBoost.currentBoostforce != 0f)
-        {
-            rb.AddForce(MovementDirection.normalized * playerBoost.currentBoostforce * 5);
-        }
-
-        if (OnBoostForwardHex == true)
-        {
-            
-            rb.AddForce(rb.velocity.normalized * CurrentHexFowardForce * 5);
-        }
-        
-        if (OnBoostInDirectionHex == true)
-        {
-            rb.AddForce(HexInDirectionDirection * CurrentHexInDirectionForce * 100);
-        }
-        
-        if(OnChangeDirectionHex == true)
-        {
-            rb.AddForce(rb.velocity.normalized * 5); //*currentHexChangeDirectionForce 
 
 
-        }
-        
-        if(OnGround == false)
+
+        //??
+        if (OnGround == false)
         {
             totalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.z);
-            float velocityPower = totalVelocity * velocityInfluence/2;
+            float velocityPower = totalVelocity * velocityInfluence/2 * Time.deltaTime;
 
             rb.velocity = (rb.velocity + (MovementDirection * velocityPower));
         }
@@ -167,6 +201,82 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    void HexEffects()
+    {
+        if (gameMng.AllowHexEffects == false) return;
+
+        // BOOST FORWARD
+        if (OnBoostForwardHex == true && BoostForwardTimer < 0.4f)
+        {
+            BoostForwardTimer += Time.fixedDeltaTime;
+            ForwardDirection = rb.velocity.normalized;
+            rb.AddForce(ForwardDirection * CurrentHexFowardForce * 500 * Time.fixedDeltaTime);
+        }
+        else if(OnBoostForwardHex == true && BoostForwardTimer > 0.4f)
+        {
+            rb.velocity = rb.velocity / 2;
+            OnBoostForwardHex = false;
+        }
+        else
+        {
+            BoostForwardTimer = 0;
+        }
+        
+        
+
+        //  BOOST IN DIRECTION
+        if (OnBoostInDirectionHex == true && BoostInDirectionTimer < 0.3f)
+        {
+          //  Debug.Log("HexInDirection");
+            rb.AddForce(HexInDirectionDirection * CurrentHexInDirectionForce* 500 * Time.fixedDeltaTime);
+            BoostInDirectionTimer += Time.fixedDeltaTime;
+
+            //CurrentHexInDirectionForce = CurrentHexInDirectionForce * 0.99f;
+        }
+        else
+        {
+            BoostInDirectionTimer = 0;
+            OnBoostInDirectionHex = false;
+        }
+        
+
+        
+        // SLOW DOWN
+        if (OnSlowDownHex == true && SlowDownTimer < 0.4f)
+        {
+            SlowDownTimer += Time.fixedDeltaTime;
+            rb.velocity *= 0.9f;
+        }
+        else
+        {
+            SlowDownTimer = 0;
+            OnSlowDownHex = false;
+        }
+        
+
+       /*  // Change Direction
+        if(OnChangeDirectionHex == true)
+        {
+            rb.AddForce(rb.velocity.normalized * 20 * Time.fixedDeltaTime); //*currentHexChangeDirectionForce 
+        }
+        */
+
+        
+        // TRAMPOLIN
+        if (OnTrampolinHex == true && TrampolinTimer < 0.2)
+        {
+            TrampolinTimer += Time.fixedDeltaTime;
+            rb.AddForce(Vector3.up * CurrentTrampolinForce * 10 * Time.fixedDeltaTime, ForceMode.Impulse); //CurrentTrampolinForce
+        }
+        else
+        {
+            OnTrampolinHex = false;
+            TrampolinTimer = 0;
+            rebounded = false;
+        }
+        
+    }
+
     void Bounce()
     {
 
@@ -176,7 +286,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(totalVelocity > 300) //von total Velocity abhängig machen
         {
-          rb.velocity = new Vector3(rb.velocity.x * 1.1f, rb.velocity.y, rb.velocity.z * 1.0001f);
+          rb.velocity = new Vector3(rb.velocity.x * 1.1f, rb.velocity.y, rb.velocity.z * 1.0001f * Time.deltaTime);
         }
 
         
@@ -214,7 +324,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 jumping = true;
                 timerJump += Time.deltaTime;
-                rb.AddForce(this.transform.up * forceJump, ForceMode.Impulse);
+                rb.AddForce(this.transform.up * forceJump * Time.fixedDeltaTime, ForceMode.Impulse);
             }
 
         }
@@ -232,7 +342,7 @@ public class PlayerMovement : MonoBehaviour
     { 
         if(this.rb.position.y >= maxHight)
         {
-            rb.AddForce(Vector3.down * highControlForce * rb.transform.position.y);
+            rb.AddForce(Vector3.down * highControlForce * rb.transform.position.y * Time.deltaTime);
 
            //rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -100f, -0.01f ), rb.velocity.y);
 
@@ -344,20 +454,28 @@ public class PlayerMovement : MonoBehaviour
     }
 
    void Gravity()
-    {
+   {
         //if (movCurves.OnCurve == true) return;
+
+
+        
+        if (OnTrampolinHex) return;
 
         if (OnGround == false && jumping == false) //&&rebounding == false
         {
             //Vector3 direction = new Vector3(rb.velocity.x, -1, rb.velocity.z);
             //direction = direction.normalized;
 
-            rb.AddForce(rb.velocity.normalized + Vector3.down * fallDownSpeed);
+            rb.AddForce((rb.velocity.normalized + Vector3.down) * fallDownSpeed * Time.fixedDeltaTime, ForceMode.Acceleration);
         }
         else if (OnGround == false && rebounded == false) //Trampolin
         {
-            rb.AddForce(rb.velocity.normalized + Vector3.down * fallDownSpeed);
+            rb.AddForce((rb.velocity.normalized + Vector3.down) * fallDownSpeed * Time.fixedDeltaTime, ForceMode.Acceleration);
         }
+        
+
+
+
     }
 
     //CollectEnergy
