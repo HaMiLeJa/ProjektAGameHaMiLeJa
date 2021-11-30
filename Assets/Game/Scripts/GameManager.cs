@@ -52,7 +52,9 @@ public class GameManager : MonoBehaviour
     public static float GlowEnableDelay = 0.1f;
    public static  float GlowDisableDelay = 2.5f;
    [HideInInspector]public static GameObject CameraHelper;
+   [HideInInspector] public static bool ZeroOutAllowed = true;
    public static bool CameraTeleportActive = false;
+   public static bool StopGiveVelocityBack = true;
    public static CinemachineVirtualCamera vcam;
     GameObject player;
    

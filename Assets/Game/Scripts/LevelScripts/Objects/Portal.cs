@@ -26,7 +26,6 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
     private float snapBackTreshold = 0.0001f;
     private PlayerMovement _playerMovement;
     private float cashedXVelocity, cashedZVelocity, xzVelocity;
-    private bool zeroOutAllowed = true;
     AudioSource myAudioSource;
     
 
@@ -49,25 +48,25 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
         
        if (GameManager.CameraTeleportActive)
        {
-           if(zeroOutAllowed)
+           if(GameManager.ZeroOutAllowed)
            _playerMovement.rb.velocity = Vector3.zero;
            
            float  distanceCamHelperPlayer =
                (Mathf.Abs(GameManager.CameraHelper.transform.position.x) - Mathf.Abs(player.transform.position.x))
                + (Mathf.Abs(GameManager.CameraHelper.transform.position.z) - Mathf.Abs(player.transform.position.z));
            
-           if (distanceCamHelperPlayer < snapBackTreshold*1000)
+           if (distanceCamHelperPlayer < snapBackTreshold*10000)
            {
-               _playerMovement.rb.velocity = new Vector3(cashedXVelocity, 0, cashedZVelocity);
-               zeroOutAllowed = false;
+               GameManager.ZeroOutAllowed = false;
            }
            if (distanceCamHelperPlayer < snapBackTreshold)
            {
                cam.LookAt = player.transform;
                cam.Follow =  player.transform;
                followRoughness = cashedlerpValue;
+               _playerMovement.rb.velocity = new Vector3(cashedXVelocity, 0, cashedZVelocity);
                GameManager.CameraTeleportActive = false;
-               zeroOutAllowed = true;
+               GameManager.ZeroOutAllowed = true;
            }
            
            if (distanceCamHelperPlayer < lastDistanceTreshhold && distanceCamHelperPlayer >= 1f)
@@ -78,7 +77,7 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
            {
                followRoughness = followRoughness * (lastDistanceSpeedIncreasePercentPerFrame/20+1);
            }
-           
+        
            GameManager.CameraHelper.transform.position = Vector3.Lerp( 
                GameManager.CameraHelper.transform.position,
                player.transform.position, 
@@ -90,6 +89,9 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
     {
         if (other.tag == player.tag)
         {
+            cashedXVelocity = _playerMovement.rb.velocity.x;
+            cashedZVelocity = _playerMovement.rb.velocity.z;
+           
             if (GoalPortal == false) //Wenn diese Portal das startPoral ist fortfahren
             {
                 StartPortal = true;
@@ -109,8 +111,7 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
                 {
                     if(!GameManager.CameraTeleportActive)
                     {
-                        cashedXVelocity = _playerMovement.rb.velocity.x;
-                        cashedZVelocity = _playerMovement.rb.velocity.z;
+                     
                         
                         GameManager.CameraHelper.transform.position = player.transform.position;
                         cam.LookAt =  GameManager.CameraHelper.transform; 
