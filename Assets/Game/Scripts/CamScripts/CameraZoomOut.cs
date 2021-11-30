@@ -10,6 +10,9 @@ public class CameraZoomOut : MonoBehaviour
     public CinemachineVirtualCamera vcam;
     private float lerpedValue;
     private float cashedFov;
+    private Transform lookAtCashed;
+    private Transform targetAtCashed;
+    
     [Header("Camera Zoomout")]
     [Space]
     
@@ -31,6 +34,8 @@ public class CameraZoomOut : MonoBehaviour
     
     void FixedUpdate()
     {
+     if(!GameManager.CameraTeleportActive)
+     {
         xVelocity = math.abs(_playerMovement.rb.velocity.x);
       //  Debug.Log("x Velocity"+ xVelocity);
         zVelocity = math.abs(_playerMovement.rb.velocity.z);
@@ -47,6 +52,7 @@ public class CameraZoomOut : MonoBehaviour
         if(cashedFov+ZoomOutDelay < lerpedValue)
         vcam.m_Lens.FieldOfView = Mathf.Lerp(vcam.m_Lens.FieldOfView, lerpedValue, zoomOutRoughness*Time.deltaTime);
        // Debug.Log(zoomOutRoughness * Time.deltaTime);
+     }
     }
     
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
@@ -50,7 +51,11 @@ public class GameManager : MonoBehaviour
     public bool AllowHexEffects = true;
     public static float GlowEnableDelay = 0.1f;
    public static  float GlowDisableDelay = 2.5f;
+   [HideInInspector]public static GameObject CameraHelper;
+   public static bool CameraTeleportActive = false;
+   public static CinemachineVirtualCamera vcam;
     GameObject player;
+   
     Rigidbody playerRb;
     #endregion
 
@@ -66,13 +71,16 @@ public class GameManager : MonoBehaviour
         {
             GameManager.Instance = this;
         }
+        
     }
     #endregion
-
+    
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         playerRb = player.GetComponent<Rigidbody>();
+        CameraHelper = new GameObject("CameraHelper");
+        vcam = GetComponent<CinemachineVirtualCamera>();
     }
 
     void Update()
