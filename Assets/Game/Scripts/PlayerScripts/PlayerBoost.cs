@@ -13,7 +13,7 @@ public class PlayerBoost : MonoBehaviour
     [SerializeField] private AnimationCurve BoostDashcurve;
     [SerializeField] public bool IsBoosting = false; //used to lock other boosts
     [SerializeField] private Coroutine boostCoroutine;
-    [HideInInspector] public float currentBoostforce = 0.0f;
+    float currentBoostforce = 0.0f;
     
     GameManager gameMng;
     PlayerStartDash superDash;
@@ -21,6 +21,8 @@ public class PlayerBoost : MonoBehaviour
     AudioManager audManager;
     PlayerMovement playerMov;
     [SerializeField] AudioSource audioSource;
+
+    float boostTimer;
 
     Rigidbody rb;
 
@@ -42,7 +44,7 @@ public class PlayerBoost : MonoBehaviour
         //audioSource = 
     }
 
-    public float BoostTimer;
+  
 
     void FixedUpdate()
     {
@@ -59,14 +61,14 @@ public class PlayerBoost : MonoBehaviour
 
 
         
-        if (IsBoosting == true && BoostTimer < boostDuration)
+        if (IsBoosting == true && boostTimer < boostDuration)
         {
             // playerBoost.CurveValue
 
-            BoostTimer += Time.fixedDeltaTime;
+            boostTimer += Time.fixedDeltaTime;
             rb.AddForce(playerMov.MovementDirection.normalized * CurveValue * BoostForce * 100 * Time.fixedDeltaTime);
         }
-        else if (IsBoosting == true && BoostTimer > boostDuration)
+        else if (IsBoosting == true && boostTimer > boostDuration)
         {
 
             rb.velocity = rb.velocity / 2;
@@ -74,7 +76,7 @@ public class PlayerBoost : MonoBehaviour
         }
         else
         {
-            BoostTimer = 0;
+            boostTimer = 0;
         }
 
 
@@ -93,7 +95,7 @@ public class PlayerBoost : MonoBehaviour
         GameManager.Instance.onUIEnergyChange?.Invoke(-gameMng.DashCosts);
 
         IsBoosting = true;
-        BoostTimer = 0;
+        boostTimer = 0;
 
         if (boostCoroutine != null)
            StopCoroutine(boostCoroutine);
