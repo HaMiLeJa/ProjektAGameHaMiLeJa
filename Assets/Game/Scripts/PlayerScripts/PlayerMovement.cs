@@ -167,7 +167,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (shadowDash.currentShadowDashForce != 0f)
         {
-            rb.AddForce(MovementDirection.normalized * shadowDash.currentShadowDashForce * 5 * Time.deltaTime);
+            rb.AddForce(MovementDirection.normalized * shadowDash.currentShadowDashForce * 50 * Time.fixedDeltaTime);
 
         }
 
