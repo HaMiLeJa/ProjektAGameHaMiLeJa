@@ -170,20 +170,22 @@ public class Hex : MonoBehaviour
         gameMng.ChangeDirectionCounter++;
         if (gameMng.AllowChangeDirection == false) return;
 
+        //  if (allowStartChangeDirection == false) return;
+        //allowStartChangeDirection = false;
 
-        if (allowStartChangeDirection == false) return;
+        playerRb.velocity = playerRb.velocity * -1;
+      //  playerMov.OnChangeDirectionHex = true;
 
-        allowStartChangeDirection = false;
+        OnEffectHex?.Invoke();
 
-
-        if (changeDirectionCoroutine != null)
-            StopCoroutine(changeDirectionCoroutine);
-
-
-       // isChangingDirection = true;
-        changeDirectionCoroutine = StartCoroutine(ChangeDirectionCoroutine());
+        //  if (changeDirectionCoroutine != null)
+        //     StopCoroutine(changeDirectionCoroutine);
+        // isChangingDirection = true;
+        //  changeDirectionCoroutine = StartCoroutine(ChangeDirectionCoroutine());
     }
 
+    #region NO Use: old Coroutine
+    /*
     private IEnumerator ChangeDirectionCoroutine()
     {
         OnEffectHex?.Invoke();
@@ -195,8 +197,10 @@ public class Hex : MonoBehaviour
         yield return null;
         playerMov.OnChangeDirectionHex = false;
     }
+    */
+    #endregion
 
-    
+    /*
     private void OnTriggerExit(Collider other)
     {
         if(other.gameObject == Player)
@@ -206,28 +210,38 @@ public class Hex : MonoBehaviour
 
        
     }
+    */
     #endregion
 
     #region SlowDown
-    [Header("SlowDown")]
-    [SerializeField] private AnimationCurve slowDownCurve;
+   // [Header("SlowDown")]
+    //[SerializeField] private AnimationCurve slowDownCurve;
     //[SerializeField] private float SlowDownForce = 400f;
-    private float SlowDownDuration = 0.4f;
+   // private float SlowDownDuration = 0.4f;
     
-    private bool IsSlowingDown = false; //used to lock other boosts
-    private Coroutine slowDownCoroutine;
-    [SerializeField] float SlowDownValue = 0.99f;
+   // private bool IsSlowingDown = false; //used to lock other boosts
+    //private Coroutine slowDownCoroutine;
+    //[SerializeField] float SlowDownValue = 0.99f;
 
     public void SlowDownStarter()
     {
         if (gameMng.AllowHexEffects == false) return;
-        
+
+        playerMov.SlowDownTimer = 0;
+
+        playerMov.OnSlowDownHex = true;
+
+        OnEffectHex?.Invoke();
+
+        /*
         if (slowDownCoroutine != null)
             StopCoroutine(slowDownCoroutine);
-
         slowDownCoroutine = StartCoroutine(SlowDownCoroutine());
+        */
     }
 
+    #region NO use Old Coroutine
+    /*
     private IEnumerator SlowDownCoroutine()
     {
         OnEffectHex?.Invoke();
@@ -249,12 +263,13 @@ public class Hex : MonoBehaviour
 
         IsSlowingDown = false;
     }
-
+    */
+    #endregion
     #endregion
 
     #region BoostForward
     [Header("BoostForward")]
-    [Range(50, 100)] [SerializeField] private float forwardForce = 50f;
+    [Range (30f, 70f)] [SerializeField] private float forwardForce = 50f; //Range
     private float BoostForwardDuration = 0.4f;
     public bool IsHexForwardBoosting = false; //used to lock other boosts
     private Coroutine hexBoostForwardCoroutine;
@@ -267,12 +282,21 @@ public class Hex : MonoBehaviour
         gameMng.BoostForwardCounter++;
         if (gameMng.AllowBoostForward == false) return;
 
-        if (hexBoostForwardCoroutine != null)
-            StopCoroutine(hexBoostForwardCoroutine);
 
-        hexBoostForwardCoroutine = StartCoroutine(HexBoostForwardCoroutine());
+        playerMov.BoostForwardTimer = 0;
+        playerMov.CurrentHexFowardForce = forwardForce;
+
+        playerMov.OnBoostForwardHex = true;
+
+        OnEffectHex?.Invoke();
+
+        // if (hexBoostForwardCoroutine != null)
+        //   StopCoroutine(hexBoostForwardCoroutine);
+        // hexBoostForwardCoroutine = StartCoroutine(HexBoostForwardCoroutine());
     }
 
+    #region NoUse old Coroutine;
+    /*
     private IEnumerator HexBoostForwardCoroutine()
     {
         Debug.Log("BoostForward");
@@ -303,63 +327,77 @@ public class Hex : MonoBehaviour
         playerMov.CurrentHexFowardForce = 0;
         IsHexForwardBoosting = false;
     }
-
+    */
+    #endregion
     #endregion
 
     #region Trampolin
     [Header("Trampolin")]
-    float reboundDuration = 0.2f;
+   // float reboundDuration = 0.2f;
     [SerializeField] float tramoplinForce = 15f;
     //[SerializeField] float velocityInfluence = 0.5f;
-    private Coroutine trampolinCoroutine;
+    //private Coroutine trampolinCoroutine;
 
     public void TrampolinStarter()
     {
         if (gameMng.AllowHexEffects == false) return;
 
+
         OnEffectHex?.Invoke();
         
-
         playerMov.rebounded = true;
 
-        //new Vector3(0, direction.y * yReboundVelocity, 0) * force;
+       
 
         playerRb.velocity = new Vector3(playerRb.velocity.x * 0.1f, playerRb.velocity.y, playerRb.velocity.z * 0.1f);
-        
 
-        if (trampolinCoroutine != null)
-            StopCoroutine(trampolinCoroutine);
+        playerMov.OnTrampolinHex = true;
+        playerMov.CurrentTrampolinForce = tramoplinForce;
 
-        trampolinCoroutine = StartCoroutine(TrampolinCoroutine());
+        //if (trampolinCoroutine != null)
+        //  StopCoroutine(trampolinCoroutine);
+        //trampolinCoroutine = StartCoroutine(TrampolinCoroutine());
     }
 
+    #region Useless: TrampolinCoroutine
+    /*
     IEnumerator TrampolinCoroutine()
     {
         float timer = 0;
+        playerMov.OnTrampolinHex = true;
 
         while (playerMov.rebounded == true)
         {
-            timer += Time.deltaTime;
+            timer += Time.fixedDeltaTime;
 
             if (timer < reboundDuration)
             {
                 if (gameMng.AllowHexEffects == false) break;
 
-                Vector3 direction = Vector3.up;
-                Vector3 ReboundMovement = direction * (tramoplinForce * 10) * Time.deltaTime;
+                //Vector3 direction = Vector3.up;
+                //Vector3 ReboundMovement = direction.normalized * (tramoplinForce * 10) * Time.deltaTime;
 
-                playerRb.AddForce(ReboundMovement, ForceMode.Impulse);
+                playerMov.CurrentTrampolinForce = tramoplinForce;
+                //playerRb.AddForce(ReboundMovement * Time.deltaTime * 100, ForceMode.Impulse);
 
+                //playerRb.AddForce(ReboundMovement.normalized, ForceMode.Impulse);
+
+                //playerRb.AddForce(direction.normalized * tramoplinForce * 100 * Time.deltaTime, ForceMode.Impulse);
             }
             else
             {
                 playerMov.rebounded = false;
                 timer = 0;
             }
+
+            yield return null;
         }
 
         yield return null;
+        playerMov.OnTrampolinHex = false;
     }
+    */
+    #endregion
 
     #endregion
 
@@ -369,25 +407,40 @@ public class Hex : MonoBehaviour
     [SerializeField] float ZDirection = 1;
     float YDirection = 0;
     Vector3 BoostInDirectionDirection;
-    Coroutine hexBoostInDirectionCoroutine;
-    [Range (70, 85)] [SerializeField] float boostInDForce = 80;
+    // Coroutine hexBoostInDirectionCoroutine;
+    [Range(10, 30)] [SerializeField] float boostInDForce = 20;
 
-    float BoostInDirectionDuration = 0.3f;
-    bool IsBoostingInDirection = false;
+    // float BoostInDirectionDuration = 0.3f;
+    //  bool IsBoostingInDirection = false;
 
     void BoostInDirectionStarter()
     {
-        //Allow Hex Effects
-        Debug.Log("InDirectionHex");
+        if (gameMng.AllowHexEffects == false) return;
 
-        BoostInDirectionDirection = new Vector3(XDirection, YDirection, ZDirection).normalized;
-        playerMov.CurrentHexInDirectionForce = 100;
-        if (hexBoostInDirectionCoroutine != null)
-            StopCoroutine(hexBoostInDirectionCoroutine);
+        playerMov.BoostInDirectionTimer = 0;
+        playerRb.velocity = Vector3.zero;
 
-        hexBoostInDirectionCoroutine = StartCoroutine(HexBoostInDirectionCoroutine());
+       
+
+        playerMov.CurrentHexInDirectionForce = boostInDForce;
+        BoostInDirectionDirection = new Vector3(XDirection, YDirection, ZDirection);
+        playerMov.HexInDirectionDirection = BoostInDirectionDirection.normalized;
+       
+        
+        
+        playerMov.OnBoostInDirectionHex = true;
+
+        OnEffectHex?.Invoke();
+        
+        //   if (hexBoostInDirectionCoroutine != null)
+        //      StopCoroutine(hexBoostInDirectionCoroutine);
+        //  hexBoostInDirectionCoroutine = StartCoroutine(HexBoostInDirectionCoroutine());
     }
 
+    #region NoUse: coroutine
+    
+    
+    /*
     private IEnumerator HexBoostInDirectionCoroutine()
     {
         OnEffectHex?.Invoke();
@@ -419,6 +472,8 @@ public class Hex : MonoBehaviour
 
         yield return null;
     }
+    */
+    #endregion
 
     #endregion
 

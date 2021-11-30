@@ -36,6 +36,10 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
     AudioManager audManager;
     [SerializeField] AudioSource audioSource;
 
+
+    float dashTimer;
+    bool addBoostForce;
+
     #endregion
 
     void Start()
@@ -57,11 +61,27 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
     {
         if (gameMng.AllowMovement == false) return;
         SuperBoost();
+
+
+        if (addBoostForce == true)
+        {
+            if (dashTimer < boostDuration)
+            {
+                dashTimer += Time.fixedDeltaTime;
+                rb.AddForce(boostDirection.normalized * boostForce * Time.deltaTime * 10, ForceMode.Impulse);
+            }
+            else
+            {
+                dashTimer = 0;
+                Boosting = false;
+                addBoostForce = false;
+            }
+        }
+
     }
 
-    //bool eventActivated = false;
-
-    void SuperBoost() //Wait(SetDirection) and Boost
+  
+    void SuperBoost()
     {
         if (dash.IsBoosting == true || shadowDash.isShadowDashing == true) return;
 
@@ -79,14 +99,9 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
                 SetDirecton();
             }
 
-            /*
-            if (directionSet == true && started == false)
-            {
-                StartDashStarter();
-            }*/
 
         }
-        else //if (coroutineStarted == false)
+        else
         {
             boostButtonPressedInLastFrame = false;
             allowSetDirection = false;
@@ -99,11 +114,9 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
 
             circle.SetActive(false);
 
-            //coroutine = null;
-            // eventActivated = false;
         }
 
-        // && started == false
+        // If ButtonPressed and Direction Set
         if (Input.GetAxisRaw("LeftTrigger") != 0 && directionSet == true || Input.GetButton("Y") && directionSet == true) 
         {
             if (boostButtonPressedInLastFrame2 == false)
@@ -115,13 +128,12 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
         else
         {
             boostButtonPressedInLastFrame2 = false;
-            //started = false
         }
     }
 
     void SetDirecton()
     {
-        setDirectionTimer += Time.deltaTime;
+        setDirectionTimer += Time.fixedDeltaTime;
 
         if (setDirectionTimer < 1f)
         {
@@ -132,76 +144,34 @@ public class PlayerStartDash : MonoBehaviour //Super boost as the initial thing 
         else
         {
             boostDirection = playerMov.MovementDirection;
-           // allowSetDirection = false; //Addet
             directionSet = true;
             circle.SetActive(false);
         }
     }
 
-    bool started = false;
-
+    
     void StartDashStarter()
     {
-        started = true;
-        //if (Boosting == true) return;
+        addBoostForce = true;
 
-       // Boosting = true;
-
-
-        if (coroutine != null)
+       if (coroutine != null)
             StopCoroutine(coroutine);
 
         coroutine = StartCoroutine(StartDashCoroutine());
-
-        if (directionSet == true) //&& timerBoost < boostDuration
-        {
-            // timerBoost += Time.deltaTime;
-            //rb.AddForce(boostDirection.normalized * boostForce, ForceMode.Impulse); //*3 zum zeigen
-
-            /*
-            if (coroutineStarted == false)
-            {
-                coroutineStarted = true;
-
-                if (coroutine == null)
-                    coroutine = StartCoroutine(StartDashCoroutine());
-
-            }
-            */
-            
-
-
-        }
-        else
-        {
-            //Boosting = false;
-        }
     }
 
-
+  
     IEnumerator StartDashCoroutine()
     {
-        GameManager.Instance.onUIEnergyChange?.Invoke(-gameMng.StartDashCosts);
-        float timer = 0;
-
         if (audioSource.isPlaying == false && audManager.allowAudio == true)
             audioSource.Play();
 
-        while (timer < boostDuration)
-        {
-            timer += Time.deltaTime;
-
-            rb.AddForce(boostDirection.normalized * boostForce * Time.deltaTime * 10, ForceMode.Impulse);
-            yield return null;
-
-        }
-
-        Boosting = false;
-        coroutineStarted = false;
+        GameManager.Instance.onUIEnergyChange?.Invoke(-gameMng.StartDashCosts);
+        
+        new WaitForSeconds(boostDuration);
 
         GameManager.Instance.onEnergyChange?.Invoke(-gameMng.StartDashCosts);
 
-        started = false;
         yield return null;
     }
 

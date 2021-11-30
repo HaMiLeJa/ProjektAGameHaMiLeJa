@@ -47,7 +47,7 @@ public class DownDash : MonoBehaviour
     void FixedUpdate()
     {
         
-        if (Input.GetButton("A") ) //&& touchedGround == true
+        if (Input.GetButton("A"))
         {
             if (gameMng.AllowMovement == false) return;
             if (playerMov.OnGround == false && buttonPressedInLastFrame == false)
@@ -56,7 +56,7 @@ public class DownDash : MonoBehaviour
                 buttonPressedInLastFrame = true;
 
                 GameManager.Instance.onUIEnergyChange?.Invoke(-gameMng.DownDashCosts);
-                //touchedGround = false;
+                
             }
         }
         else
