@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class CameraZoomOut : MonoBehaviour
     private PlayerMovement _playerMovement;
     private float xVelocity, zVelocity, xzVelocity;
     public CinemachineVirtualCamera vcam;
+    public static CinemachineVirtualCamera vcamera;
     private float lerpedValue;
     private float cashedFov;
     private Transform lookAtCashed;
@@ -25,9 +27,15 @@ public class CameraZoomOut : MonoBehaviour
    [Tooltip("Davor wird nichts gemacht")] [SerializeField] private float ZoomOutDelay = 3;
    [Range(0, 30)]
    [Tooltip("Vertikale und Horizontale Achse start zoom")] [SerializeField] private float HorizontalVerticalStartZoom = 3;
-   
+
+   private void Awake()
+   {
+       vcamera = vcam;
+   }
+
    void Start()
-    {
+   {
+       
         _playerMovement = FindObjectOfType<PlayerMovement>();
         cashedFov = vcam.m_Lens.FieldOfView;
     }

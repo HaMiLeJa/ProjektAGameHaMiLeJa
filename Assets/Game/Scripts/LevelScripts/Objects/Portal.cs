@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Cinemachine.Utility;
 using JetBrains.Annotations;
 
 public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinander verlinkbar
@@ -10,7 +11,7 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
     [Tooltip ("Link the Goal Portal here")]
     [SerializeField] GameObject Goal;
     GameObject player;
-    [SerializeField] private CinemachineVirtualCamera cam = default;
+    private CinemachineVirtualCamera cam = default;
     private bool DelayActive = true;
     [HideInInspector] public bool StartPortal = false;
     [HideInInspector] public bool GoalPortal = false;
@@ -21,15 +22,18 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
     public float lastDistanceTreshhold = 60f;
     [Range(0f,10f)]
     public float lastDistanceSpeedIncreasePercentPerFrame = 1f;
-
-    private PlayerMovement _playermovement;
     private float cashedlerpValue;
     private float snapBackTreshold = 0.0001f;
+    private PlayerMovement _playerMovement;
+    private float cashedXVelocity, cashedZVelocity, xzVelocity;
+    private bool zeroOutAllowed = true;
     AudioSource myAudioSource;
     
 
     void Start()
     {
+        cam = CameraZoomOut.vcamera;
+        _playerMovement = FindObjectOfType<PlayerMovement>();
         cashedlerpValue = followRoughness;
         myAudioSource = this.GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -37,27 +41,33 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
 
     private void FixedUpdate()
     {
-        Debug.Log(followRoughness);
-
-
+        
         if (!GameManager.CameraTeleportActive)
         {
             followRoughness = cashedlerpValue;
         }
-          
-       
+        
        if (GameManager.CameraTeleportActive)
        {
+           if(zeroOutAllowed)
+           _playerMovement.rb.velocity = Vector3.zero;
+           
            float  distanceCamHelperPlayer =
                (Mathf.Abs(GameManager.CameraHelper.transform.position.x) - Mathf.Abs(player.transform.position.x))
                + (Mathf.Abs(GameManager.CameraHelper.transform.position.z) - Mathf.Abs(player.transform.position.z));
            
+           if (distanceCamHelperPlayer < snapBackTreshold*1000)
+           {
+               _playerMovement.rb.velocity = new Vector3(cashedXVelocity, 0, cashedZVelocity);
+               zeroOutAllowed = false;
+           }
            if (distanceCamHelperPlayer < snapBackTreshold)
            {
                cam.LookAt = player.transform;
                cam.Follow =  player.transform;
                followRoughness = cashedlerpValue;
                GameManager.CameraTeleportActive = false;
+               zeroOutAllowed = true;
            }
            
            if (distanceCamHelperPlayer < lastDistanceTreshhold && distanceCamHelperPlayer >= 1f)
@@ -74,51 +84,12 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
                player.transform.position, 
                followRoughness);
        }
-       
-       
-    }
-
-    void saveAndRleaseRb()
-    {
-    
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == player.tag)
         {
-            if (GoalPortal == false) //Wenn diese Portal das startPoral ist fortfahren
-            {
-                StartPortal = true;
-                GoalPortal = false;
-
-                
-
-                Goal.GetComponent<Portal>().GoalPortal = true;
-                
-                
-                if (!DelayActive)
-                {
-                    int numVcams = CinemachineCore.Instance.VirtualCameraCount;
-                    for (int i = 0; i < numVcams; ++i)
-                        CinemachineCore.Instance.GetVirtualCamera(i).OnTargetObjectWarped(
-                            player.transform, -Goal.transform.position);
-                      player.transform.position = Goal.transform.position;
-                }
-                if (DelayActive)
-                {
-                    if(!GameManager.CameraTeleportActive)
-                    {
-                        GameManager.CameraHelper.transform.position = player.transform.position;
-                        cam.LookAt =  GameManager.CameraHelper.transform; 
-                        cam.Follow =  GameManager.CameraHelper.transform;
-                        player.transform.position = Goal.transform.position;
-                        GameManager.CameraTeleportActive = true;
-                    }
-                }
-            }
-
-
             if(GoalPortal)
             {
                 StartPortal = false;
@@ -127,9 +98,48 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
                     myAudioSource.Play();
             }
             
+            if (GoalPortal == false) //Wenn diese Portal das startPoral ist fortfahren
+            {
+                StartPortal = true;
+                GoalPortal = false;
+
+                TeleportPlayer();
+            }
+            
+           
+            
         }
     }
 
+    void TeleportPlayer()
+    {
+        cashedXVelocity = _playerMovement.rb.velocity.x;
+        cashedZVelocity = _playerMovement.rb.velocity.z;
+                
+        Goal.GetComponent<Portal>().GoalPortal = true;
+
+        if (!DelayActive)
+        {
+            int numVcams = CinemachineCore.Instance.VirtualCameraCount;
+            for (int i = 0; i < numVcams; ++i)
+                CinemachineCore.Instance.GetVirtualCamera(i).OnTargetObjectWarped(
+                    player.transform, -Goal.transform.position);
+            player.transform.position = Goal.transform.position;
+        }
+        if (DelayActive)
+        {
+            if(!GameManager.CameraTeleportActive)
+            {
+                       
+                        
+                GameManager.CameraHelper.transform.position = player.transform.position;
+                cam.LookAt =  GameManager.CameraHelper.transform; 
+                cam.Follow =  GameManager.CameraHelper.transform;
+                player.transform.position = Goal.transform.position;
+                GameManager.CameraTeleportActive = true;
+            }
+        }
+    }
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == player.tag && GoalPortal == true)
@@ -138,7 +148,4 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
             GoalPortal = false;
         }
     }
-
-
-
 }
