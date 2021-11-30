@@ -13,8 +13,8 @@ public class ResourceManager : MonoBehaviour //for points and energy
     [Tooltip("How many points the player have")] public float DestroyablePoints = 0;
     [Space]
     [SerializeField] float EnergyStartAmount = 10;
-    [HideInInspector] public float CurrentEnergy;
-    [HideInInspector] public float CurrentUIEnergy;
+    public float CurrentEnergy;
+    public float CurrentUIEnergy;
     [Tooltip("A limit of how many Energy the player can have")] [SerializeField] float MaxEnergyAmount = 20f;
    
 
@@ -87,11 +87,12 @@ public class ResourceManager : MonoBehaviour //for points and energy
     void CheckEnergyAmount(float value)
     {
 
-        if (CurrentEnergy <= 0)
+        if (CurrentEnergy <= 1)
         {
             //if (startDash.Boosting == true) return;
 
             gameMng.AllowMovement = false;
+            Debug.Log("Energy 0");
         }
         else
         {

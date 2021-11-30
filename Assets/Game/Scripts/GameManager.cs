@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
 
     void CheckForEndOfGame()
     {
-        if(ResourceManager.Instance.CurrentEnergy == 0)
+        if(ResourceManager.Instance.CurrentEnergy <= 1)
         {
             if(playerRb.velocity == Vector3.zero)
             {

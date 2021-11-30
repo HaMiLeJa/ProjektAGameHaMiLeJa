@@ -34,7 +34,7 @@ public class UIManager : MonoBehaviour
         gameMng.onDestroyableDestroyed += UpdateDestroyableUI;
         //gameMng.onUIEnergyChange += UpdateEnergyUI;
 
-        //UpdateEnergyUI(1);
+        
         EndMessage.SetActive(false);
     }
    
@@ -42,8 +42,15 @@ public class UIManager : MonoBehaviour
   
     void Update()
     {
+        float energyDisplay = (ResourceManager.Instance.CurrentUIEnergy - 1);
+        if(energyDisplay <0)
+        {
+            energyDisplay = 0;
+        }
 
-       CurrentEnergy.text = "Energy: " + ResourceManager.Instance.CurrentUIEnergy.ToString();
+       CurrentEnergy.text = "Energy: " + energyDisplay.ToString();
+
+
     }
 
 

@@ -93,6 +93,7 @@ public class PlayerBoost : MonoBehaviour
             audioSource.Play();
 
         GameManager.Instance.onUIEnergyChange?.Invoke(-gameMng.DashCosts);
+        GameManager.Instance.onEnergyChange?.Invoke(-gameMng.DashCosts);
 
         IsBoosting = true;
         boostTimer = 0;
@@ -124,7 +125,7 @@ public class PlayerBoost : MonoBehaviour
 
         currentBoostforce = 0;
         //IsBoosting = false;
-        GameManager.Instance.onEnergyChange?.Invoke(-gameMng.DashCosts);
+        
     }
 
     #endregion

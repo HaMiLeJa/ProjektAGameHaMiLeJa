@@ -49,7 +49,7 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
        if (GameManager.CameraTeleportActive)
        {
            if(GameManager.ZeroOutAllowed)
-           _playerMovement.rb.velocity = Vector3.zero;
+                _playerMovement.rb.velocity = Vector3.zero;
            
            float  distanceCamHelperPlayer =
                (Mathf.Abs(GameManager.CameraHelper.transform.position.x) - Mathf.Abs(player.transform.position.x))
