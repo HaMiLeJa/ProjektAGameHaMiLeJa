@@ -31,8 +31,8 @@ public class ShadowDash : MonoBehaviour
     int playerLayerInt;
     int playerNoCollisionLayerInt;
 
-    bool colliding = true;
-    [SerializeField] SphereCollider myCollider;
+   // bool colliding = true;
+   // [SerializeField] SphereCollider myCollider;
 
     AudioManager audManager;
     [SerializeField] AudioSource audioSource;
@@ -98,42 +98,43 @@ public class ShadowDash : MonoBehaviour
         #endregion
 
 
-        if(EndShadowDash == true)
-        {
-            CheckForCollsion();
-        }
+        
 
 
     }
     #region Shadowdash Coroutine
 
-    bool EndShadowDash = false;
 
-    void CheckForCollsion()
-    {
-        while (colliding == true)
-        {
-            Collider[] hitColliders;
+    #region Verbuggtes CheckForCollision
 
-            hitColliders = Physics.OverlapSphere(this.transform.position, myCollider.radius + 1, LayerMask.GetMask("World")); //LayerMask.GetMask("World")
+    /*
+     *  bool EndShadowDash = false;
+     * void CheckForCollsion()
+      {
+          while (colliding == true)
+          {
+              Collider[] hitColliders;
+
+              hitColliders = Physics.OverlapSphere(this.transform.position, myCollider.radius + 1, LayerMask.GetMask("World")); //LayerMask.GetMask("World")
 
 
-            if (hitColliders.Length == 0)
-            {
+              if (hitColliders.Length == 0)
+              {
 
-                this.gameObject.layer = playerLayerInt;
-                colliding = false;
-                // Debug.Log("notColliding");
-                
-                gameMng.AllowHexEffects = true;
-                mr.enabled = true;
-            }
-            else
-            {
-                Debug.Log("Colliding");
-            }
-        }
-    }
+                  this.gameObject.layer = playerLayerInt;
+                  colliding = false;
+                  // Debug.Log("notColliding");
+
+                  gameMng.AllowHexEffects = true;
+                  mr.enabled = true;
+              }
+              else
+              {
+                  Debug.Log("Colliding");
+              }
+          }
+      } */
+    #endregion
 
     public void ShadowDashStarter()
     {
@@ -143,7 +144,7 @@ public class ShadowDash : MonoBehaviour
         shadowDashCoroutine = StartCoroutine(ShadowDashCoroutine());
 
         //this.gameObject.layer = playerNoCollisionLayerInt;
-        //colliding = true;
+        
     }
 
     
@@ -171,10 +172,10 @@ public class ShadowDash : MonoBehaviour
             currentShadowDashForce += ShadowDashForce * curveValue * Time.fixedDeltaTime;
 
             
-            if (currentShadowDashForce >= disappearingDuringShadowDashStart)  //&& currentShadowDashForce <= disappearingDuringShadowDashEnd
+            if (currentShadowDashForce >= disappearingDuringShadowDashStart && currentShadowDashForce <= disappearingDuringShadowDashEnd)  //
             {
                 this.gameObject.layer = playerNoCollisionLayerInt;
-                colliding = true;
+                
 
                 mr.enabled = false;
                 gameMng.AllowHexEffects = false;
@@ -184,14 +185,21 @@ public class ShadowDash : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        EndShadowDash = true;
+        yield return new WaitForSeconds(0.5f);
+
 
         rb.velocity = rb.velocity / 2;
 
-        //rb.velocity = velocity;
-
         currentShadowDashForce = 0;
         isShadowDashing = false;
+
+
+        this.gameObject.layer = playerLayerInt;
+        
+       
+        gameMng.AllowHexEffects = true;
+        mr.enabled = true;
+
         GameManager.Instance.onEnergyChange?.Invoke(-gameMng.ShadowDashCosts);
     }
 
@@ -201,10 +209,7 @@ public class ShadowDash : MonoBehaviour
 
     #endregion
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.DrawSphere(this.transform.position, myCollider.radius + 1);
-    }
+  
 
     #region alternative 
     /*
