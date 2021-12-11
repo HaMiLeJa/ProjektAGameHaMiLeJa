@@ -9,10 +9,11 @@ public class Hex : MonoBehaviour
    #region Inspector
     GameObject Player;
     private Rigidbody playerRb;
-    PlayerMovement playerMov;
+    HexMovements hexMov;
     GameManager gameMng;
     AudioManager audManager;
     AudioClipsHexes audioClipHexes;
+    
 
     [SerializeField] AudioSource myAudioSource;
 
@@ -56,7 +57,7 @@ public class Hex : MonoBehaviour
         gameMng = GameManager.Instance;
         Player = GameObject.FindGameObjectWithTag("Player");
         playerRb = Player.GetComponent<Rigidbody>();
-        playerMov = Player.GetComponent<PlayerMovement>();
+        hexMov = Player.GetComponent<HexMovements>();
         audManager = AudioManager.Instance;
         audioClipHexes = AudioManager.Instance.gameObject.GetComponent<AudioClipsHexes>();
         //myAudioSource = this.GetComponent<AudioSource>();
@@ -227,9 +228,9 @@ public class Hex : MonoBehaviour
     {
         if (gameMng.AllowHexEffects == false) return;
 
-        playerMov.SlowDownTimer = 0;
+        hexMov.SlowDownTimer = 0;
 
-        playerMov.OnSlowDownHex = true;
+        hexMov.OnSlowDownHex = true;
 
         OnEffectHex?.Invoke();
 
@@ -283,10 +284,10 @@ public class Hex : MonoBehaviour
         if (gameMng.AllowBoostForward == false) return;
 
 
-        playerMov.BoostForwardTimer = 0;
-        playerMov.CurrentHexFowardForce = forwardForce;
+        hexMov.BoostForwardTimer = 0;
+        hexMov.CurrentHexFowardForce = forwardForce;
 
-        playerMov.OnBoostForwardHex = true;
+        hexMov.OnBoostForwardHex = true;
 
         OnEffectHex?.Invoke();
 
@@ -345,14 +346,14 @@ public class Hex : MonoBehaviour
 
         OnEffectHex?.Invoke();
         
-        playerMov.rebounded = true;
+        hexMov.rebounded = true;
 
        
 
         playerRb.velocity = new Vector3(playerRb.velocity.x * 0.1f, playerRb.velocity.y, playerRb.velocity.z * 0.1f);
 
-        playerMov.OnTrampolinHex = true;
-        playerMov.CurrentTrampolinForce = tramoplinForce;
+        hexMov.OnTrampolinHex = true;
+        hexMov.CurrentTrampolinForce = tramoplinForce;
 
         //if (trampolinCoroutine != null)
         //  StopCoroutine(trampolinCoroutine);
@@ -417,18 +418,18 @@ public class Hex : MonoBehaviour
     {
         if (gameMng.AllowHexEffects == false) return;
 
-        playerMov.BoostInDirectionTimer = 0;
+        hexMov.BoostInDirectionTimer = 0;
         playerRb.velocity = Vector3.zero;
 
        
 
-        playerMov.CurrentHexInDirectionForce = boostInDForce;
+        hexMov.CurrentHexInDirectionForce = boostInDForce;
         BoostInDirectionDirection = new Vector3(XDirection, YDirection, ZDirection);
-        playerMov.HexInDirectionDirection = BoostInDirectionDirection.normalized;
+        hexMov.HexInDirectionDirection = BoostInDirectionDirection.normalized;
        
         
         
-        playerMov.OnBoostInDirectionHex = true;
+        hexMov.OnBoostInDirectionHex = true;
 
         OnEffectHex?.Invoke();
         

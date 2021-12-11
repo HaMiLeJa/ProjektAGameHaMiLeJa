@@ -21,7 +21,7 @@ public class ShadowDash : MonoBehaviour
 
     GameManager gameMng;
     PlayerBoost dash;
-    PlayerStartDash superDash;
+    PlayerSuperDash superDash;
     PlayerMovement playerMov;
     
 
@@ -49,7 +49,7 @@ public class ShadowDash : MonoBehaviour
         rb = this.GetComponent<Rigidbody>();
 
         dash = this.GetComponent<PlayerBoost>();
-        superDash = this.GetComponent<PlayerStartDash>();
+        superDash = this.GetComponent<PlayerSuperDash>();
         playerMov = this.GetComponent<PlayerMovement>();
         gameMng = GameManager.Instance;
 
@@ -65,7 +65,7 @@ public class ShadowDash : MonoBehaviour
     void FixedUpdate()
     {
         if (gameMng.AllowMovement == false) return;
-        if (dash.IsBoosting == true ||superDash.Boosting == true) return;   //dash.Boosting == true || 
+        if (dash.IsBoosting == true ||superDash.isSuperDashing == true) return;   //dash.Boosting == true || 
         //if (rb.velocity.x == 0 || rb.velocity.z == 0) return; //kein kleiner Boost am Anfang erlaubt!
 
 
@@ -151,7 +151,7 @@ public class ShadowDash : MonoBehaviour
 
     private IEnumerator ShadowDashCoroutine()
     {
-        Vector3 velocity = rb.velocity;
+       // Vector3 velocity = rb.velocity;
         GameManager.Instance.onUIEnergyChange?.Invoke(-gameMng.ShadowDashCosts);
 
         if (audioSource.isPlaying == false && audManager.allowAudio == true)
@@ -185,7 +185,7 @@ public class ShadowDash : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
 
 
         rb.velocity = rb.velocity / 2;

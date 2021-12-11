@@ -5,71 +5,74 @@ using UnityEngine;
 public class Destroyables : MonoBehaviour
 {
     [SerializeField] float lifeStartAmount = 100; //=100
-    [Tooltip ("Dont change. Its Set to lifeStartAmount in the code")] [SerializeField] float currentLife;
-
+    
     [Tooltip("How many Points the player gets if this wall is destroyed")] [SerializeField] float value = 1;
     [Space]
-    AudioSource myAudioSource;
+    public AudioSource myAudioSource;
     [SerializeField] AudioClip collisionClip;
     [SerializeField] AudioClip destructionClip;
 
+    PlayerSuperDash superDash;
+    GameObject Player;
+    Collider col;
+
+    bool TriggerResetted = false;
+
     void Start()
     {
-        currentLife = lifeStartAmount;
         myAudioSource = this.GetComponent<AudioSource>();
-        
+        Player = GameObject.FindGameObjectWithTag("Player");
+        superDash = Player.GetComponent<PlayerSuperDash>();
+        col = this.GetComponent<Collider>();
     }
 
-    void Update()
+
+    private void FixedUpdate()
     {
-        
+        /*
+        if (superDash.isDestroying == true)
+        {
+            col.isTrigger = true;
+            TriggerResetted = true;
+        }
+        else if (TriggerResetted == false)
+        {
+            TriggerResetted = true;
+            col.isTrigger = false;
+        }
+        */
     }
-
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject != Player) return;
+        
+
+        if (superDash.isDestroying == true)
         {
-            //evt boost bools abfragen, um mehr abzuziehen
+            //Punkte
+            //Sound
+            //Effekte
 
-            GameObject player = collision.gameObject;
+           
 
-            if(player == null)
+            if (myAudioSource.isPlaying == false)
             {
-                return;
+                myAudioSource.clip = destructionClip;
+                myAudioSource.Play();
             }
 
+            Destroy(this.gameObject); //oder Set active + respawn
+        }
+        else
+        {
 
-            Rigidbody playerRb = player.GetComponent<Rigidbody>();
-            float totalVelocity = Mathf.Abs(playerRb.velocity.x) + Mathf.Abs(playerRb.velocity.y) + Mathf.Abs(playerRb.velocity.z);
-
-            float multiplicator = 0.4f;
-
-            currentLife -= totalVelocity * multiplicator;
-
-
-            if (currentLife < 0)
+            if (myAudioSource.isPlaying == false)
             {
-
-                GameManager.Instance.onDestroyableDestroyed?.Invoke(value); //Call Event
-
-
-                if (AudioManager.Instance.allowAudio == true)
-                {
-                    myAudioSource.clip = destructionClip;
-                    myAudioSource.Play();
-                }
-
-                Destroy(this.gameObject);
-            }
-            else
-            {
-                if (myAudioSource.isPlaying == false && AudioManager.Instance.allowAudio == true)
-                {
-                    myAudioSource.clip = collisionClip;
-                    myAudioSource.Play();
-                }
+                myAudioSource.clip = collisionClip;
+                myAudioSource.Play();
             }
         }
+
     }
 }

@@ -16,7 +16,7 @@ public class PlayerBoost : MonoBehaviour
     float currentBoostforce = 0.0f;
     
     GameManager gameMng;
-    PlayerStartDash superDash;
+    PlayerSuperDash superDash;
     ShadowDash shadowDash;
     AudioManager audManager;
     PlayerMovement playerMov;
@@ -34,7 +34,7 @@ public class PlayerBoost : MonoBehaviour
     {
         rb = this.GetComponent<Rigidbody>();
 
-        superDash = this.GetComponent<PlayerStartDash>();
+        superDash = this.GetComponent<PlayerSuperDash>();
         shadowDash = this.GetComponent<ShadowDash>();
         playerMov = this.GetComponent<PlayerMovement>();
 
@@ -49,7 +49,7 @@ public class PlayerBoost : MonoBehaviour
     void FixedUpdate()
     {
         if (gameMng.AllowMovement == false) return;
-        if (shadowDash.isShadowDashing == true || superDash.Boosting == true) return;
+        if (shadowDash.isShadowDashing == true || superDash.isSuperDashing == true) return;
         // if (rb.velocity.x == 0 || rb.velocity.z == 0) return; //kein kleiner Boost am Anfang erlaubt!
 
 
