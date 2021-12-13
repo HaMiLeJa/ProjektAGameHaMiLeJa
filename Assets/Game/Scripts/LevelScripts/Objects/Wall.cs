@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class Wall : MonoBehaviour
 {
-    public ScriptableWall settings;
-    void Start()
+    public ScriptableLevelObject settings;
+
+
+    private void OnCollisionEnter(Collision collision)
     {
-        
+        if (collision.gameObject == ReferenceLibary.Player)
+        {
+            ScoreManager.OnScoring.Invoke(settings.value);
+            //Effect
+            //music
+        }
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

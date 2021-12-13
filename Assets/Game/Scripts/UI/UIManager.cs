@@ -6,8 +6,10 @@ public class UIManager : MonoBehaviour
 {
     GameManager gameMng;
 
-    public TMPro.TMP_Text DestroyablePoints;
-    public TMPro.TMP_Text CurrentEnergy;
+    [SerializeField] TMPro.TMP_Text score;
+    [SerializeField] TMPro.TMP_Text multiplicator;
+    [SerializeField] TMPro.TMP_Text CurrentEnergy;
+
     [SerializeField] GameObject EndMessage;
 
 
@@ -31,7 +33,6 @@ public class UIManager : MonoBehaviour
     {
         gameMng = GameManager.Instance;
 
-        gameMng.onDestroyableDestroyed += UpdateDestroyableUI;
         //gameMng.onUIEnergyChange += UpdateEnergyUI;
 
         
@@ -42,7 +43,7 @@ public class UIManager : MonoBehaviour
   
     void Update()
     {
-        float energyDisplay = (ResourceManager.Instance.CurrentUIEnergy - 1);
+        float energyDisplay = (EnergyManager.Instance.CurrentUIEnergy - 1);
         if(energyDisplay <0)
         {
             energyDisplay = 0;
@@ -54,16 +55,20 @@ public class UIManager : MonoBehaviour
     }
 
 
-    void UpdateDestroyableUI(float value)
+    public void UpdateScore(float value)
     {
-        Debug.Log("EventCalled");
-        DestroyablePoints.text = ResourceManager.Instance.DestroyablePoints.ToString();
+        score.text = ScoreManager.CurrentScore.ToString();
+    }
+
+    public void UpdateMultiplicatorUI(float value)
+    {
+        multiplicator.text = "x" + ScoreManager.CurrentMultiplicator.ToString();
     }
 
 
     public void UpdateEnergyUI(float value)
     {
-        CurrentEnergy.text = "Energy: " + ResourceManager.Instance.CurrentUIEnergy.ToString();
+        CurrentEnergy.text = "Energy: " + EnergyManager.Instance.CurrentUIEnergy.ToString();
     }
 
 

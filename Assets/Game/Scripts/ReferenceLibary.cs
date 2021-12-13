@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ReferenceLibary : MonoBehaviour
 {
-    
+    // Player
     public static GameObject Player;
     public static Rigidbody RigidbodyPl;
     public static PlayerSuperDash SuperDash;
@@ -14,10 +14,11 @@ public class ReferenceLibary : MonoBehaviour
     public static PlayerMovement PlayerMov;
     public static HexMovements HexMov;
 
+    // Hex
 
 
     //Audio
-    public static AudioClipsHexes audioClipHexes;
+    //public static AudioClipsHexes audioClipHexes;
 
     private void Awake()
     {
@@ -30,6 +31,9 @@ public class ReferenceLibary : MonoBehaviour
         DownDashPl = Player.GetComponent<DownDash>();
         PlayerMov = Player.GetComponent<PlayerMovement>();
         HexMov = Player.GetComponent<HexMovements>();
+
+
+        //Hex
 
 
         //Audio

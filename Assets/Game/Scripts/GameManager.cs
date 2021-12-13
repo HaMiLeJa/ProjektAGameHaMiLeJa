@@ -25,9 +25,6 @@ public class GameManager : MonoBehaviour
 
     #region Events
 
-    public delegate void DestroyableDestroyed(float value);
-    public DestroyableDestroyed onDestroyableDestroyed;
-
     public delegate void EnergyChange(float value); //Managing the Energy Value (gain and loss)
     public EnergyChange onEnergyChange;
 
@@ -38,7 +35,7 @@ public class GameManager : MonoBehaviour
 
     #region BoostCosts
     [Header("Boost Costs")]
-    public float StartDashCosts = 1;
+    public float SuperDashCosts = 1;
     public float DashCosts = 1;
     public float ShadowDashCosts = 1;
     public float DownDashCosts = 1;
@@ -113,7 +110,7 @@ public class GameManager : MonoBehaviour
 
     void CheckForEndOfGame()
     {
-        if(ResourceManager.Instance.CurrentEnergy <= 1)
+        if(EnergyManager.Instance.CurrentEnergy <= 1)
         {
             if(playerRb.velocity == Vector3.zero)
             {

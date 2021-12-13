@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class Destroyables : MonoBehaviour
 {
-    [SerializeField] float lifeStartAmount = 100; //=100
-    
-    [Tooltip("How many Points the player gets if this wall is destroyed")] [SerializeField] float value = 1;
+    public ScriptableLevelObject settings;
     [Space]
     public AudioSource myAudioSource;
     [SerializeField] AudioClip collisionClip;
@@ -52,11 +50,10 @@ public class Destroyables : MonoBehaviour
 
         if (superDash.isDestroying == true)
         {
-            //Punkte
             //Sound
             //Effekte
 
-           
+            ScoreManager.OnScoring?.Invoke(settings.value);
 
             if (myAudioSource.isPlaying == false)
             {
