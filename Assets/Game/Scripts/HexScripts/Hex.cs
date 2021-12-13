@@ -55,9 +55,9 @@ public class Hex : MonoBehaviour
     private void Start()
     {
         gameMng = GameManager.Instance;
-        Player = GameObject.FindGameObjectWithTag("Player");
-        playerRb = Player.GetComponent<Rigidbody>();
-        hexMov = Player.GetComponent<HexMovements>();
+        Player = ReferenceLibary.Player;
+        playerRb = ReferenceLibary.RigidbodyPl;
+        hexMov = ReferenceLibary.HexMov;
         audManager = AudioManager.Instance;
         audioClipHexes = AudioManager.Instance.gameObject.GetComponent<AudioClipsHexes>();
         //myAudioSource = this.GetComponent<AudioSource>();

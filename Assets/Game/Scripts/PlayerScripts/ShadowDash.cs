@@ -46,11 +46,11 @@ public class ShadowDash : MonoBehaviour
 
     private void Start()
     {
-        rb = this.GetComponent<Rigidbody>();
+        rb = ReferenceLibary.RigidbodyPl;
 
-        dash = this.GetComponent<PlayerBoost>();
-        superDash = this.GetComponent<PlayerSuperDash>();
-        playerMov = this.GetComponent<PlayerMovement>();
+        dash = ReferenceLibary.Dash;
+        superDash = ReferenceLibary.SuperDash;
+        playerMov = ReferenceLibary.PlayerMov;
         gameMng = GameManager.Instance;
 
         playerLayerInt = LayerMask.NameToLayer("Player");

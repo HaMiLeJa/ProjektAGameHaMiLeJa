@@ -13,17 +13,19 @@ public class Destroyables : MonoBehaviour
     [SerializeField] AudioClip destructionClip;
 
     PlayerSuperDash superDash;
-    GameObject Player;
+    [SerializeField] GameObject player;
     Collider col;
+
 
     bool TriggerResetted = false;
 
     void Start()
     {
         myAudioSource = this.GetComponent<AudioSource>();
-        Player = GameObject.FindGameObjectWithTag("Player");
-        superDash = Player.GetComponent<PlayerSuperDash>();
         col = this.GetComponent<Collider>();
+
+        superDash = ReferenceLibary.SuperDash;
+        player = ReferenceLibary.Player;
     }
 
 
@@ -45,7 +47,7 @@ public class Destroyables : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject != Player) return;
+        if (collision.gameObject != player) return;
         
 
         if (superDash.isDestroying == true)

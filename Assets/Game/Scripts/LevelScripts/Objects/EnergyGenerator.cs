@@ -32,7 +32,7 @@ public class EnergyGenerator : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if(collision.gameObject == ReferenceLibary.Player)
         {
             GameManager.Instance.onUIEnergyChange?.Invoke(generatedEnergy);
             GameManager.Instance.onEnergyChange?.Invoke(generatedEnergy);

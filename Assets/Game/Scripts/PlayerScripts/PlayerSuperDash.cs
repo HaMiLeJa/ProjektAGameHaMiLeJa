@@ -40,12 +40,13 @@ public class PlayerSuperDash : MonoBehaviour
 
     private void Start()
     {
-        rb = this.GetComponent<Rigidbody>();
+        rb = ReferenceLibary.RigidbodyPl;
 
-        dash = this.GetComponent<PlayerBoost>();
-        playerMov = this.GetComponent<PlayerMovement>();
+        dash = ReferenceLibary.Dash;
+        playerMov = ReferenceLibary.PlayerMov;
         gameMng = GameManager.Instance;
-        shadowDash = this.GetComponent<ShadowDash>();
+        shadowDash = ReferenceLibary.ShadowDashPl;
+
         //playerLayerInt = LayerMask.NameToLayer("Player");
         //  playerNoCollisionLayerInt = LayerMask.NameToLayer("PlayerNoCollision");
 

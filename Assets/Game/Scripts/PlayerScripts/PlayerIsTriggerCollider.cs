@@ -8,7 +8,7 @@ public class PlayerIsTriggerCollider : MonoBehaviour
     Rigidbody playerRb;
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = ReferenceLibary.Player;
         playerRb = player.GetComponent<Rigidbody>();
     }
 

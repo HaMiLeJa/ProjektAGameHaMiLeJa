@@ -12,10 +12,6 @@ public class PlayerMovement : MonoBehaviour
     GameManager gameMng;
     HexMovements hexMov;
    
-
-
-
-
     [Tooltip("Speed with which the player can influence the movement")]
    // public float StandardMovementSpeed = 10;
 
@@ -53,9 +49,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int maxSpeedLimitStartClamping= 800;
     [Space]
     
-    ShadowDash shadowDash;
-    PlayerBoost playerBoost;
-
     [SerializeField] float totalVelocity;
     [SerializeField] float velocityInfluence = 0.1f;
     [Space]
@@ -74,12 +67,10 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        rb = this.GetComponent<Rigidbody>();
+        rb = ReferenceLibary.RigidbodyPl;
         gameMng = GameManager.Instance;
-        shadowDash = this.GetComponent<ShadowDash>();
-        playerBoost = this.GetComponent<PlayerBoost>();
         audManager = AudioManager.Instance;
-        hexMov = this.GetComponent<HexMovements>();
+        hexMov = ReferenceLibary.HexMov;
     }
 
 
@@ -373,3 +364,5 @@ public class PlayerMovement : MonoBehaviour
     }
     */
 }
+
+

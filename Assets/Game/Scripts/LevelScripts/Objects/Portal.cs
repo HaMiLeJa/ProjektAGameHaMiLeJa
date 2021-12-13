@@ -32,10 +32,10 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
     void Start()
     {
         cam = CameraZoomOut.vcamera;
-        _playerMovement = FindObjectOfType<PlayerMovement>();
+        _playerMovement = ReferenceLibary.PlayerMov;
         cashedlerpValue = followRoughness;
         myAudioSource = this.GetComponent<AudioSource>();
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = ReferenceLibary.Player;
     }
 
     private void FixedUpdate()

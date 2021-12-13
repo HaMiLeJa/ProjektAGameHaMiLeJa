@@ -79,8 +79,8 @@ public class GameManager : MonoBehaviour
     
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        playerRb = player.GetComponent<Rigidbody>();
+        player = ReferenceLibary.Player;
+        playerRb = ReferenceLibary.RigidbodyPl;
         CameraHelper = new GameObject("CameraHelper");
         vcam = GetComponent<CinemachineVirtualCamera>();
     }

@@ -38,9 +38,9 @@ public class DownDash : MonoBehaviour
 
     void Start()
     {
-        rb = this.GetComponent<Rigidbody>();
+        rb = ReferenceLibary.RigidbodyPl;
         gameMng = GameManager.Instance;
-        playerMov = this.GetComponent<PlayerMovement>();
+        playerMov = ReferenceLibary.PlayerMov;
         audManager = AudioManager.Instance;
     }
 

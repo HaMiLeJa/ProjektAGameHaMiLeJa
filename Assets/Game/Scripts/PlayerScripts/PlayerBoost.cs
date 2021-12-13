@@ -32,11 +32,11 @@ public class PlayerBoost : MonoBehaviour
 
     private void Start()
     {
-        rb = this.GetComponent<Rigidbody>();
+        rb = ReferenceLibary.RigidbodyPl;
 
-        superDash = this.GetComponent<PlayerSuperDash>();
-        shadowDash = this.GetComponent<ShadowDash>();
-        playerMov = this.GetComponent<PlayerMovement>();
+        superDash = ReferenceLibary.SuperDash;
+        shadowDash = ReferenceLibary.ShadowDashPl;
+        playerMov = ReferenceLibary.PlayerMov;
 
         gameMng = GameManager.Instance;
         audManager = AudioManager.Instance;
