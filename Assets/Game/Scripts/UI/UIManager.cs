@@ -37,19 +37,24 @@ public class UIManager : MonoBehaviour
 
         
         EndMessage.SetActive(false);
+
+        UpdateScore(1);
+        UpdateMultiplicatorUI(1);
+
     }
    
 
   
     void Update()
     {
-        float energyDisplay = (EnergyManager.Instance.CurrentUIEnergy - 1);
-        if(energyDisplay <0)
+      //  float energyDisplay = (EnergyManager.Instance.CurrentUIEnergy - 1);
+       /* if(energyDisplay <0)
         {
             energyDisplay = 0;
-        }
+        }*/
 
-       CurrentEnergy.text = "Energy: " + energyDisplay.ToString();
+
+       CurrentEnergy.text = "Energy: " + EnergyManager.CurrentEnergy.ToString();
 
 
     }
@@ -66,11 +71,10 @@ public class UIManager : MonoBehaviour
     }
 
 
-    public void UpdateEnergyUI(float value)
+    void UpdateEnergy()
     {
-        CurrentEnergy.text = "Energy: " + EnergyManager.Instance.CurrentUIEnergy.ToString();
-    }
 
+    }
 
     public void ShowEndMessage()
     {

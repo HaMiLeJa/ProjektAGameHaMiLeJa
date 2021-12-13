@@ -44,6 +44,10 @@ public class ScoreManager : MonoBehaviour
         OnScoring += UIManager.Instance.UpdateScore;
 
         OnMultiplicatorUpdate += UpdateMultiplicator;
+
+        CurrentMultiplicator = 1;
+        CurrentScore = 0;
+
     }
 
     

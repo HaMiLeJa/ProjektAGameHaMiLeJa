@@ -11,7 +11,7 @@ public class Wall : MonoBehaviour
     {
         if (collision.gameObject == ReferenceLibary.Player)
         {
-            ScoreManager.OnScoring.Invoke(settings.value);
+            ScoreManager.OnScoring?.Invoke(settings.value);
             //Effect
             //music
         }

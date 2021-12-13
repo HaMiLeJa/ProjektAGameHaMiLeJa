@@ -106,7 +106,7 @@ public class PlayerSuperDash : MonoBehaviour
 
     private IEnumerator SuperDashCoroutine()
     {
-        GameManager.Instance.onUIEnergyChange?.Invoke(-gameMng.ShadowDashCosts);
+       EnergyManager.onEnergyChange?.Invoke(-gameMng.SuperDashCosts);
 
         if (audioSource.isPlaying == false && audManager.allowAudio == true)
             audioSource.Play();
@@ -155,7 +155,6 @@ public class PlayerSuperDash : MonoBehaviour
 
         gameMng.AllowHexEffects = true;
 
-        GameManager.Instance.onEnergyChange?.Invoke(-gameMng.ShadowDashCosts);
     }
     #endregion
 }

@@ -23,15 +23,7 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-    #region Events
-
-    public delegate void EnergyChange(float value); //Managing the Energy Value (gain and loss)
-    public EnergyChange onEnergyChange;
-
-    public delegate void EnergyChangeUI(float value); //Managing the Energy Value (gain and loss)
-    public EnergyChange onUIEnergyChange;
-
-    #endregion
+  
 
     #region BoostCosts
     [Header("Boost Costs")]
@@ -110,7 +102,7 @@ public class GameManager : MonoBehaviour
 
     void CheckForEndOfGame()
     {
-        if(EnergyManager.Instance.CurrentEnergy <= 1)
+        if(EnergyManager.CurrentEnergy <= 1)
         {
             if(playerRb.velocity == Vector3.zero)
             {

@@ -56,7 +56,7 @@ public class DownDash : MonoBehaviour
                 boostingDown = true;
                 buttonPressedInLastFrame = true;
 
-                GameManager.Instance.onUIEnergyChange?.Invoke(-gameMng.DownDashCosts);
+                EnergyManager.onEnergyChange?.Invoke(-gameMng.DownDashCosts);
                 
             }
         }
@@ -125,8 +125,6 @@ public class DownDash : MonoBehaviour
 
         gameMng.AllowMovement = true;
         gameMng.AllowHexEffects = true;
-
-        GameManager.Instance.onEnergyChange?.Invoke(-gameMng.DownDashCosts);
 
         yield return null;
     }

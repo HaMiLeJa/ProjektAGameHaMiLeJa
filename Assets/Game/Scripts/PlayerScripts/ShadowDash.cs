@@ -65,8 +65,7 @@ public class ShadowDash : MonoBehaviour
     void FixedUpdate()
     {
         if (gameMng.AllowMovement == false) return;
-        if (dash.IsBoosting == true ||superDash.isSuperDashing == true) return;   //dash.Boosting == true || 
-        //if (rb.velocity.x == 0 || rb.velocity.z == 0) return; //kein kleiner Boost am Anfang erlaubt!
+        if (dash.IsBoosting == true ||superDash.isSuperDashing == true) return;
 
 
         if (mr.enabled == false)
@@ -80,7 +79,6 @@ public class ShadowDash : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.G) && isShadowDashing == false || Input.GetButton("RightBumper") && isShadowDashing == false)
         {
-           
             isShadowDashing = true;
             ShadowDashStarter();
         }
@@ -152,7 +150,8 @@ public class ShadowDash : MonoBehaviour
     private IEnumerator ShadowDashCoroutine()
     {
        // Vector3 velocity = rb.velocity;
-        GameManager.Instance.onUIEnergyChange?.Invoke(-gameMng.ShadowDashCosts);
+       
+        EnergyManager.onEnergyChange?.Invoke(-gameMng.ShadowDashCosts);
 
         if (audioSource.isPlaying == false && audManager.allowAudio == true)
             audioSource.Play();
@@ -200,7 +199,6 @@ public class ShadowDash : MonoBehaviour
         gameMng.AllowHexEffects = true;
         mr.enabled = true;
 
-        GameManager.Instance.onEnergyChange?.Invoke(-gameMng.ShadowDashCosts);
     }
 
     

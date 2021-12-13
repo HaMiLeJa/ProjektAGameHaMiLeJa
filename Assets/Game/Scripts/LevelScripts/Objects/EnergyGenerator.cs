@@ -6,24 +6,23 @@ public class EnergyGenerator : MonoBehaviour
 {
     [Tooltip("How much energy this generatior currently has")]
     [SerializeField] float generatedEnergy = 0f;
-    [SerializeField] float maxEnergy = 5f; //1;
-    [SerializeField] float energyGenerationAmount = 1;//0.1f;
-    [SerializeField] float energyGenerationRate = 3; //1f; //Alle 1Sekunde
 
     //[SerializeField] GameObject player;
+
+    [SerializeField] ScriptableEnergyGenerator settings;
 
     float timer;
    
 
     private void Update()
     {
-        if (generatedEnergy >= maxEnergy) return;
+        if (generatedEnergy >= settings.maxEnergy) return;
 
         timer += Time.deltaTime;
 
-        if (timer > energyGenerationRate)
+        if (timer > settings.energyGenerationRate)
         {
-            generatedEnergy += energyGenerationAmount;
+            generatedEnergy += settings.energyGenerationAmount;
             timer = 0;
         }
 
@@ -34,9 +33,9 @@ public class EnergyGenerator : MonoBehaviour
     {
         if(collision.gameObject == ReferenceLibary.Player)
         {
-            GameManager.Instance.onUIEnergyChange?.Invoke(generatedEnergy);
-            GameManager.Instance.onEnergyChange?.Invoke(generatedEnergy);
+            EnergyManager.onEnergyChange?.Invoke(generatedEnergy);
             generatedEnergy = 0;
         }
     }
+   
 }

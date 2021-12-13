@@ -92,9 +92,6 @@ public class PlayerBoost : MonoBehaviour
         if (audioSource.isPlaying == false && audManager.allowAudio == true)
             audioSource.Play();
 
-        GameManager.Instance.onUIEnergyChange?.Invoke(-gameMng.DashCosts);
-        GameManager.Instance.onEnergyChange?.Invoke(-gameMng.DashCosts);
-
         IsBoosting = true;
         boostTimer = 0;
 
