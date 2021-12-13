@@ -9,10 +9,10 @@ EditorBuildSettings:
     path: Assets/Game/Scenes/Prototyp24.11/PrototypStartMenu.unity
     guid: acb86445b6a44cb41820f6abea8b10f3
   - enabled: 0
-    path: Assets/Game/Scenes/ArbeitsszeneJanina.unity
+    path: Assets/Game/Scenes/Szenes bis 13.12.21/ArbeitsszeneJanina.unity
     guid: 3ec07d5c0c7f2974aaa8e390f9de4f89
   - enabled: 0
-    path: Assets/Game/Scenes/ArbeitsszeneLeiPrototypeCorrectWorldSetup.unity
+    path: Assets/Game/Scenes/Szenes bis 13.12.21/ArbeitsszeneLeiPrototypeCorrectWorldSetup.unity
     guid: aad80edb4d3bad749a147fabc8933046
   - enabled: 0
     path: Assets/Game/Scenes/Prototyp24.11/LevelprototypJanina.unity
