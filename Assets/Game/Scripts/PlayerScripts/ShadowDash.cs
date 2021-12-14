@@ -159,9 +159,9 @@ public class ShadowDash : MonoBehaviour
 
     private IEnumerator ShadowDashCoroutine()
     {
-       // Vector3 velocity = rb.velocity;
-       
-        EnergyManager.onEnergyChange?.Invoke(-gameMng.ShadowDashCosts);
+        // Vector3 velocity = rb.velocity;
+
+        StartCoroutine(EnergyManager.Instance.ModifyEnergy(-gameMng.ShadowDashCosts));
 
         if (audioSource.isPlaying == false && audManager.allowAudio == true)
             audioSource.Play();

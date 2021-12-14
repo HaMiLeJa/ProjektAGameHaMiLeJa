@@ -12,8 +12,10 @@ public class EnergyManager : MonoBehaviour //for points and energy
     [SerializeField] float EnergyStartAmount = 10;
     public static float CurrentEnergy;
     [Tooltip("A limit of how many Energy the player can have")] 
-    [SerializeField] float MaxEnergyAmount = 20f;
+    public float MaxEnergyAmount = 20f;
     [SerializeField] float currentEnergyForInspector;
+
+    [SerializeField] float stepSize = 0.1f;
 
     #region Events
 
@@ -42,7 +44,7 @@ public class EnergyManager : MonoBehaviour //for points and energy
         gameMng = GameManager.Instance;
         CurrentEnergy = EnergyStartAmount;
        
-       // onEnergyChange += ModifyEnergy;
+      //  onEnergyChange += ModifyEnergy;
         onEnergyChange += CheckEnergyAmount;
 
     }
@@ -58,14 +60,55 @@ public class EnergyManager : MonoBehaviour //for points and energy
         currentEnergyForInspector = CurrentEnergy;
     }
 
-   
 
+    /*
     void ModifyEnergy(float value)
     {
-        CurrentEnergy += value;
+
         
+        float step = stepSize * Mathf.Sign(value);
+        float stepsDone = 0;
+
+        float timer = 0;
+
+        while (stepsDone < Mathf.Abs(value))
+        {
+            timer = Time.deltaTime;
+
+            if(timer > 0.1f)
+            {
+                CurrentEnergy += step;
+                stepsDone += Mathf.Abs(step);
+                timer = 0;
+            }
+           
+        }
+        
+        
+        //CurrentEnergy += value;
 
     }
+    */
+
+    public IEnumerator ModifyEnergy(float value)
+    {
+        float absValue = Mathf.Abs(value);
+
+        float step = stepSize * Mathf.Sign(value);
+        float stepsDone = 0;
+
+        while (stepsDone < absValue)
+        {
+            CurrentEnergy += step;
+            stepsDone += stepSize;
+
+            yield return new WaitForFixedUpdate();
+        }
+
+
+        yield return null;
+    }
+
 
     void CheckEnergyAmount(float value)
     {
@@ -75,7 +118,7 @@ public class EnergyManager : MonoBehaviour //for points and energy
             //if (startDash.Boosting == true) return;
 
             gameMng.AllowMovement = false;
-            Debug.Log("Energy 1");
+            Debug.Log("Energy 0");
         }
         else
         {

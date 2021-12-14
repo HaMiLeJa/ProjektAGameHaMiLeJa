@@ -18,7 +18,7 @@ public class PlayerSuperDash : MonoBehaviour
     public ParticleSystem effect;
 
     public bool isDestroying = false;
-    bool superDashNotPossible = false;
+   [SerializeField] bool superDashNotPossible = false;
 
    // public MeshRenderer mr;
 
@@ -104,7 +104,6 @@ public class PlayerSuperDash : MonoBehaviour
         if (superDashCoroutine != null)
             StopCoroutine(superDashCoroutine);
 
-        Debug.Log(EnergyManager.CurrentEnergy);
 
         if (EnergyManager.Instance.CheckForRequiredEnergyAmount(gameMng.SuperDashCosts) == true) // Wenn genügend Energy zur verfügung steht
             superDashCoroutine = StartCoroutine(SuperDashCoroutine());
@@ -116,7 +115,9 @@ public class PlayerSuperDash : MonoBehaviour
 
     private IEnumerator SuperDashCoroutine()
     {
-       EnergyManager.onEnergyChange?.Invoke(-gameMng.SuperDashCosts);
+       // EnergyManager.onEnergyChange?.Invoke(-gameMng.SuperDashCosts);
+
+        StartCoroutine(EnergyManager.Instance.ModifyEnergy(-gameMng.SuperDashCosts));
 
         if (audioSource.isPlaying == false && audManager.allowAudio == true)
             audioSource.Play();

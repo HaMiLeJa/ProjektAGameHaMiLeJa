@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -8,7 +9,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] TMPro.TMP_Text score;
     [SerializeField] TMPro.TMP_Text multiplicator;
-    [SerializeField] TMPro.TMP_Text CurrentEnergy;
+    //[SerializeField] TMPro.TMP_Text CurrentEnergy;
+    [SerializeField] Image CurrentEnergy;
 
     [SerializeField] GameObject EndMessage;
 
@@ -47,16 +49,16 @@ public class UIManager : MonoBehaviour
   
     void Update()
     {
-      //  float energyDisplay = (EnergyManager.Instance.CurrentUIEnergy - 1);
-       /* if(energyDisplay <0)
-        {
-            energyDisplay = 0;
-        }*/
+        //  float energyDisplay = (EnergyManager.Instance.CurrentUIEnergy - 1);
+        /* if(energyDisplay <0)
+         {
+             energyDisplay = 0;
+         }*/
 
 
-       CurrentEnergy.text = "Energy: " + EnergyManager.CurrentEnergy.ToString();
+        // CurrentEnergy.text = "Energy: " + EnergyManager.CurrentEnergy.ToString();
 
-
+        CurrentEnergy.fillAmount = EnergyManager.CurrentEnergy / EnergyManager.Instance.MaxEnergyAmount;
     }
 
 

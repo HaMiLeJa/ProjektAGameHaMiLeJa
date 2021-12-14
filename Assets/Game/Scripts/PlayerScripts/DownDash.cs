@@ -56,8 +56,10 @@ public class DownDash : MonoBehaviour
                 boostingDown = true;
                 buttonPressedInLastFrame = true;
 
-                EnergyManager.onEnergyChange?.Invoke(-gameMng.DownDashCosts);
-                
+
+
+                StartCoroutine(EnergyManager.Instance.ModifyEnergy(-gameMng.DownDashCosts));
+
             }
         }
         else

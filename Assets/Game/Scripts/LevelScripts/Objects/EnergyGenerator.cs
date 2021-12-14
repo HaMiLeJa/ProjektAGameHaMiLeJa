@@ -33,7 +33,7 @@ public class EnergyGenerator : MonoBehaviour
     {
         if(collision.gameObject == ReferenceLibary.Player)
         {
-            EnergyManager.onEnergyChange?.Invoke(generatedEnergy);
+            StartCoroutine(EnergyManager.Instance.ModifyEnergy(generatedEnergy));
             generatedEnergy = 0;
         }
     }
