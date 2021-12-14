@@ -85,11 +85,7 @@ public class ShadowDash : MonoBehaviour
             if (dash.IsBoosting == true)
                 dash.IsBoosting = false;
         }
-        else if (Input.GetButton("RightBumper") == false && shadowDashNotPossible == true)
-        {
-            isShadowDashing = false;
-            shadowDashNotPossible = false;
-        }
+     
        
 
 
@@ -146,10 +142,8 @@ public class ShadowDash : MonoBehaviour
          StopCoroutine(shadowDashCoroutine);
         Debug.Log("S");
 
-        if (EnergyManager.Instance.CheckForRequiredEnergyAmount(gameMng.ShadowDashCosts) == true) // Wenn genügend Energy zur verfügung steht
-            shadowDashCoroutine = StartCoroutine(ShadowDashCoroutine());
-        else
-            shadowDashNotPossible = true;
+             shadowDashCoroutine = StartCoroutine(ShadowDashCoroutine());
+  
 
         //this.gameObject.layer = playerNoCollisionLayerInt;
 

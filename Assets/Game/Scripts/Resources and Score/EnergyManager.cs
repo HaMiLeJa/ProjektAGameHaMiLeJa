@@ -18,7 +18,7 @@ public class EnergyManager : MonoBehaviour //for points and energy
     [SerializeField] float stepSize = 0.1f;
 
 
-    #region Singleton
+    #region Singleton and Set Energy
     public static EnergyManager Instance;
     private void Awake()
     {
@@ -30,13 +30,15 @@ public class EnergyManager : MonoBehaviour //for points and energy
         {
             EnergyManager.Instance = this;
         }
+
+        CurrentEnergy = EnergyStartAmount;
     }
     #endregion
 
     void Start()
     {
         gameMng = GameManager.Instance;
-        CurrentEnergy = EnergyStartAmount;
+       
        
 
     }
