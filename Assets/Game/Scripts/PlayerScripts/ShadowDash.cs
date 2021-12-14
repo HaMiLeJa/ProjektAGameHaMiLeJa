@@ -23,7 +23,8 @@ public class ShadowDash : MonoBehaviour
     PlayerBoost dash;
     PlayerSuperDash superDash;
     PlayerMovement playerMov;
-    
+
+    bool shadowDashNotPossible = false;
 
     Rigidbody rb;
 
@@ -65,7 +66,7 @@ public class ShadowDash : MonoBehaviour
     void FixedUpdate()
     {
         if (gameMng.AllowMovement == false) return;
-        if (dash.IsBoosting == true ||superDash.isSuperDashing == true) return;
+        if (superDash.isSuperDashing == true) return;
 
 
         if (mr.enabled == false)
@@ -74,26 +75,31 @@ public class ShadowDash : MonoBehaviour
         {
             dust.Stop();
         }
-        
-        #region ShadowDashInputKey
-        
-        if (Input.GetKeyDown(KeyCode.G) && isShadowDashing == false || Input.GetButton("RightBumper") && isShadowDashing == false)
+
+
+        if (Input.GetButton("RightBumper") && isShadowDashing == false)
         {
             isShadowDashing = true;
             ShadowDashStarter();
+
+            if (dash.IsBoosting == true)
+                dash.IsBoosting = false;
         }
-        
-        #endregion
-        
-        
-        #region Add Dash to current Speed
+        else if (Input.GetButton("RightBumper") == false && shadowDashNotPossible == true)
+        {
+            isShadowDashing = false;
+            shadowDashNotPossible = false;
+        }
+       
+
+
         if (currentShadowDashForce != 0 )
         {
             rb.AddForce(playerMov.MovementDirection.normalized * currentShadowDashForce * 400 * Time.fixedDeltaTime);
 
             // mr.enabled = true;
         }
-        #endregion
+        
 
 
         
@@ -138,11 +144,15 @@ public class ShadowDash : MonoBehaviour
     {
         if (shadowDashCoroutine != null)
          StopCoroutine(shadowDashCoroutine);
-        
-        shadowDashCoroutine = StartCoroutine(ShadowDashCoroutine());
+        Debug.Log("S");
+
+        if (EnergyManager.Instance.CheckForRequiredEnergyAmount(gameMng.ShadowDashCosts) == true) // Wenn genügend Energy zur verfügung steht
+            shadowDashCoroutine = StartCoroutine(ShadowDashCoroutine());
+        else
+            shadowDashNotPossible = true;
 
         //this.gameObject.layer = playerNoCollisionLayerInt;
-        
+
     }
 
     

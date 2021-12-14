@@ -18,6 +18,7 @@ public class PlayerSuperDash : MonoBehaviour
     public ParticleSystem effect;
 
     public bool isDestroying = false;
+    bool superDashNotPossible = false;
 
    // public MeshRenderer mr;
 
@@ -58,31 +59,37 @@ public class PlayerSuperDash : MonoBehaviour
     void FixedUpdate()
     {
         if (gameMng.AllowMovement == false) return;
-        if (dash.IsBoosting == true || shadowDash.isShadowDashing == true) return;   //dash.Boosting == true || 
-        
+        if (shadowDash.isShadowDashing == true) return;   //dash.Boosting == true || 
 
 
 
-        #region ShadowDashInputKey
 
-        if (Input.GetAxisRaw("LeftTrigger") != 0 || Input.GetButton("Y"))
+
+        if (Input.GetButton("LeftBumper") && isSuperDashing == false || Input.GetButton("Y") && isSuperDashing == false)
         {
             Debug.Log("Key");
             isSuperDashing = true;
             SuperDashStarter();
+
+            if (dash.IsBoosting == true)
+                dash.IsBoosting = false;
         }
+        else if (Input.GetButton("LeftBumper") == false && superDashNotPossible == true || Input.GetButton("Y") && superDashNotPossible == true)
+        {
+            isSuperDashing = false;
+            superDashNotPossible = false;
+        }
+        
 
-        #endregion
 
-
-        #region Add Dash to current Speed
+           
         if (currentSuperDashForce != 0)
         {
             rb.AddForce(playerMov.MovementDirection.normalized * currentSuperDashForce * 400 * Time.fixedDeltaTime);
 
             // mr.enabled = true;
         }
-        #endregion
+        
 
 
 
@@ -97,11 +104,14 @@ public class PlayerSuperDash : MonoBehaviour
         if (superDashCoroutine != null)
             StopCoroutine(superDashCoroutine);
 
-        superDashCoroutine = StartCoroutine(SuperDashCoroutine());
-        Debug.Log("Start");
+        Debug.Log(EnergyManager.CurrentEnergy);
+
+        if (EnergyManager.Instance.CheckForRequiredEnergyAmount(gameMng.SuperDashCosts) == true) // Wenn genügend Energy zur verfügung steht
+            superDashCoroutine = StartCoroutine(SuperDashCoroutine());
+        else
+            superDashNotPossible = true;
 
     }
-
 
 
     private IEnumerator SuperDashCoroutine()
@@ -112,8 +122,6 @@ public class PlayerSuperDash : MonoBehaviour
             audioSource.Play();
 
         float t = 0;
-
-
 
         while (t < ShadowDashDuration)
         {
@@ -128,7 +136,6 @@ public class PlayerSuperDash : MonoBehaviour
             if (currentSuperDashForce >= disappearingDuringSuperDashStart && currentSuperDashForce <= disappearingDuringSuperDashEnd)  //
             {
                 isDestroying = true;
-                Debug.Log("isDestroying");
 
                 //EFFEKT
                 if(effect.isPlaying == false)
@@ -151,7 +158,6 @@ public class PlayerSuperDash : MonoBehaviour
         currentSuperDashForce = 0;
         isSuperDashing = false;
 
-        Debug.Log("End");
 
         gameMng.AllowHexEffects = true;
 

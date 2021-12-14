@@ -11,6 +11,7 @@ public class PlayerBoost : MonoBehaviour
     [SerializeField] private float BoostForce = 75;
     float boostDuration = 0.8f;
     [SerializeField] private AnimationCurve BoostDashcurve;
+    private float curveValue;
     [SerializeField] public bool IsBoosting = false; //used to lock other boosts
     [SerializeField] private Coroutine boostCoroutine;
     float currentBoostforce = 0.0f;
@@ -49,7 +50,7 @@ public class PlayerBoost : MonoBehaviour
     void FixedUpdate()
     {
         if (gameMng.AllowMovement == false) return;
-        if (shadowDash.isShadowDashing == true || superDash.isSuperDashing == true) return;
+        // if (shadowDash.isShadowDashing == true || superDash.isSuperDashing == true) return;
         // if (rb.velocity.x == 0 || rb.velocity.z == 0) return; //kein kleiner Boost am Anfang erlaubt!
 
 
@@ -66,7 +67,7 @@ public class PlayerBoost : MonoBehaviour
             // playerBoost.CurveValue
 
             boostTimer += Time.fixedDeltaTime;
-            rb.AddForce(playerMov.MovementDirection.normalized * CurveValue * BoostForce * 100 * Time.fixedDeltaTime);
+            rb.AddForce(playerMov.MovementDirection.normalized * curveValue * BoostForce * 100 * Time.fixedDeltaTime);
         }
         else if (IsBoosting == true && boostTimer > boostDuration)
         {
@@ -83,9 +84,9 @@ public class PlayerBoost : MonoBehaviour
     }
 
 
-    public float CurveValue;
+   
 
-    #region Shadowdash Coroutine
+    #region Dash Coroutine
 
     public void BoostStarter()
     {
@@ -108,7 +109,7 @@ public class PlayerBoost : MonoBehaviour
         {
 
             t += Time.fixedDeltaTime;
-            CurveValue = BoostDashcurve.Evaluate(t);
+            curveValue = BoostDashcurve.Evaluate(t);
              
             //currentBoostforce += BoostForce * CurveValue * Time.deltaTime;
 

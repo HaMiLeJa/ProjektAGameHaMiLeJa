@@ -11,9 +11,9 @@ public class EnergyManager : MonoBehaviour //for points and energy
     [Space]
     [SerializeField] float EnergyStartAmount = 10;
     public static float CurrentEnergy;
-
     [Tooltip("A limit of how many Energy the player can have")] 
     [SerializeField] float MaxEnergyAmount = 20f;
+    [SerializeField] float currentEnergyForInspector;
 
     #region Events
 
@@ -42,7 +42,7 @@ public class EnergyManager : MonoBehaviour //for points and energy
         gameMng = GameManager.Instance;
         CurrentEnergy = EnergyStartAmount;
        
-        onEnergyChange += ModifyEnergy;
+       // onEnergyChange += ModifyEnergy;
         onEnergyChange += CheckEnergyAmount;
 
     }
@@ -54,6 +54,8 @@ public class EnergyManager : MonoBehaviour //for points and energy
         {
             CurrentEnergy = 25;
         }
+
+        currentEnergyForInspector = CurrentEnergy;
     }
 
    
@@ -61,7 +63,6 @@ public class EnergyManager : MonoBehaviour //for points and energy
     void ModifyEnergy(float value)
     {
         CurrentEnergy += value;
-        //falls die Energyanzeige Falsch ist, hier UI Update aufrufen statt über Event
         
 
     }
@@ -69,12 +70,12 @@ public class EnergyManager : MonoBehaviour //for points and energy
     void CheckEnergyAmount(float value)
     {
 
-        if (CurrentEnergy <= 1)
+        if (CurrentEnergy <= 0)
         {
             //if (startDash.Boosting == true) return;
 
             gameMng.AllowMovement = false;
-            Debug.Log("Energy 0");
+            Debug.Log("Energy 1");
         }
         else
         {
@@ -87,4 +88,15 @@ public class EnergyManager : MonoBehaviour //for points and energy
            
         }
     }
+
+
+    public bool CheckForRequiredEnergyAmount(float value)
+    {
+        if (value <= CurrentEnergy)
+            return true;
+        else
+            return false;
+            //Sound machen
+    }
+
 }

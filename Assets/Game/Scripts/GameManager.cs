@@ -38,14 +38,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float Skyboxspeed;
     public bool AllowMovement = true;
     public bool AllowHexEffects = true;
+
     public static float GlowEnableDelay = 0.1f;
-   public static  float GlowDisableDelay = 2.5f;
-   [HideInInspector]public static GameObject CameraHelper;
-   [HideInInspector] public static bool ZeroOutAllowed = true;
-   public static bool CameraTeleportActive = false;
-   public static bool StopGiveVelocityBack = true;
-   public static CinemachineVirtualCamera vcam;
-    GameObject player;
+    public static  float GlowDisableDelay = 2.5f;
+    [HideInInspector]public static GameObject CameraHelper;
+    [HideInInspector] public static bool ZeroOutAllowed = true;
+    public static bool CameraTeleportActive = false;
+    public static bool StopGiveVelocityBack = true;
+    public static CinemachineVirtualCamera vcam;
+   // GameObject player;
    
     Rigidbody playerRb;
     #endregion
@@ -68,7 +69,7 @@ public class GameManager : MonoBehaviour
     
     private void Start()
     {
-        player = ReferenceLibary.Player;
+        //player = ReferenceLibary.Player;
         playerRb = ReferenceLibary.RigidbodyPl;
         CameraHelper = new GameObject("CameraHelper");
         vcam = GetComponent<CinemachineVirtualCamera>();
@@ -102,7 +103,7 @@ public class GameManager : MonoBehaviour
 
     void CheckForEndOfGame()
     {
-        if(EnergyManager.CurrentEnergy <= 1)
+        if(EnergyManager.CurrentEnergy <= 0)
         {
             if(playerRb.velocity == Vector3.zero)
             {
