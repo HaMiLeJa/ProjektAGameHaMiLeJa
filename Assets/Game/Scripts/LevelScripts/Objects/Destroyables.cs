@@ -53,6 +53,10 @@ public class Destroyables : MonoBehaviour
             //Sound
             //Effekte
 
+            col.enabled = false;
+
+            ReferenceLibary.RigidbodyPl.velocity *= -1; 
+
             ScoreManager.OnScoring?.Invoke(settings.value);
 
             if (myAudioSource.isPlaying == false)
@@ -61,7 +65,9 @@ public class Destroyables : MonoBehaviour
                 myAudioSource.Play();
             }
 
-            Destroy(this.gameObject); //oder Set active + respawn
+            //Destroy(this.gameObject); //oder Set active + respawn
+
+            StartCoroutine(PlayParticleAndDestroyObj());
         }
         else
         {
@@ -73,5 +79,13 @@ public class Destroyables : MonoBehaviour
             }
         }
 
+    }
+
+    IEnumerator PlayParticleAndDestroyObj()
+    {
+        //play stuff
+        yield return new WaitForSeconds(2f);
+
+        this.gameObject.SetActive(false);
     }
 }
