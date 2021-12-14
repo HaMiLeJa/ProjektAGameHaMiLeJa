@@ -62,9 +62,6 @@ public class PlayerSuperDash : MonoBehaviour
         if (shadowDash.isShadowDashing == true) return;   //dash.Boosting == true || 
 
 
-
-
-
         if (Input.GetButton("LeftBumper") && isSuperDashing == false || Input.GetButton("Y") && isSuperDashing == false)
         {
             Debug.Log("Key");
@@ -105,18 +102,16 @@ public class PlayerSuperDash : MonoBehaviour
             StopCoroutine(superDashCoroutine);
 
 
-        if (EnergyManager.Instance.CheckForRequiredEnergyAmount(gameMng.SuperDashCosts) == true) // Wenn genügend Energy zur verfügung steht
+       // if (EnergyManager.Instance.CheckForRequiredEnergyAmount(gameMng.SuperDashCosts) == true) // Wenn genügend Energy zur verfügung steht
             superDashCoroutine = StartCoroutine(SuperDashCoroutine());
-        else
-            superDashNotPossible = true;
+       // else
+        //    superDashNotPossible = true;
 
     }
 
 
     private IEnumerator SuperDashCoroutine()
     {
-       // EnergyManager.onEnergyChange?.Invoke(-gameMng.SuperDashCosts);
-
         StartCoroutine(EnergyManager.Instance.ModifyEnergy(-gameMng.SuperDashCosts));
 
         if (audioSource.isPlaying == false && audManager.allowAudio == true)
@@ -145,6 +140,9 @@ public class PlayerSuperDash : MonoBehaviour
                 gameMng.AllowHexEffects = false;
 
             }
+
+            if (gameMng.AllowMovement == false)
+                break;
 
             yield return new WaitForFixedUpdate();
         }

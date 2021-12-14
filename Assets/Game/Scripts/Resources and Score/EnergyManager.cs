@@ -17,12 +17,6 @@ public class EnergyManager : MonoBehaviour //for points and energy
 
     [SerializeField] float stepSize = 0.1f;
 
-    #region Events
-
-    public delegate void EnergyChange(float value); //Managing the Energy Value (gain and loss)
-    public static EnergyChange onEnergyChange;
-
-    #endregion
 
     #region Singleton
     public static EnergyManager Instance;
@@ -44,8 +38,6 @@ public class EnergyManager : MonoBehaviour //for points and energy
         gameMng = GameManager.Instance;
         CurrentEnergy = EnergyStartAmount;
        
-      //  onEnergyChange += ModifyEnergy;
-        onEnergyChange += CheckEnergyAmount;
 
     }
 
@@ -58,6 +50,8 @@ public class EnergyManager : MonoBehaviour //for points and energy
         }
 
         currentEnergyForInspector = CurrentEnergy;
+
+        CheckEnergyAmount();
     }
 
 
@@ -102,6 +96,8 @@ public class EnergyManager : MonoBehaviour //for points and energy
             CurrentEnergy += step;
             stepsDone += stepSize;
 
+            UIManager.Instance.UpdateEnergyUI();
+
             yield return new WaitForFixedUpdate();
         }
 
@@ -110,14 +106,15 @@ public class EnergyManager : MonoBehaviour //for points and energy
     }
 
 
-    void CheckEnergyAmount(float value)
+    void CheckEnergyAmount()
     {
-
         if (CurrentEnergy <= 0)
         {
             //if (startDash.Boosting == true) return;
 
             gameMng.AllowMovement = false;
+
+            StopAllCoroutines();
             Debug.Log("Energy 0");
         }
         else

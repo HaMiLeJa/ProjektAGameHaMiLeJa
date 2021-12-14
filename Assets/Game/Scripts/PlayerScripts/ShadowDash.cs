@@ -191,6 +191,9 @@ public class ShadowDash : MonoBehaviour
 
             }
 
+            if (gameMng.AllowMovement == false)
+                break;
+
             yield return new WaitForFixedUpdate();
         }
 

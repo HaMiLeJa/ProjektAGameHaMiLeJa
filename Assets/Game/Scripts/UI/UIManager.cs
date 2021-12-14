@@ -42,6 +42,7 @@ public class UIManager : MonoBehaviour
 
         UpdateScore(1);
         UpdateMultiplicatorUI(1);
+        UpdateEnergyUI();
 
     }
    
@@ -58,9 +59,13 @@ public class UIManager : MonoBehaviour
 
         // CurrentEnergy.text = "Energy: " + EnergyManager.CurrentEnergy.ToString();
 
-        CurrentEnergy.fillAmount = EnergyManager.CurrentEnergy / EnergyManager.Instance.MaxEnergyAmount;
+        
     }
 
+    public void UpdateEnergyUI()
+    {
+        CurrentEnergy.fillAmount = EnergyManager.CurrentEnergy / EnergyManager.Instance.MaxEnergyAmount;
+    }
 
     public void UpdateScore(float value)
     {
