@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class MissionManager : MonoBehaviour
 {
+    MissionStateNoMission NoMissionMissionState;
     MissionStateFindMission FindMissionState;
     MissionStatePrepareMission PrepareMissionState;
     MissionStateActiveMission ActiveMissionState;
@@ -19,7 +20,7 @@ public class MissionManager : MonoBehaviour
 
     //For No Mission
 
-    static MissionState missionState = MissionState.findMission;
+    static MissionState missionState = MissionState.noMission;
     enum MissionState
     {
         noMission,
@@ -27,11 +28,13 @@ public class MissionManager : MonoBehaviour
         activeMission,
         prepareMission,
         CompletedMission,
-        UncompletedMission
+        UncompletedMission,
+        noMissionsLeft
     }
 
     void Start()
     {
+        NoMissionMissionState = GetComponentInChildren<MissionStateNoMission>();
         FindMissionState = GetComponentInChildren<MissionStateFindMission>();
         PrepareMissionState = GetComponentInChildren<MissionStatePrepareMission>();
         ActiveMissionState = GetComponentInChildren<MissionStateActiveMission>();
@@ -45,6 +48,7 @@ public class MissionManager : MonoBehaviour
         switch (missionState)
         {
             case MissionState.noMission:
+                NoMissionMissionState.UpdateNoMission();
                 break;
             case MissionState.findMission:
                 FindMissionState.FindMission();
@@ -59,11 +63,13 @@ public class MissionManager : MonoBehaviour
                 break;
             case MissionState.CompletedMission:
                 CompletedMissionState.UpdateCompletedMission();
-                SwitchToNoMissionState();
+                CheckForAllMissionsDone();
                 break;
             case MissionState.UncompletedMission:
                 UncompletedMissionState.UpdateUncompletedMission();
-                SwitchToNoMissionState();
+                CheckForAllMissionsDone();
+                break;
+            case MissionState.noMissionsLeft:
                 break;
             default:
                 break;
@@ -95,8 +101,9 @@ public class MissionManager : MonoBehaviour
         missionState = MissionState.UncompletedMission;
     }
 
-    void SwitchToNoMissionState()
+    public void SwitchToNoMissionState()
     {
+        UIManager.Instance.ActivateNoMissionUI();
         missionState = MissionState.noMission;
     }
 
@@ -104,4 +111,23 @@ public class MissionManager : MonoBehaviour
      {
         missionState = MissionState.findMission;
      }
+
+    void SwitchToNoMissionLeftState()
+    {
+        missionState = MissionState.noMissionsLeft;
+    }
+
+
+
+    public void CheckForAllMissionsDone()
+    {
+        if(ReferenceLibary.MissLib.Missions.Count == 0)
+        {
+            SwitchToNoMissionLeftState();
+        }
+        else
+        {
+            SwitchToNoMissionState();
+        }
+    }
 }

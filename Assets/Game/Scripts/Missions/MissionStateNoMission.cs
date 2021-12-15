@@ -4,37 +4,37 @@ using UnityEngine;
 
 public class MissionStateNoMission : MonoBehaviour
 {
-    //Wait for time to pass to get new Mission
-
-    float timer;
-
     bool randomDurationSet = false;
-    int duration = 0;
+    public static float duration = 0;
 
     public void UpdateNoMission()
     {
         if(randomDurationSet == false)
         {
-            duration = GetRandomDuration();
             randomDurationSet = true;
+            int d = GetRandomDuration();
+            duration = d;
+            Debug.Log(duration);
         }
 
-        timer += Time.deltaTime;
+        duration -= Time.deltaTime;
 
-        if(timer>= duration)
+        if(duration <= 0)
         {
             randomDurationSet = false;
             ReferenceLibary.MissionMng.SwitchToFindMissionState();
             duration = 0;
-            Debug.Log("NewMission, time is up");
-            
+            Debug.Log("New Mission, time is up");
+            UIManager.Instance.DeactivateNoMissionUI();
         }
+        else
+            UIManager.Instance.TimerUntilNexMission();
     }
 
 
     int GetRandomDuration()
     {
-       int i = Random.Range(10, 100);
+       int i = Random.Range(10, 20);
        return i;
     }
 

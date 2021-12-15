@@ -56,4 +56,13 @@ public class MissionStateActiveMission : MonoBehaviour
         MissionManager.MissionTimeLeft -= Time.deltaTime;
     }
 
+    
+
+    public static void ItemCollected(GameObject item)
+    {
+        MissionManager.Progress++;
+        MissionItemSpawner.CurrentMissionItems.Remove(item);
+        Destroy(item);
+    }
+
 }

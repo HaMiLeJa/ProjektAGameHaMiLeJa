@@ -8,11 +8,17 @@ public class MissionStateUncompletedMission : MonoBehaviour
     {
         Debug.Log("MissionUncomplete");
 
-        UIManager.Instance.DeactiveCollectItemUI();
+        UIManager.Instance.DeactivateCollectItemUI();
 
-
+        RemoveCollectables();
         //Mission evt zur AllMission Liste zurückadden, wenn wir wollen, dass player jede mission erfüllen müssen
 
         //Effects, Sound
+    }
+
+
+    void RemoveCollectables()
+    {
+        MissionItemSpawner.ClearCurrentMissionItemList();
     }
 }

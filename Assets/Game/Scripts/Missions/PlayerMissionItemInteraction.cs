@@ -17,14 +17,20 @@ public class PlayerMissionItemInteraction : MonoBehaviour
     }
 
 
+    bool isTriggered = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "MissionItem")
+        if (other.gameObject.tag == "Player")
         {
-            MissionManager.Progress++;
-            //Coroutine mit effekten
-            Destroy(other.gameObject);
+            MissionStateActiveMission.ItemCollected(this.gameObject);
+           
+
+
+                //Coroutine mit effekten
+
+           
         }
     }
+   
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8602943804740504464}
   - component: {fileID: 4308345926828695865}
   - component: {fileID: 6049644922105549284}
+  - component: {fileID: 2020916401075865124}
   m_Layer: 6
   m_Name: CollectItem1
   m_TagString: MissionItem
@@ -95,3 +96,15 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2020916401075865124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5853504215371085357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87cd929f58e8fa0429b49451a81decb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

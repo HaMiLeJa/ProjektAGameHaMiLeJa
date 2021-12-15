@@ -44,28 +44,32 @@ public class UIManager : MonoBehaviour
         UpdateMultiplicatorUI(1);
         UpdateEnergyUI();
 
+        DeactivateBasicMissionUI();
+        DeactivateCollectItemUI();
+
     }
 
+    #region Missions
 
-
-
+    #region Basic UI
     [Header("UI Of All Missions")]
     [SerializeField] GameObject BasicMissionUI;
     [SerializeField] TMPro.TMP_Text missionTimeTxt;
     [SerializeField] TMPro.TMP_Text progressTxt;
+    
     public void UpdateBasicMissionUI()
     {
         BasicMissionUI.SetActive(true);
         progressTxt.text = MissionManager.Progress + "/" + MissionManager.CurrentMission.Amount;
         missionTimeTxt.text = "Time remaining: " + MissionManager.MissionTimeLeft.ToString();
     }
-
-
     public void ActivateBasicMissionUI()
     {
         progressTxt.text = "0/" + MissionManager.CurrentMission.Amount;
         missionTimeTxt.text = "Time remaining: " + MissionManager.CurrentMission.time;
     }
+
+  
 
     public void DeactivateBasicMissionUI()
     {
@@ -73,8 +77,31 @@ public class UIManager : MonoBehaviour
         missionTimeTxt.text = "";
         BasicMissionUI.SetActive(false);
     }
+    #endregion
+
+    #region No Mission
+    [Header("No Mission UI")]
+    [SerializeField] TMPro.TMP_Text nextMissionTxt;
+    [SerializeField] GameObject noMissionParent;
+    public void TimerUntilNexMission()
+    {
+        nextMissionTxt.text = "Next Mission in: " + MissionStateNoMission.duration;
+    }
+
+    public void ActivateNoMissionUI()
+    {
+        noMissionParent.SetActive(true);
+    }
+    public void DeactivateNoMissionUI()
+    {
+        noMissionParent.SetActive(false);
+        Debug.Log("Deactivated UI");
+    }
+
+    #endregion
 
 
+    #region Collect Item
     [Header("CollectItemUI")]
     [SerializeField] GameObject collectItemParent;
     [SerializeField] Image collectItemImage;
@@ -95,7 +122,7 @@ public class UIManager : MonoBehaviour
         }
 
     }
-    public void DeactiveCollectItemUI()
+    public void DeactivateCollectItemUI()
     {
         collectItemParent.SetActive(false);
     }
@@ -104,6 +131,10 @@ public class UIManager : MonoBehaviour
     {
         //Effekt beim Collecten?
     }
+
+    #endregion
+
+    #endregion
 
     #region Energy
     public void UpdateEnergyUI()

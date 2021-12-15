@@ -17,7 +17,7 @@ public class MissionItemSpawner : MonoBehaviour
     List<GameObject> PositionListInUse;
     int spawnCounter = 0;
 
-    List<GameObject> CurrentMissionItems = new List<GameObject>();
+    public static List<GameObject> CurrentMissionItems = new List<GameObject>();
 
     private void Awake()
     {
@@ -39,7 +39,7 @@ public class MissionItemSpawner : MonoBehaviour
     {
         PositionListInUse = AllItemSpawnPositions;
         currentItem = CollectItem1; //Sonst meckert er meh
-        ClearList(CurrentMissionItems);
+        ClearCurrentMissionItemList();
     }
 
     void FindCollectItem()
@@ -79,8 +79,18 @@ public class MissionItemSpawner : MonoBehaviour
 
     #endregion
 
-    void ClearList(List<GameObject> list)
+    public static void ClearCurrentMissionItemList()
     {
-        list.Clear();
+        if (CurrentMissionItems.Count == 0)
+        {
+            CurrentMissionItems.Clear();
+            return;
+        }
+
+        for (int i = CurrentMissionItems.Count-1; i >=0 ; i--)
+        {
+            Destroy(CurrentMissionItems[i]);
+        }
+        CurrentMissionItems.Clear();
     }
 }
