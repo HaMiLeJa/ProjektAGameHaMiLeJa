@@ -17,6 +17,11 @@ public class ReferenceLibary : MonoBehaviour
     // Hex
 
 
+    // Missions
+    public static MissionManager MissionMng;
+    public static MissionItemSpawner ItemSpawner;
+    public static MissionLibary MissLib;
+
     //Audio
     //public static AudioClipsHexes audioClipHexes;
 
@@ -34,8 +39,9 @@ public class ReferenceLibary : MonoBehaviour
 
 
         //Hex
-
-
+        MissionMng = FindObjectOfType<MissionManager>();
+        ItemSpawner = FindObjectOfType<MissionItemSpawner>();
+        MissLib = FindObjectOfType<MissionLibary>();
         //Audio
         //audioClipHexes = AudioManager.Instance.gameObject.GetComponent<AudioClipsHexes>();
 

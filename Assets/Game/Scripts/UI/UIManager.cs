@@ -50,23 +50,60 @@ public class UIManager : MonoBehaviour
   
     void Update()
     {
-        //  float energyDisplay = (EnergyManager.Instance.CurrentUIEnergy - 1);
-        /* if(energyDisplay <0)
-         {
-             energyDisplay = 0;
-         }*/
 
-
-        // CurrentEnergy.text = "Energy: " + EnergyManager.CurrentEnergy.ToString();
-
-        
     }
 
+    [Header("UI Of All Missions")]
+    [SerializeField] TMPro.TMP_Text missionTimeTxt;
+    [SerializeField] TMPro.TMP_Text progresstxt;
+    public void UpdateBasicMissionUI()
+    {
+
+    }
+
+
+    public void ActivateBasicMissionUI()
+    {
+        progresstxt.text = "0/" + MissionManager.CurrentMission.Amount;
+        missionTimeTxt.text = "Time remaining: " + MissionManager.CurrentMission.time;
+
+    }
+
+
+    [Header("CollectItemUI")]
+    [SerializeField] GameObject collectItemParent;
+    [SerializeField] Image collectItemImage;
+    [SerializeField] Sprite collectItem1;
+    [SerializeField] Sprite collectItem2;
+    
+    public void ActivateCollectItemUI()
+    {
+        collectItemParent.SetActive(true);
+       
+        if (MissionManager.CurrentMission.missionItem == MissionInformation.Item.CollectItem1)
+        {
+            collectItemImage.sprite = collectItem1;
+        }
+        else if (MissionManager.CurrentMission.missionItem == MissionInformation.Item.CollectItem2)
+        {
+            collectItemImage.sprite = collectItem2;
+        }
+
+    }
+
+    void UpdateCollectItemUI()
+    {
+        //Zeit, Fortschritt
+    }
+
+    #region Energy
     public void UpdateEnergyUI()
     {
         CurrentEnergy.fillAmount = EnergyManager.CurrentEnergy / EnergyManager.Instance.MaxEnergyAmount;
     }
+    #endregion
 
+    #region Score and Multiplicator
     public void UpdateScore(float value)
     {
         score.text = ScoreManager.CurrentScore.ToString();
@@ -76,16 +113,12 @@ public class UIManager : MonoBehaviour
     {
         multiplicator.text = "x" + ScoreManager.CurrentMultiplicator.ToString();
     }
+    #endregion
 
-
-    void UpdateEnergy()
-    {
-
-    }
-
+    #region EndScreen
     public void ShowEndMessage()
     {
         EndMessage.SetActive(true);
     }
-
-  }
+    #endregion
+}
