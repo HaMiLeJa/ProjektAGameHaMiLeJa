@@ -5,14 +5,19 @@ using UnityEngine.UI;
 
 public class MissionManager : MonoBehaviour
 {
-    //  IDEE
-    //Copy MissLib and delete Entries wehn mis is done. >If empty recopy missLib
-
-    MissionLibary missLib;
+    MissionStateFindMission FindMissionState;
+    MissionStatePrepareMission PrepareMissionState;
+    MissionStateActiveMission ActiveMissionState;
+    MissionStateCompletedMission CompletedMissionState;
+    MissionStateUncompletedMission UncompletedMissionState;
 
     public static MissionInformation CurrentMission;
 
-    public float MissionTimePassed;
+    // For Active State
+    public static float MissionTimeLeft;
+    public static float Progress;
+
+    //For No Mission
 
     static MissionState missionState = MissionState.findMission;
     enum MissionState
@@ -20,95 +25,83 @@ public class MissionManager : MonoBehaviour
         noMission,
         findMission,
         activeMission,
-        prepareMission
+        prepareMission,
+        CompletedMission,
+        UncompletedMission
     }
 
     void Start()
     {
-        missLib = ReferenceLibary.MissLib;
+        FindMissionState = GetComponentInChildren<MissionStateFindMission>();
+        PrepareMissionState = GetComponentInChildren<MissionStatePrepareMission>();
+        ActiveMissionState = GetComponentInChildren<MissionStateActiveMission>();
+        CompletedMissionState = GetComponentInChildren<MissionStateCompletedMission>();
+        UncompletedMissionState = GetComponentInChildren<MissionStateUncompletedMission>();
     }
 
-   
+
     void Update()
     {
-       switch (missionState)
-       {
+        switch (missionState)
+        {
             case MissionState.noMission:
                 break;
             case MissionState.findMission:
-                FindMission();
+                FindMissionState.FindMission();
+                SwitchToPrepareMissionState();
                 break;
             case MissionState.prepareMission:
-                PrepareMissionUI();
-                break;
-            case MissionState.activeMission:
-                break;
-            default:
-                break;
-       }
-
-    }
-
-    #region FindMission;
-
-    void FindMission()
-    {
-        int missionIndex = 0;
-        int maxRange = missLib.Missions.Count;
-
-        missionIndex = Random.Range(0, maxRange);
-
-        CurrentMission = missLib.Missions[missionIndex];
-        missLib.Missions.RemoveAt(missionIndex);
-
-        missionState = MissionState.prepareMission;
-    }
-
-    #endregion
-
-    #region PrepareMission
-
-    void PrepareMissionUI()
-    {
-        switch(CurrentMission.missionType)
-        {
-            case MissionInformation.MissionType.CollectItem:
-                ActivateCollectItemUI();
-                ReferenceLibary.ItemSpawner.SpawnCollectItem();
+                PrepareMissionState.PrepareMission();
                 SwitchToActiveMissionState();
                 break;
-            case MissionInformation.MissionType.DestroyObjs:
+            case MissionState.activeMission:
+                ActiveMissionState.UpdateActiveMission();
                 break;
-            case MissionInformation.MissionType.CollectXPoints:
+            case MissionState.CompletedMission:
+                CompletedMissionState.UpdateCompletedMission();
+                SwitchToNoMissionState();
                 break;
-            case MissionInformation.MissionType.BringFromAToB:
+            case MissionState.UncompletedMission:
+                UncompletedMissionState.UpdateUncompletedMission();
+                SwitchToNoMissionState();
                 break;
             default:
                 break;
-
         }
-        
+
     }
 
-   
+
+
+
 
     void SwitchToActiveMissionState()
     {
         missionState = MissionState.activeMission;
     }
 
-    #region CollectItem
-
-    void ActivateCollectItemUI()
+    void SwitchToPrepareMissionState()
     {
-        UIManager.Instance.ActivateBasicMissionUI();
-        UIManager.Instance.ActivateCollectItemUI();
+        missionState = MissionState.prepareMission;
     }
 
-   
+    public void SwitchToCompletedMissionState()
+    {
+        missionState = MissionState.CompletedMission;
+    }
 
-    #endregion
+    public void SwitchToUncompletedMissionState()
+    {
+        missionState = MissionState.UncompletedMission;
+    }
 
-    #endregion
+    void SwitchToNoMissionState()
+    {
+        missionState = MissionState.noMission;
+    }
 
+     public void SwitchToFindMissionState()
+     {
+        missionState = MissionState.findMission;
+     }
 }

@@ -22,6 +22,7 @@ TagManager:
   - CurvesTrigger
   - Collectable
   - ItemPos
+  - MissionItem
   layers:
   - Default
   - TransparentFX

@@ -45,28 +45,33 @@ public class UIManager : MonoBehaviour
         UpdateEnergyUI();
 
     }
-   
 
-  
-    void Update()
-    {
 
-    }
+
 
     [Header("UI Of All Missions")]
+    [SerializeField] GameObject BasicMissionUI;
     [SerializeField] TMPro.TMP_Text missionTimeTxt;
-    [SerializeField] TMPro.TMP_Text progresstxt;
+    [SerializeField] TMPro.TMP_Text progressTxt;
     public void UpdateBasicMissionUI()
     {
-
+        BasicMissionUI.SetActive(true);
+        progressTxt.text = MissionManager.Progress + "/" + MissionManager.CurrentMission.Amount;
+        missionTimeTxt.text = "Time remaining: " + MissionManager.MissionTimeLeft.ToString();
     }
 
 
     public void ActivateBasicMissionUI()
     {
-        progresstxt.text = "0/" + MissionManager.CurrentMission.Amount;
+        progressTxt.text = "0/" + MissionManager.CurrentMission.Amount;
         missionTimeTxt.text = "Time remaining: " + MissionManager.CurrentMission.time;
+    }
 
+    public void DeactivateBasicMissionUI()
+    {
+        progressTxt.text = "";
+        missionTimeTxt.text = "";
+        BasicMissionUI.SetActive(false);
     }
 
 
@@ -90,10 +95,14 @@ public class UIManager : MonoBehaviour
         }
 
     }
-
-    void UpdateCollectItemUI()
+    public void DeactiveCollectItemUI()
     {
-        //Zeit, Fortschritt
+        collectItemParent.SetActive(false);
+    }
+
+    public void UpdateCollectItemUI()
+    {
+        //Effekt beim Collecten?
     }
 
     #region Energy

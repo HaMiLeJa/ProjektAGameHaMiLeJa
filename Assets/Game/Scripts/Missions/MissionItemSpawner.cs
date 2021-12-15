@@ -24,13 +24,38 @@ public class MissionItemSpawner : MonoBehaviour
         AllItemSpawnPositions = new List<GameObject>(GameObject.FindGameObjectsWithTag("ItemPos"));
     }
 
+
+    #region Collect Item
     public void SpawnCollectItem()
     {
-        PositionListInUse = AllItemSpawnPositions;
-        currentItem = CollectItem1; //Sonst meckert er meh
+        PrepareSpawn();
 
         FindCollectItem();
 
+        Spawn();
+    }
+
+    void PrepareSpawn()
+    {
+        PositionListInUse = AllItemSpawnPositions;
+        currentItem = CollectItem1; //Sonst meckert er meh
+        ClearList(CurrentMissionItems);
+    }
+
+    void FindCollectItem()
+    {
+        if (MissionManager.CurrentMission.missionItem == MissionInformation.Item.CollectItem1)
+        {
+            currentItem = CollectItem1;
+        }
+        else if (MissionManager.CurrentMission.missionItem == MissionInformation.Item.CollectItem2)
+        {
+            currentItem = CollectItem2;
+        }
+    }
+
+    void Spawn()
+    {
         for (int i = 0; i <= MissionManager.CurrentMission.Amount - 1 - spawnCounter; i++)
         {
             spawnCounter++;
@@ -52,16 +77,10 @@ public class MissionItemSpawner : MonoBehaviour
         }
     }
 
-    void FindCollectItem()
-    {
+    #endregion
 
-        if (MissionManager.CurrentMission.missionItem == MissionInformation.Item.CollectItem1)
-        {
-            currentItem = CollectItem1;
-        }
-        else if (MissionManager.CurrentMission.missionItem == MissionInformation.Item.CollectItem2)
-        {
-            currentItem = CollectItem2;
-        }
+    void ClearList(List<GameObject> list)
+    {
+        list.Clear();
     }
 }

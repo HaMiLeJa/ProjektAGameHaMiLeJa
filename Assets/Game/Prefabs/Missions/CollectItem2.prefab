@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1682955083332334089}
   m_Layer: 6
   m_Name: CollectItem2
-  m_TagString: Collectable
+  m_TagString: MissionItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
