@@ -16,6 +16,10 @@ public class MissionLibary : MonoBehaviour
 
     public void CopyMissionLists()
     {
-        Missions = AllMissions;
+        Missions.Clear();
+
+        foreach (MissionInformation mission in AllMissions)
+            Missions.Add(mission);
+
     }
 }

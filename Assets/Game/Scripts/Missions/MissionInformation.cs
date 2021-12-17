@@ -12,7 +12,7 @@ public class MissionInformation
     public float time = 180f;
     public float multiplicator = 1;
     //public bool done = false;
-    public float Amount = 5f;
+    [Range(1, 20)]public int Amount = 5;
 
     [Header("For Collect, Destroy and Bring")]
     public Item missionItem;
@@ -37,7 +37,7 @@ public class MissionInformation
         none,
         CollectItem1,
         CollectItem2,
-        Destroyables,
+        Destroyable1,
         BringItem1,
         BringItem2,
     }

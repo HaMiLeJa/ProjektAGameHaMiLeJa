@@ -13,8 +13,8 @@ public class MissionItemSpawner : MonoBehaviour
     [SerializeField] GameObject currentItem;
 
 
-    List<GameObject> AllItemSpawnPositions;
-    List<GameObject> PositionListInUse;
+    [SerializeField] List<GameObject> AllItemSpawnPositions;
+    [SerializeField] List<GameObject> PositionListInUse;
     int spawnCounter = 0;
 
     public static List<GameObject> CurrentMissionItems = new List<GameObject>();
@@ -37,7 +37,11 @@ public class MissionItemSpawner : MonoBehaviour
 
     void PrepareSpawn()
     {
-        PositionListInUse = AllItemSpawnPositions;
+        PositionListInUse.Clear();
+
+        foreach (GameObject pos in AllItemSpawnPositions)
+            PositionListInUse.Add(pos);
+
         currentItem = CollectItem1; //Sonst meckert er meh
         ClearCurrentMissionItemList();
     }
@@ -56,11 +60,13 @@ public class MissionItemSpawner : MonoBehaviour
 
     void Spawn()
     {
-        for (int i = 0; i <= MissionManager.CurrentMission.Amount - 1 - spawnCounter; i++)
+
+        for (int i = 0; i < MissionManager.CurrentMission.Amount; i++) //i <= MissionManager.CurrentMission.Amount - 1 - spawnCounter;
         {
-            spawnCounter++;
+           // spawnCounter++;
 
             int random = Random.Range(0, PositionListInUse.Count);
+            Debug.Log("Random: " + random);
 
             Vector3 itemPos = PositionListInUse[random].transform.position;
 
@@ -73,7 +79,7 @@ public class MissionItemSpawner : MonoBehaviour
 
             PositionListInUse.RemoveAt(random);
 
-            i--;
+            //i--;
         }
     }
 

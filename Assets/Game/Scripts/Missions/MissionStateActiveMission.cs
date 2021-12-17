@@ -13,6 +13,7 @@ public class MissionStateActiveMission : MonoBehaviour
                 UpdateCollectItem();
                 break;
             case MissionInformation.MissionType.DestroyObjs:
+                UpdateDestroyObj();
                 break;
             case MissionInformation.MissionType.CollectXPoints:
                 break;
@@ -22,25 +23,16 @@ public class MissionStateActiveMission : MonoBehaviour
                 break;
 
         }
+     }
+
+    void MissionTimer()
+    {
+        MissionManager.MissionTimeLeft -= Time.deltaTime;
     }
 
-
-    void UpdateCollectItem()
+    void CheckForEndEnd()
     {
-        MissionTimer();
-
-
-        UIManager.Instance.UpdateBasicMissionUI();
-        UIManager.Instance.UpdateCollectItemUI(); //TO DO
-
-        CheckForCollectItemEnd();
-    }
-
-   
-
-    void CheckForCollectItemEnd()
-    {
-        if(MissionManager.Progress == MissionManager.CurrentMission.Amount)
+        if (MissionManager.Progress == MissionManager.CurrentMission.Amount)
         {
             ReferenceLibary.MissionMng.SwitchToCompletedMissionState();
         }
@@ -50,13 +42,19 @@ public class MissionStateActiveMission : MonoBehaviour
         }
     }
 
-
-    void MissionTimer()
+    #region Collect Item
+    void UpdateCollectItem()
     {
-        MissionManager.MissionTimeLeft -= Time.deltaTime;
+        MissionTimer();
+
+
+        UIManager.Instance.UpdateBasicMissionUI();
+        UIManager.Instance.UpdateCollectItemUI(); //TO DO
+
+        CheckForEndEnd();
     }
 
-    
+   
 
     public static void ItemCollected(GameObject item)
     {
@@ -64,5 +62,26 @@ public class MissionStateActiveMission : MonoBehaviour
         MissionItemSpawner.CurrentMissionItems.Remove(item);
         Destroy(item);
     }
+    #endregion
 
+
+    #region Destroy Objs
+
+    void UpdateDestroyObj()
+    {
+        MissionTimer();
+
+        UIManager.Instance.UpdateBasicMissionUI();
+        UIManager.Instance.UpdateDestroObjUI();
+
+        CheckForEndEnd();
+    }
+
+
+    public static void ObjDestroyed()
+    {
+        MissionManager.Progress++;
+    }
+
+    #endregion
 }

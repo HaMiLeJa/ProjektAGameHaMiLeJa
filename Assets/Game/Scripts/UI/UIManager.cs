@@ -44,8 +44,10 @@ public class UIManager : MonoBehaviour
         UpdateMultiplicatorUI(1);
         UpdateEnergyUI();
 
+        ActivateNoMissionUI();
         DeactivateBasicMissionUI();
         DeactivateCollectItemUI();
+        DeactivateDestroyObjUI();
 
     }
 
@@ -130,6 +132,30 @@ public class UIManager : MonoBehaviour
     public void UpdateCollectItemUI()
     {
         //Effekt beim Collecten?
+    }
+
+    #endregion
+
+    #region DestroyObj
+    [Header("Destory Obj")]
+    [SerializeField] GameObject destroyItemParent;
+    [SerializeField] Image destroyObjImage;
+    [SerializeField] Sprite destroyObj1;
+
+    public void ActivateDestroyObjUI()
+    {
+        destroyItemParent.SetActive(true);
+        //evt sprite wie bei collect Item
+    }
+
+    public void DeactivateDestroyObjUI()
+    {
+        destroyItemParent.SetActive(false);
+    }
+
+    public void UpdateDestroObjUI()
+    {
+
     }
 
     #endregion

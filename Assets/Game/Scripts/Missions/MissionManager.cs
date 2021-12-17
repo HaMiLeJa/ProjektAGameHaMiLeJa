@@ -13,20 +13,20 @@ public class MissionManager : MonoBehaviour
     MissionStateUncompletedMission UncompletedMissionState;
 
     public static MissionInformation CurrentMission;
-
+    
     // For Active State
     public static float MissionTimeLeft;
     public static float Progress;
 
     //For No Mission
 
-    static MissionState missionState = MissionState.noMission;
+    static MissionState missionState = MissionState.findMission;
     enum MissionState
     {
         noMission,
         findMission,
-        activeMission,
         prepareMission,
+        activeMission,
         CompletedMission,
         UncompletedMission,
         noMissionsLeft
