@@ -18,7 +18,8 @@ public class MissionManager : MonoBehaviour
     public static float MissionTimeLeft;
     public static float Progress;
 
-    //For No Mission
+    //For CollectPoints
+    public static float EndPoints;
 
     static MissionState missionState = MissionState.findMission;
     enum MissionState
@@ -80,7 +81,7 @@ public class MissionManager : MonoBehaviour
 
 
 
-
+    #region Switch State
     void SwitchToActiveMissionState()
     {
         missionState = MissionState.activeMission;
@@ -116,6 +117,9 @@ public class MissionManager : MonoBehaviour
     {
         missionState = MissionState.noMissionsLeft;
     }
+    #endregion
+
+
 
 
 

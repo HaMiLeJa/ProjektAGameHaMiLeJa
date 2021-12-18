@@ -48,6 +48,7 @@ public class UIManager : MonoBehaviour
         DeactivateBasicMissionUI();
         DeactivateCollectItemUI();
         DeactivateDestroyObjUI();
+        DeactivateCollectPointsUI();
 
     }
 
@@ -57,17 +58,15 @@ public class UIManager : MonoBehaviour
     [Header("UI Of All Missions")]
     [SerializeField] GameObject BasicMissionUI;
     [SerializeField] TMPro.TMP_Text missionTimeTxt;
-    [SerializeField] TMPro.TMP_Text progressTxt;
     
     public void UpdateBasicMissionUI()
     {
         BasicMissionUI.SetActive(true);
-        progressTxt.text = MissionManager.Progress + "/" + MissionManager.CurrentMission.Amount;
         missionTimeTxt.text = "Time remaining: " + MissionManager.MissionTimeLeft.ToString();
     }
     public void ActivateBasicMissionUI()
     {
-        progressTxt.text = "0/" + MissionManager.CurrentMission.Amount;
+       
         missionTimeTxt.text = "Time remaining: " + MissionManager.CurrentMission.time;
     }
 
@@ -75,7 +74,6 @@ public class UIManager : MonoBehaviour
 
     public void DeactivateBasicMissionUI()
     {
-        progressTxt.text = "";
         missionTimeTxt.text = "";
         BasicMissionUI.SetActive(false);
     }
@@ -109,11 +107,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image collectItemImage;
     [SerializeField] Sprite collectItem1;
     [SerializeField] Sprite collectItem2;
-    
+    [SerializeField] TMPro.TMP_Text collectItemProgressTxt;
+
     public void ActivateCollectItemUI()
     {
         collectItemParent.SetActive(true);
-       
+        collectItemProgressTxt.text = "0/" + MissionManager.CurrentMission.Amount;
+
+
         if (MissionManager.CurrentMission.missionItem == MissionInformation.Item.CollectItem1)
         {
             collectItemImage.sprite = collectItem1;
@@ -132,6 +133,7 @@ public class UIManager : MonoBehaviour
     public void UpdateCollectItemUI()
     {
         //Effekt beim Collecten?
+        collectItemProgressTxt.text = MissionManager.Progress + "/" + MissionManager.CurrentMission.Amount;
     }
 
     #endregion
@@ -141,10 +143,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject destroyItemParent;
     [SerializeField] Image destroyObjImage;
     [SerializeField] Sprite destroyObj1;
+    [SerializeField] TMPro.TMP_Text destroyObjProgressTxt;
 
     public void ActivateDestroyObjUI()
     {
         destroyItemParent.SetActive(true);
+        destroyObjProgressTxt.text = "0/" + MissionManager.CurrentMission.Amount;
         //evt sprite wie bei collect Item
     }
 
@@ -155,9 +159,31 @@ public class UIManager : MonoBehaviour
 
     public void UpdateDestroObjUI()
     {
-
+        destroyObjProgressTxt.text = MissionManager.Progress + "/" + MissionManager.CurrentMission.Amount;
     }
 
+    #endregion
+
+
+    #region CollectPoints
+    [Header ("Collect Points")]
+    [SerializeField] GameObject collectPointsParent;
+    [SerializeField] TMPro.TMP_Text collectPointsProgressTxt;
+    public void ActivateCollectPointsUI()
+    {
+        collectPointsParent.SetActive(true);
+        collectPointsProgressTxt.text = "0/" + MissionManager.CurrentMission.Amount;
+    }
+
+    public void DeactivateCollectPointsUI()
+    {
+        collectPointsParent.SetActive(false);
+    }
+
+    public void UpdateCollectPointsUI()
+    {
+        collectPointsProgressTxt.text = MissionManager.Progress + "/" + MissionManager.CurrentMission.Amount;
+    }
     #endregion
 
     #endregion

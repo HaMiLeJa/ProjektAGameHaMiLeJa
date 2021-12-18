@@ -12,7 +12,7 @@ public class MissionInformation
     public float time = 180f;
     public float multiplicator = 1;
     //public bool done = false;
-    [Range(1, 20)]public int Amount = 5;
+    public int Amount = 5;
 
     [Header("For Collect, Destroy and Bring")]
     public Item missionItem;
@@ -20,14 +20,11 @@ public class MissionInformation
 
    
 
-
-
-
     public enum MissionType
     {
         CollectItem,
         DestroyObjs,
-        CollectXPoints,
+        CollectPoints,
         BringFromAToB
     }
 

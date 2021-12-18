@@ -19,7 +19,8 @@ public class MissionStateCompletedMission : MonoBehaviour
             case MissionInformation.MissionType.DestroyObjs:
                 UpdateDestroyObj();
                 break;
-            case MissionInformation.MissionType.CollectXPoints:
+            case MissionInformation.MissionType.CollectPoints:
+                UpdateCollectPoints();
                 break;
             case MissionInformation.MissionType.BringFromAToB:
                 break;
@@ -31,7 +32,7 @@ public class MissionStateCompletedMission : MonoBehaviour
         //Effects, Sound
    }
 
-    void UpdateScore()
+    void UpdateMultiplicator()
     {
         ScoreManager.OnMultiplicatorUpdate(MissionManager.CurrentMission.multiplicator);
     }
@@ -41,7 +42,7 @@ public class MissionStateCompletedMission : MonoBehaviour
     {
         UIManager.Instance.DeactivateCollectItemUI();
         UIManager.Instance.DeactivateBasicMissionUI();
-        UpdateScore();
+        UpdateMultiplicator();
         RemoveRemainingCollectables();
     }
 
@@ -57,10 +58,19 @@ public class MissionStateCompletedMission : MonoBehaviour
     {
         UIManager.Instance.DeactivateBasicMissionUI();
         UIManager.Instance.DeactivateDestroyObjUI();
-        UpdateScore();
+        UpdateMultiplicator();
     }
 
     #endregion
 
+
+    #region Collect Points
+    void UpdateCollectPoints()
+    {
+        UIManager.Instance.DeactivateBasicMissionUI();
+        UIManager.Instance.DeactivateCollectPointsUI();
+        UpdateMultiplicator();
+    }
+    #endregion
 
 }

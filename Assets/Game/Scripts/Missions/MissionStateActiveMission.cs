@@ -15,7 +15,9 @@ public class MissionStateActiveMission : MonoBehaviour
             case MissionInformation.MissionType.DestroyObjs:
                 UpdateDestroyObj();
                 break;
-            case MissionInformation.MissionType.CollectXPoints:
+            case MissionInformation.MissionType.CollectPoints:
+                UpdateCollectPointsProgress();
+                UpdateCollectPoints();
                 break;
             case MissionInformation.MissionType.BringFromAToB:
                 break;
@@ -30,7 +32,7 @@ public class MissionStateActiveMission : MonoBehaviour
         MissionManager.MissionTimeLeft -= Time.deltaTime;
     }
 
-    void CheckForEndEnd()
+    void CheckForEnd()
     {
         if (MissionManager.Progress == MissionManager.CurrentMission.Amount)
         {
@@ -51,7 +53,7 @@ public class MissionStateActiveMission : MonoBehaviour
         UIManager.Instance.UpdateBasicMissionUI();
         UIManager.Instance.UpdateCollectItemUI(); //TO DO
 
-        CheckForEndEnd();
+        CheckForEnd();
     }
 
    
@@ -74,13 +76,46 @@ public class MissionStateActiveMission : MonoBehaviour
         UIManager.Instance.UpdateBasicMissionUI();
         UIManager.Instance.UpdateDestroObjUI();
 
-        CheckForEndEnd();
+        CheckForEnd();
     }
 
 
     public static void ObjDestroyed()
     {
         MissionManager.Progress++;
+    }
+
+    #endregion
+
+    #region Collect Points
+
+    void UpdateCollectPoints()
+    {
+        MissionTimer();
+
+        UIManager.Instance.UpdateBasicMissionUI();
+        UIManager.Instance.UpdateCollectPointsUI();
+
+        CheckForCollectPointsEnd();
+    }
+
+    void UpdateCollectPointsProgress()
+    {
+        float differenz = MissionManager.EndPoints - ScoreManager.CurrentScore;
+        MissionManager.Progress = MissionManager.CurrentMission.Amount - differenz;
+    }
+
+    void CheckForCollectPointsEnd()
+    {
+        if(ScoreManager.CurrentScore >= MissionManager.EndPoints)
+        {
+            Debug.Log("EndScore:" + MissionManager.EndPoints);
+            ReferenceLibary.MissionMng.SwitchToCompletedMissionState();
+        }
+        else if (MissionManager.MissionTimeLeft <= 0)
+        {
+            ReferenceLibary.MissionMng.SwitchToUncompletedMissionState();
+        }
     }
 
     #endregion

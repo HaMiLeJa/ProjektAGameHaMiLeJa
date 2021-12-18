@@ -14,7 +14,8 @@ public class MissionStateUncompletedMission : MonoBehaviour
             case MissionInformation.MissionType.DestroyObjs:
                 UpdateDestroyObj();
                 break;
-            case MissionInformation.MissionType.CollectXPoints:
+            case MissionInformation.MissionType.CollectPoints:
+                UpdateCollectPoints();
                 break;
             case MissionInformation.MissionType.BringFromAToB:
                 break;
@@ -53,6 +54,15 @@ public class MissionStateUncompletedMission : MonoBehaviour
     {
         UIManager.Instance.DeactivateDestroyObjUI();
         UIManager.Instance.DeactivateBasicMissionUI();
+    }
+    #endregion
+
+
+    #region Collect Points
+    void UpdateCollectPoints()
+    {
+        UIManager.Instance.DeactivateBasicMissionUI();
+        UIManager.Instance.DeactivateCollectPointsUI();
     }
     #endregion
 }

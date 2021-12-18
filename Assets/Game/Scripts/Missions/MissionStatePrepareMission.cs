@@ -20,7 +20,10 @@ public class MissionStatePrepareMission : MonoBehaviour
                 PrepareDestroyObj();
                 ActivateDestoryObjUi();
                 break;
-            case MissionInformation.MissionType.CollectXPoints:
+            case MissionInformation.MissionType.CollectPoints:
+                PrepareBasicMission();
+                PrepareCollectPoints();
+                ActivateCollectPointsUI();
                 break;
             case MissionInformation.MissionType.BringFromAToB:
                 break;
@@ -64,5 +67,21 @@ public class MissionStatePrepareMission : MonoBehaviour
         UIManager.Instance.ActivateDestroyObjUI();
     }
 
-    #endregion 
+    #endregion
+
+    #region CollectPoints
+
+    void PrepareCollectPoints()
+    {
+        float startPoints = ScoreManager.CurrentScore + 0;
+        MissionManager.EndPoints = startPoints + MissionManager.CurrentMission.Amount;
+    }
+
+    void ActivateCollectPointsUI()
+    {
+        UIManager.Instance.ActivateBasicMissionUI();
+        UIManager.Instance.ActivateCollectPointsUI();
+    }
+
+    #endregion
 }
