@@ -18,6 +18,7 @@ public class MissionStateUncompletedMission : MonoBehaviour
                 UpdateCollectPoints();
                 break;
             case MissionInformation.MissionType.BringFromAToB:
+                UpdateBringItem();
                 break;
             default:
                 break;
@@ -64,5 +65,17 @@ public class MissionStateUncompletedMission : MonoBehaviour
         UIManager.Instance.DeactivateBasicMissionUI();
         UIManager.Instance.DeactivateCollectPointsUI();
     }
+    #endregion
+
+    #region Bring Item
+
+    void UpdateBringItem()
+    {
+        UIManager.Instance.DeactivateBasicMissionUI();
+        UIManager.Instance.DeactivateBringItemUI();
+
+       
+    }
+
     #endregion
 }

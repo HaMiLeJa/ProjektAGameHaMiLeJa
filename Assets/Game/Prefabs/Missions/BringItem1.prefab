@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1544422891287228129}
   - component: {fileID: 6469278389919056968}
   - component: {fileID: 3601058505525851285}
-  - component: {fileID: 9081107751328801621}
+  - component: {fileID: 3694254530350712314}
   m_Layer: 6
   m_Name: BringItem1
   m_TagString: MissionItem
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a06bf60ce0d803469d1b2c30d045e0f, type: 2}
+  - {fileID: 2100000, guid: 210c9d9db27660d41a168aa84a1041dc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -96,7 +96,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &9081107751328801621
+--- !u!114 &3694254530350712314
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,6 +105,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 3690414788836152156}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87cd929f58e8fa0429b49451a81decb6, type: 3}
+  m_Script: {fileID: 11500000, guid: ef4e4fef9b41ff04bbd14dafc53956a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

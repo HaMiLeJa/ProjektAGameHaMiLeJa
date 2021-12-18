@@ -49,6 +49,7 @@ public class UIManager : MonoBehaviour
         DeactivateCollectItemUI();
         DeactivateDestroyObjUI();
         DeactivateCollectPointsUI();
+        DeactivateBringItemUI();
 
     }
 
@@ -164,7 +165,6 @@ public class UIManager : MonoBehaviour
 
     #endregion
 
-
     #region CollectPoints
     [Header ("Collect Points")]
     [SerializeField] GameObject collectPointsParent;
@@ -186,6 +186,35 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 
+    #region BringItem
+    [SerializeField] GameObject BringItemParent;
+    [SerializeField] Image BringItemItem;
+    [SerializeField] Image BringItemGoal;
+    [SerializeField] TMPro.TMP_Text BringItemProgressTxt;
+
+    public void ActivateBringItemUI()
+    {
+        BringItemParent.SetActive(true);
+        BringItemProgressTxt.text = "";
+    }
+    public void DeactivateBringItemUI()
+    {
+        BringItemParent.SetActive(false);
+    }
+
+    public void ChangeProgressState1()
+    {
+        BringItemProgressTxt.text = "Item collected!";
+    }
+
+    public void ChangeProgressState2()
+    {
+        BringItemProgressTxt.text = "Item delivered!";
+    }
+
+
+
+    #endregion
     #endregion
 
     #region Energy

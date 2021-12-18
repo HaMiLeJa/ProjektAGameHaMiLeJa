@@ -14,7 +14,6 @@ public class MissionStateNoMission : MonoBehaviour
             randomDurationSet = true;
             int d = GetRandomDuration();
             duration = d;
-            Debug.Log(duration);
         }
 
         duration -= Time.deltaTime;

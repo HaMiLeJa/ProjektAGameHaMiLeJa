@@ -23,6 +23,7 @@ public class MissionStateCompletedMission : MonoBehaviour
                 UpdateCollectPoints();
                 break;
             case MissionInformation.MissionType.BringFromAToB:
+                UpdateBringItem();
                 break;
             default:
                 break;
@@ -71,6 +72,18 @@ public class MissionStateCompletedMission : MonoBehaviour
         UIManager.Instance.DeactivateCollectPointsUI();
         UpdateMultiplicator();
     }
+    #endregion
+
+    #region Bring Item
+
+    void UpdateBringItem()
+    {
+        UIManager.Instance.DeactivateBasicMissionUI();
+        UIManager.Instance.DeactivateBringItemUI();
+
+        UpdateMultiplicator();
+    }
+
     #endregion
 
 }

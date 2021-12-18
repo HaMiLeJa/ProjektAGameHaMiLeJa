@@ -9,6 +9,7 @@ public class MissionItemSpawner : MonoBehaviour
     [SerializeField] GameObject Destroyable;
     [SerializeField] GameObject BringItem1;
     [SerializeField] GameObject BringItem2;
+    [SerializeField] GameObject BringItemGoal;
 
     [SerializeField] GameObject currentItem;
 
@@ -25,16 +26,6 @@ public class MissionItemSpawner : MonoBehaviour
     }
 
 
-    #region Collect Item
-    public void SpawnCollectItem()
-    {
-        PrepareSpawn();
-
-        FindCollectItem();
-
-        Spawn();
-    }
-
     void PrepareSpawn()
     {
         PositionListInUse.Clear();
@@ -45,6 +36,49 @@ public class MissionItemSpawner : MonoBehaviour
         currentItem = CollectItem1; //Sonst meckert er meh
         ClearCurrentMissionItemList();
     }
+
+    public static void ClearCurrentMissionItemList()
+    {
+        if (CurrentMissionItems.Count == 0)
+        {
+            CurrentMissionItems.Clear();
+            return;
+        }
+
+        for (int i = CurrentMissionItems.Count - 1; i >= 0; i--)
+        {
+            Destroy(CurrentMissionItems[i]);
+        }
+        CurrentMissionItems.Clear();
+    }
+
+    void Spawner(GameObject itemToSpawn)
+    {
+        int random = Random.Range(0, PositionListInUse.Count);
+
+        Vector3 itemPos = PositionListInUse[random].transform.position;
+
+        Transform parentHex = PositionListInUse[random].transform.parent;
+
+        GameObject item = Instantiate(itemToSpawn, itemPos, Quaternion.identity);
+        item.transform.parent = parentHex.transform;
+
+        CurrentMissionItems.Add(item);
+
+        PositionListInUse.RemoveAt(random);
+    }
+
+    #region Collect Item
+    public void SpawnCollectItem()
+    {
+        PrepareSpawn();
+
+        FindCollectItem();
+
+        CollectItemSpawner();
+    }
+
+    
 
     void FindCollectItem()
     {
@@ -58,45 +92,51 @@ public class MissionItemSpawner : MonoBehaviour
         }
     }
 
-    void Spawn()
+    void CollectItemSpawner()
     {
-
         for (int i = 0; i < MissionManager.CurrentMission.Amount; i++) //i <= MissionManager.CurrentMission.Amount - 1 - spawnCounter;
         {
-           // spawnCounter++;
-
-            int random = Random.Range(0, PositionListInUse.Count);
-            Debug.Log("Random: " + random);
-
-            Vector3 itemPos = PositionListInUse[random].transform.position;
-
-            Transform parentHex = PositionListInUse[random].transform.parent;
-
-            GameObject item = Instantiate(currentItem, itemPos, Quaternion.identity);
-            item.transform.parent = parentHex.transform;
-
-            CurrentMissionItems.Add(item);
-
-            PositionListInUse.RemoveAt(random);
-
-            //i--;
+            Spawner(currentItem);
         }
     }
 
     #endregion
 
-    public static void ClearCurrentMissionItemList()
-    {
-        if (CurrentMissionItems.Count == 0)
-        {
-            CurrentMissionItems.Clear();
-            return;
-        }
+   
 
-        for (int i = CurrentMissionItems.Count-1; i >=0 ; i--)
-        {
-            Destroy(CurrentMissionItems[i]);
-        }
-        CurrentMissionItems.Clear();
+    #region Bring Item
+    public void SpawnBringItemAndGoal()
+    {
+        PrepareSpawn();
+
+        FindBringItem();
+
+        BringItemItemSpawner();
+        BringItemGoalSpawner();
     }
+
+    void FindBringItem()
+    {
+        if (MissionManager.CurrentMission.missionItem == MissionInformation.Item.BringItem1)
+        {
+            currentItem = BringItem1;
+        }
+        else if (MissionManager.CurrentMission.missionItem == MissionInformation.Item.BringItem2)
+        {
+            currentItem = BringItem2;
+        }
+    }
+
+
+    void BringItemItemSpawner()
+    {
+        Spawner(currentItem);
+    }
+
+    void BringItemGoalSpawner()
+    {
+        Spawner(BringItemGoal);
+    }
+
+    #endregion
 }

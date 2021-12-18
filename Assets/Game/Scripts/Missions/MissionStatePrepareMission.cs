@@ -26,6 +26,9 @@ public class MissionStatePrepareMission : MonoBehaviour
                 ActivateCollectPointsUI();
                 break;
             case MissionInformation.MissionType.BringFromAToB:
+                PrepareBasicMission();
+                PrepareBringItem();
+                ActivateBringItemUI();
                 break;
             default:
                 break;
@@ -81,6 +84,22 @@ public class MissionStatePrepareMission : MonoBehaviour
     {
         UIManager.Instance.ActivateBasicMissionUI();
         UIManager.Instance.ActivateCollectPointsUI();
+    }
+
+    #endregion
+
+    #region Bring Item
+    void PrepareBringItem()
+    {
+        ReferenceLibary.ItemSpawner.SpawnBringItemAndGoal();
+        MissionManager.ItemCollected = false;
+        MissionManager.ItemDelivered = false;
+    }
+
+    void ActivateBringItemUI()
+    {
+        UIManager.Instance.ActivateBasicMissionUI();
+        UIManager.Instance.ActivateBringItemUI();
     }
 
     #endregion

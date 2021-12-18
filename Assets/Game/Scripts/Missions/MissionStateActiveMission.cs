@@ -20,6 +20,7 @@ public class MissionStateActiveMission : MonoBehaviour
                 UpdateCollectPoints();
                 break;
             case MissionInformation.MissionType.BringFromAToB:
+                UpdateBringItem();
                 break;
             default:
                 break;
@@ -56,9 +57,7 @@ public class MissionStateActiveMission : MonoBehaviour
         CheckForEnd();
     }
 
-   
-
-    public static void ItemCollected(GameObject item)
+    public void ItemCollected(GameObject item)
     {
         MissionManager.Progress++;
         MissionItemSpawner.CurrentMissionItems.Remove(item);
@@ -109,13 +108,59 @@ public class MissionStateActiveMission : MonoBehaviour
     {
         if(ScoreManager.CurrentScore >= MissionManager.EndPoints)
         {
-            Debug.Log("EndScore:" + MissionManager.EndPoints);
             ReferenceLibary.MissionMng.SwitchToCompletedMissionState();
         }
         else if (MissionManager.MissionTimeLeft <= 0)
         {
             ReferenceLibary.MissionMng.SwitchToUncompletedMissionState();
         }
+    }
+
+    #endregion
+
+    #region Bring Item
+
+    void UpdateBringItem()
+    {
+        MissionTimer();
+        UIManager.Instance.UpdateBasicMissionUI();
+        CheckForBringItemEnd();
+    }
+
+    void CheckForBringItemEnd()
+    {
+        if (MissionManager.ItemDelivered == true)
+        {
+            Debug.Log("ItemDelivered CheckForEnd");
+            ReferenceLibary.MissionMng.SwitchToCompletedMissionState();
+        }
+        else if (MissionManager.MissionTimeLeft <= 0)
+        {
+            ReferenceLibary.MissionMng.SwitchToUncompletedMissionState();
+        }
+
+    }
+
+    public void BringItemCollected(GameObject item)
+    {
+        MissionManager.ItemCollected = true;
+        MissionItemSpawner.CurrentMissionItems.Remove(item);
+        Destroy(item);
+        UIManager.Instance.ChangeProgressState1();
+    }
+
+    public void BringItemDelivered(GameObject item)
+    {
+       if(MissionManager.ItemCollected == true)
+       {
+            UIManager.Instance.ChangeProgressState2();
+            Debug.Log("2");
+            MissionManager.ItemDelivered = true;
+
+            MissionItemSpawner.CurrentMissionItems.Remove(item);
+            Destroy(item);
+
+       }
     }
 
     #endregion

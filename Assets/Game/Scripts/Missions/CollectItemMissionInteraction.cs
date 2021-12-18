@@ -4,21 +4,23 @@ using UnityEngine;
 
 public class CollectItemMissionInteraction : MonoBehaviour
 {
-   
 
 
-    bool isTriggered = false;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.tag == "Player")
+        if (collision.gameObject == ReferenceLibary.Player)
         {
-            MissionStateActiveMission.ItemCollected(this.gameObject);
-           
+            ReferenceLibary.MissionMng.ActiveMissionState.ItemCollected(this.gameObject);
 
 
-           
+
+
         }
     }
-   
+
+    
+
+
+
 }

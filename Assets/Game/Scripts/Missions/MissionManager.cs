@@ -8,7 +8,7 @@ public class MissionManager : MonoBehaviour
     MissionStateNoMission NoMissionMissionState;
     MissionStateFindMission FindMissionState;
     MissionStatePrepareMission PrepareMissionState;
-    MissionStateActiveMission ActiveMissionState;
+    public MissionStateActiveMission ActiveMissionState;
     MissionStateCompletedMission CompletedMissionState;
     MissionStateUncompletedMission UncompletedMissionState;
 
@@ -20,6 +20,10 @@ public class MissionManager : MonoBehaviour
 
     //For CollectPoints
     public static float EndPoints;
+
+    //For Bring Item
+    public static bool ItemCollected = false;
+    public static bool ItemDelivered = false;
 
     static MissionState missionState = MissionState.findMission;
     enum MissionState
