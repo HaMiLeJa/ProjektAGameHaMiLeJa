@@ -7,18 +7,24 @@ public class MissionInformation
 {
 
     public MissionType missionType;
+    public MissionDifficulty missionDificulty;
 
     [Tooltip("Time in Seconds")]
-    public float time = 180f;
-    public float multiplicator = 1;
-    //public bool done = false;
-    public int Amount = 5;
+    [HideInInspector] public float time = 180f;
+    [HideInInspector] public float multiplicator = 1;
+    
+    [HideInInspector] public int Amount = 5;
 
     [Header("For Collect, Destroy and Bring")]
     public Item missionItem;
 
 
-   
+    public enum MissionDifficulty
+    {
+        easy,
+        medium,
+        hard
+    }
 
     public enum MissionType
     {
@@ -27,7 +33,6 @@ public class MissionInformation
         CollectPoints,
         BringFromAToB
     }
-
 
     public enum Item
     {

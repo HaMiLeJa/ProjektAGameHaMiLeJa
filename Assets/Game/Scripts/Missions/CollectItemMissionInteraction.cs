@@ -5,11 +5,9 @@ using UnityEngine;
 public class CollectItemMissionInteraction : MonoBehaviour
 {
 
-
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject == ReferenceLibary.Player)
+        if (other.gameObject == ReferenceLibary.Player)
         {
             ReferenceLibary.MissionMng.ActiveMissionState.ItemCollected(this.gameObject);
 
@@ -18,6 +16,8 @@ public class CollectItemMissionInteraction : MonoBehaviour
 
         }
     }
+
+    
 
     
 
