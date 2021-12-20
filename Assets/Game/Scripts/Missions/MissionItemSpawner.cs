@@ -78,8 +78,6 @@ public class MissionItemSpawner : MonoBehaviour
         CollectItemSpawner();
     }
 
-    
-
     void FindCollectItem()
     {
         if (MissionManager.CurrentMission.missionItem == MissionInformation.Item.CollectItem1)
@@ -102,7 +100,32 @@ public class MissionItemSpawner : MonoBehaviour
 
     #endregion
 
-   
+
+    #region Destroy Obj
+
+    public void SpawnDestroyObj()
+    {
+        PrepareSpawn();
+        FindDestroyObj();
+        DestroyObjSpawner();
+    }
+
+    void FindDestroyObj()
+    {
+       currentItem = Destroyable;
+        
+    }
+
+    void DestroyObjSpawner()
+    {
+        for (int i = 0; i < MissionManager.CurrentMission.Amount; i++) //i <= MissionManager.CurrentMission.Amount - 1 - spawnCounter;
+        {
+            Spawner(currentItem);
+        }
+    }
+
+    #endregion
+
 
     #region Bring Item
     public void SpawnBringItemAndGoal()

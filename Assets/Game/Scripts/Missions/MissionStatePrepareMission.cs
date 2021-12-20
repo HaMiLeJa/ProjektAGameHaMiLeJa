@@ -113,8 +113,8 @@ public class MissionStatePrepareMission : MonoBehaviour
         MissionManager.MissionTimeLeft = MissionManager.CurrentMission.time;
         MissionManager.Progress = 0;
 
-        //ggf spawn obj
-        // oder check if genügeng vorhanden und wenn nicht dann spawn
+
+        ReferenceLibary.ItemSpawner.SpawnDestroyObj();
     }
 
     void ActivateDestoryObjUi()
