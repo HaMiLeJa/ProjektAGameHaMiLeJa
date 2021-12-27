@@ -25,6 +25,8 @@ public class ReferenceLibary : MonoBehaviour
     //Audio
     //public static AudioClipsHexes audioClipHexes;
 
+    public static UIManager UIMng;
+
     private void Awake()
     {
         //Player
@@ -45,6 +47,7 @@ public class ReferenceLibary : MonoBehaviour
         //Audio
         //audioClipHexes = AudioManager.Instance.gameObject.GetComponent<AudioClipsHexes>();
 
+        UIMng = FindObjectOfType<UIManager>();
     }
 
 }

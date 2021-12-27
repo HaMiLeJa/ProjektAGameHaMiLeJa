@@ -14,6 +14,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] GameObject EndMessage;
 
+    public GameObject PauseCanvas;
+    public GameObject GameOverCanvas;
+    public GameObject IngameCanvas;
 
 
     #region Singleton
@@ -36,9 +39,10 @@ public class UIManager : MonoBehaviour
         gameMng = GameManager.Instance;
 
         //gameMng.onUIEnergyChange += UpdateEnergyUI;
+        IngameCanvas.SetActive(true);
+        GameOverCanvas.SetActive(false);
+        PauseCanvas.SetActive(false);
 
-        
-        EndMessage.SetActive(false);
 
         UpdateScore(1);
         UpdateMultiplicatorUI(1);
@@ -239,6 +243,7 @@ public class UIManager : MonoBehaviour
     #region EndScreen
     public void ShowEndMessage()
     {
+        GameOverCanvas.SetActive(true);
         EndMessage.SetActive(true);
     }
     #endregion
