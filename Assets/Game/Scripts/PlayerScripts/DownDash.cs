@@ -21,8 +21,8 @@ public class DownDash : MonoBehaviour
     private float timer;
     private float boostDuration = 0.1f;
     [SerializeField] bool boostingDown = false;
+    [HideInInspector] public bool isDestroying = false;
 
-    
     [SerializeField] GameObject SlamParent;
 
     bool particleCoroutineStarted = false;
@@ -84,7 +84,7 @@ public class DownDash : MonoBehaviour
                 */
 
                 rb.AddForce((rb.velocity.normalized/2 + Vector3.down) * speed * 100  *Time.deltaTime, ForceMode.Impulse);
-                
+                isDestroying = true;
             }
             else
             {
@@ -113,6 +113,7 @@ public class DownDash : MonoBehaviour
 
     IEnumerator DisableMovement()
     {
+        isDestroying = false;
         Vector3 pos = this.transform.position;
         gameMng.AllowMovement = false;
         gameMng.AllowHexEffects = false;

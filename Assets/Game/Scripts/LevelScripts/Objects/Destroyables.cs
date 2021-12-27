@@ -48,7 +48,7 @@ public class Destroyables : MonoBehaviour
         if (collision.gameObject != player) return;
         
 
-        if (superDash.isDestroying == true)
+        if (superDash.isDestroying == true || ReferenceLibary.DownDashPl.isDestroying == true)
         {
             //Sound
             //Effekte

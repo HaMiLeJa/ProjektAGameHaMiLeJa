@@ -26,7 +26,7 @@ public class MissionManager : MonoBehaviour
     public static bool ItemDelivered = false;
     public float BringItemDistance = 0;
 
-    static MissionState missionState = MissionState.findMission;
+    static MissionState missionState = MissionState.noMission;
     enum MissionState
     {
         noMission,
