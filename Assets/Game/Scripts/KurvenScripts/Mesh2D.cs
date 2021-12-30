@@ -21,7 +21,7 @@ public class Mesh2D : ScriptableObject
 	public Vertex[] vertices;
 
 	public int VertexCount => vertices.Length;
-	public int LineCount => lineIndices.Length; // Äquivalent der Dreiecksanzahl eines 2D-Netzes
+	public int LineCount => lineIndices.Length; // Äquivalent der Dreiecksanzahl eines 2D-Meshes
 
 	// Gesamtlänge, die von den U-Koordinaten im worldspace abgedeckt wird
 	// Wird verwendet, um sicherzustellen, dass die Textur das richtige Seitenverhältnis hat
