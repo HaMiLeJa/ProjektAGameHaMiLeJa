@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 2985820778343212737}
   - component: {fileID: 9002549393317884401}
   - component: {fileID: 829100512164222232}
+  - component: {fileID: -457974258464620822}
   m_Layer: 8
   m_Name: Hex
   m_TagString: Hex
@@ -222,6 +223,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-457974258464620822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6510926736812468260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66288bdb1d68ffc4d9710d31a76dc2bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectToSpawn: {fileID: 3252091341079616284, guid: 529ec0dd2de732849bb475b44251d029, type: 3}
+  spawnObjectInEditor: 1
+  CurrentItem: {fileID: 0}
+  myHex: {fileID: 9002549393317884401}
+  MyProps: {fileID: 5754651978763513671}
 --- !u!1 &8586191793409563930
 GameObject:
   m_ObjectHideFlags: 0

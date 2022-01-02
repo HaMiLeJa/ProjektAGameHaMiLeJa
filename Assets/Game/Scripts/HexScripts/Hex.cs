@@ -19,11 +19,11 @@ public class Hex : MonoBehaviour
 
     private GlowHighlight highlight;
     private HexCoordinates hexCoordinates;
-    [SerializeField] protected HexType hexType;
+    public HexType hexType;
 
     AudioClip clip;
 
-
+    
 
     #endregion
     public Vector3Int HexCoords => hexCoordinates.GetHexCoords();
@@ -510,6 +510,9 @@ public class Hex : MonoBehaviour
         
     }
 
+
+
+    
 }
 
 
@@ -523,8 +526,11 @@ public enum HexType
     ChangeDirection,
     BoostForward,
     BoostInDirection,
+    DefaultCollectable,
     Water,
     Building,
     Obstacle
 }
+
+
 
