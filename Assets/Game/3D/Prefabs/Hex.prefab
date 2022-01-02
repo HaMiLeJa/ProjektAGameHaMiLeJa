@@ -122,16 +122,19 @@ MonoBehaviour:
   myAudioSource: {fileID: 829100512164222232}
   hexType: 1
   collectableType: 0
+  hexEffectsSettings: {fileID: 11400000, guid: c664b87f68d9a8a44923cf97d225db1d, type: 2}
   forwardForce: 30
   IsHexForwardBoosting: 0
   tramoplinForce: 10
   XDirection: 1
   ZDirection: 1
   boostInDForce: 25
-  spawnHexEditor: {fileID: -457974258464620822}
   myProps: {fileID: 5754651978763513671}
-  myCurrentCollectable: {fileID: 0}
+  MyCollectable: {fileID: 0}
   collectablePrefab: {fileID: 3252091341079616284, guid: 529ec0dd2de732849bb475b44251d029, type: 3}
+  colRef:
+    HexScript: {fileID: 0}
+    ActiveCollectable: 0
 --- !u!82 &829100512164222232
 AudioSource:
   m_ObjectHideFlags: 0
@@ -241,11 +244,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectToSpawn: {fileID: 3252091341079616284, guid: 529ec0dd2de732849bb475b44251d029, type: 3}
-  objectActive: 0
   CurrentItem: {fileID: 0}
   myHex: {fileID: 9002549393317884401}
   MyProps: {fileID: 5754651978763513671}
-  TestBool: 0
+  DebugActiveObj: 0
+  DebugIsRunning: 0
 --- !u!1 &8586191793409563930
 GameObject:
   m_ObjectHideFlags: 0

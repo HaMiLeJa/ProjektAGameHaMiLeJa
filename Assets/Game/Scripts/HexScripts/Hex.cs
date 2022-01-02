@@ -25,7 +25,6 @@ public class Hex : MonoBehaviour
     AudioClip clip;
 
     
-
     #endregion
     public Vector3Int HexCoords => hexCoordinates.GetHexCoords();
 
@@ -167,6 +166,9 @@ public class Hex : MonoBehaviour
     }
 
     #region HexEffects
+
+    [SerializeField ]ScriptableHexEffects hexEffectsSettings;
+
     #region ChangeDirection
 
     //[SerializeField] private float ChangeDirectionBoostForce = 200f;
@@ -301,6 +303,7 @@ public class Hex : MonoBehaviour
 
         hexMov.OnBoostForwardHex = true;
 
+        StartCoroutine(MultiplicatorModificationOverTime());
         OnEffectHex?.Invoke();
 
         // if (hexBoostForwardCoroutine != null)
@@ -489,6 +492,17 @@ public class Hex : MonoBehaviour
     #endregion
 
     #endregion
+
+    IEnumerator MultiplicatorModificationOverTime()
+    {
+        ScoreManager.OnMultiplicatorUpdate(hexEffectsSettings.value);
+
+        yield return new WaitForSeconds(hexEffectsSettings.ModificationDuration);
+        Debug.Log("-");
+        ScoreManager.OnMultiplicatorUpdate(-hexEffectsSettings.value);
+
+        yield return null;
+    }
     #endregion
 
     #region Collectables
