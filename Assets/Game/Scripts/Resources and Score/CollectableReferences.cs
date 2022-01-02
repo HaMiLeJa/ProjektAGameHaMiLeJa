@@ -2,14 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class CollectableReferences
 {
-    public GameObject Hex;
-    public GameObject Collectable;
+    public Hex HexScript;
 
-
-    public SpawnHexCollectableInEditor HexCollectableScript;
-    public bool activeCollectable;
+    public bool ActiveCollectable;
 
     //evt timer oder so
 }

@@ -7,45 +7,35 @@ public class SpawnHexCollectableInEditor : MonoBehaviour
 {
     public GameObject ObjectToSpawn;
 
-    public bool spawnObjectInEditor = true;
-    bool objectActive;
+   // public bool spawnObjectInEditor = true;
+   // public bool objectActive = false;
 
-    [HideInInspector] public GameObject CurrentItem;
+    public GameObject CurrentItem;
 
     [SerializeField] Hex myHex;
     [SerializeField] GameObject MyProps;
 
-    [SerializeField] CollectableType collectableType = CollectableType.Type1;
-    Mode mode = Mode.EditMode;
-
-    CollectableReferences colRef;
+    //CollectableReferences colRef;
+    public bool testB = false;
 
     void Start()
     {
-        if (Application.isPlaying == false) return;
-        
-         mode = Mode.Initialise;
-
-        if (mode == Mode.Initialise)
-            InitializePlayMode();
+       
 
     }
 
 
     void Update()
     {
+        
 
-        switch (mode)
-        {
-            case Mode.EditMode:
-                EditModeSpawnAndDeletion();
-                break;
-            case Mode.PlayMode:
-                UpdatePlaymode();
-                break;
-            default:
-                break;
-        }
+       // if (Application.isPlaying == false) return;
+        
+       
+         
+
+        EditModeSpawnAndDeletion();
+           
 
     }
 
@@ -55,6 +45,7 @@ public class SpawnHexCollectableInEditor : MonoBehaviour
     {
         if (MyProps.GetComponentInChildren<Collectable>() == true)
         {
+            CurrentItem = MyProps.GetComponentInChildren<Collectable>().gameObject;
             return false;
         }
         else
@@ -64,6 +55,8 @@ public class SpawnHexCollectableInEditor : MonoBehaviour
 
     }
 
+
+
     void EditModeSpawnAndDeletion()
     {
         if (myHex.hexType == HexType.DefaultCollectable)
@@ -72,15 +65,9 @@ public class SpawnHexCollectableInEditor : MonoBehaviour
             {
                 SpawnObjectInEditMode();
             }
-
-            /*
-            if (objectActive == false)
-                SpawnObjectInEditMode();
-            */
         }
         else if (myHex.hexType != HexType.DefaultCollectable && CurrentItem != null)
         {
-            objectActive = false;
             DestroyImmediate(CurrentItem);
 
         }
@@ -88,87 +75,18 @@ public class SpawnHexCollectableInEditor : MonoBehaviour
 
     void SpawnObjectInEditMode()
     {
-        objectActive = true;
+        //objectActive = true;
         Vector3 position = new Vector3(this.transform.position.x, this.transform.position.y + 4, this.transform.position.z);
 
         CurrentItem = Instantiate(ObjectToSpawn, position, Quaternion.identity);
         CurrentItem.transform.parent = MyProps.transform;
     }
-    #endregion
-
-    #region Initialize PlayMode
-
-   void InitializePlayMode()
-   {
-        if (myHex.hexType == HexType.DefaultCollectable)
-        {
-            CurrentItem = MyProps.GetComponentInChildren<Collectable>().gameObject;
-
-
-            CurrentItem.GetComponent<Collectable>().ParentHex = this.gameObject;
-
-            colRef.Collectable = CurrentItem;
-            colRef.activeCollectable = true;
-            colRef.Hex = this.gameObject;
-            colRef.HexCollectableScript = this.gameObject.GetComponent<SpawnHexCollectableInEditor>();
-
-
-            if (objectActive == true)
-            {
-                CollectableManager.AllCollectables.Add(this.gameObject, colRef);
-            }
-            else
-            {
-                colRef.activeCollectable = false;
-                CollectableManager.AllCollectables.Add(this.gameObject, colRef);
-            }
-
-        }
-
-        mode = Mode.PlayMode;
-    }
 
     #endregion
 
-    #region Playmode
 
-    void UpdatePlaymode()
-    {
-        if (myHex.hexType != HexType.DefaultCollectable) return;
-    }
+   
 
 
-    public void SpawnCollectable()
-    {
-        Vector3 position = new Vector3(this.transform.position.x, this.transform.position.y + 4, this.transform.position.z);
-
-        CurrentItem = Instantiate(ObjectToSpawn, position, Quaternion.identity);
-        CurrentItem.transform.parent = MyProps.transform;
-
-
-        //Add to List
-        colRef.Collectable = CurrentItem;
-        colRef.activeCollectable = true;
-        // colRef.Hex = this.gameObject;
-        // colRef.HexCollectableScript = this.gameObject.GetComponent<SpawnHexCollectable>();
-
-        CollectableManager.AllCollectables[this.gameObject].activeCollectable = true;
-        CollectableManager.AllCollectables[this.gameObject].Collectable = CurrentItem;
-
-    }
-
-    #endregion
-
-    enum Mode
-    {
-        EditMode,
-        Initialise,
-        PlayMode
-    }
-
-    enum CollectableType
-    {
-        Type1,
-        Type2,
-    }
+   
 }

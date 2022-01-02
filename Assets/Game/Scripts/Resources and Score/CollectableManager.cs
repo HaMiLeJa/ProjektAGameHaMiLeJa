@@ -28,15 +28,41 @@ public class CollectableManager : MonoBehaviour
 
     //du kannst ne boolean abfrage machen. sobald was eingesammelt wurde, triggert es einen timer der erst beim ablaufen  wieder das feld als "bespawnable" macht
 
-    // Hex und References
+    // Hex und References(hexscript und bool)
     public static Dictionary<GameObject, CollectableReferences> AllCollectables = new Dictionary<GameObject, CollectableReferences>();
 
-
-
+    public CollectableReferences refff;
     void Start()
     {
         
+
+        foreach (KeyValuePair<GameObject, CollectableReferences> hex in AllCollectables)
+        {
+           // Debug.Log("HexValue" + hex.Value);
+           // refff = hex.Value;
+
+            hex.Value.HexScript = hex.Key.GetComponent<Hex>();
+            SetCollectableReferencesAtStart(hex.Value.HexScript);
+        }
+        //Debug.Log(AllCollectables.Count);
+
     }
+
+    void SetCollectableReferencesAtStart(Hex hex)
+    {
+        if(hex.myProps.GetComponentInChildren<Collectable>())
+        {
+            hex.myCurrentCollectable = hex.myProps.GetComponentInChildren<Collectable>().gameObject;
+            hex.colRef.ActiveCollectable = true;
+        }
+        else
+        {
+            hex.SpawnCollectable();
+        }
+        
+    }
+
+
 
     void Update()
     {
@@ -44,15 +70,13 @@ public class CollectableManager : MonoBehaviour
             StartCollectableSpawn();
     }
 
-
-
     void StartCollectableSpawn()
     {
         foreach (KeyValuePair <GameObject, CollectableReferences> hex in AllCollectables)
         {
-            if(hex.Value.activeCollectable == false)
+            if(hex.Value.ActiveCollectable == false)
             {
-                hex.Value.HexCollectableScript.SpawnCollectable();
+                hex.Value.HexScript.SpawnCollectable();
             }
 
 
@@ -61,8 +85,8 @@ public class CollectableManager : MonoBehaviour
 
     public void CollectableCollected(GameObject item, GameObject parent)
     {
-        AllCollectables[parent].activeCollectable = false;
-        AllCollectables[parent].Collectable = null;
+        AllCollectables[parent].ActiveCollectable = false;
+       
 
         //Effekte, Sound
 

@@ -20,6 +20,7 @@ public class Hex : MonoBehaviour
     private GlowHighlight highlight;
     private HexCoordinates hexCoordinates;
     public HexType hexType;
+    public CollectableType collectableType = CollectableType.Type1; //To Be Used :)
 
     AudioClip clip;
 
@@ -50,6 +51,14 @@ public class Hex : MonoBehaviour
         hexCoordinates = GetComponent<HexCoordinates>();
         highlight = GetComponent<GlowHighlight>();
 
+        if (hexType == HexType.DefaultCollectable)
+        {
+
+            //colRef.HexScript = this;
+          // colRef.HexScript = this.gameObject.GetComponent<Hex>();
+            CollectableManager.AllCollectables.Add(this.gameObject, colRef); //Nur adden, werte angepasst wird später
+        }
+
     }
 
     private void Start()
@@ -76,6 +85,8 @@ public class Hex : MonoBehaviour
                 }
             }
         }
+
+       
     }
 
     #region  HighlightHexs
@@ -155,6 +166,7 @@ public class Hex : MonoBehaviour
         DisableHighlight();
     }
 
+    #region HexEffects
     #region ChangeDirection
 
     //[SerializeField] private float ChangeDirectionBoostForce = 200f;
@@ -439,8 +451,8 @@ public class Hex : MonoBehaviour
     }
 
     #region NoUse: coroutine
-    
-    
+
+
     /*
     private IEnumerator HexBoostInDirectionCoroutine()
     {
@@ -475,6 +487,38 @@ public class Hex : MonoBehaviour
     }
     */
     #endregion
+
+    #endregion
+    #endregion
+
+    #region Collectables
+
+    [Header("Collectables")]
+    //[SerializeField] SpawnHexCollectableInEditor spawnHexEditor;
+    public GameObject myProps;
+    [Space]
+    public GameObject myCurrentCollectable; //HIdeInInsp
+    [SerializeField] GameObject collectablePrefab;
+    [HideInInspector] public CollectableReferences colRef;
+
+
+    public void SpawnCollectable()
+    {
+       
+        
+        Vector3 position = new Vector3(this.transform.position.x, this.transform.position.y + 4, this.transform.position.z);
+
+        myCurrentCollectable = Instantiate(collectablePrefab, position, Quaternion.identity);
+        myCurrentCollectable.transform.parent = myProps.transform;
+
+
+        //Add to List
+        //colRef.activeCollectable = true;
+
+        CollectableManager.AllCollectables[this.gameObject].ActiveCollectable = true;
+
+    }
+
 
     #endregion
 
@@ -532,5 +576,9 @@ public enum HexType
     Obstacle
 }
 
-
+public enum CollectableType
+{
+    Type1,
+    Type2,
+}
 
