@@ -497,23 +497,25 @@ public class Hex : MonoBehaviour
     //[SerializeField] SpawnHexCollectableInEditor spawnHexEditor;
     public GameObject myProps;
     [Space]
-    public GameObject myCurrentCollectable; //HIdeInInsp
+    public GameObject MyCollectable; //HIdeInInsp
     [SerializeField] GameObject collectablePrefab;
     [HideInInspector] public CollectableReferences colRef;
 
 
     public void SpawnCollectable()
     {
-       
+        //MyCollectable.SetActive(true);
+        
         
         Vector3 position = new Vector3(this.transform.position.x, this.transform.position.y + 4, this.transform.position.z);
 
-        myCurrentCollectable = Instantiate(collectablePrefab, position, Quaternion.identity);
-        myCurrentCollectable.transform.parent = myProps.transform;
-
+        MyCollectable = Instantiate(collectablePrefab, position, Quaternion.identity);
+        MyCollectable.transform.parent = myProps.transform;
+        MyCollectable.GetComponent<Collectable>().ParentHex = this.gameObject;
 
         //Add to List
         //colRef.activeCollectable = true;
+        
 
         CollectableManager.AllCollectables[this.gameObject].ActiveCollectable = true;
 

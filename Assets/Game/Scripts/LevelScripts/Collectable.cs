@@ -15,7 +15,7 @@ public class Collectable : MonoBehaviour
    
     void Start()
     {
-        
+        //ParentHex = this.transform.parent.transform.parent.gameObject;
     }
 
     void Update()
@@ -37,9 +37,6 @@ public class Collectable : MonoBehaviour
 
             ReferenceLibary.ColMng.CollectableCollected(this.gameObject, ParentHex);
 
-
-
-            Destroy(this.gameObject);
         }
     }
 }

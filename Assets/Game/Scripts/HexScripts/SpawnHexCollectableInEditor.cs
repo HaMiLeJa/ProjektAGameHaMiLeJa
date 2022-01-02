@@ -27,7 +27,7 @@ public class SpawnHexCollectableInEditor : MonoBehaviour
 
     void Update()
     {
-        
+        if (CollectableManager.StopEditorScript == true) return;
 
        // if (Application.isPlaying == false) return;
         
@@ -35,8 +35,8 @@ public class SpawnHexCollectableInEditor : MonoBehaviour
          
 
         EditModeSpawnAndDeletion();
-           
 
+        //myHex.myCollectable = CurrentItem;
     }
 
     #region Editor

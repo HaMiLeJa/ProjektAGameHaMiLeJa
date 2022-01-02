@@ -28,10 +28,17 @@ public class CollectableManager : MonoBehaviour
 
     //du kannst ne boolean abfrage machen. sobald was eingesammelt wurde, triggert es einen timer der erst beim ablaufen  wieder das feld als "bespawnable" macht
 
-    // Hex und References(hexscript und bool)
+    // Hex und References(Hex und bool)
     public static Dictionary<GameObject, CollectableReferences> AllCollectables = new Dictionary<GameObject, CollectableReferences>();
 
+    public static bool StopEditorScript = false;
+
     public CollectableReferences refff;
+
+    private void Awake()
+    {
+        StopEditorScript = true;
+    }
     void Start()
     {
         
@@ -52,8 +59,13 @@ public class CollectableManager : MonoBehaviour
     {
         if(hex.myProps.GetComponentInChildren<Collectable>())
         {
-            hex.myCurrentCollectable = hex.myProps.GetComponentInChildren<Collectable>().gameObject;
+            Collectable colScript = hex.myProps.GetComponentInChildren<Collectable>();
+            hex.MyCollectable = colScript.gameObject;
             hex.colRef.ActiveCollectable = true;
+
+            colScript.ParentHex = hex.gameObject;
+
+
         }
         else
         {
@@ -83,14 +95,14 @@ public class CollectableManager : MonoBehaviour
         }
     }
 
-    public void CollectableCollected(GameObject item, GameObject parent)
+    public void CollectableCollected(GameObject item, GameObject hex)
     {
-        AllCollectables[parent].ActiveCollectable = false;
-       
+        AllCollectables[hex].ActiveCollectable = false;
+
 
         //Effekte, Sound
 
-
+        //item.SetActive(false);
         Destroy(item);
     }
 }

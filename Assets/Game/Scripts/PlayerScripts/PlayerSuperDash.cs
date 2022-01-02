@@ -64,7 +64,6 @@ public class PlayerSuperDash : MonoBehaviour
 
         if (Input.GetButton("LeftBumper") && isSuperDashing == false || Input.GetButton("Y") && isSuperDashing == false)
         {
-            Debug.Log("Key");
             isSuperDashing = true;
             SuperDashStarter();
 
