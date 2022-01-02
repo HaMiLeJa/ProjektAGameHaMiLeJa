@@ -504,9 +504,9 @@ public class Hex : MonoBehaviour
 
     public void SpawnCollectable()
     {
-        //MyCollectable.SetActive(true);
+        MyCollectable.SetActive(true);
         
-        
+        /*
         Vector3 position = new Vector3(this.transform.position.x, this.transform.position.y + 4, this.transform.position.z);
 
         MyCollectable = Instantiate(collectablePrefab, position, Quaternion.identity);
@@ -515,7 +515,7 @@ public class Hex : MonoBehaviour
 
         //Add to List
         //colRef.activeCollectable = true;
-        
+        */
 
         CollectableManager.AllCollectables[this.gameObject].ActiveCollectable = true;
 

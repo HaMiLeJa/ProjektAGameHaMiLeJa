@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2848016044429953701}
   m_Layer: 0
   m_Name: Collectable
-  m_TagString: ItemPos
+  m_TagString: Collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  rotation: 1
+  rotation: 20
   ParentHex: {fileID: 0}
   settings: {fileID: 11400000, guid: a3c1e0f79f902424c90ba234f2c3a5d7, type: 2}
 --- !u!65 &2848016044429953701

@@ -102,7 +102,7 @@ public class CollectableManager : MonoBehaviour
 
         //Effekte, Sound
 
-        //item.SetActive(false);
-        Destroy(item);
+        item.SetActive(false);
+        //Destroy(item);
     }
 }

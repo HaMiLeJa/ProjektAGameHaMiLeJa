@@ -7,16 +7,13 @@ public class SpawnHexCollectableInEditor : MonoBehaviour
 {
     public GameObject ObjectToSpawn;
 
-   // public bool spawnObjectInEditor = true;
-   // public bool objectActive = false;
-
     public GameObject CurrentItem;
 
     [SerializeField] Hex myHex;
     [SerializeField] GameObject MyProps;
 
-    //CollectableReferences colRef;
-    public bool testB = false;
+    public bool DebugActiveObj = false;
+    public bool DebugIsRunning = false;
 
     void Start()
     {
@@ -29,11 +26,10 @@ public class SpawnHexCollectableInEditor : MonoBehaviour
     {
         if (CollectableManager.StopEditorScript == true) return;
 
-       // if (Application.isPlaying == false) return;
-        
-       
-         
+        // if (Application.isPlaying == false) return;
 
+
+        DebugIsRunning = true;
         EditModeSpawnAndDeletion();
 
         //myHex.myCollectable = CurrentItem;
@@ -61,21 +57,21 @@ public class SpawnHexCollectableInEditor : MonoBehaviour
     {
         if (myHex.hexType == HexType.DefaultCollectable)
         {
-            if(CheckForSpawnAlloance())
+            if (CheckForSpawnAlloance())
             {
+                DebugActiveObj = true;
                 SpawnObjectInEditMode();
             }
         }
         else if (myHex.hexType != HexType.DefaultCollectable && CurrentItem != null)
         {
             DestroyImmediate(CurrentItem);
-
+            DebugActiveObj = false;
         }
     }
 
     void SpawnObjectInEditMode()
     {
-        //objectActive = true;
         Vector3 position = new Vector3(this.transform.position.x, this.transform.position.y + 4, this.transform.position.z);
 
         CurrentItem = Instantiate(ObjectToSpawn, position, Quaternion.identity);
