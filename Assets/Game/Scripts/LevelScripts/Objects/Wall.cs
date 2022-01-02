@@ -5,13 +5,19 @@ using UnityEngine;
 public class Wall : MonoBehaviour
 {
     public ScriptableLevelObject settings;
-
+    int hitCounter;
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject == ReferenceLibary.Player)
         {
-            ScoreManager.OnScoring?.Invoke(settings.value);
+            if (hitCounter >= 10) return;
+
+            hitCounter++;
+
+            float scoreValue = ((hitCounter * 0.1f)) * settings.value;
+
+            ScoreManager.OnScoring?.Invoke(settings.value - scoreValue);
             //Effect
             //music
         }

@@ -189,8 +189,9 @@ public class Hex : MonoBehaviour
         //allowStartChangeDirection = false;
 
         playerRb.velocity = playerRb.velocity * -1;
-      //  playerMov.OnChangeDirectionHex = true;
+        //  playerMov.OnChangeDirectionHex = true;
 
+        StartCoroutine(MultiplicatorModificationOverTime());
         OnEffectHex?.Invoke();
 
         //  if (changeDirectionCoroutine != null)
@@ -245,6 +246,8 @@ public class Hex : MonoBehaviour
         hexMov.SlowDownTimer = 0;
 
         hexMov.OnSlowDownHex = true;
+
+        StartCoroutine(MultiplicatorModificationOverTime());
 
         OnEffectHex?.Invoke();
 
@@ -358,7 +361,7 @@ public class Hex : MonoBehaviour
     {
         if (gameMng.AllowHexEffects == false) return;
 
-
+        StartCoroutine(MultiplicatorModificationOverTime());
         OnEffectHex?.Invoke();
         
         hexMov.rebounded = true;
@@ -445,7 +448,7 @@ public class Hex : MonoBehaviour
         
         
         hexMov.OnBoostInDirectionHex = true;
-
+        StartCoroutine(MultiplicatorModificationOverTime());
         OnEffectHex?.Invoke();
         
         //   if (hexBoostInDirectionCoroutine != null)
