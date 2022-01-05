@@ -422,8 +422,8 @@ public class Hex : MonoBehaviour
 
     #region BoostinDirection
     [Header("BoostInDirection")]
-    [SerializeField] float XDirection =1;
-    [SerializeField] float ZDirection = 1;
+    public float XDirection =1;
+    public float ZDirection = 1;
     float YDirection = 0;
     Vector3 BoostInDirectionDirection;
     // Coroutine hexBoostInDirectionCoroutine;
@@ -501,7 +501,6 @@ public class Hex : MonoBehaviour
         ScoreManager.OnMultiplicatorUpdate(hexEffectsSettings.value);
 
         yield return new WaitForSeconds(hexEffectsSettings.ModificationDuration);
-        Debug.Log("-");
         ScoreManager.OnMultiplicatorUpdate(-hexEffectsSettings.value);
 
         yield return null;
