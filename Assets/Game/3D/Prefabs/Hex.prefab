@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 9002549393317884401}
   - component: {fileID: 829100512164222232}
   - component: {fileID: -457974258464620822}
+  - component: {fileID: 6241288760297446380}
   m_Layer: 8
   m_Name: Hex
   m_TagString: Hex
@@ -238,7 +239,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6510926736812468260}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 66288bdb1d68ffc4d9710d31a76dc2bd, type: 3}
   m_Name: 
@@ -248,7 +249,32 @@ MonoBehaviour:
   myHex: {fileID: 9002549393317884401}
   MyProps: {fileID: 5754651978763513671}
   DebugActiveObj: 0
+  DebugIsRunning: 1
+--- !u!114 &6241288760297446380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6510926736812468260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fc0ba5f77a35854e888ff55f2c4ec4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectToSpawn: {fileID: 0}
+  CurrentItem: {fileID: 0}
+  myHex: {fileID: 9002549393317884401}
+  MyProps: {fileID: 5754651978763513671}
+  DebugActiveObj: 0
   DebugIsRunning: 0
+  BoostForwardObj: {fileID: 5007177707998158178, guid: afc151225b9d1ab4c8faefc9c98e60d3, type: 3}
+  TrampolinObj: {fileID: 3775185695987388691, guid: 5fbe839fe96ac2541bf71c619535d890, type: 3}
+  BoostInDirectionObj: {fileID: 7861365753357922094, guid: 38ff6da17ab6bf140a0b7544ebb6a241, type: 3}
+  SlowDownObj: {fileID: 1964804301646275912, guid: bbb1d17a296bf734095ddcf2b97a3007, type: 3}
+  ChangeDirectionObj: {fileID: 9172215513916992569, guid: a83d54b8a3aecb545993a6ddd170bc18, type: 3}
+  CollectableObj: {fileID: 3252091341079616284, guid: 529ec0dd2de732849bb475b44251d029, type: 3}
+  propsChildrenLength: 0
 --- !u!1 &8586191793409563930
 GameObject:
   m_ObjectHideFlags: 0

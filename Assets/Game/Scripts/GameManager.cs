@@ -19,11 +19,11 @@ public class GameManager : MonoBehaviour
 
 
     [HideInInspector] public string Jump = "B";
-   // [HideInInspector] public string DownDash = "A";
+    // [HideInInspector] public string DownDash = "A";
 
     #endregion
 
-  
+    public static bool DisableSpawnHexObjectsInEditMode = false;
 
     #region BoostCosts
     [Header("Boost Costs")]
@@ -51,6 +51,10 @@ public class GameManager : MonoBehaviour
     Rigidbody playerRb;
     #endregion
 
+
+
+   
+
     #region Singleton
     public static GameManager Instance;
     private void Awake()
@@ -63,16 +67,21 @@ public class GameManager : MonoBehaviour
         {
             GameManager.Instance = this;
         }
-        
+
+
+        DisableSpawnHexObjectsInEditMode = true;
     }
     #endregion
     
+    
+
     private void Start()
     {
         //player = ReferenceLibary.Player;
         playerRb = ReferenceLibary.RigidbodyPl;
         CameraHelper = new GameObject("CameraHelper");
         vcam = GetComponent<CinemachineVirtualCamera>();
+
     }
 
     void Update()

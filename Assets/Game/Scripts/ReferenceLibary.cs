@@ -27,6 +27,7 @@ public class ReferenceLibary : MonoBehaviour
 
     public static UIManager UIMng;
     public static CollectableManager ColMng;
+    public static GameManager GameMng;
 
     private void Awake()
     {
@@ -50,6 +51,7 @@ public class ReferenceLibary : MonoBehaviour
 
         UIMng = FindObjectOfType<UIManager>();
         ColMng = FindObjectOfType<CollectableManager>();
+        GameMng = FindObjectOfType<GameManager>();
     }
 
 }

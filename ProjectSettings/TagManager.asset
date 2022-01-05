@@ -23,6 +23,7 @@ TagManager:
   - Collectable
   - ItemPos
   - MissionItem
+  - HexEffectObj
   layers:
   - Default
   - TransparentFX
