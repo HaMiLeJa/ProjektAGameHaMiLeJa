@@ -4,26 +4,25 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Ground
-  - Winning
-  - Border
-  - Win
-  - Enemy
-  - Defense
-  - Wall
   - Destroyable
-  - EnergyGenerator
-  - Trampolin
-  - Rebound
-  - BoostForward
-  - Portal
-  - Hex
-  - Curve
-  - CurvesTrigger
-  - Collectable
-  - ItemPos
   - MissionItem
+  - Wall
+  - Collectable
+  - Defense
+  - ItemPos
+  - Rebound
+  - Hex
+  - EnergyGenerator
   - HexEffectObj
+  - Portal
+  - CurvesTrigger
+  - Curve
+  - Trampolin
+  - NPC
+  - CookingPot
+  - Critter
+  - ChickInLantern
+  - SpawnLocation
   layers:
   - Default
   - TransparentFX
@@ -39,7 +38,7 @@ TagManager:
   - Player
   - PlayerNoCollision
   - Waypoints
-  - 
+  - Invisible
   - 
   - 
   - 
