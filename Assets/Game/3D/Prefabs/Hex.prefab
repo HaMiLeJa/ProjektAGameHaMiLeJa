@@ -274,7 +274,6 @@ MonoBehaviour:
   SlowDownObj: {fileID: 1964804301646275912, guid: bbb1d17a296bf734095ddcf2b97a3007, type: 3}
   ChangeDirectionObj: {fileID: 9172215513916992569, guid: a83d54b8a3aecb545993a6ddd170bc18, type: 3}
   CollectableObj: {fileID: 3252091341079616284, guid: 529ec0dd2de732849bb475b44251d029, type: 3}
-  propsChildrenLength: 0
 --- !u!1 &8586191793409563930
 GameObject:
   m_ObjectHideFlags: 0
