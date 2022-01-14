@@ -21,8 +21,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Trails1
-  m_Shader: {fileID: -6465566751694194690, guid: 2a6b2407096b6a34f8b8a39ff2b5617d, type: 3}
-  m_ShaderKeywords: _COLORADDSUBDIFF_ON
+  m_Shader: {fileID: 4800000, guid: 26d2036875a887143a6c849ec59d1dc5, type: 3}
+  m_ShaderKeywords: BANDING SOFT_BLEND _COLORADDSUBDIFF_ON
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -52,7 +52,15 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DisplacementGuide:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GradientMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -69,6 +77,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SecondaryTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -90,19 +102,28 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AlphaClip: 0
+    - _Banding: 1
+    - _Bands: 3
     - _Blend: 2
     - _BlendOp: 0
     - _BumpScale: 1
+    - _BurnSize: 3.15
     - _CameraFadingEnabled: 0
     - _CameraFarFadeDistance: 2
     - _CameraNearFadeDistance: 1
+    - _CircleMask: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _ColorMode: 1
+    - _Contrast: 1
     - _Cull: 2
-    - _Cutoff: 0.244
+    - _Culling: 0
+    - _Curve: 0.00988
+    - _Cutoff: 0.119
+    - _CutoffSoftness: 0.429
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _DisplacementAmount: -0.02
     - _DistortionBlend: 0.5
     - _DistortionEnabled: 0
     - _DistortionStrength: 1
@@ -115,32 +136,49 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _InnerRadius: 0
+    - _IntersectionThresholdMax: 1
     - _InvFade: 1
     - _LightingEnabled: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
+    - _OuterRadius: 0.5
     - _Parallax: 0.005
+    - _PolarCoords: 0
+    - _Power: 1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _RectHeight: 0
+    - _RectMask: 0
+    - _RectMaskCutoff: 0
+    - _RectSmoothness: 0
+    - _RectWidth: 0
+    - _SecondTex: 0
     - _Smoothness: 0.5
     - _SmoothnessSource: 0
     - _SmoothnessTextureChannel: 0
+    - _SoftBlend: 1
     - _SoftParticlesEnabled: 1
     - _SoftParticlesFarFadeDistance: 1
     - _SoftParticlesNearFadeDistance: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _VertexOffset: 0
+    - _VertexOffsetAmount: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 1}
     - _BaseColorAddSubDiff: {r: 1, g: 0, b: 0, a: 0}
+    - _BurnCol: {r: 0, g: 0.56861687, b: 1, a: 1}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
-    - _Color: {r: 4.2870936, g: 3.53483, b: 3.53483, a: 1}
+    - _Color: {r: 0.14415035, g: 0.7402351, b: 0.8603976, a: 1}
     - _ColorAddSubDiff: {r: 1, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 62.419827, b: 22.45576, a: 1}
+    - _PanningSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _SecondaryPanningSpeed: {r: 0, g: 0, b: 0, a: 0}
     - _SoftParticleFadeParams: {r: 0, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []

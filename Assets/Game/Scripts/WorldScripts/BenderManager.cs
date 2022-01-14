@@ -29,9 +29,15 @@ public class BenderManager : MonoBehaviour
   private void Awake ()
   {
     if ( Application.isPlaying )
+    {
       Shader.EnableKeyword(BENDER);
+      Shader.EnableKeyword("MY_KEYWORD");
+    }
     else
+    {
       Shader.DisableKeyword(BENDER);
+    Shader.DisableKeyword("MY_KEYWORD");
+    }
 
     if ( enablePlanet )
       Shader.EnableKeyword(PLANET);
