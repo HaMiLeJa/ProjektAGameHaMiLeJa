@@ -1,16 +1,16 @@
 #File written by RizomUV 2022.0.11.g5424fda. Compilation :Nov 24 2021,04:16:21
 mtllib Fenster04_LP:mtl
 #begin vertices
-v 32.21114 1 -1.000715
-v 33.14543 1 -1.000715
-v 32.21114 1 -2.721108
-v 33.14543 1 -2.721108
+v -0.467147 0 0.860196
+v 0.467147 0 0.860196
+v -0.467147 0 -0.860196
+v 0.467147 0 -0.860196
 #end vertices
 
 #begin 4 textures vertices 
-vt 0.5427342 0.9960937 0
-vt 0.00390625 0.9960937 0
-vt 0.5427342 0.00390625 0
+vt 0.5427339 0.9960938 0
+vt 0.00390625 0.9960938 0
+vt 0.5427339 0.00390625 0
 vt 0.00390625 0.00390625 0
 #end 4 textures vertices 
 
@@ -19,7 +19,7 @@ vn 0 1 0
 #end 1 normals 
 
 #begin 1 faces
-o Plane:009_Plane:010
+o Plane:015
 usemtl None
 s off
 f 1/1/1 2/2/1 4/4/1 3/3/1 

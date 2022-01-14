@@ -15,7 +15,14 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     public bool DebugActiveObj = false;
     public bool DebugIsRunning = false;
 
-   public Transform[] propsChildren;
+    //Transform[] propsChildren;
+    ChangeDirectionProp[] propsCDChildren;
+    BoostForwardProp[] propsBFChildren;
+    BoostInDirectionProp[] propsBIDChildren;
+    TrampolinProp[] propsTChildren;
+    SlowDownProp[] propsSDChildren;
+
+    Collectable[] propsCChildren;
 
     HexType currentHexType;
 
@@ -123,7 +130,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         if(CheckForSpawnAllowanceBoostForward())
         {
             currentHexType = myHex.hexType;
-            SpawnObjectInEditMode();
+            SpawnObjectInEditMode(4f);
         }
     }
 
@@ -160,25 +167,36 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
 
     }
 
+    
+
     bool CheckForSpawnAllowanceBoostForward()
     {
-        propsChildren = MyProps.GetComponentsInChildren<Transform>();
+        propsBFChildren = MyProps.GetComponentsInChildren<BoostForwardProp>();
 
-        if (propsChildren.Length == 0)
+        if (propsBFChildren.Length == 0)
         {
             return true;
         }
+        else
+            return false;
 
-        foreach (Transform obj in propsChildren)
-        {
-            if(obj.gameObject.GetComponent<BoostForwardProp>() == true)
-            {
-                //hier könnte ich auch current item setzen
-                return false;
-            }
-        }
+        /*  propsChildren = MyProps.GetComponentsInChildren<Transform>();
 
-        return true;
+          if (propsChildren.Length == 0)
+          {
+              return true;
+          }
+
+          foreach (Transform obj in propsChildren)
+          {
+              if(obj.gameObject.GetComponent<BoostForwardProp>() == true)
+              {
+                  //hier könnte ich auch current item setzen
+                  return false;
+              }
+          }
+
+          return true; */
     }
 
     #endregion
@@ -197,7 +215,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         if (CheckForSpawnAllowanceChangeDirection())
         {
             currentHexType = myHex.hexType;
-            SpawnObjectInEditMode();
+            SpawnObjectInEditMode(4.25f);
         }
     }
 
@@ -215,8 +233,6 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         
 
     }
-
-    public ChangeDirectionProp[] propsCDChildren;
 
     bool CheckForSpawnAllowanceChangeDirection()
     {
@@ -257,8 +273,6 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     #region BoostInDirection
     void BoostInDirection()
     {
-
-
         SetNewValues(BoostInDirectionObj);
 
         ClearFalseObj(); //ToTest
@@ -269,7 +283,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         if (CheckForSpawnAllowanceBoostInDirection())
         {
             currentHexType = myHex.hexType;
-            SpawnObjectInEditMode();
+            SpawnObjectInEditMode(1.15f);
 
             CurrentItem.GetComponent<BoostInDirectionProp>().MyHex = myHex;
         }
@@ -286,9 +300,21 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
 
     }
 
+   
+
     bool CheckForSpawnAllowanceBoostInDirection()
     {
-        propsChildren = MyProps.GetComponentsInChildren<Transform>();
+
+        propsBIDChildren = MyProps.GetComponentsInChildren<BoostInDirectionProp>();
+
+        if (propsBIDChildren.Length == 0)
+        {
+            return true;
+        }
+        else
+            return false;
+
+        /*propsChildren = MyProps.GetComponentsInChildren<Transform>();
 
         if (propsChildren.Length == 0)
         {
@@ -304,7 +330,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
             }
         }
 
-        return true;
+        return true;*/
     }
 
     
@@ -326,7 +352,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         if (CheckForSpawnAllowanceTrampolin())
         {
             currentHexType = myHex.hexType;
-            SpawnObjectInEditMode();
+            SpawnObjectInEditMode(4f);
         }
     }
 
@@ -345,7 +371,17 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
 
     bool CheckForSpawnAllowanceTrampolin()
     {
-        propsChildren = MyProps.GetComponentsInChildren<Transform>();
+
+        propsTChildren = MyProps.GetComponentsInChildren<TrampolinProp>();
+
+        if (propsTChildren.Length == 0)
+        {
+            return true;
+        }
+        else
+            return false;
+
+        /*propsChildren = MyProps.GetComponentsInChildren<Transform>();
 
         if (propsChildren.Length == 0)
         {
@@ -361,7 +397,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
             }
         }
 
-        return true;
+        return true;*/
     }
 
     #endregion
@@ -380,7 +416,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         if (CheckForSpawnAllowanceSlowDown())
         {
             currentHexType = myHex.hexType;
-            SpawnObjectInEditMode();
+            SpawnObjectInEditMode(4f);
         }
     }
 
@@ -400,7 +436,16 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
 
     bool CheckForSpawnAllowanceSlowDown()
     {
-        propsChildren = MyProps.GetComponentsInChildren<Transform>();
+        propsSDChildren = MyProps.GetComponentsInChildren<SlowDownProp>();
+
+        if (propsSDChildren.Length == 0)
+        {
+            return true;
+        }
+        else
+            return false;
+
+        /*propsChildren = MyProps.GetComponentsInChildren<Transform>();
 
         if (propsChildren.Length == 0)
         {
@@ -415,7 +460,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
             }
         }
 
-        return true;
+        return true;*/
     }
 
     #endregion
@@ -434,7 +479,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         if (CheckForSpawnAllowanceCollectable())
         {
             currentHexType = myHex.hexType;
-            SpawnObjectInEditMode();
+            SpawnObjectInEditMode(4f);
 
             //set collectable parent
         }
@@ -456,31 +501,42 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
 
     bool CheckForSpawnAllowanceCollectable()
     {
-        propsChildren = MyProps.GetComponentsInChildren<Transform>();
+        propsCChildren = MyProps.GetComponentsInChildren<Collectable>();
 
-        if (propsChildren.Length == 0)
+        if (propsCChildren.Length == 0)
         {
             return true;
         }
+        else
+            return false;
 
-        foreach (Transform obj in propsChildren)
-        {
-            if (obj.gameObject.GetComponent<Collectable>() == true)
-            {
-                return false;
-            }
-        }
+        
 
-        return true;
+        /* propsChildren = MyProps.GetComponentsInChildren<Transform>();
+
+         if (propsChildren.Length == 0)
+         {
+             return true;
+         }
+
+         foreach (Transform obj in propsChildren)
+         {
+             if (obj.gameObject.GetComponent<Collectable>() == true)
+             {
+                 return false;
+             }
+         }
+
+         return true; */
     }
 
 
     #endregion
 
 
-    void SpawnObjectInEditMode()
+    void SpawnObjectInEditMode(float y)
     {
-        Vector3 position = new Vector3(this.transform.position.x, this.transform.position.y + 4.25f, this.transform.position.z);
+        Vector3 position = new Vector3(this.transform.position.x, this.transform.position.y + y, this.transform.position.z);
 
         CurrentItem = Instantiate(ObjectToSpawn, position, Quaternion.identity);
         CurrentItem.transform.parent = MyProps.transform;
