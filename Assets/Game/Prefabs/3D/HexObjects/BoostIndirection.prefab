@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8510064900955852539}
   - component: {fileID: 5555809070014731628}
   m_Layer: 7
-  m_Name: Signpost BoostIndirection
+  m_Name: BoostIndirection
   m_TagString: HexEffectObj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

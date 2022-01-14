@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SignpostRotation : MonoBehaviour
+public class ChangeDirectionProp : MonoBehaviour
 {
 
     Vector3 Direction;

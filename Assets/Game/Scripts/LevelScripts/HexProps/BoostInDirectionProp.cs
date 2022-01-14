@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteAlways]
-public class SignpostFixedDirection : MonoBehaviour
+public class BoostInDirectionProp : MonoBehaviour
 {
      [HideInInspector]public Hex MyHex;
     Vector3 Direction;

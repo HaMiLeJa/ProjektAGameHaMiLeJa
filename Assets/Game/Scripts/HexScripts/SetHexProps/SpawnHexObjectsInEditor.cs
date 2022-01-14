@@ -15,7 +15,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     public bool DebugActiveObj = false;
     public bool DebugIsRunning = false;
 
-    Transform[] propsChildren;
+   public Transform[] propsChildren;
 
     HexType currentHexType;
 
@@ -187,11 +187,9 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
 
     void ChangeDirection()
     {
-
-
         SetNewValues(ChangeDirectionObj);
 
-        ClearFalseObj();
+        ClearFalseObj(); //ToTest
 
         ResetCurrentItemChangeDirection();
 
@@ -205,19 +203,35 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
 
 
 
-    void ResetCurrentItemChangeDirection() 
+    void ResetCurrentItemChangeDirection() //hier evt list einbauen und alles bis auf 1. löschen oder so
     {
 
-        if (MyProps.GetComponentInChildren<BoostForwardProp>() == true)
+        if (MyProps.GetComponentInChildren<ChangeDirectionProp>() == true)
         {
-            CurrentItem = MyProps.GetComponentInChildren<BoostForwardProp>().gameObject;
+            CurrentItem = MyProps.GetComponentInChildren<ChangeDirectionProp>().gameObject;
 
         }
 
+        
+
     }
+
+    public ChangeDirectionProp[] propsCDChildren;
 
     bool CheckForSpawnAllowanceChangeDirection()
     {
+
+        propsCDChildren = MyProps.GetComponentsInChildren<ChangeDirectionProp>();
+
+        if (propsCDChildren.Length == 0)
+        {
+            return true;
+        }
+        else
+            return false;
+
+        /*
+
         propsChildren = MyProps.GetComponentsInChildren<Transform>();
 
         if (propsChildren.Length == 0)
@@ -227,16 +241,15 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
 
         foreach (Transform obj in propsChildren)
         {
-            if (obj.gameObject.GetComponent<SignpostFixedDirection>() == true)
+            if (obj.gameObject.GetComponent<BoostInDirectionProp>() == true)
             {
                 //hier könnte ich auch current item setzen
                 return false;
             }
         }
 
-        return true;
+        return true;*/
     }
-
 
     #endregion
 
@@ -258,16 +271,16 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
             currentHexType = myHex.hexType;
             SpawnObjectInEditMode();
 
-            CurrentItem.GetComponent<SignpostFixedDirection>().MyHex = myHex;
+            CurrentItem.GetComponent<BoostInDirectionProp>().MyHex = myHex;
         }
     }
 
     void ResetCurrentItemBoostInDirection() //hier evt list einbauen und alles bis auf 1. löschen oder so
     {
 
-        if (MyProps.GetComponentInChildren<SignpostFixedDirection>() == true)
+        if (MyProps.GetComponentInChildren<BoostInDirectionProp>() == true)
         {
-            CurrentItem = MyProps.GetComponentInChildren<SignpostFixedDirection>().gameObject;
+            CurrentItem = MyProps.GetComponentInChildren<BoostInDirectionProp>().gameObject;
 
         }
 
@@ -284,7 +297,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
 
         foreach (Transform obj in propsChildren)
         {
-            if (obj.gameObject.GetComponent<SignpostFixedDirection>() == true)
+            if (obj.gameObject.GetComponent<BoostInDirectionProp>() == true)
             {
                 //hier könnte ich auch current item setzen
                 return false;

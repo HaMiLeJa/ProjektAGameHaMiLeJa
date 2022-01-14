@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7226796470915485164}
   - component: {fileID: 4903824765110270003}
   m_Layer: 7
-  m_Name: Signpost ChangeDirection
+  m_Name: ChangeDirection
   m_TagString: HexEffectObj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
