@@ -14,7 +14,7 @@ public class InterimMenuManager : MonoBehaviour
 
     public void OnButtonA()
     {
-        SceneManager.LoadScene("LevelInterimJanina");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("LevelInterimJanina");
     }
 
    

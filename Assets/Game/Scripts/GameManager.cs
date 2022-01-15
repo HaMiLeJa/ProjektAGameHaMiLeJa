@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
 
     public static float GlowEnableDelay = 0.1f;
     public static  float GlowDisableDelay = 2.5f;
-    [HideInInspector]public static GameObject CameraHelper;
+    public static GameObject CameraHelper;
     [HideInInspector] public static bool ZeroOutAllowed = true;
     public static bool CameraTeleportActive = false;
     public static bool StopGiveVelocityBack = true;
@@ -79,14 +79,23 @@ public class GameManager : MonoBehaviour
     {
         //player = ReferenceLibary.Player;
         playerRb = ReferenceLibary.RigidbodyPl;
-        CameraHelper = new GameObject("CameraHelper");
+        CameraHelper = GameObject.FindGameObjectWithTag("CameraHelper");
         vcam = GetComponent<CinemachineVirtualCamera>();
 
     }
 
+
+
+    float startSkyBoxrotation = 5;
     void Update()
     {
-        RenderSettings.skybox.SetFloat("_Rotation", Time.time*Skyboxspeed);
+        if (startSkyBoxrotation > 0)
+            startSkyBoxrotation--;
+
+        if (startSkyBoxrotation == 0)
+            RenderSettings.skybox.SetFloat("_Rotation", Time.time*Skyboxspeed);
+        
+     
         if(Input.GetKey(KeyCode.Escape))
         {
             Application.Quit();
@@ -97,8 +106,8 @@ public class GameManager : MonoBehaviour
         
         if(Input.GetKeyDown(KeyCode.P))
         {
-            string currentScene = SceneManager.GetActiveScene().name;
-            SceneManager.LoadScene(currentScene);
+            string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+            UnityEngine.SceneManagement.SceneManager.LoadScene(currentScene);
         }
 
         /*

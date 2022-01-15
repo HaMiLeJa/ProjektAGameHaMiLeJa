@@ -23,6 +23,7 @@ TagManager:
   - Critter
   - ChickInLantern
   - SpawnLocation
+  - CameraHelper
   layers:
   - Default
   - TransparentFX

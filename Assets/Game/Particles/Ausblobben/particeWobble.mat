@@ -8,8 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: particeWobble
-  m_Shader: {fileID: 4800000, guid: 9eeb0229716df8a4c849f22276e09547, type: 3}
-  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _ALPHATEST_ON _EMISSION
+  m_Shader: {fileID: 4800000, guid: 7ab50bece23831a4a8be32c390715c5d, type: 3}
+  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _ALPHATEST_ON _COLORCOLOR_ON _EMISSION
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0

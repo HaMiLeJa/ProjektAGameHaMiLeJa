@@ -52,7 +52,7 @@ public class PlayerCollisionLei : MonoBehaviour
 
         public void RestartGame()
         {
-             SceneManager.LoadScene("Enemy_Movement");
+             UnityEngine.SceneManagement.SceneManager.LoadScene("Enemy_Movement");
         }
 
     

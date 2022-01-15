@@ -14,24 +14,24 @@ public class PrototypMenuManager : MonoBehaviour
 
     public void OnButtonA()
     {
-        SceneManager.LoadScene("LevelprototypJanina");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("TestingGround");
     }
 
     public void OnButtonB()
     {
-        SceneManager.LoadScene("LevelPrototypLei");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("TestingGround");
 
     }
 
     public void OnButtonKamera()
     {
-        SceneManager.LoadScene("Kameraszene");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("TestingGround");
 
     }
 
     public void OnButtonCurves()
     {
-        SceneManager.LoadScene("Kurvenszene");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("TestingGround");
 
     }
 }

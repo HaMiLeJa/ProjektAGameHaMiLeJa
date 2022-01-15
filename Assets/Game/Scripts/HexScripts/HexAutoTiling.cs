@@ -140,9 +140,9 @@ public class HexAutoTiling : MonoBehaviour
                 CinemachineCore.Instance.GetVirtualCamera(i).OnTargetObjectWarped(
                     playerLocation.transform, -moveEveryThingBack);
             
-            for (int j = 0; j < SceneManager.sceneCount; j++)
+            for (int j = 0; j < UnityEngine.SceneManagement.SceneManager.sceneCount; j++)
             {
-                foreach (GameObject allParentObjects in SceneManager.GetSceneAt(j).GetRootGameObjects())
+                foreach (GameObject allParentObjects in UnityEngine.SceneManagement.SceneManager.GetSceneAt(j).GetRootGameObjects())
                 {
                     allParentObjects.transform.position -= moveEveryThingBack;
                     HexCoordinates.playerHasMoved = true;
