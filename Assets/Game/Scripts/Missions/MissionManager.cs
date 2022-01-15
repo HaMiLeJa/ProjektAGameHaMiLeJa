@@ -70,10 +70,12 @@ public class MissionManager : MonoBehaviour
             case MissionState.CompletedMission:
                 CompletedMissionState.UpdateCompletedMission();
                 CheckForAllMissionsDone();
+                CollectableManager.OnRespawnCollectables?.Invoke();
                 break;
             case MissionState.UncompletedMission:
                 UncompletedMissionState.UpdateUncompletedMission();
                 CheckForAllMissionsDone();
+                CollectableManager.OnRespawnCollectables?.Invoke();
                 break;
             case MissionState.noMissionsLeft:
                 break;
@@ -127,7 +129,7 @@ public class MissionManager : MonoBehaviour
 
 
 
-
+    //Check if alle missiosn erfüllt wurden oder nicht, dann mission restart
     public void CheckForAllMissionsDone()
     {
         if(ReferenceLibary.MissLib.Missions.Count == 0)
@@ -139,4 +141,6 @@ public class MissionManager : MonoBehaviour
             SwitchToNoMissionState();
         }
     }
+
+
 }

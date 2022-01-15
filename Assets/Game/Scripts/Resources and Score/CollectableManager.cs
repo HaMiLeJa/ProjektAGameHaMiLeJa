@@ -5,6 +5,9 @@ using UnityEngine;
 public class CollectableManager : MonoBehaviour
 {
 
+    public delegate void RespawnCollectables();
+    public static RespawnCollectables OnRespawnCollectables;
+
     // IDEE 1
     // Liste mit allen enum collectable Hexagonen (die subsciben sich selber in die liste rein)
 
@@ -41,18 +44,14 @@ public class CollectableManager : MonoBehaviour
     }
     void Start()
     {
-        
+        OnRespawnCollectables += StartCollectableSpawn;
+        // evt noch ui benachrichtigung
 
         foreach (KeyValuePair<GameObject, CollectableReferences> hex in AllCollectables)
         {
-           // Debug.Log("HexValue" + hex.Value);
-           // refff = hex.Value;
-
             hex.Value.HexScript = hex.Key.GetComponent<Hex>();
             SetCollectableReferencesAtStart(hex.Value.HexScript);
         }
-        //Debug.Log(AllCollectables.Count);
-
     }
 
     void SetCollectableReferencesAtStart(Hex hex)
@@ -64,8 +63,6 @@ public class CollectableManager : MonoBehaviour
             hex.colRef.ActiveCollectable = true;
 
             colScript.ParentHex = hex.gameObject;
-
-
         }
         else
         {
@@ -86,14 +83,22 @@ public class CollectableManager : MonoBehaviour
     {
         foreach (KeyValuePair <GameObject, CollectableReferences> hex in AllCollectables)
         {
-            if(hex.Value.ActiveCollectable == false)
+            if(hex.Value.ActiveCollectable == false && DistanceToPlayer(hex.Key) >= 100f) //&& if Distance to player ist höher als was auch immer
             {
                 hex.Value.HexScript.SpawnCollectable();
+
             }
-
-
         }
     }
+
+    float DistanceToPlayer(GameObject hex)
+    {
+        Vector3 Verbindungsvector = ReferenceLibary.Player.transform.position - hex.transform.position;
+        float distance = Mathf.Sqrt(Mathf.Pow(Verbindungsvector.x, 2) + Mathf.Pow(Verbindungsvector.y, 2) + Mathf.Pow(Verbindungsvector.z, 2));
+        Debug.Log(distance);
+        return distance;
+    }
+
 
     public void CollectableCollected(GameObject item, GameObject hex)
     {
@@ -105,4 +110,5 @@ public class CollectableManager : MonoBehaviour
         item.SetActive(false);
         //Destroy(item);
     }
+
 }

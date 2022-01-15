@@ -66,13 +66,15 @@ public class UIManager : MonoBehaviour
     
     public void UpdateBasicMissionUI()
     {
-        BasicMissionUI.SetActive(true);
-        missionTimeTxt.text = "Time remaining: " + MissionManager.MissionTimeLeft.ToString();
+
+        int seconds = (int)MissionManager.MissionTimeLeft;
+        missionTimeTxt.text = "Time remaining: " + seconds.ToString();
     }
     public void ActivateBasicMissionUI()
     {
-       
-        missionTimeTxt.text = "Time remaining: " + MissionManager.CurrentMission.time;
+        BasicMissionUI.SetActive(true);
+        int seconds = (int)MissionManager.CurrentMission.time;
+        missionTimeTxt.text = "Time remaining: " + seconds;
     }
 
   
@@ -90,7 +92,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject noMissionParent;
     public void TimerUntilNexMission()
     {
-        nextMissionTxt.text = "Next Mission in: " + MissionStateNoMission.duration;
+
+        int seconds = (int)MissionStateNoMission.duration ;
+
+        nextMissionTxt.text = "Next Mission in: " + seconds;
     }
 
     public void ActivateNoMissionUI()
@@ -123,10 +128,18 @@ public class UIManager : MonoBehaviour
         if (MissionManager.CurrentMission.missionItem == MissionInformation.Item.CollectItem1)
         {
             collectItemImage.sprite = collectItem1;
+            Debug.Log("1Assigned");
+            Debug.Log(collectItemImage.sprite.ToString());
         }
         else if (MissionManager.CurrentMission.missionItem == MissionInformation.Item.CollectItem2)
         {
             collectItemImage.sprite = collectItem2;
+            Debug.Log("2Assigned");
+            Debug.Log(collectItemImage.sprite.ToString());
+        }
+        else
+        {
+            Debug.Log("None");
         }
 
     }

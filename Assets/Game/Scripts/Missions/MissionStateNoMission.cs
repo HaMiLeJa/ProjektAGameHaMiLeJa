@@ -33,7 +33,7 @@ public class MissionStateNoMission : MonoBehaviour
 
     int GetRandomDuration()
     {
-       int i = Random.Range(10, 20);
+       int i = Random.Range(5, 8);
        return i;
     }
 

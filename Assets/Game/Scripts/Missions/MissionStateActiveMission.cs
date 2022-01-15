@@ -52,7 +52,7 @@ public class MissionStateActiveMission : MonoBehaviour
 
 
         UIManager.Instance.UpdateBasicMissionUI();
-        UIManager.Instance.UpdateCollectItemUI(); //TO DO
+        UIManager.Instance.UpdateCollectItemUI();
 
         CheckForEnd();
     }
