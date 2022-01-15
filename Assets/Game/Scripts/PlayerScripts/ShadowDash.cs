@@ -139,10 +139,10 @@ public class ShadowDash : MonoBehaviour
     public void ShadowDashStarter()
     {
         if (shadowDashCoroutine != null)
-         StopCoroutine(shadowDashCoroutine);
-        Debug.Log("S");
+             StopCoroutine(shadowDashCoroutine);
+       
 
-             shadowDashCoroutine = StartCoroutine(ShadowDashCoroutine());
+        shadowDashCoroutine = StartCoroutine(ShadowDashCoroutine());
   
 
         //this.gameObject.layer = playerNoCollisionLayerInt;

@@ -117,7 +117,6 @@ public class EnergyManager : MonoBehaviour //for points and energy
             gameMng.AllowMovement = false;
 
             StopAllCoroutines();
-            Debug.Log("Energy 0");
         }
         else
         {

@@ -12,11 +12,17 @@ public class UIManager : MonoBehaviour
     //[SerializeField] TMPro.TMP_Text CurrentEnergy;
     [SerializeField] Image CurrentEnergy;
 
-    [SerializeField] GameObject EndMessage;
+    
 
     public GameObject PauseCanvas;
-    public GameObject GameOverCanvas;
     public GameObject IngameCanvas;
+
+    [Header("GameOver")]
+    public GameObject GameOverCanvas;
+    [SerializeField] GameObject GameOverMessage;
+    [SerializeField] TMPro.TMP_Text PointsMessage;
+    [SerializeField] GameObject NewHighscoreMessage;
+    [SerializeField] TMPro.TMP_Text CurrentHighscoreMessage;
 
 
     #region Singleton
@@ -128,18 +134,10 @@ public class UIManager : MonoBehaviour
         if (MissionManager.CurrentMission.missionItem == MissionInformation.Item.CollectItem1)
         {
             collectItemImage.sprite = collectItem1;
-            Debug.Log("1Assigned");
-            Debug.Log(collectItemImage.sprite.ToString());
         }
         else if (MissionManager.CurrentMission.missionItem == MissionInformation.Item.CollectItem2)
         {
             collectItemImage.sprite = collectItem2;
-            Debug.Log("2Assigned");
-            Debug.Log(collectItemImage.sprite.ToString());
-        }
-        else
-        {
-            Debug.Log("None");
         }
 
     }
@@ -257,7 +255,53 @@ public class UIManager : MonoBehaviour
     public void ShowEndMessage()
     {
         GameOverCanvas.SetActive(true);
-        EndMessage.SetActive(true);
+        //EndMessage.SetActive(true);
     }
+
+   public IEnumerator GameOverCoroutine()
+   {
+        bool UpdateUI = true;
+        yield return new WaitForSeconds(10f);
+        IngameCanvas.SetActive(false);
+        GameOverCanvas.SetActive(true);
+        NewHighscoreMessage.SetActive(false);
+        PointsMessage.text = ScoreManager.CurrentScore + " points";
+        CurrentHighscoreMessage.text = "CurrentHighscore: " + PlayerPrefs.GetFloat("Highscore");
+
+        while (UpdateUI)
+        {
+
+
+            //Effects
+
+        }
+
+        yield return null;
+
+    }
+
+    public IEnumerator GameOverNewHighscoreCoroutine()
+    {
+        bool UpdateUI = true;
+        yield return new WaitForSeconds(4f);
+        IngameCanvas.SetActive(false);
+        GameOverCanvas.SetActive(true);
+        PointsMessage.text = ScoreManager.CurrentScore + " points";
+        NewHighscoreMessage.SetActive(true);
+        CurrentHighscoreMessage.text = "";
+
+        while (UpdateUI)
+        {
+
+            //Effects
+
+
+        }
+
+        yield return null;
+
+    }
+
+
     #endregion
 }

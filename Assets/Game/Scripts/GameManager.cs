@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour
    // GameObject player;
    
     Rigidbody playerRb;
+
+    bool GameOver = false;
     #endregion
 
 
@@ -82,6 +84,10 @@ public class GameManager : MonoBehaviour
         CameraHelper = GameObject.FindGameObjectWithTag("CameraHelper");
         vcam = GetComponent<CinemachineVirtualCamera>();
 
+        if (PlayerPrefs.HasKey("Highscore") == false)
+            PlayerPrefs.SetFloat("Highscore", 0);
+
+        Debug.Log("Highscore: " + PlayerPrefs.GetFloat("Highscore"));
     }
 
 
@@ -110,25 +116,64 @@ public class GameManager : MonoBehaviour
             UnityEngine.SceneManagement.SceneManager.LoadScene(currentScene);
         }
 
-        /*
-        if(Input.GetKeyDown(KeyCode.M))
-        {
-            SceneManager.LoadScene("PrototypStartMenu");
-        }*/
+       
 
-        CheckForEndOfGame();
+        if(GameOver==false)
+            CheckForEndOfGame();
     }
+
+    Coroutine GameOverCoroutine;
 
     void CheckForEndOfGame()
     {
-        if(EnergyManager.CurrentEnergy <= 0)
+        if (EnergyManager.CurrentEnergy > 0) return;
+        if (playerRb.velocity != Vector3.zero) return;
+
+        GameOver = true;
+         
+        if(ReferenceLibary.ScoreMng.CheckForNewHighscore() == true)
         {
-            if(playerRb.velocity == Vector3.zero)
-            {
-                UIManager.Instance.ShowEndMessage();
-            }
+            ReferenceLibary.ScoreMng.SetNewHighscore();
+
+            if (GameOverCoroutine == null)
+                GameOverCoroutine = StartCoroutine(ReferenceLibary.UIMng.GameOverNewHighscoreCoroutine());
+
+            StartCoroutine(PlayerDissolve());
         }
+        else
+        {
+            if (GameOverCoroutine == null)
+                GameOverCoroutine = StartCoroutine(ReferenceLibary.UIMng.GameOverCoroutine());
+
+            StartCoroutine(PlayerDissolve());
+        }
+
     }
+
+    [SerializeField] GameObject MeshOutside;
+    private Material DissolveMaterial;
+
+   [SerializeField] float dissolveSpeed = 0.5f;
+    IEnumerator PlayerDissolve()
+    {
+        float dissolveValue = 0;
+
+        DissolveMaterial = MeshOutside.GetComponent<MeshRenderer>().sharedMaterial;
+        Debug.Log("1");
+
+        while (dissolveValue < 1)
+        {
+            Debug.Log("2");
+            dissolveValue = Mathf.Lerp(dissolveValue, 1, dissolveSpeed);
+
+            DissolveMaterial.SetFloat("_Dissolve", dissolveValue);
+
+        }
+
+        Debug.Log("3");
+        yield return null;
+    }
+  
 
     #region Control Hex Effect Amount
     [HideInInspector] public int ChangeDirectionCounter;

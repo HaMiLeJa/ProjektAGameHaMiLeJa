@@ -66,4 +66,24 @@ public class ScoreManager : MonoBehaviour
     {
         CurrentMultiplicator += value;
     }
+
+
+
+
+    public bool CheckForNewHighscore()
+    {
+        if(PlayerPrefs.GetFloat("Highscore") < CurrentScore)
+        {
+            return true;
+        }
+        else
+             return false;
+    }
+
+    public void SetNewHighscore()
+    {
+        PlayerPrefs.SetFloat("Highscore", CurrentScore);
+    }
+
+
 }
