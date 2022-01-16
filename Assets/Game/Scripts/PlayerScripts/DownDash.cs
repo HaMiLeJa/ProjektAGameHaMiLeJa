@@ -102,7 +102,7 @@ public class DownDash : MonoBehaviour
 
                 smashParticle.Play();
 
-                if (audioSource.isPlaying == false && audManager.allowAudio == true)
+                if (audioSource.isPlaying == false)
                     audioSource.Play();
 
 

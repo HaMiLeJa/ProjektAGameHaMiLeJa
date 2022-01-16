@@ -89,7 +89,6 @@ public class EnergyManager : MonoBehaviour //for points and energy
 
     public IEnumerator ModifyEnergy(float value)
     {
-        //Debug.Log("ModifyEnergy Started");
         float absValue = Mathf.Abs(value);
 
         float step = stepSize * Mathf.Sign(value);
@@ -97,7 +96,6 @@ public class EnergyManager : MonoBehaviour //for points and energy
 
         while (stepsDone < absValue)
         {
-            //Debug.Log("whileloop");
             CurrentEnergy += step;
             stepsDone += stepSize;
 
@@ -105,7 +103,6 @@ public class EnergyManager : MonoBehaviour //for points and energy
 
             if (Mathf.Approximately(CurrentEnergy, 0) == true)
             {
-                //Debug.Log("Breaked");
 
                 break;
             }

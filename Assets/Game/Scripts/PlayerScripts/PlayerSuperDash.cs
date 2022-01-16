@@ -116,7 +116,7 @@ public class PlayerSuperDash : MonoBehaviour
     {
         StartCoroutine(EnergyManager.Instance.ModifyEnergy(-gameMng.SuperDashCosts));
 
-        if (audioSource.isPlaying == false && audManager.allowAudio == true)
+        if (audioSource.isPlaying == false)
             audioSource.Play();
 
         float t = 0;

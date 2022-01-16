@@ -565,7 +565,7 @@ public class Hex : MonoBehaviour
 
     void PlaySound()
     {
-        if (myAudioSource.isPlaying == false && audManager.allowAudio == true)
+        if (myAudioSource.isPlaying == false)
         {
             myAudioSource.Play();
         }

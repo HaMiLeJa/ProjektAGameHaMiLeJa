@@ -172,12 +172,12 @@ public class PlayerMovement : MonoBehaviour
         
         if(Velocity == Vector3.zero)
         {
-            if (basedrumAudioSource.isPlaying == false && audManager.allowAudio == true)
+            if (basedrumAudioSource.isPlaying == false)
                 basedrumAudioSource.Stop();
         }
         else
         {
-            if (basedrumAudioSource.isPlaying == false && audManager.allowAudio == true)
+            if (basedrumAudioSource.isPlaying == false)
                 basedrumAudioSource.Play();
         }
         
@@ -193,7 +193,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 allowJump = true;
 
-                if (jumpAudioSource.isPlaying == false && audManager.allowAudio == true)
+                if (jumpAudioSource.isPlaying == false)
                     jumpAudioSource.Play();
             }
 

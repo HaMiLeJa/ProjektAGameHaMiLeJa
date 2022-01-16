@@ -10,7 +10,7 @@ public class PlayOnTrigger : MonoBehaviour
     {
         if (other.gameObject == ReferenceLibary.Player)
         {
-            if (myAudioSource.isPlaying == false && AudioManager.Instance.allowAudio == true)
+            if (myAudioSource.isPlaying == false)
                 myAudioSource.Play();
         }
     }

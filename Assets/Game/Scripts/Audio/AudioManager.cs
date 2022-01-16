@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    [HideInInspector] public bool allowAudio = true;
-
+   
 
     private void Start()
     {
