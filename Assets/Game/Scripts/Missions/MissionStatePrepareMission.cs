@@ -51,19 +51,19 @@ public class MissionStatePrepareMission : MonoBehaviour
         {
             MissionManager.CurrentMission.Amount = RandomInt(3, 10);
             MissionManager.CurrentMission.time = 80 + (MissionManager.CurrentMission.Amount * 40);
-            MissionManager.CurrentMission.multiplicator = MissionManager.CurrentMission.Amount * 0.04f;
+            MissionManager.CurrentMission.multiplicator = 0.5f; //MissionManager.CurrentMission.Amount * 0.04f;
         }
         else if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.medium)
         {
             MissionManager.CurrentMission.Amount = RandomInt(5, 15);
             MissionManager.CurrentMission.time = 60f + (MissionManager.CurrentMission.Amount * 20);
-            MissionManager.CurrentMission.multiplicator = MissionManager.CurrentMission.Amount * 0.05f;
+            MissionManager.CurrentMission.multiplicator = 1f; //MissionManager.CurrentMission.Amount * 0.05f;
         }
         else if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.hard)
         {
             MissionManager.CurrentMission.Amount = RandomInt(10, 20);
             MissionManager.CurrentMission.time = 40f + (MissionManager.CurrentMission.Amount * 10);
-            MissionManager.CurrentMission.multiplicator = MissionManager.CurrentMission.Amount * 0.07f;
+            MissionManager.CurrentMission.multiplicator = 1.5f; //MissionManager.CurrentMission.Amount * 0.07f;
         }
     }
 
@@ -92,19 +92,20 @@ public class MissionStatePrepareMission : MonoBehaviour
         {
             MissionManager.CurrentMission.Amount = RandomInt(3, 10);
             MissionManager.CurrentMission.time = 100f + (MissionManager.CurrentMission.Amount * 30);
-            MissionManager.CurrentMission.multiplicator = MissionManager.CurrentMission.Amount * 0.04f;
+            MissionManager.CurrentMission.multiplicator = 0.5f; //MissionManager.CurrentMission.Amount * 0.05f;
         }
         else if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.medium)
         {
             MissionManager.CurrentMission.Amount = RandomInt(5, 15);
             MissionManager.CurrentMission.time = 60f + (MissionManager.CurrentMission.Amount * 20);
-            MissionManager.CurrentMission.multiplicator = MissionManager.CurrentMission.Amount * 0.05f;
+            MissionManager.CurrentMission.multiplicator = 1f;//MissionManager.CurrentMission.Amount * 0.05f;
         }
         else if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.hard)
         {
             MissionManager.CurrentMission.Amount = RandomInt(10, 20);
             MissionManager.CurrentMission.time = 40f + (MissionManager.CurrentMission.Amount * 10);
-            MissionManager.CurrentMission.multiplicator = MissionManager.CurrentMission.Amount * 0.07f;
+            MissionManager.CurrentMission.multiplicator = 1.5f; //MissionManager.CurrentMission.Amount * 0.05f;
+
         }
     }
 
@@ -133,19 +134,19 @@ public class MissionStatePrepareMission : MonoBehaviour
         {
             MissionManager.CurrentMission.Amount = 2000;
             MissionManager.CurrentMission.time = 100f;
-            MissionManager.CurrentMission.multiplicator = 0.3f;
+            MissionManager.CurrentMission.multiplicator = 0.5f; //0.3f
         }
         else if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.medium)
         {
             MissionManager.CurrentMission.Amount = 5000;
             MissionManager.CurrentMission.time = 200f;
-            MissionManager.CurrentMission.multiplicator = 0.5f;
+            MissionManager.CurrentMission.multiplicator = 1f; //0.5f
         }
         else if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.hard)
         {
             MissionManager.CurrentMission.Amount = 10000;
             MissionManager.CurrentMission.time = 250f;
-            MissionManager.CurrentMission.multiplicator = 0.7f;
+            MissionManager.CurrentMission.multiplicator = 1.5f; //0.7f
         }
     }
 
@@ -174,17 +175,17 @@ public class MissionStatePrepareMission : MonoBehaviour
         if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.easy)
         {
             MissionManager.CurrentMission.time = 100 + ReferenceLibary.MissionMng.BringItemDistance * 1.6f;
-            MissionManager.CurrentMission.multiplicator = 0.3f;
+            MissionManager.CurrentMission.multiplicator = 0.5f; //0.3f
         }
         else if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.medium)
         {
             MissionManager.CurrentMission.time = 60 + ReferenceLibary.MissionMng.BringItemDistance * 1.4f;
-            MissionManager.CurrentMission.multiplicator = 0.5f;
+            MissionManager.CurrentMission.multiplicator = 1f; //0.5f
         }
         else if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.hard)
         {
             MissionManager.CurrentMission.time = 40 + ReferenceLibary.MissionMng.BringItemDistance * 1.2f;
-            MissionManager.CurrentMission.multiplicator = 0.7f;
+            MissionManager.CurrentMission.multiplicator = 1.5f; //0.7f
         }
     }
 
