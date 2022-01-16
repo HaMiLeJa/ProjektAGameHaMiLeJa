@@ -27,10 +27,10 @@ public class GameManager : MonoBehaviour
 
     #region BoostCosts
     [Header("Boost Costs")]
-    public float SuperDashCosts = 1;
-    public float DashCosts = 1;
-    public float ShadowDashCosts = 1;
-    public float DownDashCosts = 1;
+    public float DashCosts = 0.5f;
+    public float SuperDashCosts = 2;
+    public float ShadowDashCosts = 2;
+    public float DownDashCosts = 2;
     #endregion
     
     #region Inspector
