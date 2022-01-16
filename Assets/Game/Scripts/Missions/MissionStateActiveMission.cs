@@ -38,6 +38,7 @@ public class MissionStateActiveMission : MonoBehaviour
         if (MissionManager.Progress == MissionManager.CurrentMission.Amount)
         {
             ReferenceLibary.MissionMng.SwitchToCompletedMissionState();
+            MissionManager.CompletedMissions++;
         }
         else if (MissionManager.MissionTimeLeft <= 0)
         {

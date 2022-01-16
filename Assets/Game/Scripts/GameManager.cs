@@ -75,8 +75,6 @@ public class GameManager : MonoBehaviour
     }
     #endregion
     
-    
-
     private void Start()
     {
         //player = ReferenceLibary.Player;
@@ -189,31 +187,6 @@ public class GameManager : MonoBehaviour
 
     }
 
-    /*
-    [SerializeField] GameObject MeshOutside;
-    private Material DissolveMaterial;
-
-   [SerializeField] float dissolveSpeed = 0.5f;
-    IEnumerator PlayerDissolve()
-    {
-        float dissolveValue = 0;
-
-        DissolveMaterial = MeshOutside.GetComponent<MeshRenderer>().sharedMaterial;
-        Debug.Log("1");
-
-        while (dissolveValue < 1)
-        {
-            Debug.Log("2");
-            dissolveValue = Mathf.Lerp(dissolveValue, 1, dissolveSpeed);
-
-            DissolveMaterial.SetFloat("_Dissolve", dissolveValue);
-
-        }
-
-        Debug.Log("3");
-        yield return null;
-    }
-  */
 
         #region Control Hex Effect Amount
         [HideInInspector] public int ChangeDirectionCounter;
@@ -280,4 +253,7 @@ public class GameManager : MonoBehaviour
 
     }
     #endregion
+
+
+   
 }

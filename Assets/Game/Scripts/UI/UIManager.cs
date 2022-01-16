@@ -7,15 +7,16 @@ public class UIManager : MonoBehaviour
 {
     GameManager gameMng;
 
+    [Header ("Basic UI")]
     [SerializeField] TMPro.TMP_Text score;
     [SerializeField] TMPro.TMP_Text multiplicator;
     //[SerializeField] TMPro.TMP_Text CurrentEnergy;
     [SerializeField] Image CurrentEnergy;
 
-    
-
     public GameObject PauseCanvas;
+
     public GameObject IngameCanvas;
+    
 
     [Header("GameOver")]
     public GameObject GameOverCanvas;
@@ -60,8 +61,11 @@ public class UIManager : MonoBehaviour
         DeactivateDestroyObjUI();
         DeactivateCollectPointsUI();
         DeactivateBringItemUI();
+        WinConMissions.SetActive(false);
 
     }
+
+    
 
     #region Missions
 
@@ -230,6 +234,106 @@ public class UIManager : MonoBehaviour
 
 
     #endregion
+    #endregion
+
+    #region WinConMissions
+    [Header("WinConMissions")]
+    [SerializeField] GameObject WinConMissions;
+    [SerializeField] TMPro.TMP_Text AllCompleted;
+    [SerializeField] TMPro.TMP_Text HexUnlocked;
+    [SerializeField] TMPro.TMP_Text AlreadyUnlocked;
+    [SerializeField] TMPro.TMP_Text Failed;
+    [SerializeField] TMPro.TMP_Text MoreMissions;
+
+    public IEnumerator UIHexUnlocked()
+    {
+        WinConMissions.SetActive(true);
+        AllCompleted.gameObject.SetActive(true);
+        HexUnlocked.gameObject.SetActive(true);
+        
+
+        yield return new WaitForSeconds(2f);
+       
+        AllCompleted.CrossFadeAlpha(0, 0.5f, true); //Ausfaden
+        HexUnlocked.CrossFadeAlpha(0, 0.5f, true);
+
+        yield return new WaitForSeconds(3f);
+
+        AllCompleted.gameObject.SetActive(false);
+        HexUnlocked.gameObject.SetActive(false);
+
+        MoreMissions.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(3f);
+        MoreMissions.CrossFadeAlpha(0, 0.5f, true);
+
+        yield return new WaitForSeconds(2f);
+
+        MoreMissions.gameObject.SetActive(false);
+        WinConMissions.SetActive(false);
+
+        yield return null;
+    }
+
+
+    public IEnumerator UIHexAlreadyUnlocked()
+    {
+        WinConMissions.SetActive(true);
+        AllCompleted.gameObject.SetActive(true);
+        AlreadyUnlocked.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(2f);
+
+        AllCompleted.CrossFadeAlpha(0, 0.5f, true); //Ausfaden
+        AlreadyUnlocked.CrossFadeAlpha(0, 0.5f, true);
+
+        yield return new WaitForSeconds(3f);
+
+        AllCompleted.gameObject.SetActive(false);
+        AlreadyUnlocked.gameObject.SetActive(false);
+
+        MoreMissions.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(3f);
+        MoreMissions.CrossFadeAlpha(0, 0.5f, true);
+
+        yield return new WaitForSeconds(2f);
+
+        MoreMissions.gameObject.SetActive(false);
+        WinConMissions.SetActive(false);
+
+
+        yield return null;
+    }
+
+    public IEnumerator UIHexUnlockedFailed()
+    {
+        WinConMissions.SetActive(true);
+        Failed.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(2f);
+
+        Failed.CrossFadeAlpha(0, 0.5f, true); //Ausfaden
+        
+
+        yield return new WaitForSeconds(3f);
+
+        Failed.gameObject.SetActive(false);
+        
+
+        MoreMissions.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(3f);
+        MoreMissions.CrossFadeAlpha(0, 0.5f, true);
+
+        yield return new WaitForSeconds(2f);
+
+        MoreMissions.gameObject.SetActive(false);
+        WinConMissions.SetActive(false);
+        yield return null;
+    }
+
+
     #endregion
 
     #region Energy

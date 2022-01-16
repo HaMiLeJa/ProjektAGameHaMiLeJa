@@ -5,12 +5,17 @@ using UnityEngine.UI;
 
 public class MissionManager : MonoBehaviour
 {
+    public static int MissionAmount;
+    public static int CompletedMissions;
+    public static int MissionRound = 0;
+
     MissionStateNoMission NoMissionMissionState;
     MissionStateFindMission FindMissionState;
     MissionStatePrepareMission PrepareMissionState;
-    public MissionStateActiveMission ActiveMissionState;
+    [HideInInspector] public MissionStateActiveMission ActiveMissionState;
     MissionStateCompletedMission CompletedMissionState;
     MissionStateUncompletedMission UncompletedMissionState;
+    MissionStateNoMissionsLeft NoMissionLeft;
 
     public static MissionInformation CurrentMission;
     
@@ -26,7 +31,10 @@ public class MissionManager : MonoBehaviour
     public static bool ItemDelivered = false;
     public float BringItemDistance = 0;
 
-    static MissionState missionState = MissionState.noMissionsLeft;
+    //For NoMissionsLeft State
+    
+
+    static MissionState missionState = MissionState.noMission;
     enum MissionState
     {
         noMission,
@@ -46,6 +54,7 @@ public class MissionManager : MonoBehaviour
         ActiveMissionState = GetComponentInChildren<MissionStateActiveMission>();
         CompletedMissionState = GetComponentInChildren<MissionStateCompletedMission>();
         UncompletedMissionState = GetComponentInChildren<MissionStateUncompletedMission>();
+        NoMissionLeft = GetComponentInChildren<MissionStateNoMissionsLeft>();
     }
 
 
@@ -80,6 +89,8 @@ public class MissionManager : MonoBehaviour
                 CollectableManager.OnRespawnCollectables?.Invoke();
                 break;
             case MissionState.noMissionsLeft:
+                NoMissionLeft.CheckForWinConMission();
+                SwitchToNoMissionState();
                 break;
             default:
                 break;

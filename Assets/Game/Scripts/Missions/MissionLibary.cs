@@ -18,6 +18,11 @@ public class MissionLibary : MonoBehaviour
     {
         Missions.Clear();
 
+        MissionManager.MissionAmount = AllMissions.Count;
+        
+        MissionManager.CompletedMissions = 0;
+        MissionManager.MissionRound++;
+
         foreach (MissionInformation mission in AllMissions)
             Missions.Add(mission);
 
