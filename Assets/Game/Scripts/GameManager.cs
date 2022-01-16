@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
    
     Rigidbody playerRb;
 
-    bool GameOver = false;
+   public bool GameOver = false;
     #endregion
 
 
@@ -118,38 +118,78 @@ public class GameManager : MonoBehaviour
 
        
 
-        if(GameOver==false)
-            CheckForEndOfGame();
+       // if(GameOver==false)
+       //     CheckForEndOfGame();
     }
 
     Coroutine GameOverCoroutine;
-
-    void CheckForEndOfGame()
+   [SerializeField] Dissolve playerDissolve;
+    float timer;
+    public void CheckForEndOfGame()
     {
-        if (EnergyManager.CurrentEnergy > 0) return;
-        if (playerRb.velocity != Vector3.zero) return;
+        // if (EnergyManager.CurrentEnergy > 0) return;
+       
 
-        GameOver = true;
-         
+        if (Mathf.Approximately(playerRb.velocity.x, 0) && Mathf.Approximately(playerRb.velocity.y, 0) && Mathf.Approximately(playerRb.velocity.z, 0))
+        {
+            Debug.Log("GameOver");
+            GameOver = true;
+
+            if (ReferenceLibary.ScoreMng.CheckForNewHighscore() == true)
+            {
+                ReferenceLibary.ScoreMng.SetNewHighscore();
+
+                if (GameOverCoroutine == null)
+                    GameOverCoroutine = StartCoroutine(ReferenceLibary.UIMng.GameOverNewHighscoreCoroutine());
+                    Debug.Log("new highscore");
+                StartCoroutine(playerDissolve.Coroutine_DisolveShield(1.1f));
+            }
+            else
+            {
+                if (GameOverCoroutine == null)
+                    GameOverCoroutine = StartCoroutine(ReferenceLibary.UIMng.GameOverCoroutine());
+
+                Debug.Log("no new highscore");
+                StartCoroutine(playerDissolve.Coroutine_DisolveShield(1.1f));
+            }
+
+           
+        }
+        else
+        {
+           // Debug.Log("CheckVelocity");
+            return;
+        }
+
+        
+
+
+       
+
+        //Problemcode
+        /*
         if(ReferenceLibary.ScoreMng.CheckForNewHighscore() == true)
         {
             ReferenceLibary.ScoreMng.SetNewHighscore();
 
             if (GameOverCoroutine == null)
-                GameOverCoroutine = StartCoroutine(ReferenceLibary.UIMng.GameOverNewHighscoreCoroutine());
-
-            StartCoroutine(PlayerDissolve());
+                //GameOverCoroutine = StartCoroutine(ReferenceLibary.UIMng.GameOverNewHighscoreCoroutine());
+            Debug.Log("new highscore");
+            //StartCoroutine(playerDissolve.Coroutine_DisolveShield(1));
         }
         else
         {
             if (GameOverCoroutine == null)
                 GameOverCoroutine = StartCoroutine(ReferenceLibary.UIMng.GameOverCoroutine());
 
-            StartCoroutine(PlayerDissolve());
+            Debug.Log("no new highscore");
+            //StartCoroutine(playerDissolve.Coroutine_DisolveShield(1));
         }
+        */
 
     }
 
+    /*
     [SerializeField] GameObject MeshOutside;
     private Material DissolveMaterial;
 
@@ -173,10 +213,10 @@ public class GameManager : MonoBehaviour
         Debug.Log("3");
         yield return null;
     }
-  
+  */
 
-    #region Control Hex Effect Amount
-    [HideInInspector] public int ChangeDirectionCounter;
+        #region Control Hex Effect Amount
+        [HideInInspector] public int ChangeDirectionCounter;
     [HideInInspector] public bool AllowChangeDirection;
 
     [HideInInspector] public int BoostForwardCounter;

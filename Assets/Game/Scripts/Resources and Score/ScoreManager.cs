@@ -72,12 +72,21 @@ public class ScoreManager : MonoBehaviour
 
     public bool CheckForNewHighscore()
     {
-        if(PlayerPrefs.GetFloat("Highscore") < CurrentScore)
+        Debug.Log("CheckForNewHighscore");
+        if (PlayerPrefs.GetFloat("Highscore") < CurrentScore)
         {
+            Debug.Log("Highscorechek true");
             return true;
+
         }
         else
-             return false;
+        {
+            Debug.Log("Highscorechek false");
+            return false;
+        }
+
+        Debug.Log("What??");
+        return false;
     }
 
     public void SetNewHighscore()

@@ -11,7 +11,9 @@ public class PlayerSuperDash : MonoBehaviour
     [SerializeField] private float ShadowDashDuration;
     [SerializeField] private AnimationCurve SuperDashcurve;
     [SerializeField] public bool isSuperDashing = false; //used to lock other boosts
-    [SerializeField] private Coroutine superDashCoroutine;
+    
+    public Coroutine superDashCoroutine;
+
     [SerializeField] public float currentSuperDashForce = 0.0f;
     [SerializeField] private float disappearingDuringSuperDashStart;
     [SerializeField] private float disappearingDuringSuperDashEnd; 
@@ -108,6 +110,7 @@ public class PlayerSuperDash : MonoBehaviour
 
     }
 
+     
 
     private IEnumerator SuperDashCoroutine()
     {

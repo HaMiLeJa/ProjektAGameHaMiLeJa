@@ -258,38 +258,55 @@ public class UIManager : MonoBehaviour
         //EndMessage.SetActive(true);
     }
 
+
+    public IEnumerator TestCoroutine()
+    {
+        Debug.Log("TestCoroutine");
+        StartCoroutine(GameOverCoroutine());
+        yield return null;
+    }
+
+
    public IEnumerator GameOverCoroutine()
    {
-        bool UpdateUI = true;
-        yield return new WaitForSeconds(10f);
+        //bool UpdateUI = true;
+
+        yield return new WaitForSeconds(3f);
+        
+        
+        
         IngameCanvas.SetActive(false);
         GameOverCanvas.SetActive(true);
         NewHighscoreMessage.SetActive(false);
         PointsMessage.text = ScoreManager.CurrentScore + " points";
         CurrentHighscoreMessage.text = "CurrentHighscore: " + PlayerPrefs.GetFloat("Highscore");
-
-        while (UpdateUI)
+        
+      /*  while (UpdateUI)
         {
 
 
             //Effects
 
-        }
-
+        }*/
+        
         yield return null;
 
-    }
+   }
 
     public IEnumerator GameOverNewHighscoreCoroutine()
     {
-        bool UpdateUI = true;
-        yield return new WaitForSeconds(4f);
+        //bool UpdateUI = true;
+       
+
+        yield return new WaitForSeconds(3f);
+
         IngameCanvas.SetActive(false);
         GameOverCanvas.SetActive(true);
         PointsMessage.text = ScoreManager.CurrentScore + " points";
         NewHighscoreMessage.SetActive(true);
         CurrentHighscoreMessage.text = "";
 
+        /*
         while (UpdateUI)
         {
 
@@ -297,7 +314,7 @@ public class UIManager : MonoBehaviour
 
 
         }
-
+        */
         yield return null;
 
     }

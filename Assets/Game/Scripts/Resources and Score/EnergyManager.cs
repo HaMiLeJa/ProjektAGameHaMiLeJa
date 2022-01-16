@@ -53,7 +53,8 @@ public class EnergyManager : MonoBehaviour //for points and energy
 
         currentEnergyForInspector = CurrentEnergy;
 
-        CheckEnergyAmount();
+        if(GameManager.Instance.GameOver == false)
+            CheckEnergyAmount();
     }
 
 
@@ -88,6 +89,7 @@ public class EnergyManager : MonoBehaviour //for points and energy
 
     public IEnumerator ModifyEnergy(float value)
     {
+        //Debug.Log("ModifyEnergy Started");
         float absValue = Mathf.Abs(value);
 
         float step = stepSize * Mathf.Sign(value);
@@ -95,11 +97,26 @@ public class EnergyManager : MonoBehaviour //for points and energy
 
         while (stepsDone < absValue)
         {
+            //Debug.Log("whileloop");
             CurrentEnergy += step;
             stepsDone += stepSize;
 
             UIManager.Instance.UpdateEnergyUI();
 
+            if (Mathf.Approximately(CurrentEnergy, 0) == true)
+            {
+                //Debug.Log("Breaked");
+
+                break;
+            }
+
+           /* if (CurrentEnergy <= 0)
+            {
+                Debug.Log("Breaked");
+               
+                break;
+            }
+           */
             yield return new WaitForFixedUpdate();
         }
 
@@ -112,11 +129,17 @@ public class EnergyManager : MonoBehaviour //for points and energy
     {
         if (CurrentEnergy <= 0)
         {
-            //if (startDash.Boosting == true) return;
+            //if (startDash.Boosting == true) return; OLD
+           
+            Debug.Log("EnergyManager: Energy <= 0");
 
             gameMng.AllowMovement = false;
+            Debug.Log("AllowMovement false");
+            
+            //StopAllCoroutines(); OLD
 
-            StopAllCoroutines();
+            //if(GameManager.Instance.GameOver == false)
+                GameManager.Instance.CheckForEndOfGame();
         }
         else
         {
