@@ -84,9 +84,6 @@ public class ScoreManager : MonoBehaviour
             Debug.Log("Highscorechek false");
             return false;
         }
-
-        Debug.Log("What??");
-        return false;
     }
 
     public void SetNewHighscore()

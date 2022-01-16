@@ -6,13 +6,10 @@ public class AudioManager : MonoBehaviour
 {
     [HideInInspector] public bool allowAudio = true;
 
-    [SerializeField] bool allowAudioInsp = true;
 
     private void Start()
     {
-#if UNITY_EDITOR
-        allowAudio = allowAudioInsp;
-#endif
+
     }
 
     #region Singleton
