@@ -29,6 +29,7 @@ public class ReferenceLibary : MonoBehaviour
     public static CollectableManager ColMng;
     public static GameManager GameMng;
     public static ScoreManager ScoreMng;
+    public static WindconditionManager WinconMng;
 
     private void Awake()
     {
@@ -54,6 +55,7 @@ public class ReferenceLibary : MonoBehaviour
         ColMng = FindObjectOfType<CollectableManager>();
         GameMng = FindObjectOfType<GameManager>();
         ScoreMng = FindObjectOfType<ScoreManager>();
+        WinconMng = FindObjectOfType<WindconditionManager>();
     }
 
 }

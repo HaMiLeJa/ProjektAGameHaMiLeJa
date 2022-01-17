@@ -263,6 +263,7 @@ public class UIManager : MonoBehaviour
         HexUnlocked.gameObject.SetActive(false);
 
         MoreMissions.gameObject.SetActive(true);
+        ReferenceLibary.MissionMng.NoMissionLeft.ReactiveMissions();
 
         yield return new WaitForSeconds(3f);
         MoreMissions.CrossFadeAlpha(0, 0.5f, true);
@@ -293,6 +294,7 @@ public class UIManager : MonoBehaviour
         AlreadyUnlocked.gameObject.SetActive(false);
 
         MoreMissions.gameObject.SetActive(true);
+        ReferenceLibary.MissionMng.NoMissionLeft.ReactiveMissions();
 
         yield return new WaitForSeconds(3f);
         MoreMissions.CrossFadeAlpha(0, 0.5f, true);
@@ -322,6 +324,7 @@ public class UIManager : MonoBehaviour
         
 
         MoreMissions.gameObject.SetActive(true);
+        ReferenceLibary.MissionMng.NoMissionLeft.ReactiveMissions();
 
         yield return new WaitForSeconds(3f);
         MoreMissions.CrossFadeAlpha(0, 0.5f, true);
