@@ -9,8 +9,7 @@ public class GameStateManager : MonoBehaviour
     enum GameState
     {
         Play,
-        Pause,
-        End
+        Pause
     }
 
 
@@ -23,7 +22,6 @@ public class GameStateManager : MonoBehaviour
     {
         if (Input.GetButtonDown("Pause"))
         {
-            Debug.Log("PauseButton");
             switch(gameState)
             {
                 case GameState.Play:
@@ -31,8 +29,6 @@ public class GameStateManager : MonoBehaviour
                     break;
                 case GameState.Pause:
                     ResumeGame();
-                    break;
-                case GameState.End:
                     break;
                 default:
                     break;
@@ -62,4 +58,10 @@ public class GameStateManager : MonoBehaviour
         gameState = GameState.Play;
     }
 
+
+
+    void EndOfGame()
+    {
+        Time.timeScale = 0;
+    }
 }

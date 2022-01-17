@@ -15,7 +15,7 @@ public class MissionManager : MonoBehaviour
     [HideInInspector] public MissionStateActiveMission ActiveMissionState;
     MissionStateCompletedMission CompletedMissionState;
     MissionStateUncompletedMission UncompletedMissionState;
-    MissionStateNoMissionsLeft NoMissionLeft;
+    [HideInInspector]public MissionStateNoMissionsLeft NoMissionLeft;
 
     public static MissionInformation CurrentMission;
     
@@ -89,8 +89,8 @@ public class MissionManager : MonoBehaviour
                 CollectableManager.OnRespawnCollectables?.Invoke();
                 break;
             case MissionState.noMissionsLeft:
-                NoMissionLeft.CheckForWinConMission();
-                SwitchToNoMissionState();
+                ReferenceLibary.WinconMng.CheckForWinConMission();
+                
                 break;
             default:
                 break;

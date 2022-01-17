@@ -120,14 +120,18 @@ public class GameManager : MonoBehaviour
        //     CheckForEndOfGame();
     }
 
+
+    #region EndOfGame
+
     Coroutine GameOverCoroutine;
-   [SerializeField] Dissolve playerDissolve;
-    float timer;
+    [SerializeField] Dissolve playerDissolve;
+    
+
     public void CheckForEndOfGame()
     {
+
         // if (EnergyManager.CurrentEnergy > 0) return;
        
-
         if (Mathf.Approximately(playerRb.velocity.x, 0) && Mathf.Approximately(playerRb.velocity.y, 0) && Mathf.Approximately(playerRb.velocity.z, 0))
         {
             Debug.Log("GameOver");
@@ -159,37 +163,12 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        
-
-
-       
-
-        //Problemcode
-        /*
-        if(ReferenceLibary.ScoreMng.CheckForNewHighscore() == true)
-        {
-            ReferenceLibary.ScoreMng.SetNewHighscore();
-
-            if (GameOverCoroutine == null)
-                //GameOverCoroutine = StartCoroutine(ReferenceLibary.UIMng.GameOverNewHighscoreCoroutine());
-            Debug.Log("new highscore");
-            //StartCoroutine(playerDissolve.Coroutine_DisolveShield(1));
-        }
-        else
-        {
-            if (GameOverCoroutine == null)
-                GameOverCoroutine = StartCoroutine(ReferenceLibary.UIMng.GameOverCoroutine());
-
-            Debug.Log("no new highscore");
-            //StartCoroutine(playerDissolve.Coroutine_DisolveShield(1));
-        }
-        */
 
     }
+    #endregion
 
-
-        #region Control Hex Effect Amount
-        [HideInInspector] public int ChangeDirectionCounter;
+    #region Control Hex Effect Amount
+    [HideInInspector] public int ChangeDirectionCounter;
     [HideInInspector] public bool AllowChangeDirection;
 
     [HideInInspector] public int BoostForwardCounter;

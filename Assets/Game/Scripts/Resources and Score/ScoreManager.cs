@@ -43,6 +43,10 @@ public class ScoreManager : MonoBehaviour
         OnScoring += UpdateScore;
         OnScoring += UIManager.Instance.UpdateScore;
 
+        if (ReferenceLibary.WinconMng.WinConPoints == 0)
+            OnScoring += ReferenceLibary.WinconMng.CheckForWinConPoints;
+
+
         OnMultiplicatorUpdate += UpdateMultiplicator;
         OnMultiplicatorUpdate += UIManager.Instance.UpdateMultiplicatorUI;
 
@@ -60,6 +64,8 @@ public class ScoreManager : MonoBehaviour
     void UpdateScore(float value)
     {
         CurrentScore += (value * CurrentMultiplicator);
+
+        
     }
 
     void UpdateMultiplicator(float value)
