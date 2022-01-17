@@ -4,6 +4,27 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
+public class Bootstrapper
+{
+   private const string SceneName = "PersistantScene";
+
+   [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+   public static void Execute()
+   {
+      //check if its loaded already
+      for (int sceneIndex = 0; sceneIndex < SceneManager.sceneCount; ++sceneIndex)
+      {
+         Scene candidate = SceneManager.GetSceneAt(sceneIndex);
+         if (candidate.name == SceneName)
+            return;
+      }
+      //add bootstrapscene
+      SceneManager.LoadScene(SceneName, LoadSceneMode.Additive);
+   }
+
+}
+
 public class GameSceneManager : MonoBehaviour
 {
    public static GameSceneManager instance;
@@ -55,7 +76,7 @@ public class GameSceneManager : MonoBehaviour
    Debug.Log("Setting active scene..");
    SceneManager.SetActiveScene (scene);
    //unloads the persistant scene
-   //hasAllTheScenesLoading.Add(UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync((int)SceneIndexes.MANAGER));
+   hasAllTheScenesLoading.Add(UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync((int)SceneIndexes.MANAGER));
 }
 
 private float totalSceneProgress;

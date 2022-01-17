@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using Unity.Mathematics;
+using UnityEngine.Rendering.Universal;
 public class CameraZoomOut : MonoBehaviour
 {
     private PlayerMovement _playerMovement;
@@ -14,7 +15,16 @@ public class CameraZoomOut : MonoBehaviour
     private float cashedFov;
     private Transform lookAtCashed;
     private Transform targetAtCashed;
+    public GameObject ghostLayer;
+    private float lerpedValueGhostLayerX;
+    private float lerpedValueGhostLayerZ;
+    private float cashedXScale;
+    private float cashedZScale;
+
+    [SerializeField] private float addXScaleGhostlayer;
+    [SerializeField] private float addZScaleGhostlayer;
     
+
     [Header("Camera Zoomout")]
     [Space]
     
@@ -38,7 +48,9 @@ public class CameraZoomOut : MonoBehaviour
        
         _playerMovement = FindObjectOfType<PlayerMovement>();
         cashedFov = vcam.m_Lens.FieldOfView;
-    }
+        cashedXScale = ghostLayer.transform.localScale.x;
+        cashedZScale = ghostLayer.transform.localScale.z;
+   }
     
     void FixedUpdate()
     {
@@ -56,10 +68,23 @@ public class CameraZoomOut : MonoBehaviour
 
             lerpedValue = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, cashedFov, maxFov, xzVelocity);
         
+            lerpedValueGhostLayerX = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, cashedXScale, cashedXScale+ addXScaleGhostlayer, xzVelocity);
+            lerpedValueGhostLayerZ = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, cashedZScale, cashedZScale+ addZScaleGhostlayer, xzVelocity);
        // Debug.Log(lerpedValue);
-        if(cashedFov+ZoomOutDelay < lerpedValue)
-        vcam.m_Lens.FieldOfView = Mathf.Lerp(vcam.m_Lens.FieldOfView, lerpedValue, zoomOutRoughness*Time.deltaTime);
-       // Debug.Log(zoomOutRoughness * Time.deltaTime);
+       
+       
+       if (cashedFov + ZoomOutDelay < lerpedValue)
+       {
+           vcam.m_Lens.FieldOfView = Mathf.Lerp(vcam.m_Lens.FieldOfView, lerpedValue, zoomOutRoughness*Time.deltaTime);
+           ghostLayer.transform.localScale = new Vector3(
+                   Mathf.Lerp(ghostLayer.transform.localScale.x, lerpedValueGhostLayerX, zoomOutRoughness*Time.deltaTime),
+                   ghostLayer.transform.localScale.y ,
+                   Mathf.Lerp(ghostLayer.transform.localScale.z, lerpedValueGhostLayerZ, zoomOutRoughness*Time.deltaTime)
+               )
+               ;
+           // Debug.Log(zoomOutRoughness * Time.deltaTime);
+       }
+      
      }
     }
     
