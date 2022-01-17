@@ -27,10 +27,10 @@ public class GameManager : MonoBehaviour
 
     #region BoostCosts
     [Header("Boost Costs")]
-    public float SuperDashCosts = 1;
-    public float DashCosts = 1;
-    public float ShadowDashCosts = 1;
-    public float DownDashCosts = 1;
+    public float DashCosts = 0.5f;
+    public float SuperDashCosts = 2;
+    public float ShadowDashCosts = 2;
+    public float DownDashCosts = 2;
     #endregion
     
     #region Inspector
@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour
    // GameObject player;
    
     Rigidbody playerRb;
+
+   public bool GameOver = false;
     #endregion
 
 
@@ -73,8 +75,6 @@ public class GameManager : MonoBehaviour
     }
     #endregion
     
-    
-
     private void Start()
     {
         //player = ReferenceLibary.Player;
@@ -82,6 +82,10 @@ public class GameManager : MonoBehaviour
         CameraHelper = GameObject.FindGameObjectWithTag("CameraHelper");
         vcam = GetComponent<CinemachineVirtualCamera>();
 
+        if (PlayerPrefs.HasKey("Highscore") == false)
+            PlayerPrefs.SetFloat("Highscore", 0);
+
+        Debug.Log("Highscore: " + PlayerPrefs.GetFloat("Highscore"));
     }
 
 
@@ -110,28 +114,82 @@ public class GameManager : MonoBehaviour
             UnityEngine.SceneManagement.SceneManager.LoadScene(currentScene);
         }
 
-        /*
-        if(Input.GetKeyDown(KeyCode.M))
-        {
-            SceneManager.LoadScene("PrototypStartMenu");
-        }*/
+       
 
-        CheckForEndOfGame();
+       // if(GameOver==false)
+       //     CheckForEndOfGame();
     }
 
-    void CheckForEndOfGame()
+    Coroutine GameOverCoroutine;
+   [SerializeField] Dissolve playerDissolve;
+    float timer;
+    public void CheckForEndOfGame()
     {
-        if(EnergyManager.CurrentEnergy <= 0)
+        // if (EnergyManager.CurrentEnergy > 0) return;
+       
+
+        if (Mathf.Approximately(playerRb.velocity.x, 0) && Mathf.Approximately(playerRb.velocity.y, 0) && Mathf.Approximately(playerRb.velocity.z, 0))
         {
-            if(playerRb.velocity == Vector3.zero)
+            Debug.Log("GameOver");
+            GameOver = true;
+
+            if (ReferenceLibary.ScoreMng.CheckForNewHighscore() == true)
             {
-                UIManager.Instance.ShowEndMessage();
+                ReferenceLibary.ScoreMng.SetNewHighscore();
+
+                if (GameOverCoroutine == null)
+                    GameOverCoroutine = StartCoroutine(ReferenceLibary.UIMng.GameOverNewHighscoreCoroutine());
+                    Debug.Log("new highscore");
+                StartCoroutine(playerDissolve.Coroutine_DisolveShield(1.1f));
             }
+            else
+            {
+                if (GameOverCoroutine == null)
+                    GameOverCoroutine = StartCoroutine(ReferenceLibary.UIMng.GameOverCoroutine());
+
+                Debug.Log("no new highscore");
+                StartCoroutine(playerDissolve.Coroutine_DisolveShield(1.1f));
+            }
+
+           
         }
+        else
+        {
+           // Debug.Log("CheckVelocity");
+            return;
+        }
+
+        
+
+
+       
+
+        //Problemcode
+        /*
+        if(ReferenceLibary.ScoreMng.CheckForNewHighscore() == true)
+        {
+            ReferenceLibary.ScoreMng.SetNewHighscore();
+
+            if (GameOverCoroutine == null)
+                //GameOverCoroutine = StartCoroutine(ReferenceLibary.UIMng.GameOverNewHighscoreCoroutine());
+            Debug.Log("new highscore");
+            //StartCoroutine(playerDissolve.Coroutine_DisolveShield(1));
+        }
+        else
+        {
+            if (GameOverCoroutine == null)
+                GameOverCoroutine = StartCoroutine(ReferenceLibary.UIMng.GameOverCoroutine());
+
+            Debug.Log("no new highscore");
+            //StartCoroutine(playerDissolve.Coroutine_DisolveShield(1));
+        }
+        */
+
     }
 
-    #region Control Hex Effect Amount
-    [HideInInspector] public int ChangeDirectionCounter;
+
+        #region Control Hex Effect Amount
+        [HideInInspector] public int ChangeDirectionCounter;
     [HideInInspector] public bool AllowChangeDirection;
 
     [HideInInspector] public int BoostForwardCounter;
@@ -195,4 +253,7 @@ public class GameManager : MonoBehaviour
 
     }
     #endregion
+
+
+   
 }

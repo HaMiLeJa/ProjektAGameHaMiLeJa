@@ -15,7 +15,7 @@ public class PlayOnCollision : MonoBehaviour
     {
         if(collision.gameObject == ReferenceLibary.Player)
         {
-            if (myAudioSource.isPlaying == false && AudioManager.Instance.allowAudio == true)
+            if (myAudioSource.isPlaying == false)
                 myAudioSource.Play();
         }
     }

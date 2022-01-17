@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int maxSpeedLimitStartClamping= 800;
     [Space]
     
-    [SerializeField] float totalVelocity;
+    public float TotalVelocity;
     [SerializeField] float velocityInfluence = 0.1f;
     [Space]
 
@@ -84,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
         GroundCheck();
         Gravity();
         HightControl();
-        totalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.y) + Mathf.Abs(Velocity.z);
+        TotalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.y) + Mathf.Abs(Velocity.z);
 
 
         if (gameMng.AllowMovement == false) return;
@@ -132,8 +132,8 @@ public class PlayerMovement : MonoBehaviour
         //??
         if (OnGround == false)
         {
-            totalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.z);
-            float velocityPower = totalVelocity * velocityInfluence/2 * Time.deltaTime;
+            TotalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.z);
+            float velocityPower = TotalVelocity * velocityInfluence/2 * Time.deltaTime;
 
             rb.velocity = (rb.velocity + (MovementDirection * velocityPower));
         }
@@ -164,7 +164,7 @@ public class PlayerMovement : MonoBehaviour
 
     void ControlVelocity()
     {
-        if(totalVelocity > 300) //von total Velocity abhängig machen
+        if(TotalVelocity > 300) //von total Velocity abhängig machen
         {
           rb.velocity = new Vector3(rb.velocity.x * 1.1f, rb.velocity.y, rb.velocity.z * 1.0001f * Time.deltaTime);
         }
@@ -172,12 +172,12 @@ public class PlayerMovement : MonoBehaviour
         
         if(Velocity == Vector3.zero)
         {
-            if (basedrumAudioSource.isPlaying == false && audManager.allowAudio == true)
+            if (basedrumAudioSource.isPlaying == false)
                 basedrumAudioSource.Stop();
         }
         else
         {
-            if (basedrumAudioSource.isPlaying == false && audManager.allowAudio == true)
+            if (basedrumAudioSource.isPlaying == false)
                 basedrumAudioSource.Play();
         }
         
@@ -193,7 +193,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 allowJump = true;
 
-                if (jumpAudioSource.isPlaying == false && audManager.allowAudio == true)
+                if (jumpAudioSource.isPlaying == false)
                     jumpAudioSource.Play();
             }
 

@@ -5,12 +5,17 @@ using UnityEngine.UI;
 
 public class MissionManager : MonoBehaviour
 {
+    public static int MissionAmount;
+    public static int CompletedMissions;
+    public static int MissionRound = 0;
+
     MissionStateNoMission NoMissionMissionState;
     MissionStateFindMission FindMissionState;
     MissionStatePrepareMission PrepareMissionState;
-    public MissionStateActiveMission ActiveMissionState;
+    [HideInInspector] public MissionStateActiveMission ActiveMissionState;
     MissionStateCompletedMission CompletedMissionState;
     MissionStateUncompletedMission UncompletedMissionState;
+    MissionStateNoMissionsLeft NoMissionLeft;
 
     public static MissionInformation CurrentMission;
     
@@ -25,6 +30,9 @@ public class MissionManager : MonoBehaviour
     public static bool ItemCollected = false;
     public static bool ItemDelivered = false;
     public float BringItemDistance = 0;
+
+    //For NoMissionsLeft State
+    
 
     static MissionState missionState = MissionState.noMission;
     enum MissionState
@@ -46,11 +54,14 @@ public class MissionManager : MonoBehaviour
         ActiveMissionState = GetComponentInChildren<MissionStateActiveMission>();
         CompletedMissionState = GetComponentInChildren<MissionStateCompletedMission>();
         UncompletedMissionState = GetComponentInChildren<MissionStateUncompletedMission>();
+        NoMissionLeft = GetComponentInChildren<MissionStateNoMissionsLeft>();
     }
 
 
     void Update()
     {
+        if (GameManager.Instance.GameOver == true) return;
+
         switch (missionState)
         {
             case MissionState.noMission:
@@ -70,12 +81,16 @@ public class MissionManager : MonoBehaviour
             case MissionState.CompletedMission:
                 CompletedMissionState.UpdateCompletedMission();
                 CheckForAllMissionsDone();
+                CollectableManager.OnRespawnCollectables?.Invoke();
                 break;
             case MissionState.UncompletedMission:
                 UncompletedMissionState.UpdateUncompletedMission();
                 CheckForAllMissionsDone();
+                CollectableManager.OnRespawnCollectables?.Invoke();
                 break;
             case MissionState.noMissionsLeft:
+                NoMissionLeft.CheckForWinConMission();
+                SwitchToNoMissionState();
                 break;
             default:
                 break;
@@ -127,7 +142,7 @@ public class MissionManager : MonoBehaviour
 
 
 
-
+    //Check if alle missiosn erfüllt wurden oder nicht, dann mission restart
     public void CheckForAllMissionsDone()
     {
         if(ReferenceLibary.MissLib.Missions.Count == 0)
@@ -139,4 +154,6 @@ public class MissionManager : MonoBehaviour
             SwitchToNoMissionState();
         }
     }
+
+
 }

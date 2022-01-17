@@ -7,16 +7,23 @@ public class UIManager : MonoBehaviour
 {
     GameManager gameMng;
 
+    [Header ("Basic UI")]
     [SerializeField] TMPro.TMP_Text score;
     [SerializeField] TMPro.TMP_Text multiplicator;
     //[SerializeField] TMPro.TMP_Text CurrentEnergy;
     [SerializeField] Image CurrentEnergy;
 
-    [SerializeField] GameObject EndMessage;
-
     public GameObject PauseCanvas;
-    public GameObject GameOverCanvas;
+
     public GameObject IngameCanvas;
+    
+
+    [Header("GameOver")]
+    public GameObject GameOverCanvas;
+    [SerializeField] GameObject GameOverMessage;
+    [SerializeField] TMPro.TMP_Text PointsMessage;
+    [SerializeField] GameObject NewHighscoreMessage;
+    [SerializeField] TMPro.TMP_Text CurrentHighscoreMessage;
 
 
     #region Singleton
@@ -54,8 +61,11 @@ public class UIManager : MonoBehaviour
         DeactivateDestroyObjUI();
         DeactivateCollectPointsUI();
         DeactivateBringItemUI();
+        WinConMissions.SetActive(false);
 
     }
+
+    
 
     #region Missions
 
@@ -66,13 +76,15 @@ public class UIManager : MonoBehaviour
     
     public void UpdateBasicMissionUI()
     {
-        BasicMissionUI.SetActive(true);
-        missionTimeTxt.text = "Time remaining: " + MissionManager.MissionTimeLeft.ToString();
+
+        int seconds = (int)MissionManager.MissionTimeLeft;
+        missionTimeTxt.text = "Time remaining: " + seconds.ToString();
     }
     public void ActivateBasicMissionUI()
     {
-       
-        missionTimeTxt.text = "Time remaining: " + MissionManager.CurrentMission.time;
+        BasicMissionUI.SetActive(true);
+        int seconds = (int)MissionManager.CurrentMission.time;
+        missionTimeTxt.text = "Time remaining: " + seconds;
     }
 
   
@@ -90,7 +102,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject noMissionParent;
     public void TimerUntilNexMission()
     {
-        nextMissionTxt.text = "Next Mission in: " + MissionStateNoMission.duration;
+
+        int seconds = (int)MissionStateNoMission.duration ;
+
+        nextMissionTxt.text = "Next Mission in: " + seconds;
     }
 
     public void ActivateNoMissionUI()
@@ -221,6 +236,106 @@ public class UIManager : MonoBehaviour
     #endregion
     #endregion
 
+    #region WinConMissions
+    [Header("WinConMissions")]
+    [SerializeField] GameObject WinConMissions;
+    [SerializeField] TMPro.TMP_Text AllCompleted;
+    [SerializeField] TMPro.TMP_Text HexUnlocked;
+    [SerializeField] TMPro.TMP_Text AlreadyUnlocked;
+    [SerializeField] TMPro.TMP_Text Failed;
+    [SerializeField] TMPro.TMP_Text MoreMissions;
+
+    public IEnumerator UIHexUnlocked()
+    {
+        WinConMissions.SetActive(true);
+        AllCompleted.gameObject.SetActive(true);
+        HexUnlocked.gameObject.SetActive(true);
+        
+
+        yield return new WaitForSeconds(2f);
+       
+        AllCompleted.CrossFadeAlpha(0, 0.5f, true); //Ausfaden
+        HexUnlocked.CrossFadeAlpha(0, 0.5f, true);
+
+        yield return new WaitForSeconds(3f);
+
+        AllCompleted.gameObject.SetActive(false);
+        HexUnlocked.gameObject.SetActive(false);
+
+        MoreMissions.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(3f);
+        MoreMissions.CrossFadeAlpha(0, 0.5f, true);
+
+        yield return new WaitForSeconds(2f);
+
+        MoreMissions.gameObject.SetActive(false);
+        WinConMissions.SetActive(false);
+
+        yield return null;
+    }
+
+
+    public IEnumerator UIHexAlreadyUnlocked()
+    {
+        WinConMissions.SetActive(true);
+        AllCompleted.gameObject.SetActive(true);
+        AlreadyUnlocked.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(2f);
+
+        AllCompleted.CrossFadeAlpha(0, 0.5f, true); //Ausfaden
+        AlreadyUnlocked.CrossFadeAlpha(0, 0.5f, true);
+
+        yield return new WaitForSeconds(3f);
+
+        AllCompleted.gameObject.SetActive(false);
+        AlreadyUnlocked.gameObject.SetActive(false);
+
+        MoreMissions.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(3f);
+        MoreMissions.CrossFadeAlpha(0, 0.5f, true);
+
+        yield return new WaitForSeconds(2f);
+
+        MoreMissions.gameObject.SetActive(false);
+        WinConMissions.SetActive(false);
+
+
+        yield return null;
+    }
+
+    public IEnumerator UIHexUnlockedFailed()
+    {
+        WinConMissions.SetActive(true);
+        Failed.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(2f);
+
+        Failed.CrossFadeAlpha(0, 0.5f, true); //Ausfaden
+        
+
+        yield return new WaitForSeconds(3f);
+
+        Failed.gameObject.SetActive(false);
+        
+
+        MoreMissions.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(3f);
+        MoreMissions.CrossFadeAlpha(0, 0.5f, true);
+
+        yield return new WaitForSeconds(2f);
+
+        MoreMissions.gameObject.SetActive(false);
+        WinConMissions.SetActive(false);
+        yield return null;
+    }
+
+
+    #endregion
+
     #region Energy
     public void UpdateEnergyUI()
     {
@@ -244,7 +359,70 @@ public class UIManager : MonoBehaviour
     public void ShowEndMessage()
     {
         GameOverCanvas.SetActive(true);
-        EndMessage.SetActive(true);
+        //EndMessage.SetActive(true);
     }
+
+
+    public IEnumerator TestCoroutine()
+    {
+        Debug.Log("TestCoroutine");
+        StartCoroutine(GameOverCoroutine());
+        yield return null;
+    }
+
+
+   public IEnumerator GameOverCoroutine()
+   {
+        //bool UpdateUI = true;
+
+        yield return new WaitForSeconds(3f);
+        
+        
+        
+        IngameCanvas.SetActive(false);
+        GameOverCanvas.SetActive(true);
+        NewHighscoreMessage.SetActive(false);
+        PointsMessage.text = ScoreManager.CurrentScore + " points";
+        CurrentHighscoreMessage.text = "CurrentHighscore: " + PlayerPrefs.GetFloat("Highscore");
+        
+      /*  while (UpdateUI)
+        {
+
+
+            //Effects
+
+        }*/
+        
+        yield return null;
+
+   }
+
+    public IEnumerator GameOverNewHighscoreCoroutine()
+    {
+        //bool UpdateUI = true;
+       
+
+        yield return new WaitForSeconds(3f);
+
+        IngameCanvas.SetActive(false);
+        GameOverCanvas.SetActive(true);
+        PointsMessage.text = ScoreManager.CurrentScore + " points";
+        NewHighscoreMessage.SetActive(true);
+        CurrentHighscoreMessage.text = "";
+
+        /*
+        while (UpdateUI)
+        {
+
+            //Effects
+
+
+        }
+        */
+        yield return null;
+
+    }
+
+
     #endregion
 }

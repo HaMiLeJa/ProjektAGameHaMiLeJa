@@ -145,7 +145,7 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
             {
                 StartPortal = false;
 
-                if (myAudioSource.isPlaying == false && AudioManager.Instance.allowAudio == true)
+                if (myAudioSource.isPlaying == false)
                     myAudioSource.Play();
             }
             
