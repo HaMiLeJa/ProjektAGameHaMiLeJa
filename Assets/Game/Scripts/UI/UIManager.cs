@@ -240,7 +240,7 @@ public class UIManager : MonoBehaviour
     [Header("WinConMissions")]
     [SerializeField] GameObject WinConMissions;
     [SerializeField] TMPro.TMP_Text AllCompleted;
-    [SerializeField] TMPro.TMP_Text HexUnlocked;
+    [SerializeField] TMPro.TMP_Text MissionHexUnlocked;
     [SerializeField] TMPro.TMP_Text AlreadyUnlocked;
     [SerializeField] TMPro.TMP_Text Failed;
     [SerializeField] TMPro.TMP_Text MoreMissions;
@@ -249,18 +249,18 @@ public class UIManager : MonoBehaviour
     {
         WinConMissions.SetActive(true);
         AllCompleted.gameObject.SetActive(true);
-        HexUnlocked.gameObject.SetActive(true);
+        MissionHexUnlocked.gameObject.SetActive(true);
         
 
         yield return new WaitForSeconds(2f);
        
         AllCompleted.CrossFadeAlpha(0, 0.5f, true); //Ausfaden
-        HexUnlocked.CrossFadeAlpha(0, 0.5f, true);
+        MissionHexUnlocked.CrossFadeAlpha(0, 0.5f, true);
 
         yield return new WaitForSeconds(3f);
 
         AllCompleted.gameObject.SetActive(false);
-        HexUnlocked.gameObject.SetActive(false);
+        MissionHexUnlocked.gameObject.SetActive(false);
 
         MoreMissions.gameObject.SetActive(true);
         ReferenceLibary.MissionMng.NoMissionLeft.ReactiveMissions();
@@ -338,6 +338,67 @@ public class UIManager : MonoBehaviour
 
 
     #endregion
+
+    #region WinConPoints
+    [Header("WinConPoints")]
+    [SerializeField] GameObject WinConPoints;
+    [SerializeField] TMPro.TMP_Text AllPointsCollected;
+    [SerializeField] TMPro.TMP_Text PointHexUnlocked;
+
+    public IEnumerator WinConPointsCoroutine()
+    {
+        WinConPoints.SetActive(true);
+        AllPointsCollected.gameObject.SetActive(true);
+        PointHexUnlocked.gameObject.SetActive(true);
+
+        AllPointsCollected.text = ReferenceLibary.WinconMng.PointsForWinCon + " points collected!";
+
+        yield return new WaitForSeconds(2f);
+
+        AllPointsCollected.CrossFadeAlpha(0, 0.5f, true); //Ausfaden
+        PointHexUnlocked.CrossFadeAlpha(0, 0.5f, true);
+
+        yield return new WaitForSeconds(2f);
+        WinConPoints.SetActive(false);
+
+
+        yield return null;
+    }
+
+
+    #endregion
+
+
+    #region WinConHex
+    [Header("WinConHex")]
+    [SerializeField] GameObject WinConHex;
+    [SerializeField] TMPro.TMP_Text HexCollected;
+    [SerializeField] TMPro.TMP_Text HexHexUnlocked;
+
+    public IEnumerator WinConHexCoroutine()
+    {
+        WinConHex.SetActive(true);
+        HexCollected.gameObject.SetActive(true);
+        PointHexUnlocked.gameObject.SetActive(true);
+
+
+        yield return new WaitForSeconds(2f);
+
+        HexCollected.CrossFadeAlpha(0, 0.5f, true); //Ausfaden
+        HexHexUnlocked.CrossFadeAlpha(0, 0.5f, true);
+
+        yield return new WaitForSeconds(2f);
+        WinConHex.SetActive(false);
+
+
+        yield return null;
+    }
+
+
+
+
+    #endregion
+
 
     #region Energy
     public void UpdateEnergyUI()
