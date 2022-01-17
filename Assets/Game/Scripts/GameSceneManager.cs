@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/*
 public class Bootstrapper
 {
    private const string SceneName = "PersistantScene";
@@ -22,9 +23,8 @@ public class Bootstrapper
       //add bootstrapscene
       SceneManager.LoadScene(SceneName, LoadSceneMode.Additive);
    }
-
 }
-
+*/
 public class GameSceneManager : MonoBehaviour
 {
    public static GameSceneManager instance;
