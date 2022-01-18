@@ -138,7 +138,7 @@ Material:
     - _Contrast: 1
     - _Cull: 0
     - _Culling: 2
-    - _Cutoff: 0.51
+    - _Cutoff: 0.687
     - _CutoffSoftness: 0.778
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
