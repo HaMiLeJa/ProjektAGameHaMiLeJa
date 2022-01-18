@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class MissionStateCompletedMission : MonoBehaviour
 {
-
-
-
    public void UpdateCompletedMission()
    {
         Debug.Log("MissionCompleted");
