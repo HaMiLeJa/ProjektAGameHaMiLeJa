@@ -78,13 +78,13 @@ public class UIManager : MonoBehaviour
     {
 
         int seconds = (int)MissionManager.MissionTimeLeft;
-        missionTimeTxt.text = "Time remaining: " + seconds.ToString();
+        missionTimeTxt.text = "Time left: " + seconds.ToString();
     }
     public void ActivateBasicMissionUI()
     {
         BasicMissionUI.SetActive(true);
         int seconds = (int)MissionManager.CurrentMission.time;
-        missionTimeTxt.text = "Time remaining: " + seconds;
+        missionTimeTxt.text = "Time left: " + seconds;
     }
 
   
@@ -105,7 +105,7 @@ public class UIManager : MonoBehaviour
 
         int seconds = (int)MissionStateNoMission.duration ;
 
-        nextMissionTxt.text = "Next Mission in: " + seconds;
+        nextMissionTxt.text = "Next Mission: " + seconds;
     }
 
     public void ActivateNoMissionUI()

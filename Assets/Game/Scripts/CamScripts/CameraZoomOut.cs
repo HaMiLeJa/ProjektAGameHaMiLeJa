@@ -38,6 +38,9 @@ public class CameraZoomOut : MonoBehaviour
    [Range(0, 30)]
    [Tooltip("Vertikale und Horizontale Achse start zoom")] [SerializeField] private float HorizontalVerticalStartZoom = 3;
 
+
+ [Range(0.01f, 20)]
+   [Tooltip("Wie Smooth soll die Kamera zwischen den Werten Lerpen")] [SerializeField] private float moonZoomOutRoughness = 2;
    private void Awake()
    {
        vcamera = vcam;
@@ -77,9 +80,9 @@ public class CameraZoomOut : MonoBehaviour
        {
            vcam.m_Lens.FieldOfView = Mathf.Lerp(vcam.m_Lens.FieldOfView, lerpedValue, zoomOutRoughness*Time.deltaTime);
            ghostLayer.transform.localScale = new Vector3(
-                   Mathf.Lerp(ghostLayer.transform.localScale.x, lerpedValueGhostLayerX, zoomOutRoughness*Time.deltaTime),
+                   Mathf.Lerp(ghostLayer.transform.localScale.x, lerpedValueGhostLayerX, moonZoomOutRoughness*Time.deltaTime),
                    ghostLayer.transform.localScale.y ,
-                   Mathf.Lerp(ghostLayer.transform.localScale.z, lerpedValueGhostLayerZ, zoomOutRoughness*Time.deltaTime)
+                   Mathf.Lerp(ghostLayer.transform.localScale.z, lerpedValueGhostLayerZ, moonZoomOutRoughness*Time.deltaTime)
                )
                ;
            // Debug.Log(zoomOutRoughness * Time.deltaTime);
