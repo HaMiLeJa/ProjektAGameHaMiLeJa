@@ -97,7 +97,7 @@ Shader "HaMiLeJa/VFXShaderTransparent"
             #pragma shader_feature POLAR
             #pragma shader_feature CIRCLE_MASK
             #pragma shader_feature RECT_MASK
-            #pragma shader_feature ENABLE_BENDING
+            #pragma multi_compile __ ENABLE_BENDING
             // make fog work
             #pragma multi_compile_fog
            

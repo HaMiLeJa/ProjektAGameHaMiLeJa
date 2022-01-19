@@ -78,7 +78,7 @@ Shader "HaMiLeJa/VFXShaderOpaque"
             #pragma shader_feature BANDING
             #pragma shader_feature POLAR
             #pragma shader_feature CIRCLE_MASK
-            #pragma shader_feature ENABLE_BENDING
+            #pragma multi_compile __ ENABLE_BENDING
             
             // make fog work
             #pragma multi_compile_fog
