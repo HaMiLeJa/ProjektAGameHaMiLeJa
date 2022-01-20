@@ -6,6 +6,7 @@ using Cinemachine;
 using Cinemachine.Utility;
 using JetBrains.Annotations;
 
+
 public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinander verlinkbar
 {
     [Tooltip ("Link the Goal Portal here")]
@@ -15,89 +16,96 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
     private bool DelayActive = true;
     [HideInInspector] public bool StartPortal = false;
     [HideInInspector] public bool GoalPortal = false;
-    [Range(0.0001f,0.01f)]
-    public float followRoughness = 0.005f;
-    [Header("Increase Cam speed at")]
-    [Range(0f,200f)]
-    public float lastDistanceTreshhold = 60f;
-    [Range(0f,10f)]
-    public float lastDistanceSpeedIncreasePercentPerFrame = 1f;
+    
+   
     private float cashedlerpValue;
-    private float snapBackTreshold = 0.0001f;
     private PlayerMovement _playerMovement;
     private float cashedXVelocity, cashedZVelocity, xzVelocity;
     AudioSource myAudioSource;
-    
-
+    private Vector3 cashedCamHelperPos;
+    private float cashedVelocity;
+    private GameManager _gameManager;
     void Start()
     {
         cam = CameraZoomOut.vcamera;
         _playerMovement = ReferenceLibary.PlayerMov;
-        cashedlerpValue = followRoughness;
+        _gameManager = ReferenceLibary.GameMng;
+        cashedlerpValue = _gameManager.followRoughness;
         myAudioSource = this.GetComponent<AudioSource>();
         player = ReferenceLibary.Player;
+        cashedCamHelperPos = GameManager.CameraHelper.transform.position;
+    }
+
+    private void SetBackFollowSpeed()
+    {
+        if (!GameManager.CameraTeleportActive)
+            _gameManager.followRoughness = cashedlerpValue;
     }
 
     private void FixedUpdate()
     {
-        
-        if (!GameManager.CameraTeleportActive)
-        {
-            followRoughness = cashedlerpValue;
        
-        }
+        
         
        if (GameManager.CameraTeleportActive)
        {
-
-           if(GameManager.ZeroOutAllowed)
-                _playerMovement.rb.velocity = Vector3.zero;
-
+         
+           Debug.Log(player.transform.position);
            
-           float  distanceCamHelperPlayer =
-               (Mathf.Abs(GameManager.CameraHelper.transform.position.x) - Mathf.Abs(player.transform.position.x))
-               + (Mathf.Abs(GameManager.CameraHelper.transform.position.z) - Mathf.Abs(player.transform.position.z));
-
-           if(distanceCamHelperPlayer > 10)
+           //Calculate Helper Distance to player
+           float distanceCamHelperPlayer =
+               Mathf.Abs(
+               Mathf.Abs(GameManager.CameraHelper.transform.position.x) - Mathf.Abs(player.transform.position.x)
+              + Mathf.Abs(GameManager.CameraHelper.transform.position.z) - Mathf.Abs(player.transform.position.z));
+            //flot distanceCamHelperPlayer = Vector3.Distance()
+           Debug.Log(distanceCamHelperPlayer);
+           //Zero out speed 
+           if(distanceCamHelperPlayer > Mathf.Abs(8))
                _playerMovement.rb.velocity = Vector3.zero;
-           if(distanceCamHelperPlayer < 10)
-               _playerMovement.rb.velocity = new Vector3(cashedXVelocity, 0, cashedZVelocity);
-           
-           if (distanceCamHelperPlayer < 20 && GameManager.StopGiveVelocityBack)
+
+           if (distanceCamHelperPlayer < Mathf.Abs(8) && GameManager.StopGiveVelocityBack)
            {
-              
                GameManager.StopGiveVelocityBack = !GameManager.StopGiveVelocityBack;
            }
-               
-           
-           if (distanceCamHelperPlayer < snapBackTreshold)
+
+           if (distanceCamHelperPlayer < Mathf.Abs(8))
            {
+               float horizontalInput = Input.GetAxis("Horizontal");
+               float verticalInput = Input.GetAxis("Vertical");
+               if (horizontalInput == 0)
+                   horizontalInput = UnityEngine.Random.Range(-1f, 1f);
+               if (verticalInput == 0)
+                   verticalInput = UnityEngine.Random.Range(-1f, 1f);
+               
+               _playerMovement.rb.velocity = new Vector3(
+                   horizontalInput*(_gameManager.SpeedAfterTeleport + (cashedVelocity/_gameManager.ReduceSpeedInfluenceBeforeTeleport*_gameManager.IncreaseSpeedInfluenceBeforeTeleport)),
+                   0,
+                   verticalInput*(_gameManager.SpeedAfterTeleport+ (cashedVelocity/_gameManager.ReduceSpeedInfluenceBeforeTeleport*_gameManager.IncreaseSpeedInfluenceBeforeTeleport))
+                   );
+               
                cam.LookAt = player.transform;
                cam.Follow =  player.transform;
-               followRoughness = cashedlerpValue;
-             
-               GameManager.CameraHelper.transform.position = new Vector3(
-                       GameManager.CameraHelper.transform.position.x,
-                   GameManager.CameraHelper.transform.position.y+200, 
-                       GameManager.CameraHelper.transform.position.z);
-               
+               _gameManager.followRoughness = cashedlerpValue;
+               distanceCamHelperPlayer = 0;
+               GameManager.CameraHelper.transform.position = cashedCamHelperPos;
                GameManager.CameraTeleportActive = false;
-               GameManager.ZeroOutAllowed = false;
+               SetBackFollowSpeed();
            }
-           
-           if (distanceCamHelperPlayer < lastDistanceTreshhold && distanceCamHelperPlayer >= 1f)
+         
+            if (distanceCamHelperPlayer < _gameManager.lastDistanceTreshhold && distanceCamHelperPlayer >= 5f)
+            {
+                _gameManager.followRoughness = _gameManager.followRoughness * (_gameManager.lastDistanceSpeedIncreasePercentPerFrame/100+1);
+           }
+            if (distanceCamHelperPlayer < 10f)
            {
-               followRoughness = followRoughness * (lastDistanceSpeedIncreasePercentPerFrame/100+1);
-           }
-           if (distanceCamHelperPlayer < 1f && distanceCamHelperPlayer >= snapBackTreshold)
-           {
-               followRoughness = followRoughness * (lastDistanceSpeedIncreasePercentPerFrame/20+1);
-           }
+               _gameManager.followRoughness = _gameManager.followRoughness * (_gameManager.lastDistanceSpeedIncreasePercentPerFrame/20+1);
+            }
         
-           GameManager.CameraHelper.transform.position = Vector3.Lerp( 
+              GameManager.CameraHelper.transform.position = Vector3.Lerp( 
                GameManager.CameraHelper.transform.position,
                player.transform.position, 
-               followRoughness);
+               _gameManager.followRoughness);
+         
        }
     }
 
@@ -109,6 +117,9 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
            
             if (GoalPortal == false) //Wenn diese Portal das startPoral ist fortfahren
             {
+                cashedVelocity = Mathf.Abs(_playerMovement.rb.velocity.x + _playerMovement.rb.velocity.z);
+                
+                //not used for now
                 cashedXVelocity = _playerMovement.rb.velocity.x;
                 cashedZVelocity = _playerMovement.rb.velocity.z;
                 
@@ -116,7 +127,7 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
                 GoalPortal = false;
                 
                 Goal.GetComponent<Portal>().GoalPortal = true;
-
+/*
                 if (!DelayActive)
                 {
                     int numVcams = CinemachineCore.Instance.VirtualCameraCount;
@@ -125,19 +136,16 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
                             player.transform, -Goal.transform.position);
                       player.transform.position = Goal.transform.position;
                 }
-                if (DelayActive)
+                */
+                if (DelayActive && !GameManager.CameraTeleportActive)
                 {
-                    if(!GameManager.CameraTeleportActive)
-                    {
-
-                        GameManager.ZeroOutAllowed = true;
-                        GameManager.StopGiveVelocityBack = !GameManager.StopGiveVelocityBack;
+                    GameManager.StopGiveVelocityBack = false;
                         GameManager.CameraHelper.transform.position = player.transform.position;
                         cam.LookAt =  GameManager.CameraHelper.transform; 
                         cam.Follow =  GameManager.CameraHelper.transform;
                         player.transform.position = Goal.transform.position;
                         GameManager.CameraTeleportActive = true;
-                    }
+                    
                 }
             }
             
@@ -160,4 +168,5 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
             GoalPortal = false;
         }
     }
+
 }

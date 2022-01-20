@@ -38,11 +38,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float Skyboxspeed;
     public bool AllowMovement = true;
     public bool AllowHexEffects = true;
-
+    [Space] 
+    [Space] 
+    [Header("Teleport")]
+    public float SpeedAfterTeleport = 70;
+    public float ReduceSpeedInfluenceBeforeTeleport = 3;
+    public float IncreaseSpeedInfluenceBeforeTeleport = 1;
+    [Header("Teleport increase Cam speed")]
+    [Range(0f,200f)]
+    public float lastDistanceTreshhold = 60f;
+    public float followRoughness = 0.01f;
+    [Range(0f,10f)]
+    public float lastDistanceSpeedIncreasePercentPerFrame = 1f;
+    [Space]
+    [Space] 
+    
     public static float GlowEnableDelay = 0.1f;
     public static  float GlowDisableDelay = 2.5f;
     public static GameObject CameraHelper;
-    [HideInInspector] public static bool ZeroOutAllowed = true;
     public static bool CameraTeleportActive = false;
     public static bool StopGiveVelocityBack = true;
     public static CinemachineVirtualCamera vcam;
@@ -72,6 +85,8 @@ public class GameManager : MonoBehaviour
 
 
         DisableSpawnHexObjectsInEditMode = true;
+        
+        CameraHelper = GameObject.FindGameObjectWithTag("CameraHelper");
     }
     #endregion
     
@@ -79,7 +94,7 @@ public class GameManager : MonoBehaviour
     {
         //player = ReferenceLibary.Player;
         playerRb = ReferenceLibary.RigidbodyPl;
-        CameraHelper = GameObject.FindGameObjectWithTag("CameraHelper");
+        
         vcam = GetComponent<CinemachineVirtualCamera>();
 
         if (PlayerPrefs.HasKey("Highscore") == false)
