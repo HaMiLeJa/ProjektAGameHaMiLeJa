@@ -832,7 +832,6 @@ MonoBehaviour:
   ProgressLv3: {fileID: 1182283931}
   Level2Image: {fileID: 704955425}
   Level3Image: {fileID: 1576223409}
-  amount: 1
   Message: {fileID: 337182422}
 --- !u!4 &125929769
 Transform:
@@ -864,7 +863,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &298599165
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5089,7 +5088,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1951448867
 RectTransform:
   m_ObjectHideFlags: 0
