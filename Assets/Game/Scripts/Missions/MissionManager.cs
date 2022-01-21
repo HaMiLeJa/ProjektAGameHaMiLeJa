@@ -43,7 +43,8 @@ public class MissionManager : MonoBehaviour
         activeMission,
         CompletedMission,
         UncompletedMission,
-        noMissionsLeft
+        noMissionsLeft,
+        transitionCase
     }
 
     void Start()
@@ -90,7 +91,9 @@ public class MissionManager : MonoBehaviour
                 break;
             case MissionState.noMissionsLeft:
                 ReferenceLibary.WinconMng.CheckForWinConMission();
-                
+                missionState = MissionState.transitionCase;
+                break;
+            case MissionState.transitionCase:
                 break;
             default:
                 break;
