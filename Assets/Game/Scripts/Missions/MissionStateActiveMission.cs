@@ -91,9 +91,9 @@ public class MissionStateActiveMission : MonoBehaviour
 
     void UpdateCollectPoints()
     {
-        MissionTimer();
+       // MissionTimer();
 
-        UIManager.Instance.UpdateBasicMissionUI();
+       // UIManager.Instance.UpdateBasicMissionUI();
         UIManager.Instance.UpdateCollectPointsUI();
 
         CheckForCollectPointsEnd();

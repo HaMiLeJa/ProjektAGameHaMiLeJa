@@ -160,7 +160,7 @@ public class MissionStatePrepareMission : MonoBehaviour
 
     void ActivateCollectPointsUI()
     {
-        UIManager.Instance.ActivateBasicMissionUI();
+        //UIManager.Instance.ActivateBasicMissionUI();
         UIManager.Instance.ActivateCollectPointsUI();
     }
 
