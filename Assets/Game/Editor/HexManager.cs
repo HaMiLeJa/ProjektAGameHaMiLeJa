@@ -9,8 +9,9 @@ public class HexManager: EditorWindow
     private string hexTag = "Hex";
     private int leftAngle = -60;
     private int rightAngle = 60;
-    private int childIndex = 0;
-    private int grandChildIndex = 0;
+    private int meshChildIndex = 0;
+    private int meshGrandChildIndex = 0;
+    private int propsChildIndex = 1;
     
     [MenuItem("HaMiLeJa/ Mange Hex")]
     public static void ShowWindow()
@@ -22,39 +23,57 @@ public class HexManager: EditorWindow
         GUILayout.Space(10);
 
         GUILayout.Label("Rotate Hex", EditorStyles.boldLabel);
-        GUILayout.Label("Unbedingt Hex[x] parent bei allem auswählen, nicht in die Childs gehen", EditorStyles.helpBox);
+        GUILayout.Label("Unbedingt Hex[x] parent bei allem auswählen, nicht in die Childs gehen. Kein Undo. Nutze die andere Richtung", EditorStyles.helpBox);
         GUILayout.Space(10);
+        
         if (GUILayout.Button("Alles =>"))
         {
             RotateRightEverything();
         }
-        GUILayout.Space(10);
+        GUILayout.Space(6);
         if (GUILayout.Button("<= Alles"))
         {
             RotateLeftEverything();
         }
-        GUILayout.Space(10);
+        
+        
+        GUILayout.Space(8);
         if (GUILayout.Button("Boden =>"))
         {
             RotateRightChild();
         }
-        GUILayout.Space(10);
+        GUILayout.Space(6);
         if (GUILayout.Button("<= Boden"))
         {
             RotateLeftChild();
         }
-        GUILayout.Space(20);
+        
+        
+        GUILayout.Space(8);
+        if (GUILayout.Button("Props =>"))
+        {
+   
+            RotateRightProps();
+        }
+        GUILayout.Space(7);
+        if (GUILayout.Button("<= Props"))
+        {
+            RotateLeftProps();
+        }
+        
+        
+        GUILayout.Space(15);
         GUILayout.Label("Materials", EditorStyles.boldLabel);
         GUILayout.Label("Zuerst must du die Materials (einmalig) reinladen", EditorStyles.helpBox);
         if (GUILayout.Button(">> Load Materials <<"))
         {
             AddDic();
         }
-        GUILayout.Space(3);
+        GUILayout.Space(5);
      
         for (int i = 1; i <= maxMaterials; i++)
         {
-            GUILayout.Space(8);
+            GUILayout.Space(6);
             if (GUILayout.Button("Set Material " + i.ToString()))
             {
                 
@@ -62,13 +81,14 @@ public class HexManager: EditorWindow
             }
         }
     }
+    
     private void RotateRightChild()
     {
         foreach (GameObject rotateMe in Selection.gameObjects)
         {
             if (rotateMe.tag == hexTag)
             {
-                GameObject childWithMeshRnd = rotateMe.transform.GetChild(childIndex).gameObject;
+                GameObject childWithMeshRnd = rotateMe.transform.GetChild(meshChildIndex).gameObject;
                 Rotator(childWithMeshRnd, rightAngle);
             }
         }
@@ -80,7 +100,7 @@ public class HexManager: EditorWindow
         {
             if (rotateMe.tag == hexTag)
             {
-                GameObject childWithMeshRnd = rotateMe.transform.GetChild(childIndex).gameObject;
+                GameObject childWithMeshRnd = rotateMe.transform.GetChild(meshChildIndex).gameObject;
                 Rotator(childWithMeshRnd, leftAngle );
             }
         }
@@ -102,6 +122,31 @@ public class HexManager: EditorWindow
             Rotator(rotateMe, leftAngle );
         }
     }
+    
+    private void RotateRightProps()
+    {
+        foreach (GameObject rotateMe in Selection.gameObjects)
+        {
+            if (rotateMe.tag == hexTag)
+            {
+                GameObject childWithMeshRnd = rotateMe.transform.GetChild(propsChildIndex).gameObject;
+                Rotator(childWithMeshRnd, rightAngle);
+            }
+        }
+    }
+    
+    private void RotateLeftProps()
+    {
+        foreach (GameObject rotateMe in Selection.gameObjects)
+        {
+            if (rotateMe.tag == hexTag)
+            {
+                GameObject childWithMeshRnd = rotateMe.transform.GetChild(propsChildIndex).gameObject;
+                Rotator(childWithMeshRnd, leftAngle );
+            }
+        }
+    }
+    
     private void Rotator(GameObject gameObjectToRotate, int angle)
     {
         gameObjectToRotate.transform.Rotate(0,angle,0);
@@ -110,7 +155,7 @@ public class HexManager: EditorWindow
     {
         foreach (GameObject replaceMyMat in Selection.gameObjects)
         {
-            GameObject childWithMeshRnd = replaceMyMat.transform.GetChild(childIndex).GetChild(grandChildIndex).gameObject;
+            GameObject childWithMeshRnd = replaceMyMat.transform.GetChild(meshChildIndex).GetChild(meshGrandChildIndex).gameObject;
             MeshRenderer rnd = childWithMeshRnd.GetComponent<MeshRenderer>();
             Material value = hasAllTheHexMaterials[materialID];
             rnd.material = value;
