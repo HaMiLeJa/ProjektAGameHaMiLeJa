@@ -592,7 +592,7 @@ public class UIManager : MonoBehaviour
     [Header ("Permanent Mulitplikator Modification")]
     [SerializeField] TMPro.TMP_Text permanentTxt;
 
-    [SerializeField] float MaxFontSizeMulti = 26;
+    [SerializeField] float MaxFontSizeMulti = 22;
     [Range(1, 20)]
     [SerializeField] int StartFontSizeMulti = 15;
     [Range(30, 150)]
