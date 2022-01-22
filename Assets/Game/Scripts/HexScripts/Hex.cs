@@ -55,7 +55,7 @@ public class Hex : MonoBehaviour
 
             //colRef.HexScript = this;
           // colRef.HexScript = this.gameObject.GetComponent<Hex>();
-            CollectableManager.AllCollectables.Add(this.gameObject, colRef); //Nur adden, werte angepasst wird später
+            CollectableManager.AllCollectables.Add(this.gameObject, colRef); //Nur adden, werte angepasst wird spï¿½ter
         }
 
     }
@@ -71,7 +71,6 @@ public class Hex : MonoBehaviour
         //myAudioSource = this.GetComponent<AudioSource>();
 
         OnEffectHex += PlaySound;
-
         if (hexType != HexType.Default)
         {
             foreach(StringAudiofileClass file in audioClipHexes.AllHexClips)
@@ -539,8 +538,9 @@ public class Hex : MonoBehaviour
 
 
     #endregion
-
-
+    
+    
+    
     private void OnDrawGizmosSelected()
     {
         if (hexType != HexType.BoostInDirection) return;
@@ -577,6 +577,8 @@ public class Hex : MonoBehaviour
     
 }
 
+
+   
 
 
 public enum HexType
