@@ -209,6 +209,7 @@ public class HexManager: EditorWindow
     private void AddDic()
     {
         hasAllTheHexMaterials.Clear();
+        hasAllTheAngles.Clear();
         for (int i = 1; i <= maxMaterials; i++)
         {
             Material newMat = Resources.Load("HexMaterial " + i.ToString(), typeof(Material)) as Material;
@@ -225,7 +226,7 @@ public class HexManager: EditorWindow
     {
         foreach (GameObject replaceMyMat in Selection.gameObjects)
         {
-            int materialID = Random.Range(minMatIndex, MaxMatIndex);
+            int materialID = Random.Range(minMatIndex, MaxMatIndex+1);
             Debug.Log(materialID);
             GameObject childWithMeshRnd = replaceMyMat.transform.GetChild(meshChildIndex).GetChild(meshGrandChildIndex).gameObject;
             MeshRenderer rnd = childWithMeshRnd.GetComponent<MeshRenderer>();
