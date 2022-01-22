@@ -20,8 +20,11 @@ public class WindconditionManager : MonoBehaviour
             CollectableHex = GameObject.FindObjectOfType<CollectableHex>();
 
         if (PlayerPrefs.GetInt("WinConHex") == 1)
-            Destroy(CollectableHex);
-
+        {
+            Destroy(CollectableHex.gameObject);
+        }
+               
+    
        // InstantiateWindConHexItem();
     }
 
@@ -38,10 +41,12 @@ public class WindconditionManager : MonoBehaviour
                 {
                     PlayerPrefs.SetInt("WinConMissions", 1);
                     StartCoroutine(ReferenceLibary.UIMng.UIHexUnlocked());
+                    Debug.Log("1");
                 }
                 else
                 {
                     StartCoroutine(ReferenceLibary.UIMng.UIHexAlreadyUnlocked());
+                    Debug.Log("2");
                 }
 
             }
@@ -64,6 +69,7 @@ public class WindconditionManager : MonoBehaviour
             PlayerPrefs.SetInt("WinConPoints", 1);
 
             StartCoroutine(ReferenceLibary.UIMng.WinConPointsCoroutine());
+            Debug.Log("Win Con Points fullfilled");
             
         }
     }
@@ -73,7 +79,7 @@ public class WindconditionManager : MonoBehaviour
     {
         PlayerPrefs.SetInt("WinConHex", 1);
 
-        //UI
+        StartCoroutine(ReferenceLibary.UIMng.WinConHexCoroutine());
         //Effect
 
         Destroy(CollectableHex.gameObject);

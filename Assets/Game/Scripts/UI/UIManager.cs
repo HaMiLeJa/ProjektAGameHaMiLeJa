@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour
 
     [Header("GameOver")]
     public GameObject GameOverCanvas;
-    [SerializeField] GameObject GameOverMessage;
+  //  [SerializeField] GameObject GameOverMessage;
     [SerializeField] TMPro.TMP_Text PointsMessage;
     [SerializeField] GameObject NewHighscoreMessage;
     [SerializeField] TMPro.TMP_Text CurrentHighscoreMessage;
@@ -73,25 +73,22 @@ public class UIManager : MonoBehaviour
     [Header("UI Of All Missions")]
     [SerializeField] GameObject BasicMissionUI;
     [SerializeField] TMPro.TMP_Text missionTimeTxt;
-    
+    [SerializeField] TMPro.TMP_Text missionTimeNmbr;
+
     public void UpdateBasicMissionUI()
     {
-
         int seconds = (int)MissionManager.MissionTimeLeft;
-        missionTimeTxt.text = "Time left: " + seconds.ToString();
+        missionTimeNmbr.text = seconds.ToString();
     }
     public void ActivateBasicMissionUI()
     {
         BasicMissionUI.SetActive(true);
-        int seconds = (int)MissionManager.CurrentMission.time;
-        missionTimeTxt.text = "Time left: " + seconds;
+        missionTimeTxt.gameObject.SetActive(true);
     }
-
-  
 
     public void DeactivateBasicMissionUI()
     {
-        missionTimeTxt.text = "";
+        missionTimeTxt.gameObject.SetActive(false);
         BasicMissionUI.SetActive(false);
     }
     #endregion
@@ -99,18 +96,19 @@ public class UIManager : MonoBehaviour
     #region No Mission
     [Header("No Mission UI")]
     [SerializeField] TMPro.TMP_Text nextMissionTxt;
+    [SerializeField] TMPro.TMP_Text nextMissionNbr;
     [SerializeField] GameObject noMissionParent;
     public void TimerUntilNexMission()
     {
 
         int seconds = (int)MissionStateNoMission.duration ;
-
-        nextMissionTxt.text = "Next Mission: " + seconds;
+        nextMissionNbr.text = seconds.ToString();
     }
 
     public void ActivateNoMissionUI()
     {
         noMissionParent.SetActive(true);
+        nextMissionTxt.gameObject.SetActive(true);
     }
     public void DeactivateNoMissionUI()
     {

@@ -24,9 +24,11 @@ public class CollectableHex : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
+        Debug.Log("2");
         if (collision.gameObject == ReferenceLibary.Player)
         {
             ReferenceLibary.WinconMng.CheckForWinConHex();
+            Debug.Log("1");
 
         }
     }
