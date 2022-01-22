@@ -215,7 +215,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         if (CheckForSpawnAllowanceChangeDirection())
         {
             currentHexType = myHex.hexType;
-            SpawnObjectInEditMode(4.25f);
+            SpawnObjectInEditMode(3.3f);
         }
     }
 
@@ -283,7 +283,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         if (CheckForSpawnAllowanceBoostInDirection())
         {
             currentHexType = myHex.hexType;
-            SpawnObjectInEditMode(1.15f);
+            SpawnObjectInEditMode(0.21f);
 
             CurrentItem.GetComponent<BoostInDirectionProp>().MyHex = myHex;
         }
