@@ -372,6 +372,10 @@ PrefabInstance:
       propertyPath: m_CastShadows
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3333246052359992810, guid: 232357c143d828349b834734be249923, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 26861280f4baeca458285b8e207ef9af, type: 2}
     - target: {fileID: 6510926736812468260, guid: 232357c143d828349b834734be249923, type: 3}
       propertyPath: m_Name
       value: HexMesh
@@ -384,7 +388,8 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3333246052359992810, guid: 232357c143d828349b834734be249923, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 232357c143d828349b834734be249923, type: 3}
 --- !u!4 &4130972584189695264 stripped
 Transform:

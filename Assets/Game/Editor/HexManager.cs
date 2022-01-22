@@ -2,6 +2,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
 public class HexManager: EditorWindow
 {
     public  static Dictionary<int, Material> hasAllTheHexMaterials = new Dictionary<int, Material>();
@@ -12,7 +13,8 @@ public class HexManager: EditorWindow
     private int meshChildIndex = 0;
     private int meshGrandChildIndex = 0;
     private int propsChildIndex = 1;
-    
+    private int startAtMaterial = 1;
+    private int stopAtMaterial;
     [MenuItem("HaMiLeJa/ Mange Hex")]
     public static void ShowWindow()
     {
@@ -30,7 +32,7 @@ public class HexManager: EditorWindow
         {
             RotateRightEverything();
         }
-        GUILayout.Space(6);
+        GUILayout.Space(4);
         if (GUILayout.Button("<= Alles"))
         {
             RotateLeftEverything();
@@ -42,7 +44,7 @@ public class HexManager: EditorWindow
         {
             RotateRightChild();
         }
-        GUILayout.Space(6);
+        GUILayout.Space(4);
         if (GUILayout.Button("<= Boden"))
         {
             RotateLeftChild();
@@ -55,7 +57,7 @@ public class HexManager: EditorWindow
    
             RotateRightProps();
         }
-        GUILayout.Space(7);
+        GUILayout.Space(4);
         if (GUILayout.Button("<= Props"))
         {
             RotateLeftProps();
@@ -79,6 +81,27 @@ public class HexManager: EditorWindow
                 
                 SetMaterial(i);
             }
+        }
+        GUILayout.Space(15);
+        GUILayout.Label("Randomize Material", EditorStyles.boldLabel);
+        GUILayout.Label("Hier kannst du zwischen allen Materials randomisieren", EditorStyles.helpBox);
+        if (GUILayout.Button("> Randomize Materials <"))
+        {
+            RandomizeMaterials(1, maxMaterials);
+        }
+        GUILayout.Space(5);
+        GUILayout.Label("Bei dieser option kannst du ein start und End Material wählen", EditorStyles.helpBox);
+        startAtMaterial = EditorGUILayout.IntField("Start at Material", startAtMaterial);
+        startAtMaterial = EditorGUILayout.IntField("Start at Material", stopAtMaterial);
+        
+        if (GUILayout.Button("> Randomize between<"))
+        {
+            if (stopAtMaterial > maxMaterials)
+                stopAtMaterial = maxMaterials;
+            if (startAtMaterial < 1)
+                startAtMaterial = 1;
+            
+            RandomizeMaterials(startAtMaterial, stopAtMaterial);
         }
     }
     
@@ -161,7 +184,6 @@ public class HexManager: EditorWindow
             rnd.material = value;
         }
     }
-    
     private void AddDic()
     {
         hasAllTheHexMaterials.Clear();
@@ -171,6 +193,19 @@ public class HexManager: EditorWindow
             hasAllTheHexMaterials.Add(i,newMat);
         }
         Debug.Log("Es wurden [" + maxMaterials.ToString() + "] HexMaterials geladen");
+    }
+    
+    private void RandomizeMaterials(int minMatIndex, int MaxMatIndex)
+    {
+        foreach (GameObject replaceMyMat in Selection.gameObjects)
+        {
+            int materialID = Random.Range(minMatIndex, MaxMatIndex);
+            Debug.Log(materialID);
+            GameObject childWithMeshRnd = replaceMyMat.transform.GetChild(meshChildIndex).GetChild(meshGrandChildIndex).gameObject;
+            MeshRenderer rnd = childWithMeshRnd.GetComponent<MeshRenderer>();
+            Material value = hasAllTheHexMaterials[materialID];
+            rnd.material = value;
+        }
     }
 }
 

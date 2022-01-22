@@ -19,6 +19,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2DArray_532de213ad1c44dab9821fd3e0fc1f5e:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - Texture2D_72426835:
         m_Texture: {fileID: 2800000, guid: 099261bf10163427db34d9d5fd2befab, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -52,7 +56,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 40b6f3ee59db54b7597975973af547fd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -84,8 +88,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_0643e8ca1a2245c388f1a69189c918eb: 0.5
+    - Vector1_312b95c814b24276899b20be56f2ad36: 0.5
     - Vector1_CFC36DAD: 1
     - _AlphaClip: 0
+    - _ArrayIndexHex: 0
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0

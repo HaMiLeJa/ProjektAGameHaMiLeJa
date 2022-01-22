@@ -1,3 +1,4 @@
+/*
 using UnityEngine;
 [ExecuteAlways]
 #if UNITY_EDITOR
@@ -35,3 +36,4 @@ public class SetMPB : MonoBehaviour
 
 #endif
 }
+*/
