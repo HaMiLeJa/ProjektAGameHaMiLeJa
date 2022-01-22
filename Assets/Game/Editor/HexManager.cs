@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 public class HexManager: EditorWindow
 {
     public  static Dictionary<int, Material> hasAllTheHexMaterials = new Dictionary<int, Material>();
+    public  static Dictionary<int, int> hasAllTheAngles= new Dictionary<int, int>();
+    
     private int maxMaterials = 4;
     private string hexTag = "Hex";
     private int leftAngle = -60;
@@ -92,7 +94,7 @@ public class HexManager: EditorWindow
         GUILayout.Space(5);
         GUILayout.Label("Bei dieser option kannst du ein start und End Material wählen", EditorStyles.helpBox);
         startAtMaterial = EditorGUILayout.IntField("Start at Material", startAtMaterial);
-        startAtMaterial = EditorGUILayout.IntField("Start at Material", stopAtMaterial);
+        startAtMaterial = EditorGUILayout.IntField("Stop at Material", stopAtMaterial);
         
         if (GUILayout.Button("> Randomize between<"))
         {
@@ -103,8 +105,28 @@ public class HexManager: EditorWindow
             
             RandomizeMaterials(startAtMaterial, stopAtMaterial);
         }
+        GUILayout.Space(8);
+        GUILayout.Label("Vorher einmal(ig) auf Load Materials", EditorStyles.helpBox);
+        if (GUILayout.Button("Randomize Ground Rotation"))
+        {
+            RandomizeGround();
+        }
     }
-    
+
+    private void RandomizeGround()
+    {
+      
+       foreach (GameObject rotateMe in Selection.gameObjects)
+       {
+           if (rotateMe.tag == hexTag)
+           { 
+               int randomAngle = Random.Range(1, 6);
+               int value = hasAllTheAngles[randomAngle];
+               GameObject childWithMeshRnd = rotateMe.transform.GetChild(meshChildIndex).gameObject;
+               Rotator(childWithMeshRnd, value);
+           }
+       }
+    }
     private void RotateRightChild()
     {
         foreach (GameObject rotateMe in Selection.gameObjects)
@@ -193,6 +215,10 @@ public class HexManager: EditorWindow
             hasAllTheHexMaterials.Add(i,newMat);
         }
         Debug.Log("Es wurden [" + maxMaterials.ToString() + "] HexMaterials geladen");
+        for (int i = 1; i <= 7; i++)
+        {
+            hasAllTheAngles.Add(i, leftAngle*i);
+        }
     }
     
     private void RandomizeMaterials(int minMatIndex, int MaxMatIndex)
