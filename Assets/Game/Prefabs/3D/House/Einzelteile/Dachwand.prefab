@@ -387,7 +387,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5213420560619517605}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.28}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 1085504570886457076}
@@ -453,6 +453,7 @@ GameObject:
   - component: {fileID: 3798943307933978160}
   - component: {fileID: 2049034011638151034}
   - component: {fileID: 3263451334971593710}
+  - component: {fileID: 4570498087342703981}
   m_Layer: 0
   m_Name: Dachwand_Wand
   m_TagString: Untagged
@@ -523,6 +524,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4570498087342703981
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5336380394132380939}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2432090755550338912, guid: a5eb9631b9ef5ce419e1552ce5092a74, type: 3}
 --- !u!1 &6620182658647769906
 GameObject:
   m_ObjectHideFlags: 0
