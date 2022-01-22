@@ -42,6 +42,7 @@ public class ScoreManager : MonoBehaviour
 
         OnScoring += UpdateScore;
         OnScoring += UIManager.Instance.UpdateScore;
+        OnScoring += ReferenceLibary.UIMng.PointsStarter;
 
         if (ReferenceLibary.WinconMng.WinConPoints == 0)
             OnScoring += ReferenceLibary.WinconMng.CheckForWinConPoints;

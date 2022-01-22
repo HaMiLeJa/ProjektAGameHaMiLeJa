@@ -63,6 +63,21 @@ public class UIManager : MonoBehaviour
         DeactivateBringItemUI();
         WinConMissions.SetActive(false);
 
+        TMPro.TMP_Text[] FindPointTMPs = pointsParent.GetComponentsInChildren<TMPro.TMP_Text>();
+
+        foreach(TMPro.TMP_Text obj in FindPointTMPs)
+        {
+            obj.text = "";
+
+            PointsState points = new PointsState();
+            points.textMesh = obj;
+            points.inUse = false;
+            
+
+            allPointsTexMeshs.Add(points);
+        }
+        freeTexmeshes = allPointsTexMeshs.Count;
+
     }
 
     
@@ -234,6 +249,8 @@ public class UIManager : MonoBehaviour
     #endregion
     #endregion
 
+    #region WinCons
+
     #region WinConMissions
     [Header("WinConMissions")]
     [SerializeField] GameObject WinConMissions;
@@ -396,7 +413,7 @@ public class UIManager : MonoBehaviour
 
 
     #endregion
-
+    #endregion
 
     #region Energy
     public void UpdateEnergyUI()
@@ -405,7 +422,7 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 
-    #region Score and Multiplicator
+    #region Update Score and Multiplicator
     public void UpdateScore(float value)
     {
         score.text = ScoreManager.CurrentScore.ToString();
@@ -416,6 +433,115 @@ public class UIManager : MonoBehaviour
         multiplicator.text = "x" + ScoreManager.CurrentMultiplicator.ToString();
     }
     #endregion
+
+    #region Show points you currently collected
+
+    [Header("Scoring UI")]
+    [SerializeField] GameObject pointsParent;
+
+    [SerializeField] float MaxFontSize = 36;
+    [Range(1, 20)]
+    [SerializeField] int StartFontSize = 15;
+    [Range(30, 150)]
+    [SerializeField] float sizeModfier = 110;
+
+   
+    public class PointsState
+    {
+        public TMPro.TMP_Text textMesh;
+
+        public bool inUse = false;
+    }
+
+     List<PointsState> allPointsTexMeshs = new List<PointsState>();
+     int freeTexmeshes;
+
+    public void PointsStarter(float value)  //find textmesh, set color, startscale etc
+    {
+        if (freeTexmeshes == 0) return;
+        PointsState myTxt = SetTextmesh();
+
+        SetStartValues(myTxt, value);
+
+
+        StartCoroutine(AnimatePoints(myTxt));
+    }
+
+    PointsState SetTextmesh()
+    {
+        foreach (var obj in allPointsTexMeshs)
+        {
+            if (obj.inUse == true)
+            {
+                continue;
+            }
+            else
+            {
+                freeTexmeshes--;
+                obj.inUse = true;
+                return obj;
+            }
+
+        }
+
+        return null;
+    }
+
+    
+
+
+    void SetStartValues(PointsState txt, float value)
+    {
+        txt.textMesh.text = value + " points!";
+
+    }
+
+    
+
+   
+
+
+    IEnumerator AnimatePoints(PointsState txt)
+    {
+
+        float fontSize = StartFontSize;
+
+        while(fontSize <= MaxFontSize)
+        {
+
+            fontSize = fontSize + (sizeModfier * Time.deltaTime);
+            txt.textMesh.fontSize = fontSize;
+
+            Debug.Log("1");
+            yield return new WaitForEndOfFrame();
+        }
+
+        yield return new WaitForSeconds(0.4f);
+
+         while (fontSize >= 5)
+         {
+
+            fontSize = fontSize - (sizeModfier * Time.deltaTime);
+            txt.textMesh.fontSize = fontSize;
+
+            Debug.Log("2");
+            yield return new WaitForEndOfFrame();
+
+         }
+
+        Debug.Log("3");
+        txt.textMesh.text = "";
+        txt.inUse = false;
+        freeTexmeshes++;
+
+        yield return null;
+    }
+
+
+   
+
+    #endregion
+
 
     #region EndScreen
     public void ShowEndMessage()
