@@ -497,12 +497,16 @@ public class Hex : MonoBehaviour
 
     IEnumerator MultiplicatorModificationOverTime()
     {
-        ScoreManager.OnMultiplicatorUpdate(hexEffectsSettings.value);
+        ScoreManager.OnTemporaryMultiplicatorUpdate(hexEffectsSettings.value);
+        
+
+
 
         yield return new WaitForSeconds(hexEffectsSettings.ModificationDuration);
-        ScoreManager.OnMultiplicatorUpdate(-hexEffectsSettings.value);
+        ScoreManager.OnTemporaryMultiplicatorUpdate(-hexEffectsSettings.value);
+        
 
-        yield return null;
+      yield return null;
     }
     #endregion
 

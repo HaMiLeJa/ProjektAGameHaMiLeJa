@@ -41,12 +41,12 @@ public class WindconditionManager : MonoBehaviour
                 {
                     PlayerPrefs.SetInt("WinConMissions", 1);
                     StartCoroutine(ReferenceLibary.UIMng.UIHexUnlocked());
-                    Debug.Log("1");
+                   
                 }
                 else
                 {
                     StartCoroutine(ReferenceLibary.UIMng.UIHexAlreadyUnlocked());
-                    Debug.Log("2");
+                    
                 }
 
             }

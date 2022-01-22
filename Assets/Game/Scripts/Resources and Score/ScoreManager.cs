@@ -16,7 +16,10 @@ public class ScoreManager : MonoBehaviour
     public static Scoring OnScoring;
 
     public delegate void MultiplicatorUpdate(float value);
-    public static MultiplicatorUpdate OnMultiplicatorUpdate;
+    public static MultiplicatorUpdate OnPermanentMultiplicatorUpdate;
+
+    public delegate void TemporaryMultiplicatorUpdate(float value);
+    public static TemporaryMultiplicatorUpdate OnTemporaryMultiplicatorUpdate;
 
     #endregion
 
@@ -48,8 +51,13 @@ public class ScoreManager : MonoBehaviour
             OnScoring += ReferenceLibary.WinconMng.CheckForWinConPoints;
 
 
-        OnMultiplicatorUpdate += UpdateMultiplicator;
-        OnMultiplicatorUpdate += UIManager.Instance.UpdateMultiplicatorUI;
+        OnPermanentMultiplicatorUpdate += UpdateMultiplicator;
+        OnPermanentMultiplicatorUpdate += UIManager.Instance.UpdateMultiplicatorUI;
+        OnPermanentMultiplicatorUpdate += ReferenceLibary.UIMng.PermanentMulitplicatorStarter;
+
+        OnTemporaryMultiplicatorUpdate += UpdateMultiplicator;
+        OnTemporaryMultiplicatorUpdate += UIManager.Instance.UpdateMultiplicatorUI;
+        OnTemporaryMultiplicatorUpdate += ReferenceLibary.UIMng.UpdateTemporaryMultiplicator;
 
         CurrentMultiplicator = 1;
         CurrentScore = 0;
@@ -65,7 +73,7 @@ public class ScoreManager : MonoBehaviour
     void UpdateScore(float value)
     {
         CurrentScore += (value * CurrentMultiplicator);
-
+        
         
     }
 

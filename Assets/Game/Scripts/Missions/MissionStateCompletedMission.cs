@@ -6,8 +6,6 @@ public class MissionStateCompletedMission : MonoBehaviour
 {
    public void UpdateCompletedMission()
    {
-        Debug.Log("MissionCompleted");
-
         switch (MissionManager.CurrentMission.missionType)
         {
             case MissionInformation.MissionType.CollectItem:
@@ -32,7 +30,7 @@ public class MissionStateCompletedMission : MonoBehaviour
 
     void UpdateMultiplicator()
     {
-        ScoreManager.OnMultiplicatorUpdate(MissionManager.CurrentMission.multiplicator);
+        ScoreManager.OnPermanentMultiplicatorUpdate(MissionManager.CurrentMission.multiplicator);
     }
 
     #region Collect Item

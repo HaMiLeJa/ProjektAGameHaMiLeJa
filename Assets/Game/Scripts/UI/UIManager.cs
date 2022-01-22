@@ -80,6 +80,12 @@ public class UIManager : MonoBehaviour
         }
         freeTexmeshes = allPointsTexMeshs.Count;
 
+
+        temporaryTxt.gameObject.SetActive(true);
+        temporaryTxt.text = "";
+        permanentTxt.gameObject.SetActive(true);
+        permanentTxt.text = "";
+
     }
 
     
@@ -130,7 +136,6 @@ public class UIManager : MonoBehaviour
     public void DeactivateNoMissionUI()
     {
         noMissionParent.SetActive(false);
-        Debug.Log("Deactivated UI");
     }
 
     #endregion
@@ -264,6 +269,8 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator UIHexUnlocked()
     {
+        yield return new WaitForSeconds(2f);
+
         WinConMissions.SetActive(true);
         AllCompleted.gameObject.SetActive(true);
         MissionHexUnlocked.gameObject.SetActive(true);
@@ -296,19 +303,35 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator UIHexAlreadyUnlocked()
     {
+        yield return new WaitForSeconds(2f);
+
         WinConMissions.SetActive(true);
         AllCompleted.gameObject.SetActive(true);
-        AlreadyUnlocked.gameObject.SetActive(true);
+       
 
         yield return new WaitForSeconds(2f);
 
         AllCompleted.CrossFadeAlpha(0, 0.5f, true); //Ausfaden
+       
+
+        //yield return new WaitForSeconds(1f);
+
+        
+        AlreadyUnlocked.gameObject.SetActive(true);
+        // + Multiplikator
+        ScoreManager.OnPermanentMultiplicatorUpdate(2f);
+
+
+        yield return new WaitForSeconds(2f);
+        AllCompleted.gameObject.SetActive(false);
         AlreadyUnlocked.CrossFadeAlpha(0, 0.5f, true);
 
         yield return new WaitForSeconds(3f);
 
-        AllCompleted.gameObject.SetActive(false);
         AlreadyUnlocked.gameObject.SetActive(false);
+
+
+
 
         MoreMissions.gameObject.SetActive(true);
         ReferenceLibary.MissionMng.NoMissionLeft.ReactiveMissions();
@@ -327,6 +350,8 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator UIHexUnlockedFailed()
     {
+        yield return new WaitForSeconds(2f);
+
         WinConMissions.SetActive(true);
         Failed.gameObject.SetActive(true);
 
@@ -433,6 +458,7 @@ public class UIManager : MonoBehaviour
     public void UpdateMultiplicatorUI(float value)
     {
         multiplicator.text = "x" + ScoreManager.CurrentMultiplicator.ToString();
+        
     }
     #endregion
 
@@ -441,11 +467,11 @@ public class UIManager : MonoBehaviour
     [Header("Scoring UI")]
     [SerializeField] GameObject pointsParent;
 
-    [SerializeField] float MaxFontSize = 36;
+    [SerializeField] float MaxFontSizePoints = 36;
     [Range(1, 20)]
-    [SerializeField] int StartFontSize = 15;
+    [SerializeField] int StartFontSizePoints = 15;
     [Range(30, 150)]
-    [SerializeField] float sizeModfier = 110;
+    [SerializeField] float sizeModfierPoints = 110;
 
    
     public class PointsState
@@ -494,7 +520,7 @@ public class UIManager : MonoBehaviour
 
     void SetStartValues(PointsState txt, float value)
     {
-        txt.textMesh.text = value + " points!";
+        txt.textMesh.text = value * ScoreManager.CurrentMultiplicator + " points!";
 
     }
 
@@ -506,15 +532,14 @@ public class UIManager : MonoBehaviour
     IEnumerator AnimatePoints(PointsState txt)
     {
 
-        float fontSize = StartFontSize;
+        float fontSize = StartFontSizePoints;
 
-        while(fontSize <= MaxFontSize)
+        while(fontSize <= MaxFontSizePoints)
         {
 
-            fontSize = fontSize + (sizeModfier * Time.deltaTime);
+            fontSize = fontSize + (sizeModfierPoints * Time.deltaTime);
             txt.textMesh.fontSize = fontSize;
 
-            Debug.Log("1");
             yield return new WaitForEndOfFrame();
         }
 
@@ -523,15 +548,13 @@ public class UIManager : MonoBehaviour
          while (fontSize >= 5)
          {
 
-            fontSize = fontSize - (sizeModfier * Time.deltaTime);
+            fontSize = fontSize - (sizeModfierPoints * Time.deltaTime);
             txt.textMesh.fontSize = fontSize;
 
-            Debug.Log("2");
             yield return new WaitForEndOfFrame();
 
          }
 
-        Debug.Log("3");
         txt.textMesh.text = "";
         txt.inUse = false;
         freeTexmeshes++;
@@ -540,10 +563,90 @@ public class UIManager : MonoBehaviour
     }
 
 
-   
+
 
     #endregion
 
+    #region show Multiplicator modifications
+
+    #region temporary
+    [Header ("Temporary Multiplicator Modification")]
+    [SerializeField] TMPro.TMP_Text temporaryTxt;
+
+    [HideInInspector] public float temporaryModification;
+
+    public void UpdateTemporaryMultiplicator(float value)
+    {
+        temporaryModification += value;
+
+        temporaryTxt.text = "+" + temporaryModification;
+
+        if(temporaryModification <= 0)
+        {
+            temporaryTxt.text = "";
+        }
+    }
+    #endregion
+
+    #region permanent
+    [Header ("Permanent Mulitplikator Modification")]
+    [SerializeField] TMPro.TMP_Text permanentTxt;
+
+    [SerializeField] float MaxFontSizeMulti = 26;
+    [Range(1, 20)]
+    [SerializeField] int StartFontSizeMulti = 15;
+    [Range(30, 150)]
+    [SerializeField] float sizeModfierMulti = 110;
+
+    public void PermanentMulitplicatorStarter(float value)
+    {
+        permanentTxt.text = "+" + value + " permanent!";
+
+        StartCoroutine(AnimatePermanentMultiplicator());
+    }
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+           // StartCoroutine(UIHexAlreadyUnlocked());
+            PermanentMulitplicatorStarter(0.5f);
+    }
+
+    IEnumerator AnimatePermanentMultiplicator()
+    {
+
+        float fontSize = StartFontSizeMulti;
+
+        while (fontSize <= MaxFontSizeMulti)
+        {
+
+            fontSize = fontSize + (sizeModfierMulti * Time.deltaTime);
+            permanentTxt.fontSize = fontSize;
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        yield return new WaitForSeconds(0.6f);
+
+        while (fontSize >= 5)
+        {
+
+            fontSize = fontSize - (sizeModfierMulti * Time.deltaTime);
+            permanentTxt.fontSize = fontSize;
+
+            yield return new WaitForEndOfFrame();
+
+        }
+
+        permanentTxt.text = "";
+
+        yield return null;
+    }
+
+    #endregion
+
+    #endregion
 
     #region EndScreen
     public void ShowEndMessage()
