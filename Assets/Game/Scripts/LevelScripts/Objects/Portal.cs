@@ -42,19 +42,17 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
             _gameManager.followRoughness = cashedlerpValue;
     }
 
+    
     private void FixedUpdate()
     {
-       
-        
-        
-       if (GameManager.CameraTeleportActive)
-       {
+
+
+        if (GameManager.CameraTeleportActive)
+       {   
            
-           Vector3 Verbindungsvector = ReferenceLibary.Player.transform.position - GameManager.CameraHelper.transform.position;
-           float distanceCamHelperPlayer = Mathf.Sqrt(Mathf.Pow(Verbindungsvector.x, 2) + Mathf.Pow(Verbindungsvector.y, 2) + Mathf.Pow(Verbindungsvector.z, 2));
            //Calculate Helper Distance to player
           
-            //flot distanceCamHelperPlayer = Vector3.Distance()
+           float distanceCamHelperPlayer =  MathLibary.CalculateDistance(ReferenceLibary.Player, GameManager.CameraHelper);
             //Zero out speed 
            if(distanceCamHelperPlayer > Mathf.Abs(8))
                _playerMovement.rb.velocity = Vector3.zero;

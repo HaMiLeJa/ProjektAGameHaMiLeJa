@@ -38,4 +38,10 @@ public static class MathLibary
 		return Mathf.Lerp( oMin, oMax, t );
 	}
 
+	
+	public static float CalculateDistance(GameObject Player, GameObject OtherObject)
+	{
+		Vector3 Verbindungsvector = Player.transform.position - OtherObject.transform.position;
+		return Mathf.Sqrt(Mathf.Pow(Verbindungsvector.x, 2) + Mathf.Pow(Verbindungsvector.y, 2) + Mathf.Pow(Verbindungsvector.z, 2));
+	}
 }
