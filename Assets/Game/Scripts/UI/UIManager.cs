@@ -63,11 +63,13 @@ public class UIManager : MonoBehaviour
         DeactivateBringItemUI();
         WinConMissions.SetActive(false);
 
+        pointsParent.SetActive(true);
         TMPro.TMP_Text[] FindPointTMPs = pointsParent.GetComponentsInChildren<TMPro.TMP_Text>();
 
         foreach(TMPro.TMP_Text obj in FindPointTMPs)
         {
             obj.text = "";
+            obj.gameObject.SetActive(true);
 
             PointsState points = new PointsState();
             points.textMesh = obj;
