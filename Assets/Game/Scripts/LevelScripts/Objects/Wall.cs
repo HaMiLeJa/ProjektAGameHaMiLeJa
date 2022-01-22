@@ -13,11 +13,12 @@ public class Wall : MonoBehaviour
         {
             if (hitCounter >= 10) return;
 
-            hitCounter++;
+            
 
             float scoreValue = ((hitCounter * 0.1f)) * settings.value;
 
             ScoreManager.OnScoring?.Invoke(settings.value - scoreValue);
+            hitCounter++;
             //Effect
             //music
         }
