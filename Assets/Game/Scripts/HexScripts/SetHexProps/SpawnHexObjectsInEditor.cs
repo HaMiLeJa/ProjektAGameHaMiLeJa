@@ -120,6 +120,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     {
        
 
+        
         SetNewValues(BoostForwardObj);
 
         ClearFalseObj(); //ToTest
@@ -215,7 +216,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         if (CheckForSpawnAllowanceChangeDirection())
         {
             currentHexType = myHex.hexType;
-            SpawnObjectInEditMode(3.3f);
+            SpawnObjectInEditMode(0.24f);
         }
     }
 
@@ -283,7 +284,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         if (CheckForSpawnAllowanceBoostInDirection())
         {
             currentHexType = myHex.hexType;
-            SpawnObjectInEditMode(0.21f);
+            SpawnObjectInEditMode(0.24f);
 
             CurrentItem.GetComponent<BoostInDirectionProp>().MyHex = myHex;
         }

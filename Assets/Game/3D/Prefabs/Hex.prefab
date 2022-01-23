@@ -270,9 +270,9 @@ MonoBehaviour:
   DebugIsRunning: 0
   BoostForwardObj: {fileID: 5007177707998158178, guid: afc151225b9d1ab4c8faefc9c98e60d3, type: 3}
   TrampolinObj: {fileID: 3775185695987388691, guid: 5fbe839fe96ac2541bf71c619535d890, type: 3}
-  BoostInDirectionObj: {fileID: 5700373198803130118, guid: 2e1afb297dfa9c24495837ae03ef4017, type: 3}
+  BoostInDirectionObj: {fileID: 3015468702232296225, guid: ddd7734fe3fcc2a41aa9dff727c193b1, type: 3}
   SlowDownObj: {fileID: 1964804301646275912, guid: bbb1d17a296bf734095ddcf2b97a3007, type: 3}
-  ChangeDirectionObj: {fileID: 9172215513916992569, guid: a83d54b8a3aecb545993a6ddd170bc18, type: 3}
+  ChangeDirectionObj: {fileID: 4605321229017117993, guid: a2623fd8c624c1e44857de12be95686d, type: 3}
   CollectableObj: {fileID: 3252091341079616284, guid: 529ec0dd2de732849bb475b44251d029, type: 3}
 --- !u!1 &8586191793409563930
 GameObject:
