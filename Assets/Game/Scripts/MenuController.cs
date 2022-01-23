@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class MenuController : MonoBehaviour
 {
@@ -12,8 +13,8 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Slider volumeSlider = null;
     [SerializeField] private float defaultVolume = 1.0f;
     
-    [SerializeField] private GameObject comformationPrompt = null;
-
+    [FormerlySerializedAs("conformationPrompt")] [SerializeField] private GameObject conformationPrompt = null;
+ 
     [Header("Levels to load")] public string _newGameLevel;
     private string levelToLoad;
     [SerializeField] private GameObject noSaveGameDialog = null;
@@ -133,9 +134,9 @@ public class MenuController : MonoBehaviour
     }
     public IEnumerator ConformationBox()
     {
-        comformationPrompt.SetActive(true);
+        conformationPrompt.SetActive(true);
         yield return new WaitForSeconds(2);
-        comformationPrompt.SetActive(false);
+        conformationPrompt.SetActive(false);
 
     }
 }
