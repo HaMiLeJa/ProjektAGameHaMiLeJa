@@ -1,20 +1,17 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Cinemachine;
 
 public class HexAutoTiling : MonoBehaviour
 {
-    public static List<GameObject> HexesToBeMoved = new List<GameObject>();
-    private HexGrid _hexGrid;
-    private int startTilingTreshhold = 130;
-    float treshholdMoveBackToOrigin = 1300;
+    private List<Vector3> hasAllTheHexPosCopy = new List<Vector3>();
+    private List<Vector3> hasAllTheHexPos = new List<Vector3>();
+    private  static Dictionary<float, GameObject> hasAllTheHexesDic = new Dictionary<float, GameObject>();
     
+    private int startTilingTreshhold = 130;
+    float treshholdMoveBackToOrigin = 1600;
 
-     [SerializeField] GameObject playerLocation;
+    GameObject playerLocation;
      
      private float xPlusSnapShotPos;
     private float xMinusSnapShotPos;
@@ -34,12 +31,35 @@ public class HexAutoTiling : MonoBehaviour
     void Awake()
 
     {
-        _hexGrid = FindObjectOfType<HexGrid>();
-        HexesToBeMoved.Clear();
-        HexesToBeMoved.AddRange(GameObject.FindGameObjectsWithTag("Hex"));
+        playerLocation = GameObject.FindWithTag("Player");
+        fillHexDic();
+        fillHexPosArray();
         
     }
+    void fillHexDic()
+    {
+        int i = 1;
+        foreach (GameObject hex in GameObject.FindGameObjectsWithTag("Hex"))
+        {
+            hasAllTheHexesDic[i] = hex;
+            i++;
+        }
+    }
 
+
+
+    void fillHexPosArray()
+    {
+        hasAllTheHexPos.Clear();
+        foreach (KeyValuePair <float, GameObject> hex in hasAllTheHexesDic)
+        {
+            float xPos = hex.Value.transform.position.x;
+            float zPos= hex.Value.transform.position.z;
+            float key = hex.Key;
+            Vector3 addToList = new Vector3(xPos, key, zPos);
+            hasAllTheHexPos.Add(addToList );
+        }
+    }
     void Start()
     {
         xOriginPosition = playerLocation.transform.position.x;
@@ -47,78 +67,84 @@ public class HexAutoTiling : MonoBehaviour
     }
 
     void Update()
- 
-    {
-        /*
-         *  foreach (Vector3Int key in hasAllTheHexes.Keys)
-        {
-            if (key.x > test.transform.position.x)
-            {
-                hasAllTheHexes.TryGetValue(key, out var value);
-                
-                Debug.Log(value.transform.position);
-               value.transform.position = new Vector3(transform.position.x+5, value.transform.position.y , value.transform.position.z);
-               Vector3Int newKey = new Vector3Int(key.x + Mathf.CeilToInt(5 ), key.y, key.z);
-               hasAllTheHexes.Remove((key));
-               hasAllTheHexes.Add(newKey,value);
 
-            }
-            
-        }
-         */
-     
-    
-           
+    {
         //snapshot position so it only needs to update at certain distance
         if (HexCoordinates.playerHasMoved)
         {
-             xPlusSnapShotPos = playerLocation.transform.position.x + startTilingTreshhold;
-             xMinusSnapShotPos = playerLocation.transform.position.x - startTilingTreshhold;
-            
-             zPlusSnapShotPos = playerLocation.transform.position.z + startTilingTreshhold;
-             zMinusSnapShotPos = playerLocation.transform.position.z - startTilingTreshhold;
+            xPlusSnapShotPos = playerLocation.transform.position.x + startTilingTreshhold;
+            xMinusSnapShotPos = playerLocation.transform.position.x - startTilingTreshhold;
 
-             HexCoordinates.playerHasMoved = false;
+            zPlusSnapShotPos = playerLocation.transform.position.z + startTilingTreshhold;
+            zMinusSnapShotPos = playerLocation.transform.position.z - startTilingTreshhold;
+
+            HexCoordinates.playerHasMoved = false;
         }
-        
-        if (playerLocation.transform.position.x > xPlusSnapShotPos  ||
+
+        if (playerLocation.transform.position.x > xPlusSnapShotPos ||
             playerLocation.transform.position.x < xMinusSnapShotPos ||
-            playerLocation.transform.position.z > zPlusSnapShotPos  ||
-            playerLocation.transform.position.z < zMinusSnapShotPos )
+            playerLocation.transform.position.z > zPlusSnapShotPos ||
+            playerLocation.transform.position.z < zMinusSnapShotPos)
         {
+            //Debug.Log("Entering Movement");
             //the actual hex movement
-        foreach (GameObject hex in HexesToBeMoved)
-        {   if ( hex == null)
-            return;
-            if (playerLocation.transform.position.z + tilingTreshold < hex.transform.position.z)
-                hex.transform.position = new Vector3(
-                    hex.transform.position.x,
-                    hex.transform.position.y,
-                    hex.transform.position.z - zTilingDistance);
-            
-            if (playerLocation.transform.position.z - tilingTreshold > hex.transform.position.z)
-                hex.transform.position = new Vector3(
-                    hex.transform.position.x,
-                    hex.transform.position.y,
-                    hex.transform.position.z + zTilingDistance);
-            
-            if (playerLocation.transform.position.x + tilingTreshold < hex.transform.position.x)
-                hex.transform.position = new Vector3(
-                    hex.transform.position.x - xTilingDistance,
-                    hex.transform.position.y,
-                    hex.transform.position.z);
-            
-            if (playerLocation.transform.position.x - tilingTreshold > hex.transform.position.x)
-                hex.transform.position = new Vector3(
-                    hex.transform.position.x + xTilingDistance,
-                    hex.transform.position.y,
-                    hex.transform.position.z);
-
-            HexCoordinates.playerHasMoved = true;
-        }
+            moveHexes();
         }
     }
 
+    void moveHexes()
+    {
+        int vectorIndex = 0;
+        
+            hasAllTheHexPosCopy.Clear();
+            hasAllTheHexPosCopy.AddRange(hasAllTheHexPos);
+            foreach(Vector3 hexPos in hasAllTheHexPosCopy)
+           {  
+                if (playerLocation.transform.position.z + tilingTreshold < hasAllTheHexPos[vectorIndex].z)
+                {
+                    hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position = new Vector3(hasAllTheHexPos[vectorIndex].x,
+                        hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position.y, hasAllTheHexPos[vectorIndex].z - zTilingDistance);
+                    
+                    hasAllTheHexPos[vectorIndex] = new Vector3(hasAllTheHexPos[vectorIndex].x,
+                        hasAllTheHexPos[vectorIndex].y,
+                        hasAllTheHexPos[vectorIndex].z - zTilingDistance);
+                }
+
+                if (playerLocation.transform.position.z - tilingTreshold > hasAllTheHexPos[vectorIndex].z)
+                {
+                    hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position = new Vector3(hasAllTheHexPos[vectorIndex].x,
+                        hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position.y, hasAllTheHexPos[vectorIndex].z + zTilingDistance);
+                    hasAllTheHexPos[vectorIndex] = new Vector3(
+                        hasAllTheHexPos[vectorIndex].x,
+                        hasAllTheHexPos[vectorIndex].y,
+                        hasAllTheHexPos[vectorIndex].z + zTilingDistance);
+                }
+
+                if (playerLocation.transform.position.x + tilingTreshold < hasAllTheHexPos[vectorIndex].x)
+                {
+                    hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position = new Vector3(hasAllTheHexPos[vectorIndex].x - xTilingDistance,
+                        hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position.y, hasAllTheHexPos[vectorIndex].z);
+                    hasAllTheHexPos[vectorIndex] = new Vector3(
+                        hasAllTheHexPos[vectorIndex].x - xTilingDistance,
+                        hasAllTheHexPos[vectorIndex].y,
+                        hasAllTheHexPos[vectorIndex].z
+                    );
+                }
+                
+                if (playerLocation.transform.position.x - tilingTreshold > hasAllTheHexPos[vectorIndex].x)
+                {
+                    hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position = new Vector3(hasAllTheHexPos[vectorIndex].x + xTilingDistance,
+                        hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position.y, hasAllTheHexPos[vectorIndex].z);
+                    hasAllTheHexPos[vectorIndex] = new Vector3(
+                        hasAllTheHexPos[vectorIndex].x + xTilingDistance,
+                        hasAllTheHexPos[vectorIndex].y,
+                        hasAllTheHexPos[vectorIndex].z
+                    );
+                }
+                HexCoordinates.playerHasMoved = true;
+                vectorIndex++;
+           }
+    }
     private void LateUpdate()
     {
         ///return to origin
@@ -128,18 +154,20 @@ public class HexAutoTiling : MonoBehaviour
             || playerLocation.transform.position.z > treshholdMoveBackToOrigin  
             || playerLocation.transform.position.z < -treshholdMoveBackToOrigin  
             )
-        {
+        {Debug.Log("Cam Move");
+            
             Vector3 moveEveryThingBack = new Vector3(
                 playerLocation.transform.position.x - (xOriginPosition),
                 0,
                 playerLocation.transform.position.z - (zOriginPosition)
             );
-
             int numVcams = CinemachineCore.Instance.VirtualCameraCount;
+            HexCoordinates.playerHasMoved = true;
             for (int i = 0; i < numVcams; ++i)
                 CinemachineCore.Instance.GetVirtualCamera(i).OnTargetObjectWarped(
                     playerLocation.transform, -moveEveryThingBack);
-            
+
+
             for (int j = 0; j < UnityEngine.SceneManagement.SceneManager.sceneCount; j++)
             {
                 foreach (GameObject allParentObjects in UnityEngine.SceneManagement.SceneManager.GetSceneAt(j).GetRootGameObjects())
@@ -148,6 +176,8 @@ public class HexAutoTiling : MonoBehaviour
                     HexCoordinates.playerHasMoved = true;
                 }
             }
+            fillHexPosArray();
+            moveHexes();
         }
     }
     

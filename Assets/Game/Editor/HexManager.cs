@@ -94,7 +94,7 @@ public class HexManager: EditorWindow
         GUILayout.Space(5);
         GUILayout.Label("Bei dieser option kannst du ein start und End Material wählen", EditorStyles.helpBox);
         startAtMaterial = EditorGUILayout.IntSlider("Start at Material", startAtMaterial, 1, maxMaterials-1);
-        stopAtMaterial = EditorGUILayout.IntSlider("Start at Material", stopAtMaterial, 2, maxMaterials);
+        stopAtMaterial = EditorGUILayout.IntSlider("Stop at Material", stopAtMaterial, 2, maxMaterials);
         if (GUILayout.Button("> Randomize between<"))
         {
             if (stopAtMaterial < startAtMaterial)
