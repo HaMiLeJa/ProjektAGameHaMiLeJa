@@ -20,6 +20,14 @@ public class HexAutoTiling : MonoBehaviour
 
     private float xOriginPosition;
     private float zOriginPosition;
+    
+    private bool leftMove = true;
+
+    private bool rightMove = false;
+
+    private bool topMove = true;
+
+    private bool bottomMove = true;
 
     [Tooltip("ab wann soll er das Tiling anfangen?")] public float tilingTreshold = 307.5f; //default 307.5
     [Tooltip("wie weit soll er die Tiles nach z verschieben?") ] public static float zTilingDistance = 598; //default 438
@@ -89,16 +97,24 @@ public class HexAutoTiling : MonoBehaviour
             moveHexes();
         }
     }
-
+    
+    void setAllSidesTrue()
+    {
+        leftMove = true;
+        rightMove = true;
+        topMove = true;
+        bottomMove = true;
+    }
     void moveHexes()
     {
         int vectorIndex = 0;
         
             hasAllTheHexPosCopy.Clear();
             hasAllTheHexPosCopy.AddRange(hasAllTheHexPos);
+         
             foreach(Vector3 hexPos in hasAllTheHexPosCopy)
            {  
-                if (playerLocation.transform.position.z + tilingTreshold < hasAllTheHexPos[vectorIndex].z)
+                if (bottomMove && playerLocation.transform.position.z + tilingTreshold < hasAllTheHexPos[vectorIndex].z)
                 {
                     hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position = new Vector3(hasAllTheHexPos[vectorIndex].x,
                         hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position.y, hasAllTheHexPos[vectorIndex].z - zTilingDistance);
@@ -106,9 +122,10 @@ public class HexAutoTiling : MonoBehaviour
                     hasAllTheHexPos[vectorIndex] = new Vector3(hasAllTheHexPos[vectorIndex].x,
                         hasAllTheHexPos[vectorIndex].y,
                         hasAllTheHexPos[vectorIndex].z - zTilingDistance);
+                    topMove = false;
                 }
 
-                if (playerLocation.transform.position.z - tilingTreshold > hasAllTheHexPos[vectorIndex].z)
+                if (topMove && playerLocation.transform.position.z - tilingTreshold > hasAllTheHexPos[vectorIndex].z)
                 {
                     hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position = new Vector3(hasAllTheHexPos[vectorIndex].x,
                         hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position.y, hasAllTheHexPos[vectorIndex].z + zTilingDistance);
@@ -116,9 +133,10 @@ public class HexAutoTiling : MonoBehaviour
                         hasAllTheHexPos[vectorIndex].x,
                         hasAllTheHexPos[vectorIndex].y,
                         hasAllTheHexPos[vectorIndex].z + zTilingDistance);
+                    bottomMove = false;
                 }
 
-                if (playerLocation.transform.position.x + tilingTreshold < hasAllTheHexPos[vectorIndex].x)
+                if (leftMove && playerLocation.transform.position.x + tilingTreshold < hasAllTheHexPos[vectorIndex].x)
                 {
                     hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position = new Vector3(hasAllTheHexPos[vectorIndex].x - xTilingDistance,
                         hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position.y, hasAllTheHexPos[vectorIndex].z);
@@ -127,9 +145,10 @@ public class HexAutoTiling : MonoBehaviour
                         hasAllTheHexPos[vectorIndex].y,
                         hasAllTheHexPos[vectorIndex].z
                     );
+                    rightMove = false;
                 }
                 
-                if (playerLocation.transform.position.x - tilingTreshold > hasAllTheHexPos[vectorIndex].x)
+                if (rightMove && playerLocation.transform.position.x - tilingTreshold > hasAllTheHexPos[vectorIndex].x)
                 {
                     hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position = new Vector3(hasAllTheHexPos[vectorIndex].x + xTilingDistance,
                         hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position.y, hasAllTheHexPos[vectorIndex].z);
@@ -138,10 +157,13 @@ public class HexAutoTiling : MonoBehaviour
                         hasAllTheHexPos[vectorIndex].y,
                         hasAllTheHexPos[vectorIndex].z
                     );
+                    leftMove = false;
                 }
                 HexCoordinates.playerHasMoved = true;
                 vectorIndex++;
            }
+
+            setAllSidesTrue();
     }
     private void LateUpdate()
     {
