@@ -19,6 +19,8 @@ public class Wall : MonoBehaviour
 
             ScoreManager.OnScoring?.Invoke(settings.value - scoreValue);
             hitCounter++;
+
+
             //Effect
             //music
         }
