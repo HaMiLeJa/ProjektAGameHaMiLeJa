@@ -22,11 +22,8 @@ public class HexAutoTiling : MonoBehaviour
     private float zOriginPosition;
     
     private bool leftMove = true;
-
-    private bool rightMove = false;
-
+    private bool rightMove = true;
     private bool topMove = true;
-
     private bool bottomMove = true;
 
     [Tooltip("ab wann soll er das Tiling anfangen?")] public float tilingTreshold = 307.5f; //default 307.5
@@ -73,7 +70,6 @@ public class HexAutoTiling : MonoBehaviour
     }
 
     void Update()
-
     {
         //snapshot position so it only needs to update at certain distance
         if (HexCoordinates.playerHasMoved)
