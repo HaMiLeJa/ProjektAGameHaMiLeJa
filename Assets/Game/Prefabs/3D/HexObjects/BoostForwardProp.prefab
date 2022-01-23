@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4751859654972304767}
   - component: {fileID: 4763890913781276136}
   - component: {fileID: 1036463831854718843}
-  - component: {fileID: 5515552841500842438}
+  - component: {fileID: -990205449219897749}
   m_Layer: 7
   m_Name: BoostForwardProp
   m_TagString: HexEffectObj
@@ -96,7 +96,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5515552841500842438
+--- !u!114 &-990205449219897749
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,6 +105,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5007177707998158178}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 965a6965ff1ff054991b44180939723a, type: 3}
+  m_Script: {fileID: 11500000, guid: 1ebc3a059788f624cb23e1fe13ba516c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MyHex: {fileID: 0}

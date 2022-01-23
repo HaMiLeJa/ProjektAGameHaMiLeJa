@@ -2,18 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class MenuController : MonoBehaviour
 {
-    [Header("Levels to load")] 
-    public string _newGameLevel;
+    [Header("Volume setting")] 
+    [SerializeField] private TMP_Text volumeTextValue = null;
+    [SerializeField] private Slider volumeSlider = null;
+    [SerializeField] private float defaultVolume = 0.5f;
+    
+    [FormerlySerializedAs("conformationPrompt")] [SerializeField] private GameObject conformationPrompt = null;
+ 
+    [Header("Levels to load")] public string _newGameLevel;
     private string levelToLoad;
     [SerializeField] private GameObject noSaveGameDialog = null;
 
     private void Start()
     {
-        amount = PlayerPrefs.GetInt("WinConPoints") + PlayerPrefs.GetInt("WinConHex") + PlayerPrefs.GetInt("WinConMissions");
+        amount = PlayerPrefs.GetInt("WinConPoints") + PlayerPrefs.GetInt("WinConHex") +
+                 PlayerPrefs.GetInt("WinConMissions");
 
         ManageHextileAmount(ProgressLv2, 3, Level2Image);
         ManageHextileAmount(ProgressLv3, 6, Level3Image);
@@ -44,8 +53,9 @@ public class MenuController : MonoBehaviour
     }
 
 
-    [Header ("Choose Level")]
-    [SerializeField] TMPro.TMP_Text ProgressLv2;
+    [Header("Choose Level")] [SerializeField]
+    TMPro.TMP_Text ProgressLv2;
+
     [SerializeField] TMPro.TMP_Text ProgressLv3;
 
     [SerializeField] Image Level2Image;
@@ -55,13 +65,13 @@ public class MenuController : MonoBehaviour
 
     void ManageHextileAmount(TMPro.TMP_Text lv, int goalAmount, Image levelimage)
     {
-       
 
-        if(amount <= goalAmount-1)
+
+        if (amount <= goalAmount - 1)
         {
-            lv.text = amount + "/"+ goalAmount + "Hextiles";
+            lv.text = amount + "/" + goalAmount + "Hextiles";
         }
-        else if(amount >= goalAmount)
+        else if (amount >= goalAmount)
         {
 
             levelimage.color = Color.white;
@@ -71,7 +81,7 @@ public class MenuController : MonoBehaviour
             // lv.text = "Not available yet";
             lv.gameObject.SetActive(false);
         }
-       
+
     }
 
     [SerializeField] TMPro.TMP_Text Message;
@@ -98,5 +108,35 @@ public class MenuController : MonoBehaviour
         {
             Message.text = "Currently only Level 1 is available";
         }
+    }
+
+    public void SetVolume(float volume)
+    {
+        AudioListener.volume = volume;
+        volumeTextValue.text = volume.ToString("0.0");
+    }
+
+    public void VolumeApply()
+    {
+        PlayerPrefs.SetFloat("masterVolume", AudioListener.volume);
+        StartCoroutine(ConformationBox());
+    }
+
+    public void ResetButton(string MenuType)
+    {
+        if(MenuType == "Audio")
+        {
+            AudioListener.volume = defaultVolume;
+            volumeSlider.value = defaultVolume;
+            volumeTextValue.text = defaultVolume.ToString("0.0");
+            VolumeApply();
+        }
+    }
+    public IEnumerator ConformationBox()
+    {
+        conformationPrompt.SetActive(true);
+        yield return new WaitForSeconds(2);
+        conformationPrompt.SetActive(false);
+
     }
 }
