@@ -44,9 +44,9 @@ public class PlayerMovement : MonoBehaviour
     
     [Space]
     [Header("Max Velocity - Spitzen abfangen")]
-   // [Tooltip("Was könnte der Spieler maximal erreichen erreichen")] [SerializeField] private float maxSpeed = 1000;
-    //[Tooltip("Ab wann wird die geschwindigkeit begrenzt (ein klein wenig Kontrollverlust)")] 
-    //[SerializeField] private int maxSpeedLimitStartClamping= 800;
+    [Tooltip("Was könnte der Spieler maximal erreichen erreichen")]  private float maxSpeed = 700;
+    [Tooltip("Ab wann wird die geschwindigkeit begrenzt (ein klein wenig Kontrollverlust)")] 
+    [SerializeField] private int maxSpeedLimitStartClamping= 600;
     [Space]
     
     public float TotalVelocity;
@@ -96,14 +96,14 @@ public class PlayerMovement : MonoBehaviour
    
     void MaxVelocity()
     {
-        // if ((math.abs(rb.velocity.x) + math.abs(rb.velocity.z)) > maxSpeedLimitStartClamping)
-        // {
-        //     Debug.Log("Enter limit velocity");
-        //     float xVelocityMax = Mathf.Min(Mathf.Abs(rb.velocity.x), maxSpeed) * Mathf.Sign(rb.velocity.x);
-        //     float zVelocityMax = Mathf.Min(Mathf.Abs(rb.velocity.z), maxSpeed) * Mathf.Sign(rb.velocity.z);
-        //
-        //     rb.velocity = new Vector3(xVelocityMax, rb.velocity.y, zVelocityMax);
-        // }
+        if ((math.abs(rb.velocity.x) + math.abs(rb.velocity.z)) > maxSpeedLimitStartClamping)
+        {
+            Debug.Log("Enter limit velocity");
+            float xVelocityMax = Mathf.Min(Mathf.Abs(rb.velocity.x), maxSpeed) * Mathf.Sign(rb.velocity.x);
+            float zVelocityMax = Mathf.Min(Mathf.Abs(rb.velocity.z), maxSpeed) * Mathf.Sign(rb.velocity.z);
+
+            rb.velocity = new Vector3(xVelocityMax, rb.velocity.y, zVelocityMax);
+        }
         
     }
 
