@@ -11,7 +11,7 @@ public class MenuController : MonoBehaviour
     [Header("Volume setting")] 
     [SerializeField] private TMP_Text volumeTextValue = null;
     [SerializeField] private Slider volumeSlider = null;
-    [SerializeField] private float defaultVolume = 1.0f;
+    [SerializeField] private float defaultVolume = 0.5f;
     
     [FormerlySerializedAs("conformationPrompt")] [SerializeField] private GameObject conformationPrompt = null;
  
