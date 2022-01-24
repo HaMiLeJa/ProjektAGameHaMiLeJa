@@ -16,11 +16,11 @@ public class HexGrid : MonoBehaviour
     private void Start()
     {
 
-         foreach (Hex hex in FindObjectsOfType<Hex>())
-        {
-             hexCoordinates = this.GetComponent<HexCoordinates>();
-             hexTileDict[hex.HexCoords] = hex;
-        }
+       //  foreach (Hex hex in FindObjectsOfType<Hex>())
+      //  {
+        //     hexCoordinates = this.GetComponent<HexCoordinates>();
+        //     hexTileDict[hex.HexCoords] = hex;
+      //  }
         //
         // foreach (KeyValuePair<K, V> entry in dict) {
         //     Console.WriteLine(entry.Key + " : " + entry.Value);
@@ -28,11 +28,11 @@ public class HexGrid : MonoBehaviour
 
     }
   
-    public Dictionary<Vector3Int, Hex> HexTileDict
-    {
-        get => hexTileDict;
-        set => hexTileDict = value;
-    }
+   // public Dictionary<Vector3Int, Hex> HexTileDict
+  //  {
+     //   get => hexTileDict;
+     //   set => hexTileDict = value;
+   // }
     #region GetNeighbours
 
 

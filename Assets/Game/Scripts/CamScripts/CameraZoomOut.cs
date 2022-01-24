@@ -7,7 +7,7 @@ using Unity.Mathematics;
 using UnityEngine.Rendering.Universal;
 public class CameraZoomOut : MonoBehaviour
 {
-    private PlayerMovement _playerMovement;
+    [SerializeField] private PlayerMovement _playerMovement;
     private float xVelocity, zVelocity, xzVelocity;
     public CinemachineVirtualCamera vcam;
     public static CinemachineVirtualCamera vcamera;
@@ -48,9 +48,7 @@ public class CameraZoomOut : MonoBehaviour
 
    void Start()
    {
-       
-        _playerMovement = FindObjectOfType<PlayerMovement>();
-        cashedFov = vcam.m_Lens.FieldOfView;
+       cashedFov = vcam.m_Lens.FieldOfView;
         cashedXScale = ghostLayer.transform.localScale.x;
         cashedZScale = ghostLayer.transform.localScale.z;
    }

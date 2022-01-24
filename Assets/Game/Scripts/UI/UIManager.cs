@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    GameManager gameMng;
+    [SerializeField] GameManager gameMng;
 
     [Header ("Basic UI")]
     [SerializeField] TMPro.TMP_Text score;
@@ -43,7 +43,6 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        gameMng = GameManager.Instance;
 
         //gameMng.onUIEnergyChange += UpdateEnergyUI;
         IngameCanvas.SetActive(true);
