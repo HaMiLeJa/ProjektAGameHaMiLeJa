@@ -1,7 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
-
 public class HexAutoTiling : MonoBehaviour
 {
     private List<Vector3> hasAllTheHexPosCopy = new List<Vector3>();
@@ -10,7 +10,6 @@ public class HexAutoTiling : MonoBehaviour
     
     private int startTilingTreshhold = 130;
     float treshholdMoveBackToOrigin = 1600;
-
     GameObject playerLocation;
      
      private float xPlusSnapShotPos;
@@ -25,21 +24,30 @@ public class HexAutoTiling : MonoBehaviour
     private bool rightMove = true;
     private bool topMove = true;
     private bool bottomMove = true;
-
+    private float treshHoldBoth = 60;
+    private int shortCircutToOrginCounter = 0;
+    private int shortCircutTreshhold = 5;
+    
     [Tooltip("ab wann soll er das Tiling anfangen?")] public float tilingTreshold = 307.5f; //default 307.5
     [Tooltip("wie weit soll er die Tiles nach z verschieben?") ] public static float zTilingDistance = 598; //default 438
     [Tooltip("wie weit soll er die Tiles nach xverschieben")] public static  float xTilingDistance = 691; //default 517
-    
-    
-
-    // Start is called before the first frame update
     void Awake()
-
     {
         playerLocation = GameObject.FindWithTag("Player");
         fillHexDic();
         fillHexPosArray();
-        
+    }
+    void Start()
+    {
+        xOriginPosition = playerLocation.transform.position.x;
+        zOriginPosition = playerLocation.transform.position.z;
+    }
+    void Update()
+    {
+        limitTiling();
+        setFlags();
+        if (bottomMove || topMove || leftMove || rightMove)
+            moveHexes();
     }
     void fillHexDic()
     {
@@ -50,7 +58,6 @@ public class HexAutoTiling : MonoBehaviour
             i++;
         }
     }
-
     void fillHexPosArray()
     {
         hasAllTheHexPos.Clear();
@@ -63,13 +70,73 @@ public class HexAutoTiling : MonoBehaviour
             hasAllTheHexPos.Add(addToList );
         }
     }
-    void Start()
-    {
-        xOriginPosition = playerLocation.transform.position.x;
-        zOriginPosition = playerLocation.transform.position.z;
-    }
 
-    void Update()
+    void setFlags()
+    {    //only one if is less heavy + make sure that everything gets checked once
+        if(
+            playerLocation.transform.position.x > xPlusSnapShotPos ||
+            playerLocation.transform.position.x < xMinusSnapShotPos ||
+            playerLocation.transform.position.z > zPlusSnapShotPos ||
+            playerLocation.transform.position.z < zMinusSnapShotPos
+            )
+        {
+            if (playerLocation.transform.position.x > xPlusSnapShotPos)
+            {
+                rightMove = true;
+                leftMove = false;
+                compareTopBottom();
+            }
+            
+            if (playerLocation.transform.position.x < xMinusSnapShotPos)
+            {
+                leftMove = true;
+                rightMove = false;
+                compareTopBottom();
+            }
+
+            if (playerLocation.transform.position.z > zPlusSnapShotPos)
+            { 
+                topMove = true;
+                bottomMove = false;
+                compareLeftRight();
+            }
+            
+            if (playerLocation.transform.position.z < zMinusSnapShotPos)
+            {
+                bottomMove = true;
+                topMove = false;
+                compareLeftRight();
+            }
+        }
+    }
+    void compareTopBottom()
+    {
+        float zPlus = Mathf.Abs(zPlusSnapShotPos - playerLocation.transform.position.z);
+        float zMinus = Mathf.Abs(zMinusSnapShotPos - playerLocation.transform.position.z);
+        bool noSide = zPlus > treshHoldBoth && zMinus > treshHoldBoth;
+        if ( noSide || zPlus < zMinus )
+            topMove = true;
+        if (noSide || zPlus > zMinus )
+            bottomMove = true;
+    }
+    void compareLeftRight()
+    {
+        float xPlus = Mathf.Abs(xPlusSnapShotPos - playerLocation.transform.position.x);
+        float xMinus = Mathf.Abs(xMinusSnapShotPos - playerLocation.transform.position.x);
+        bool noSide = xPlus > treshHoldBoth && xMinus < treshHoldBoth;
+        if ( noSide || xPlus< xMinus)
+            rightMove = true;
+        if ( noSide || xPlus > xMinus)
+             leftMove = true;
+    }
+    void setAllFalse()
+    {
+        bottomMove = false;
+        topMove = false;
+        rightMove = false;
+        leftMove = false;
+    }
+    void limitTiling()
     {
         //snapshot position so it only needs to update at certain distance
         if (HexCoordinates.playerHasMoved)
@@ -79,31 +146,13 @@ public class HexAutoTiling : MonoBehaviour
 
             zPlusSnapShotPos = playerLocation.transform.position.z + startTilingTreshhold;
             zMinusSnapShotPos = playerLocation.transform.position.z - startTilingTreshhold;
-
             HexCoordinates.playerHasMoved = false;
+            shortCircutToOrginCounter++;
         }
-
-        if (playerLocation.transform.position.x > xPlusSnapShotPos ||
-            playerLocation.transform.position.x < xMinusSnapShotPos ||
-            playerLocation.transform.position.z > zPlusSnapShotPos ||
-            playerLocation.transform.position.z < zMinusSnapShotPos)
-        {
-            //Debug.Log("Entering Movement");
-            //the actual hex movement
-            moveHexes();
-        }
-    }
-    
-    void setAllSidesTrue()
-    {
-        leftMove = true;
-        rightMove = true;
-        topMove = true;
-        bottomMove = true;
     }
     void moveHexes()
     {
-        int vectorIndex = 0;
+             int vectorIndex = 0;
         
             hasAllTheHexPosCopy.Clear();
             hasAllTheHexPosCopy.AddRange(hasAllTheHexPos);
@@ -114,7 +163,6 @@ public class HexAutoTiling : MonoBehaviour
                 {
                     hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position = new Vector3(hasAllTheHexPos[vectorIndex].x,
                         hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position.y, hasAllTheHexPos[vectorIndex].z - zTilingDistance);
-                    
                     hasAllTheHexPos[vectorIndex] = new Vector3(hasAllTheHexPos[vectorIndex].x,
                         hasAllTheHexPos[vectorIndex].y,
                         hasAllTheHexPos[vectorIndex].z - zTilingDistance);
@@ -139,9 +187,8 @@ public class HexAutoTiling : MonoBehaviour
                     hasAllTheHexPos[vectorIndex] = new Vector3(
                         hasAllTheHexPos[vectorIndex].x - xTilingDistance,
                         hasAllTheHexPos[vectorIndex].y,
-                        hasAllTheHexPos[vectorIndex].z
-                    );
-                    rightMove = false;
+                        hasAllTheHexPos[vectorIndex].z);
+                   rightMove = false;
                 }
                 
                 if (rightMove && playerLocation.transform.position.x - tilingTreshold > hasAllTheHexPos[vectorIndex].x)
@@ -151,26 +198,24 @@ public class HexAutoTiling : MonoBehaviour
                     hasAllTheHexPos[vectorIndex] = new Vector3(
                         hasAllTheHexPos[vectorIndex].x + xTilingDistance,
                         hasAllTheHexPos[vectorIndex].y,
-                        hasAllTheHexPos[vectorIndex].z
-                    );
+                        hasAllTheHexPos[vectorIndex].z);
                     leftMove = false;
                 }
                 HexCoordinates.playerHasMoved = true;
                 vectorIndex++;
            }
-
-            setAllSidesTrue();
+            setAllFalse();
     }
     private void LateUpdate()
     {
         ///return to origin
-        if ( 
-               playerLocation.transform.position.x > treshholdMoveBackToOrigin  
+        if (shortCircutToOrginCounter > shortCircutTreshhold &&
+            playerLocation.transform.position.x > treshholdMoveBackToOrigin  
             || playerLocation.transform.position.x < -treshholdMoveBackToOrigin
             || playerLocation.transform.position.z > treshholdMoveBackToOrigin  
             || playerLocation.transform.position.z < -treshholdMoveBackToOrigin  
             )
-        {Debug.Log("Cam Move");
+        {Debug.Log("Sir, I Moved everything back to Origin");
             
             Vector3 moveEveryThingBack = new Vector3(
                 playerLocation.transform.position.x - (xOriginPosition),
@@ -183,20 +228,25 @@ public class HexAutoTiling : MonoBehaviour
                 CinemachineCore.Instance.GetVirtualCamera(i).OnTargetObjectWarped(
                     playerLocation.transform, -moveEveryThingBack);
 
-
             for (int j = 0; j < UnityEngine.SceneManagement.SceneManager.sceneCount; j++)
             {
                 foreach (GameObject allParentObjects in UnityEngine.SceneManagement.SceneManager.GetSceneAt(j).GetRootGameObjects())
                 {
                     allParentObjects.transform.position -= moveEveryThingBack;
-                    HexCoordinates.playerHasMoved = true;
                 }
             }
-            fillHexPosArray();
-            moveHexes();
+            shortCircutToOrginCounter = 0;
+            StartCoroutine(camUpdateAll());
         }
     }
-    
+    IEnumerator camUpdateAll()
+    {
+        yield return new WaitForSeconds(0.7f);
+        fillHexPosArray();
+        moveHexes();
+        HexCoordinates.playerHasMoved = true;
+        limitTiling();
+    }
 }
 
 
