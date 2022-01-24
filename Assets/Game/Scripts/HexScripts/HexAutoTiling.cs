@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using System.Linq;
 public class HexAutoTiling : MonoBehaviour
 {
     private List<Vector3> hasAllTheHexPosCopy = new List<Vector3>();
@@ -27,7 +28,8 @@ public class HexAutoTiling : MonoBehaviour
     private float treshHoldBoth = 60;
     private int shortCircutToOrginCounter = 0;
     private int shortCircutTreshhold = 5;
-    
+    //bool markSortList = true;
+   
     [Tooltip("ab wann soll er das Tiling anfangen?")] public float tilingTreshold = 307.5f; //default 307.5
     [Tooltip("wie weit soll er die Tiles nach z verschieben?") ] public static float zTilingDistance = 598; //default 438
     [Tooltip("wie weit soll er die Tiles nach xverschieben")] public static  float xTilingDistance = 691; //default 517
@@ -44,6 +46,21 @@ public class HexAutoTiling : MonoBehaviour
     }
     void Update()
     {
+        /*if (Input.GetKeyDown(KeyCode.J))
+        {
+            var test = hasAllTheHexPos.ToArray();
+            sortVec3Array(test, 1200);
+            hasAllTheHexPos = test.ToList();
+        }
+
+        if (Input.GetKey(KeyCode.K))
+        {
+            for(int i = 0; i < 20; i++)
+            {
+                Debug.Log(hasAllTheHexPos[i]);
+            }
+        }*/
+        
         limitTiling();
         setFlags();
         if (bottomMove || topMove || leftMove || rightMove)
@@ -60,6 +77,7 @@ public class HexAutoTiling : MonoBehaviour
     }
     void fillHexPosArray()
     {
+        
         hasAllTheHexPos.Clear();
         foreach (KeyValuePair <float, GameObject> hex in hasAllTheHexesDic)
         {
@@ -70,7 +88,6 @@ public class HexAutoTiling : MonoBehaviour
             hasAllTheHexPos.Add(addToList );
         }
     }
-
     void setFlags()
     {    //only one if is less heavy + make sure that everything gets checked once
         if(
@@ -84,6 +101,7 @@ public class HexAutoTiling : MonoBehaviour
             {
                 rightMove = true;
                 leftMove = false;
+              // markSortList = true;
                 compareTopBottom();
             }
             
@@ -91,6 +109,7 @@ public class HexAutoTiling : MonoBehaviour
             {
                 leftMove = true;
                 rightMove = false;
+              //  markSortList = true;
                 compareTopBottom();
             }
 
@@ -98,6 +117,7 @@ public class HexAutoTiling : MonoBehaviour
             { 
                 topMove = true;
                 bottomMove = false;
+               // markSortList = false;
                 compareLeftRight();
             }
             
@@ -105,6 +125,9 @@ public class HexAutoTiling : MonoBehaviour
             {
                 bottomMove = true;
                 topMove = false;
+                
+                  //  markSortList = false;
+                
                 compareLeftRight();
             }
         }
@@ -143,11 +166,12 @@ public class HexAutoTiling : MonoBehaviour
         {
             xPlusSnapShotPos = playerLocation.transform.position.x + startTilingTreshhold;
             xMinusSnapShotPos = playerLocation.transform.position.x - startTilingTreshhold;
-
             zPlusSnapShotPos = playerLocation.transform.position.z + startTilingTreshhold;
             zMinusSnapShotPos = playerLocation.transform.position.z - startTilingTreshhold;
             HexCoordinates.playerHasMoved = false;
             shortCircutToOrginCounter++;
+            // if(markSortList)
+            // StartCoroutine(sortListCo());
         }
     }
     void moveHexes()
@@ -156,50 +180,48 @@ public class HexAutoTiling : MonoBehaviour
         
             hasAllTheHexPosCopy.Clear();
             hasAllTheHexPosCopy.AddRange(hasAllTheHexPos);
-         
+
+            float hor= 0, hor2 = 0, vert = 0, vert2 = 0;
+            bool markDirtyVector = false;
             foreach(Vector3 hexPos in hasAllTheHexPosCopy)
-           {  
-                if (bottomMove && playerLocation.transform.position.z + tilingTreshold < hasAllTheHexPos[vectorIndex].z)
-                {
-                    hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position = new Vector3(hasAllTheHexPos[vectorIndex].x,
-                        hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position.y, hasAllTheHexPos[vectorIndex].z - zTilingDistance);
-                    hasAllTheHexPos[vectorIndex] = new Vector3(hasAllTheHexPos[vectorIndex].x,
-                        hasAllTheHexPos[vectorIndex].y,
-                        hasAllTheHexPos[vectorIndex].z - zTilingDistance);
-                    topMove = false;
-                }
-
-                if (topMove && playerLocation.transform.position.z - tilingTreshold > hasAllTheHexPos[vectorIndex].z)
-                {
-                    hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position = new Vector3(hasAllTheHexPos[vectorIndex].x,
-                        hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position.y, hasAllTheHexPos[vectorIndex].z + zTilingDistance);
-                    hasAllTheHexPos[vectorIndex] = new Vector3(
-                        hasAllTheHexPos[vectorIndex].x,
-                        hasAllTheHexPos[vectorIndex].y,
-                        hasAllTheHexPos[vectorIndex].z + zTilingDistance);
-                    bottomMove = false;
-                }
-
-                if (leftMove && playerLocation.transform.position.x + tilingTreshold < hasAllTheHexPos[vectorIndex].x)
-                {
-                    hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position = new Vector3(hasAllTheHexPos[vectorIndex].x - xTilingDistance,
-                        hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position.y, hasAllTheHexPos[vectorIndex].z);
-                    hasAllTheHexPos[vectorIndex] = new Vector3(
-                        hasAllTheHexPos[vectorIndex].x - xTilingDistance,
-                        hasAllTheHexPos[vectorIndex].y,
-                        hasAllTheHexPos[vectorIndex].z);
+           {  //&& vectorIndex > 13100
+               if (leftMove  && playerLocation.transform.position.x + tilingTreshold < hexPos.x)
+               {
+                   hor = xTilingDistance;
                    rightMove = false;
+                   markDirtyVector = true;
+               }
+                //&&  vectorIndex < 2800 
+               if (rightMove && playerLocation.transform.position.x - tilingTreshold > hexPos.x)
+               {
+                   hor2 = xTilingDistance;
+                   leftMove = false;
+                   markDirtyVector = true;
+               }
+               
+                if (bottomMove && playerLocation.transform.position.z + tilingTreshold < hexPos.z)
+                {
+                    vert = zTilingDistance;
+                    topMove = false;
+                    markDirtyVector = true;
+                }
+
+                if (topMove && playerLocation.transform.position.z - tilingTreshold > hexPos.z)
+                {
+                    vert2 = zTilingDistance;
+                    bottomMove = false;
+                    markDirtyVector = true;
                 }
                 
-                if (rightMove && playerLocation.transform.position.x - tilingTreshold > hasAllTheHexPos[vectorIndex].x)
-                {
-                    hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position = new Vector3(hasAllTheHexPos[vectorIndex].x + xTilingDistance,
-                        hasAllTheHexesDic[hasAllTheHexPos[vectorIndex].y].transform.position.y, hasAllTheHexPos[vectorIndex].z);
-                    hasAllTheHexPos[vectorIndex] = new Vector3(
-                        hasAllTheHexPos[vectorIndex].x + xTilingDistance,
-                        hasAllTheHexPos[vectorIndex].y,
-                        hasAllTheHexPos[vectorIndex].z);
-                    leftMove = false;
+                if (markDirtyVector)
+                { 
+                    hasAllTheHexesDic[hexPos.y].transform.position = new Vector3(hexPos.x  - hor +hor2, 
+                        hasAllTheHexesDic[hexPos.y].transform.position.y, hexPos.z - vert+vert2);
+                    hasAllTheHexPos[vectorIndex] = new Vector3(hexPos.x - hor +hor2,
+                        hexPos.y, hexPos.z - vert+vert2);
+                    
+                    hor = 0; vert = 0; hor2 = 0; vert2 = 0;
+                    markDirtyVector = false;
                 }
                 HexCoordinates.playerHasMoved = true;
                 vectorIndex++;
@@ -239,14 +261,51 @@ public class HexAutoTiling : MonoBehaviour
             StartCoroutine(camUpdateAll());
         }
     }
+    void setEverythingTrue()
+    {
+        topMove = true;
+        bottomMove = true;
+        leftMove = true;
+        rightMove = true;
+    }
+    // IEnumerator sortListCo()
+    // {
+    //     yield return new WaitForSeconds(0.3f);
+    //     hasAllTheHexPos = hasAllTheHexPos.OrderBy(x => x.x).ToList();
+    // }
     IEnumerator camUpdateAll()
     {
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.25f);
         fillHexPosArray();
+        setEverythingTrue();
         moveHexes();
         HexCoordinates.playerHasMoved = true;
         limitTiling();
     }
+
+    
+    /*static void sortVec3Array(Vector3[] arrayToSort, int stopAt)
+    {
+        int i, j;
+        for (i = 1; i < stopAt; i++)
+        {
+            float item = arrayToSort[i].x;
+            int ins = 0;
+            for (j = i - 1; j >= 0 && ins != 1;)
+            {
+                if (item < arrayToSort[j].x)
+                {
+                    arrayToSort[j + 1].x = arrayToSort[j].x;
+                    j--;
+                    arrayToSort[j + 1].x = item;
+                }
+                else ins = 1;
+            }
+        }
+    }*/
+
+     
+
 }
 
 
