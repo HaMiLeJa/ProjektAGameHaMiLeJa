@@ -6,6 +6,7 @@ public class Wall : MonoBehaviour
 {
     public ScriptableLevelObject settings;
     int hitCounter;
+    [SerializeField] AudioSource myAudioSource;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -20,9 +21,10 @@ public class Wall : MonoBehaviour
             ScoreManager.OnScoring?.Invoke(settings.value - scoreValue);
             hitCounter++;
 
-
-            //Effect
-            //music
+            if(myAudioSource.isPlaying == false)
+            {
+                myAudioSource.Play();
+            }
         }
 
     }

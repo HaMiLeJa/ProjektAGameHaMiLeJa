@@ -68,22 +68,23 @@ public class Hex : MonoBehaviour
         playerRb = ReferenceLibary.RigidbodyPl;
         hexMov = ReferenceLibary.HexMov;
         audManager = ReferenceLibary.AudMng;
-        audioClipHexes = ReferenceLibary.AudMng.gameObject.GetComponent<AudioClipsHexes>();
+       // audioClipHexes = ReferenceLibary.AudMng.HexAudMng.gameObject.GetComponent<AudioClipsHexes>();
         //myAudioSource = this.GetComponent<AudioSource>();
-
+        
         OnEffectHex += PlaySound;
-        if (hexType != HexType.Default)
+        /*
+        if (hexType != HexType.Default) // Delete
         {
             foreach(StringAudiofileClass file in audioClipHexes.AllHexClips)
             {
-                if(file.name == hexType.ToString())
+                if(file.type == hexType)
                 {
                     
                     clip = file.clip;
                     myAudioSource.clip = clip;
                 }
             }
-        }
+        }*/
 
        
     }
@@ -570,10 +571,7 @@ public class Hex : MonoBehaviour
 
     void PlaySound()
     {
-        if (myAudioSource.isPlaying == false)
-        {
-            myAudioSource.Play();
-        }
+        ReferenceLibary.AudMng.HexAudMng.PlayHex(hexType);
         
     }
 
