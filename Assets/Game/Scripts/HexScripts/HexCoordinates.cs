@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class HexCoordinates : MonoBehaviour
 {
-    #region OffsetValues
+    //#region OffsetValues
     
-    public static float xOffset = 2, yOffset = 1, zOffset = 1.73f;
+  //  public static float xOffset = 2, yOffset = 1, zOffset = 1.73f;
     
-    internal static bool playerHasMoved = true;
+   // internal static bool playerHasMoved = true;
+    /*
     internal Vector3Int GetHexCoords()
         => offsetCoordinates;
     
@@ -40,5 +41,5 @@ public class HexCoordinates : MonoBehaviour
         return new Vector3Int(x, y, z);
     }
     
-    #endregion
+    #endregion */
 }

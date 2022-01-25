@@ -1,3 +1,4 @@
+/*
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ public class MovementSystem : MonoBehaviour
     #region ShowHighlightRange
     public void HideRange(HexGrid hexGrid)
     {
-        foreach (Vector3Int hexPosition in movementRange.GetRangePositions())
+        foreach (Vector3 hexPosition in movementRange.GetRangePositions())
         {
             hexGrid.GetTileAt(hexPosition).DisableHighlight();
         }
@@ -75,3 +76,4 @@ public class MovementSystem : MonoBehaviour
         return movementRange.IsHexPositionInRange(hexPosition);
     }
 }
+*/

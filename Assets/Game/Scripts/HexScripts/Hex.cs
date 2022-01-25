@@ -18,7 +18,7 @@ public class Hex : MonoBehaviour
     [SerializeField] AudioSource myAudioSource;
 
     private GlowHighlight highlight;
-    private HexCoordinates hexCoordinates;
+    //private HexCoordinates hexCoordinates;
     public HexType hexType;
     public CollectableType collectableType = CollectableType.Type1; //To Be Used :)
 
@@ -26,10 +26,11 @@ public class Hex : MonoBehaviour
 
     
     #endregion
-    public Vector3Int HexCoords => hexCoordinates.GetHexCoords();
+    //public Vector3Int HexCoords => hexCoordinates.GetHexCoords();
 
     System.Action OnEffectHex;
     // wie weit kann die Unit laufen
+    /*
     public int GetCost()
         => hexType switch
         {
@@ -42,12 +43,12 @@ public class Hex : MonoBehaviour
     public bool IsObstacle()
     {
         return this.hexType == HexType.Obstacle;
-    }
+    }*/
 
     private void Awake()
     {
         
-        hexCoordinates = GetComponent<HexCoordinates>();
+       // hexCoordinates = GetComponent<HexCoordinates>();
         highlight = GetComponent<GlowHighlight>();
 
         if (hexType == HexType.DefaultCollectable)

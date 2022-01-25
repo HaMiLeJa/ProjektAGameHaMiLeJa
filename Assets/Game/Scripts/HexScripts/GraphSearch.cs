@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +10,9 @@ public class GraphSearch
     {
         #region Dictonarys
         
-        Dictionary<Vector3Int, Vector3Int?> visitedNodes = new Dictionary<Vector3Int, Vector3Int?>();
-        Dictionary<Vector3Int, int> costSoFar = new Dictionary<Vector3Int, int>();
-        Queue<Vector3Int> nodesToVisitQueue = new Queue<Vector3Int>();
+        Dictionary<Vector3, Vector3?> visitedNodes = new Dictionary<Vector3, Vector3?>();
+        Dictionary<Vector3, int> costSoFar = new Dictionary<Vector3, int>();
+        Queue<Vector3> nodesToVisitQueue = new Queue<Vector3>();
         
         #endregion
 
@@ -22,13 +22,14 @@ public class GraphSearch
 
         while (nodesToVisitQueue.Count > 0)
         {
-            Vector3Int currentNode = nodesToVisitQueue.Dequeue();
-            foreach (Vector3Int neighbourPosition in hexGrid.GetNeighboursFor(currentNode))
+            Vector3 currentNode = nodesToVisitQueue.Dequeue();
+            foreach (Vector3 neighbourPosition in hexGrid.GetNeighboursFor(currentNode))
             {
-                if (hexGrid.GetTileAt(neighbourPosition).IsObstacle())
-                    continue;
+               // if (hexGrid.GetTileAt(neighbourPosition).IsObstacle())
+                  //  continue;
 
-                int nodeCost = hexGrid.GetTileAt(neighbourPosition).GetCost();
+               // int nodeCost = hexGrid.GetTileAt(neighbourPosition).GetCost();
+               int nodeCost = 5;
                 int currentCost = costSoFar[currentNode];
                 int newCost = currentCost + nodeCost;
 
@@ -52,9 +53,9 @@ public class GraphSearch
     }
     
 
-    public static List<Vector3Int> GeneratePathBFS(Vector3Int current, Dictionary<Vector3Int, Vector3Int?> visitedNodesDict)
+    public static List<Vector3> GeneratePathBFS(Vector3 current, Dictionary<Vector3, Vector3?> visitedNodesDict)
     {
-        List<Vector3Int> path = new List<Vector3Int>();
+        List<Vector3> path = new List<Vector3>();
         path.Add(current);
         while (visitedNodesDict[current] != null)
         {
@@ -69,22 +70,22 @@ public class GraphSearch
 
 public struct BFSResult
 {
-    public Dictionary<Vector3Int, Vector3Int?> visitedNodesDict;
+    public Dictionary<Vector3, Vector3?> visitedNodesDict;
 
-    public List<Vector3Int> GetPathTo(Vector3Int destination)
+    public List<Vector3> GetPathTo(Vector3 destination)
     {
         if (visitedNodesDict.ContainsKey(destination) == false)
-            return new List<Vector3Int>();
+            return new List<Vector3>();
         return GraphSearch.GeneratePathBFS(destination, visitedNodesDict);
     }
 
-    public bool IsHexPositionInRange(Vector3Int position)
+    public bool IsHexPositionInRange(Vector3 position)
     {
         return visitedNodesDict.ContainsKey(position);
     }
 
-    public IEnumerable<Vector3Int> GetRangePositions()
+    public IEnumerable<Vector3> GetRangePositions()
         => visitedNodesDict.Keys;
 }
 
-#endregion
+#endregion*/
