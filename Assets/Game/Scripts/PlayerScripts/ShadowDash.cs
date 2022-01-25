@@ -153,7 +153,7 @@ public class ShadowDash : MonoBehaviour
 
     private IEnumerator ShadowDashCoroutine()
     {
-        // Vector3 velocity = rb.velocity;
+        
 
         StartCoroutine(EnergyManager.Instance.ModifyEnergy(-gameMng.ShadowDashCosts));
 
@@ -216,77 +216,7 @@ public class ShadowDash : MonoBehaviour
 
   
 
-    #region alternative 
-    /*
-        private IEnumerator ShadowDashCoroutineX()
-        {
-            Vector3 velocity = rb.velocity;
-
-            float t = 0;
-
-            //this.gameObject.layer = playerNoCollisionLayerInt;
-            bool colliding = true;
-
-            while (t < ShadowDashDuration)
-            {
-
-                mr.enabled = true;
-                t += Time.deltaTime;
-                float curveValue = shadowDashcurve.Evaluate(t); // / ShadowDashDuration
-
-
-                currentShadowDashForce += ShadowDashForce * curveValue * Time.deltaTime;
-                if (currentShadowDashForce >= disappearingDuringShadowDashStart && currentShadowDashForce <= disappearingDuringShadowDashEnd)
-                {
-                    mr.enabled = false;
-
-                }
-                yield return null;
-            }
-
-
-            rb.velocity = rb.velocity / 2;
-
-            //rb.velocity = velocity;
-
-            List<Collider> setToTriggerColliders = new List<Collider>();
-
-            while (colliding == true)
-            {
-                Collider[] hitColliders;
-                hitColliders = Physics.OverlapSphere(this.transform.position, myCollider.radius + 2, worldMask); //LayerMask.GetMask("World") // 7
-                Debug.Log(hitColliders.Length);
-
-                foreach (Collider col in hitColliders)
-                {
-                    col.isTrigger = true;
-
-
-                    if (setToTriggerColliders.Contains(col) == false)
-                        setToTriggerColliders.Add(col);
-                    Debug.Log("set to trigger");
-                }
-
-                if (hitColliders.Length == 0)
-                {
-                    colliding = false;
-                    Debug.Log("notColliding");
-                    //this.gameObject.layer = playerLayerInt;
-                }
-
-                //yield return null;
-            }
-
-            foreach (Collider col in setToTriggerColliders)
-            {
-                col.isTrigger = false;
-            }
-
-            currentShadowDashForce = 0;
-            isShadowDashing = false;
-        }
-    */
-    #endregion
+   
 
 
    
