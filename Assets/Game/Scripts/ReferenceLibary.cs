@@ -30,6 +30,7 @@ public class ReferenceLibary : MonoBehaviour
     public static GameManager GameMng;
     public static ScoreManager ScoreMng;
     public static WindconditionManager WinconMng;
+    public static AudioManager AudMng;
 
     private void Awake()
     {
@@ -56,6 +57,7 @@ public class ReferenceLibary : MonoBehaviour
         GameMng = FindObjectOfType<GameManager>();
         ScoreMng = FindObjectOfType<ScoreManager>();
         WinconMng = FindObjectOfType<WindconditionManager>();
+        AudMng = FindObjectOfType<AudioManager>();
     }
 
 }

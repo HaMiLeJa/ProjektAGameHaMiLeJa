@@ -8,22 +8,11 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-
+        AudioListener.volume = PlayerPrefs.GetFloat("masterVolume");
     }
 
-    #region Singleton
-    public static AudioManager Instance;
    
-    private void Awake()
-    {
-        if (AudioManager.Instance != null)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            AudioManager.Instance = this;
-        }
-    }
-    #endregion
+    
+
+    
 }

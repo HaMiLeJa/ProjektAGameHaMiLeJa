@@ -69,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = ReferenceLibary.RigidbodyPl;
         gameMng = GameManager.Instance;
-        audManager = AudioManager.Instance;
+        audManager = ReferenceLibary.AudMng;
         hexMov = ReferenceLibary.HexMov;
     }
 

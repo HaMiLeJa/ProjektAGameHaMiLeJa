@@ -54,7 +54,7 @@ public class PlayerSuperDash : MonoBehaviour
         //  playerNoCollisionLayerInt = LayerMask.NameToLayer("PlayerNoCollision");
 
 
-        audManager = AudioManager.Instance;
+        audManager = ReferenceLibary.AudMng;
 
     }
 

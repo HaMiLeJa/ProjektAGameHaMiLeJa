@@ -18,7 +18,8 @@ public class MenuController : MonoBehaviour
     [SerializeField] GameObject SettingsGraphic;
     [SerializeField] GameObject Credits;
 
-    [Header("Volume setting")] 
+    [Header("Volume setting")]
+    [SerializeField] Slider VolumeSlider;
     [SerializeField] private TMP_Text volumeTextValue = null;
     [SerializeField] private Slider volumeSlider = null;
     [SerializeField] private float defaultVolume = 0.5f;
@@ -35,12 +36,13 @@ public class MenuController : MonoBehaviour
         OptionMenuContainer.SetActive(false);
         CostumPopoutDialogContainer.SetActive(true);
 
-
         NewGameDialog.SetActive(false);
         SettingsSound.SetActive(false);
         SettingsGameplay.SetActive(false);
         SettingsGraphic.SetActive(false);
         Credits.SetActive(false);
+
+        VolumeSlider.value = PlayerPrefs.GetFloat("masterVolume");
 
         amount = PlayerPrefs.GetInt("WinConPoints") + PlayerPrefs.GetInt("WinConHex") + PlayerPrefs.GetInt("WinConMissions");
 
@@ -50,11 +52,11 @@ public class MenuController : MonoBehaviour
         ManageHextileAmount(ProgressLv3, 6, Level3Image);
     }
 
+
     public void NewGameDialogYes()
     {
         SceneManager.LoadScene(_newGameLevel);
     }
-
 
     public void LoadGameDialogYes()
     {
@@ -74,6 +76,9 @@ public class MenuController : MonoBehaviour
         Application.Quit();
     }
 
+   
+
+    #region LevelAvailability
 
     [Header("Choose Level")] [SerializeField]
     TMPro.TMP_Text ProgressLv2;
@@ -90,7 +95,6 @@ public class MenuController : MonoBehaviour
         if (amount <= goalAmount - 1)
         {
             lv.text = amount + "/" + goalAmount + "Hextiles";
-            Debug.Log("1");
         }
         else if (amount >= goalAmount)
         {
@@ -130,7 +134,9 @@ public class MenuController : MonoBehaviour
             Message.text = "Currently only Level 1 is available";
         }
     }
+    #endregion
 
+    #region volume
     public void SetVolume(float volume)
     {
         AudioListener.volume = volume;
@@ -160,4 +166,6 @@ public class MenuController : MonoBehaviour
         conformationPrompt.SetActive(false);
 
     }
+
+    #endregion
 }

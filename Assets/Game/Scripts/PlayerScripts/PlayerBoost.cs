@@ -40,7 +40,7 @@ public class PlayerBoost : MonoBehaviour
         playerMov = ReferenceLibary.PlayerMov;
 
         gameMng = GameManager.Instance;
-        audManager = AudioManager.Instance;
+        audManager = ReferenceLibary.AudMng;
 
         //audioSource = 
     }

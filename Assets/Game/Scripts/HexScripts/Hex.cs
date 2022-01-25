@@ -67,8 +67,8 @@ public class Hex : MonoBehaviour
         Player = ReferenceLibary.Player;
         playerRb = ReferenceLibary.RigidbodyPl;
         hexMov = ReferenceLibary.HexMov;
-        audManager = AudioManager.Instance;
-        audioClipHexes = AudioManager.Instance.gameObject.GetComponent<AudioClipsHexes>();
+        audManager = ReferenceLibary.AudMng;
+        audioClipHexes = ReferenceLibary.AudMng.gameObject.GetComponent<AudioClipsHexes>();
         //myAudioSource = this.GetComponent<AudioSource>();
 
         OnEffectHex += PlaySound;

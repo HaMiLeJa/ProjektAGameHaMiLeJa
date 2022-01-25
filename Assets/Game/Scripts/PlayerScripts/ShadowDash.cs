@@ -59,7 +59,7 @@ public class ShadowDash : MonoBehaviour
 
         //myCollider = this.gameObject.GetComponent<SphereCollider>();
 
-        audManager = AudioManager.Instance;
+        audManager = ReferenceLibary.AudMng;
 
     }
 
