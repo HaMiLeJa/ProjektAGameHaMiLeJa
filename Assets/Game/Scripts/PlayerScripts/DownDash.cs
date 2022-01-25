@@ -41,7 +41,7 @@ public class DownDash : MonoBehaviour
         rb = ReferenceLibary.RigidbodyPl;
         gameMng = GameManager.Instance;
         playerMov = ReferenceLibary.PlayerMov;
-        audManager = AudioManager.Instance;
+        audManager = ReferenceLibary.AudMng;
     }
 
     void FixedUpdate()

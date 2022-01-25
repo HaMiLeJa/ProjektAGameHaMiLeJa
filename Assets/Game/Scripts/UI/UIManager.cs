@@ -70,7 +70,7 @@ public class UIManager : MonoBehaviour
             obj.text = "";
             obj.gameObject.SetActive(true);
 
-            PointsState points = new PointsState();
+            PointsAndState points = new PointsAndState();
             points.textMesh = obj;
             points.inUse = false;
             
@@ -473,20 +473,20 @@ public class UIManager : MonoBehaviour
     [SerializeField] float sizeModfierPoints = 110;
 
    
-    public class PointsState
+    public class PointsAndState
     {
         public TMPro.TMP_Text textMesh;
 
         public bool inUse = false;
     }
 
-     List<PointsState> allPointsTexMeshs = new List<PointsState>();
+     List<PointsAndState> allPointsTexMeshs = new List<PointsAndState>();
      int freeTexmeshes;
 
     public void PointsStarter(float value)  //find textmesh, set color, startscale etc
     {
         if (freeTexmeshes == 0) return;
-        PointsState myTxt = SetTextmesh();
+        PointsAndState myTxt = SetTextmesh();
 
         SetStartValues(myTxt, value);
 
@@ -494,7 +494,7 @@ public class UIManager : MonoBehaviour
         StartCoroutine(AnimatePoints(myTxt));
     }
 
-    PointsState SetTextmesh()
+    PointsAndState SetTextmesh()
     {
         foreach (var obj in allPointsTexMeshs)
         {
@@ -517,7 +517,7 @@ public class UIManager : MonoBehaviour
     
 
 
-    void SetStartValues(PointsState txt, float value)
+    void SetStartValues(PointsAndState txt, float value)
     {
         txt.textMesh.text = value * ScoreManager.CurrentMultiplicator + " points!";
 
@@ -528,7 +528,7 @@ public class UIManager : MonoBehaviour
    
 
 
-    IEnumerator AnimatePoints(PointsState txt)
+    IEnumerator AnimatePoints(PointsAndState txt)
     {
 
         float fontSize = StartFontSizePoints;

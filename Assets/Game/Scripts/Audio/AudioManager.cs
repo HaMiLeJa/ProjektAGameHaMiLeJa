@@ -4,26 +4,18 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-   
+    [HideInInspector] public HexEffectAudioManager HexAudMng;
+
 
     private void Start()
     {
+        AudioListener.volume = PlayerPrefs.GetFloat("masterVolume");
+        HexAudMng = this.GetComponentInChildren<HexEffectAudioManager>();
 
     }
 
-    #region Singleton
-    public static AudioManager Instance;
    
-    private void Awake()
-    {
-        if (AudioManager.Instance != null)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            AudioManager.Instance = this;
-        }
-    }
-    #endregion
+    
+
+    
 }

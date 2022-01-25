@@ -6,23 +6,25 @@ public class Wall : MonoBehaviour
 {
     public ScriptableLevelObject settings;
     int hitCounter;
+    [SerializeField] AudioSource myAudioSource;
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject == ReferenceLibary.Player)
         {
-            if (hitCounter >= 10) return;
+            if (hitCounter >= 20) return;
 
             
 
-            float scoreValue = ((hitCounter * 0.1f)) * settings.value;
+            float scoreValue = ((hitCounter * 0.05f)) * settings.value;
 
             ScoreManager.OnScoring?.Invoke(settings.value - scoreValue);
             hitCounter++;
 
-
-            //Effect
-            //music
+            if(myAudioSource.isPlaying == false)
+            {
+                myAudioSource.Play();
+            }
         }
 
     }

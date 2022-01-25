@@ -51,6 +51,8 @@ public class CameraZoomOut : MonoBehaviour
        cashedFov = vcam.m_Lens.FieldOfView;
         cashedXScale = ghostLayer.transform.localScale.x;
         cashedZScale = ghostLayer.transform.localScale.z;
+
+       
    }
     
     void FixedUpdate()

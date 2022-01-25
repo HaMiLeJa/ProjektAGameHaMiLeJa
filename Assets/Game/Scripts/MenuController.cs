@@ -8,7 +8,18 @@ using UnityEngine.Serialization;
 
 public class MenuController : MonoBehaviour
 {
-    [Header("Volume setting")] 
+    [Header("Container")]
+    [SerializeField] GameObject MainMenuContainer;
+    [SerializeField] GameObject OptionMenuContainer;
+    [SerializeField] GameObject CostumPopoutDialogContainer;
+    [SerializeField] GameObject NewGameDialog;
+    [SerializeField] GameObject SettingsSound;
+    [SerializeField] GameObject SettingsGameplay;
+    [SerializeField] GameObject SettingsGraphic;
+    [SerializeField] GameObject Credits;
+
+    [Header("Volume setting")]
+    [SerializeField] Slider VolumeSlider;
     [SerializeField] private TMP_Text volumeTextValue = null;
     [SerializeField] private Slider volumeSlider = null;
     [SerializeField] private float defaultVolume = 0.5f;
@@ -21,18 +32,31 @@ public class MenuController : MonoBehaviour
 
     private void Start()
     {
-        amount = PlayerPrefs.GetInt("WinConPoints") + PlayerPrefs.GetInt("WinConHex") +
-                 PlayerPrefs.GetInt("WinConMissions");
+        MainMenuContainer.SetActive(true);
+        OptionMenuContainer.SetActive(false);
+        CostumPopoutDialogContainer.SetActive(true);
+
+        NewGameDialog.SetActive(false);
+        SettingsSound.SetActive(false);
+        SettingsGameplay.SetActive(false);
+        SettingsGraphic.SetActive(false);
+        Credits.SetActive(false);
+
+        VolumeSlider.value = PlayerPrefs.GetFloat("masterVolume");
+
+        amount = PlayerPrefs.GetInt("WinConPoints") + PlayerPrefs.GetInt("WinConHex") + PlayerPrefs.GetInt("WinConMissions");
+
+        
 
         ManageHextileAmount(ProgressLv2, 3, Level2Image);
         ManageHextileAmount(ProgressLv3, 6, Level3Image);
     }
 
+
     public void NewGameDialogYes()
     {
         SceneManager.LoadScene(_newGameLevel);
     }
-
 
     public void LoadGameDialogYes()
     {
@@ -52,6 +76,9 @@ public class MenuController : MonoBehaviour
         Application.Quit();
     }
 
+   
+
+    #region LevelAvailability
 
     [Header("Choose Level")] [SerializeField]
     TMPro.TMP_Text ProgressLv2;
@@ -65,8 +92,6 @@ public class MenuController : MonoBehaviour
 
     void ManageHextileAmount(TMPro.TMP_Text lv, int goalAmount, Image levelimage)
     {
-
-
         if (amount <= goalAmount - 1)
         {
             lv.text = amount + "/" + goalAmount + "Hextiles";
@@ -109,7 +134,9 @@ public class MenuController : MonoBehaviour
             Message.text = "Currently only Level 1 is available";
         }
     }
+    #endregion
 
+    #region volume
     public void SetVolume(float volume)
     {
         AudioListener.volume = volume;
@@ -139,4 +166,6 @@ public class MenuController : MonoBehaviour
         conformationPrompt.SetActive(false);
 
     }
+
+    #endregion
 }
