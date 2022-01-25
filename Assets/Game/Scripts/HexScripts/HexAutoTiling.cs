@@ -10,13 +10,12 @@ public class HexAutoTiling : MonoBehaviour
     #region Dictionarys
     [HideInInspector]
     public List<Vector3> hasAllTheHexPos = new List<Vector3>();
-   
     private List<Vector3> hasAllTheHexPosHelperCopy = new List<Vector3>();
-    [HideInInspector] public Dictionary<float, GameObject> hasAllTheHexesDic = new Dictionary<float, GameObject>();
+    public Dictionary<float, GameObject> hasAllTheHexesDic = new Dictionary<float, GameObject>();
     #endregion
     
     #region PrivateVariables
-    private int startTilingTreshhold = 130;
+    private int startTilingTreshhold = 170;
     float moveBackToOriginTreshhold = 1600;
     GameObject playerLocation;
      
@@ -37,7 +36,8 @@ public class HexAutoTiling : MonoBehaviour
     private int shortCircutTreshhold = 5;
 
     private bool playerHasMoved = true;
-    //bool markSortList = true;
+    private bool hasMovedOnce = false;
+    bool markSortList = true;
     #endregion
     
     #region Inspector
@@ -63,19 +63,20 @@ public class HexAutoTiling : MonoBehaviour
     {
         playerLocation = GameObject.FindWithTag("Player");
         fillHexDic();
-        fillHexPosArray();
+       fillHexPosArray();
     }
     void Start()
     {
         xOriginPosition = playerLocation.transform.position.x;
         zOriginPosition = playerLocation.transform.position.z;
+        StartCoroutine(sortListCo());
     }
     void Update()
     {
-        limitTiling();
         setFlags();
         if (bottomMove || topMove || leftMove || rightMove)
             moveHexes();
+        limitTiling();
     }
     private void LateUpdate()
     {
@@ -97,14 +98,15 @@ public class HexAutoTiling : MonoBehaviour
             i++;
         } 
     }
+
     void fillHexPosArray()
     {
         hasAllTheHexPos.Clear();
         foreach (KeyValuePair <float, GameObject> hex in hasAllTheHexesDic)
         {
             float xPos = hex.Value.transform.position.x, 
-                  zPos= hex.Value.transform.position.z,
-                  key = hex.Key;
+                zPos= hex.Value.transform.position.z,
+                key = hex.Key;
             Vector3 addToList = new Vector3(xPos, key, zPos);
             hasAllTheHexPos.Add(addToList );
         }
@@ -118,34 +120,22 @@ public class HexAutoTiling : MonoBehaviour
         {
             if (playerLocation.transform.position.x > xPlusSnapShotPos)
             {
-                rightMove = true;
-                leftMove = false;
-              // markSortList = true;
-                compareTopBottom();
+                rightMove = true; leftMove = false; compareTopBottom();
             }
             
             if (playerLocation.transform.position.x < xMinusSnapShotPos)
             {
-                leftMove = true;
-                rightMove = false;
-              //  markSortList = true;
-                compareTopBottom();
+                leftMove = true; rightMove = false; compareTopBottom();
             }
 
             if (playerLocation.transform.position.z > zPlusSnapShotPos)
             { 
-                topMove = true; 
-                bottomMove = false; 
-                compareRightLeft(); 
-                // markSortList = false;
+                topMove = true; bottomMove = false; compareRightLeft(); 
             }
             
             if (playerLocation.transform.position.z < zMinusSnapShotPos)
             {
-                bottomMove = true;
-                topMove = false;
-                //  markSortList = false;
-                  compareRightLeft();
+                bottomMove = true; topMove = false; compareRightLeft();
             }
         }
     }
@@ -183,63 +173,62 @@ public class HexAutoTiling : MonoBehaviour
             xMinusSnapShotPos = playerLocation.transform.position.x - startTilingTreshhold;
             zPlusSnapShotPos = playerLocation.transform.position.z + startTilingTreshhold;
             zMinusSnapShotPos = playerLocation.transform.position.z - startTilingTreshhold;
+            
+                StartCoroutine(sortListCo());
             playerHasMoved = false;
             shortCircutToOrginCounter++;
-            // if(markSortList)
-            // StartCoroutine(sortListCo());
         }
     }
     void moveHexes()
     {
-             int vectorIndex = 0;
-             hasAllTheHexPosHelperCopy.Clear();
-             hasAllTheHexPosHelperCopy.AddRange(hasAllTheHexPos);
+        int vectorIndex = 0;
+        hasAllTheHexPosHelperCopy.Clear();
+        hasAllTheHexPosHelperCopy.AddRange(hasAllTheHexPos);
 
-            float hor= 0, hor2 = 0, vert = 0, vert2 = 0;
-            bool markDirtyVector = false;
-            
-            foreach(Vector3 hexPos in hasAllTheHexPosHelperCopy)
-           {  //&& vectorIndex > 13100
-               if (leftMove  && playerLocation.transform.position.x + tilingTreshold < hexPos.x)
-               {
-                   hor = xTilingDistance;
-                   rightMove = false;
-                   markDirtyVector = true;
-               }
-                //&&  vectorIndex < 2800 
-               if (rightMove && playerLocation.transform.position.x - tilingTreshold > hexPos.x)
-               {
-                   hor2 = xTilingDistance;
-                   leftMove = false;
-                   markDirtyVector = true;
-               }
+       float hor= 0, hor2 = 0, vert = 0, vert2 = 0;
+       bool markDirtyVector = false;
+       
+       foreach(Vector3 hexPos in hasAllTheHexPosHelperCopy)
+      {  
+          if (leftMove  && vectorIndex > 11600 &&  playerLocation.transform.position.x + tilingTreshold < hexPos.x)
+          {
+              hor = xTilingDistance;
+              rightMove = false;
+              markDirtyVector = true;
+          }
+          if (rightMove && vectorIndex < 3600  &&  playerLocation.transform.position.x - tilingTreshold > hexPos.x)
+          {
+              hor2 = xTilingDistance;
+              leftMove = false;
+              markDirtyVector = true;
+          }
+          
+           if (bottomMove && playerLocation.transform.position.z + tilingTreshold < hexPos.z)
+           {
+               vert = zTilingDistance;
+               topMove = false;
+               markDirtyVector = true;
+           }
+
+           if (topMove  && playerLocation.transform.position.z - tilingTreshold > hexPos.z)
+           {
+               vert2 = zTilingDistance;
+               bottomMove = false;
+               markDirtyVector = true;
+           }
+           
+           if (markDirtyVector)
+           { 
+               //update dic
+               hasAllTheHexesDic[hexPos.y].transform.position = new Vector3(hexPos.x - hor +hor2, 
+                   hasAllTheHexesDic[hexPos.y].transform.position.y, hexPos.z - vert+vert2);
+               //update V3 List
+               hasAllTheHexPos[vectorIndex] = new Vector3(hexPos.x - hor +hor2,
+                   hexPos.y, hexPos.z - vert+vert2);
                
-                if (bottomMove && playerLocation.transform.position.z + tilingTreshold < hexPos.z)
-                {
-                    vert = zTilingDistance;
-                    topMove = false;
-                    markDirtyVector = true;
-                }
-
-                if (topMove && playerLocation.transform.position.z - tilingTreshold > hexPos.z)
-                {
-                    vert2 = zTilingDistance;
-                    bottomMove = false;
-                    markDirtyVector = true;
-                }
-                
-                if (markDirtyVector)
-                { 
-                    //update dic
-                    hasAllTheHexesDic[hexPos.y].transform.position = new Vector3(hexPos.x - hor +hor2, 
-                        hasAllTheHexesDic[hexPos.y].transform.position.y, hexPos.z - vert+vert2);
-                    //update V3 List
-                    hasAllTheHexPos[vectorIndex] = new Vector3(hexPos.x - hor +hor2,
-                        hexPos.y, hexPos.z - vert+vert2);
-                    
-                    hor = 0; vert = 0; hor2 = 0; vert2 = 0;
-                    markDirtyVector = false; 
-                }
+               hor = 0; vert = 0; hor2 = 0; vert2 = 0;
+               markDirtyVector = false; 
+           }
                 playerHasMoved = true;
                 vectorIndex++;
            }
@@ -248,6 +237,11 @@ public class HexAutoTiling : MonoBehaviour
     #endregion
 
     #region  OriginMethods
+     IEnumerator sortListCo()
+     { 
+       yield return new WaitForSeconds(0.3f);
+         hasAllTheHexPos.TimSort((emp1, emp2) => emp1.x.CompareTo(emp2.x));
+     }
     void moveEverythingBackToOrigin()
     {
         //calculte Distances
@@ -271,45 +265,115 @@ public class HexAutoTiling : MonoBehaviour
         //sets flags
         shortCircutToOrginCounter = 0;
         Debug.Log("Sir, I Moved everything back to Origin");
+       fillHexPosArray();
+      
     }
+   
     IEnumerator updateAllAfterOrigin()
     { 
         yield return new WaitForSeconds(0.25f);
-        fillHexPosArray();
+        hasAllTheHexPos.TimSort((emp1, emp2) => emp1.x.CompareTo(emp2.x));
         setEverythingTrue();
         moveHexes();
         playerHasMoved = true;
-        limitTiling();
     }
     void setEverythingTrue()
     {
         topMove = true; bottomMove = true;
         leftMove = true; rightMove = true;
     }
-    // IEnumerator sortListCo()
-    // {
-    //     yield return new WaitForSeconds(0.3f);
-    //     hasAllTheHexPos = hasAllTheHexPos.OrderBy(x => x.x).ToList();
-    // }
-    /*static void sortVec3Array(Vector3[] arrayToSort, int startAt, int stopAt)
+
+     
+     /*public const int RUN = 32;
+     public static void insertionSort(Vector3[] arr, int left, int right)  
+    {  
+        for (int i = left + 1; i <= right; i++)  
+        {  
+            float temp = arr[i].x;  
+            int j = i - 1;  
+            while (arr[j+1].x > temp && j >= left)  
+            {  
+                arr[j+1].x = arr[j].x;  
+                j--;  
+            }  
+            arr[j+1].x = temp;  
+        }  
+    }  
+     
+    public static void merge(Vector3[] arr, int l, int m, int r)  
     {
-        int i, j;
-        for (i = startAt+1; i < stopAt; i++)
-        {
-            float item = arrayToSort[i].x;
-            int ins = 0;
-            for (j = i - 1; j >= 0 && ins != 1;)
-            {
-                if (item < arrayToSort[j].x)
-                {
-                    arrayToSort[j + 1].x = arrayToSort[j].x;
-                    j--;
-                    arrayToSort[j + 1].x = item;
-                }
-                else ins = 1;
-            }
-        }
-    }*/
+        int len1 = m - l + 1, len2 = r - m;  
+        Vector3[] left = new Vector3[len1]; 
+        Vector3[] right = new Vector3[len2];  
+        for (int x = 0; x < len1; x++) 
+            left[x] = arr[l + x];  
+        for (int x = 0; x < len2; x++)  
+            right[x] = arr[m + 1 + x];  
+        
+        int i = 0;  
+        int j = 0;  
+        int k = l;  
+        
+        while (i < len1 && j < len2)  
+        {  
+            if (left[i].x <= right[j].x)  
+            {  
+                arr[k].x = left[i].x;  
+                i++;  
+            }  
+            else
+            {  
+                arr[k].x = right[j].x;  
+                j++;  
+            }  
+            k++;  
+        }  
+        
+        while (i < len1)  
+        {  
+            arr[k].x = left[i].x;  
+            k++;  
+            i++;  
+        }  
+        
+        while (j < len2)  
+        {  
+            arr[k].x = right[j].x;  
+            k++;  
+            j++;  
+        }  
+    }  
+        
+    // iterative Timsort function to sort the  
+    // array[0...n-1] (similar to merge sort)  
+    public static void timSort(Vector3[] arr, int n)  
+    {  
+        // Sort individual subarrays of size RUN  
+        for (int i = 0; i < n; i+=RUN)  
+            insertionSort(arr, i, Math.Min((i+31), (n-1)));  
+        
+        // start merging from size RUN (or 32). It will merge  
+        // to form size 64, then 128, 256 and so on ....  
+        for (int size = RUN; size < n; size = 2*size)  
+        {  
+            // pick starting point of left sub array. We  
+            // are going to merge arr[left..left+size-1]  
+            // and arr[left+size, left+2*size-1]  
+            // After every merge, we increase left by 2*size  
+            for (int left = 0; left < n; left += 2*size)  
+            {  
+                // find ending point of left sub array  
+                // mid+1 is starting point of right sub array  
+                int mid = left + size - 1;  
+                int right = Math.Min((left + 2*size - 1), (n-1));  
+        
+                // merge sub array arr[left.....mid] &  
+                // arr[mid+1....right]  
+                merge(arr, left, mid, right);  
+            }  
+        }  
+    }  */
+      
     #endregion
 }
 
