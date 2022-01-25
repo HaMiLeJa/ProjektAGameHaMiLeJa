@@ -8,6 +8,16 @@ using UnityEngine.Serialization;
 
 public class MenuController : MonoBehaviour
 {
+    [Header("Container")]
+    [SerializeField] GameObject MainMenuContainer;
+    [SerializeField] GameObject OptionMenuContainer;
+    [SerializeField] GameObject CostumPopoutDialogContainer;
+    [SerializeField] GameObject NewGameDialog;
+    [SerializeField] GameObject SettingsSound;
+    [SerializeField] GameObject SettingsGameplay;
+    [SerializeField] GameObject SettingsGraphic;
+    [SerializeField] GameObject Credits;
+
     [Header("Volume setting")] 
     [SerializeField] private TMP_Text volumeTextValue = null;
     [SerializeField] private Slider volumeSlider = null;
@@ -21,8 +31,20 @@ public class MenuController : MonoBehaviour
 
     private void Start()
     {
-        amount = PlayerPrefs.GetInt("WinConPoints") + PlayerPrefs.GetInt("WinConHex") +
-                 PlayerPrefs.GetInt("WinConMissions");
+        MainMenuContainer.SetActive(true);
+        OptionMenuContainer.SetActive(false);
+        CostumPopoutDialogContainer.SetActive(true);
+
+
+        NewGameDialog.SetActive(false);
+        SettingsSound.SetActive(false);
+        SettingsGameplay.SetActive(false);
+        SettingsGraphic.SetActive(false);
+        Credits.SetActive(false);
+
+        amount = PlayerPrefs.GetInt("WinConPoints") + PlayerPrefs.GetInt("WinConHex") + PlayerPrefs.GetInt("WinConMissions");
+
+        
 
         ManageHextileAmount(ProgressLv2, 3, Level2Image);
         ManageHextileAmount(ProgressLv3, 6, Level3Image);
@@ -65,11 +87,10 @@ public class MenuController : MonoBehaviour
 
     void ManageHextileAmount(TMPro.TMP_Text lv, int goalAmount, Image levelimage)
     {
-
-
         if (amount <= goalAmount - 1)
         {
             lv.text = amount + "/" + goalAmount + "Hextiles";
+            Debug.Log("1");
         }
         else if (amount >= goalAmount)
         {
