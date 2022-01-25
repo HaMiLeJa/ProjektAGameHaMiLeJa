@@ -551,7 +551,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   Velocity: {x: 0, y: 0, z: 0}
-  maxSpeed: 1000
   maxSpeedLimitStartClamping: 800
   TotalVelocity: 0
   velocityInfluence: 0.1
@@ -5939,8 +5938,8 @@ AudioSource:
   m_GameObject: {fileID: 5484877014415742899}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -4967933247285336439, guid: 369e9ea0dfb4b7d4c8794c09bbe4bc2f, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 141d258d1eb524c49a2f5c84d457ee1c, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.75
   m_Pitch: 1
@@ -6199,7 +6198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 107b8e5ab8afdd84a8a1314bb6aa11e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DisolveSpeed: 0.7
+  DisolveSpeed: 0.8
 --- !u!1001 &1219316353129610370
 PrefabInstance:
   m_ObjectHideFlags: 0
