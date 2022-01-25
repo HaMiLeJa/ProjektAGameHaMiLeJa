@@ -52,7 +52,7 @@ public class CameraZoomOut : MonoBehaviour
         cashedXScale = ghostLayer.transform.localScale.x;
         cashedZScale = ghostLayer.transform.localScale.z;
 
-       _playerMovement = ReferenceLibary.PlayerMov;
+       
    }
     
     void FixedUpdate()
