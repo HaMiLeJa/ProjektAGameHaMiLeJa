@@ -21,7 +21,7 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
     private float cashedlerpValue;
     private PlayerMovement _playerMovement;
     private float cashedXVelocity, cashedZVelocity, xzVelocity;
-    AudioSource myAudioSource;
+    [SerializeField] AudioSource myAudioSource;
     private Vector3 cashedCamHelperPos;
     private float cashedVelocity;
     private GameManager _gameManager;
@@ -31,7 +31,10 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
         _playerMovement = ReferenceLibary.PlayerMov;
         _gameManager = ReferenceLibary.GameMng;
         cashedlerpValue = _gameManager.followRoughness;
-        myAudioSource = this.GetComponent<AudioSource>();
+
+
+        //myAudioSource = this.GetComponent<AudioSource>();
+
         player = ReferenceLibary.Player;
         cashedCamHelperPos = GameManager.CameraHelper.transform.position;
     }
