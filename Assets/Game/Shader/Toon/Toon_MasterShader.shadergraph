@@ -8115,9 +8115,9 @@
     "m_Guid": {
         "m_GuidSerialized": "e4af808f-6269-4f32-bf14-19f7df141edb"
     },
-    "m_Name": "EmisiveCutoff",
+    "m_Name": "EmissiveCutoff",
     "m_DefaultReferenceName": "Vector1_3e3b6395fabf49c3b4ec6a4211e480d5",
-    "m_OverrideReferenceName": "_EmisiveCutoff",
+    "m_OverrideReferenceName": "_emissiveCutoff",
     "m_GeneratePropertyBlock": true,
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
@@ -11065,7 +11065,7 @@
     },
     "m_Name": "Emission Intensity",
     "m_DefaultReferenceName": "Vector1_8606F96E",
-    "m_OverrideReferenceName": "",
+    "m_OverrideReferenceName": "_emissionIntensity",
     "m_GeneratePropertyBlock": true,
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
