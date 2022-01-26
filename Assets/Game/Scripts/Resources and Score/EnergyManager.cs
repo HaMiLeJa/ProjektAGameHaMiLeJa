@@ -89,8 +89,7 @@ public class EnergyManager : MonoBehaviour //for points and energy
 
     public IEnumerator ModifyEnergy(float value)
     {
-        if (CheckingForEndGame == true)
-            StopCoroutine(ReferenceLibary.GameMng.EndGameSafetyCoroutine);
+        
 
         float absValue = Mathf.Abs(value);
 
@@ -124,7 +123,6 @@ public class EnergyManager : MonoBehaviour //for points and energy
         yield return null;
     }
 
-    bool CheckingForEndGame = false;
     void CheckEnergyAmount()
     {
         if (CurrentEnergy <= 0)
@@ -134,7 +132,7 @@ public class EnergyManager : MonoBehaviour //for points and energy
             
 
             gameMng.AllowMovement = false;
-            CheckingForEndGame = true;
+            
 
             //StopAllCoroutines(); OLD
 
@@ -144,7 +142,7 @@ public class EnergyManager : MonoBehaviour //for points and energy
         else
         {
             gameMng.AllowMovement = true;
-            CheckingForEndGame = false;
+            
         }
 
         if(CurrentEnergy >= MaxEnergyAmount)

@@ -72,7 +72,7 @@ public class ScoreManager : MonoBehaviour
 
     void UpdateScore(float value)
     {
-        CurrentScore += (value * CurrentMultiplicator);
+        CurrentScore += Mathf.RoundToInt((value * CurrentMultiplicator));
         
         
     }

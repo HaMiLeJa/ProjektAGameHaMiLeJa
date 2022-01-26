@@ -519,7 +519,7 @@ public class UIManager : MonoBehaviour
 
     void SetStartValues(PointsAndState txt, float value)
     {
-        txt.textMesh.text = value * ScoreManager.CurrentMultiplicator + " points!";
+        txt.textMesh.text = Mathf.RoundToInt(value * ScoreManager.CurrentMultiplicator) + " points!";
 
     }
 
