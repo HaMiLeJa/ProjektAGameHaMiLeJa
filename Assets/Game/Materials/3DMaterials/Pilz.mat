@@ -54,7 +54,7 @@ Material:
     m_Floats:
     - Vector1_22cf4c2837464c47bca2ad5a73c3299d: -0.28
     - Vector1_2feeead29503421aa307731c7b41ca8c: 0
-    - Vector1_8606F96E: 0
+    - Vector1_8606F96E: 50.94
     - Vector1_ce143bf86cc84122abc592324cb9417c: 4
     - _EmisiveCutoff: 1.38
     - _OutlineDepthSensitivity: 0.16
