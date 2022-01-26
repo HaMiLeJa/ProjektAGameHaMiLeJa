@@ -138,20 +138,6 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
---- !u!244 &-4722237477036947616
-AudioMixerEffectController:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_EffectID: adb1f8b1ee43f4a4384822b83e8b325b
-  m_EffectName: Attenuation
-  m_MixLevel: 45d8297778c82f3448745fcebc455df4
-  m_Parameters: []
-  m_SendTarget: {fileID: 0}
-  m_EnableWetMix: 0
-  m_Bypass: 0
 --- !u!244 &-4714283297798025848
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -353,7 +339,6 @@ AudioMixerController:
     - 402170790f7e2b24a91e8a917c286f71
     - 3d4ae7fed1b35a2449b80271ced505be
     - 4767f3b59a1a0064f908d9b495d2d3bb
-    - f92485f227271d2439bb8142d8b19283
     - 2b803ecc8db547440ae439be693d744e
     - a981b129b5a0c774e853675d9e99b5b1
     - 0c335fcc9fa79ff4ebb9d8117bd1b975
@@ -376,7 +361,6 @@ AudioMixerGroupController:
   - {fileID: 689431659053608178}
   - {fileID: -3089902566300586678}
   - {fileID: -5771137380349649210}
-  - {fileID: 2773863428876093463}
   m_Volume: 7b9b992d6eb3fcd44a7925e994d7858c
   m_Pitch: 2671843f5d9a42c468432dfe3f9cb705
   m_Send: 00000000000000000000000000000000
@@ -507,25 +491,6 @@ AudioMixerGroupController:
   m_Mute: 1
   m_Solo: 0
   m_BypassEffects: 0
---- !u!243 &2773863428876093463
-AudioMixerGroupController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Verschollene Basedrum
-  m_AudioMixer: {fileID: 24100000}
-  m_GroupID: f92485f227271d2439bb8142d8b19283
-  m_Children: []
-  m_Volume: 80e99d329c5e1e245aa1a043946ef9fb
-  m_Pitch: 6f399a38ad7e0f04cab537560ebd220c
-  m_Send: 00000000000000000000000000000000
-  m_Effects:
-  - {fileID: -4722237477036947616}
-  m_UserColorIndex: 0
-  m_Mute: 1
-  m_Solo: 0
-  m_BypassEffects: 0
 --- !u!244 &3800786548123821133
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -588,7 +553,7 @@ AudioMixerGroupController:
   m_Send: 00000000000000000000000000000000
   m_Effects:
   - {fileID: -4714283297798025848}
-  m_UserColorIndex: 0
-  m_Mute: 0
+  m_UserColorIndex: 8
+  m_Mute: 1
   m_Solo: 0
   m_BypassEffects: 0

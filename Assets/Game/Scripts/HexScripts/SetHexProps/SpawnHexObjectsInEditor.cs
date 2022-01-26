@@ -131,7 +131,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         if(CheckForSpawnAllowanceBoostForward())
         {
             currentHexType = myHex.hexType;
-            SpawnObjectInEditMode(4f);
+            SpawnObjectInEditMode(0.26f);
         }
     }
 
@@ -353,7 +353,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         if (CheckForSpawnAllowanceTrampolin())
         {
             currentHexType = myHex.hexType;
-            SpawnObjectInEditMode(4f);
+            SpawnObjectInEditMode(0.26f);
         }
     }
 
@@ -417,7 +417,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         if (CheckForSpawnAllowanceSlowDown())
         {
             currentHexType = myHex.hexType;
-            SpawnObjectInEditMode(4f);
+            SpawnObjectInEditMode(0.25f);
         }
     }
 
@@ -480,7 +480,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         if (CheckForSpawnAllowanceCollectable())
         {
             currentHexType = myHex.hexType;
-            SpawnObjectInEditMode(4f);
+            SpawnObjectInEditMode(0.26f);
 
             //set collectable parent
         }

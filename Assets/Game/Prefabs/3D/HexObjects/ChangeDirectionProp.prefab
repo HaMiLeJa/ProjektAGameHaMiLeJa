@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3876099952999808924}
   m_Layer: 0
   m_Name: ChangeDirectionProp
-  m_TagString: Untagged
+  m_TagString: HexEffectObj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

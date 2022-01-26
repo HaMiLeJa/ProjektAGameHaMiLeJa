@@ -140,37 +140,24 @@ public class GameManager : MonoBehaviour
 
     Coroutine GameOverCoroutine;
     [SerializeField] Dissolve playerDissolve;
-    
+    public Coroutine EndGameSafetyCoroutine;
+    public bool EndGameSafetyStarted = false;
 
     public void CheckForEndOfGame()
     {
+        if(ReferenceLibary.PlayerMov.TotalVelocity < 10 && EndGameSafetyStarted == false)
+        {
+            EndGameSafetyStarted = true;
+            EndGameSafetyCoroutine = StartCoroutine(EndGameSavety());
+        }
 
-        // if (EnergyManager.CurrentEnergy > 0) return;
        
         if (Mathf.Approximately(playerRb.velocity.x, 0) && Mathf.Approximately(playerRb.velocity.y, 0) && Mathf.Approximately(playerRb.velocity.z, 0))
         {
-            Debug.Log("GameOver");
-            GameOver = true;
 
-            if (ReferenceLibary.ScoreMng.CheckForNewHighscore() == true)
-            {
-                ReferenceLibary.ScoreMng.SetNewHighscore();
+            CalculateEndOfGame();
 
-                if (GameOverCoroutine == null)
-                    GameOverCoroutine = StartCoroutine(ReferenceLibary.UIMng.GameOverNewHighscoreCoroutine());
-                    Debug.Log("new highscore");
-                StartCoroutine(playerDissolve.Coroutine_DisolveShield(1.1f));
-            }
-            else
-            {
-                if (GameOverCoroutine == null)
-                    GameOverCoroutine = StartCoroutine(ReferenceLibary.UIMng.GameOverCoroutine());
 
-                Debug.Log("no new highscore");
-                StartCoroutine(playerDissolve.Coroutine_DisolveShield(1.1f));
-            }
-
-           
         }
         else
         {
@@ -180,6 +167,41 @@ public class GameManager : MonoBehaviour
 
 
     }
+
+    void CalculateEndOfGame()
+    {
+        Debug.Log("GameOver");
+        GameOver = true;
+
+        if (ReferenceLibary.ScoreMng.CheckForNewHighscore() == true)
+        {
+            ReferenceLibary.ScoreMng.SetNewHighscore();
+
+            if (GameOverCoroutine == null)
+                GameOverCoroutine = StartCoroutine(ReferenceLibary.UIMng.GameOverNewHighscoreCoroutine());
+            Debug.Log("new highscore");
+            StartCoroutine(playerDissolve.Coroutine_DisolveShield(1.1f));
+        }
+        else
+        {
+            if (GameOverCoroutine == null)
+                GameOverCoroutine = StartCoroutine(ReferenceLibary.UIMng.GameOverCoroutine());
+
+            Debug.Log("no new highscore");
+            StartCoroutine(playerDissolve.Coroutine_DisolveShield(1.1f));
+        }
+    }
+
+    public IEnumerator EndGameSavety()
+    {
+        yield return new WaitForSeconds(10f);
+
+
+        CalculateEndOfGame();
+
+        yield return null;
+    }
+
     #endregion
 
     #region Control Hex Effect Amount

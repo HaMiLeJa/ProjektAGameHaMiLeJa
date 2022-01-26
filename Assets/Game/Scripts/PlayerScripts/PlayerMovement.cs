@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Space]
     [SerializeField] AudioSource jumpAudioSource;
-    [SerializeField] AudioSource basedrumAudioSource;
+   
     AudioManager audManager;
     
 
@@ -170,17 +170,8 @@ public class PlayerMovement : MonoBehaviour
           rb.velocity = new Vector3(rb.velocity.x * 1.1f, rb.velocity.y, rb.velocity.z * 1.0001f * Time.deltaTime);
         }
 
-        
-        if(Velocity == Vector3.zero)
-        {
-            if (basedrumAudioSource.isPlaying == false)
-                basedrumAudioSource.Stop();
-        }
-        else
-        {
-            if (basedrumAudioSource.isPlaying == false)
-                basedrumAudioSource.Play();
-        }
+       
+
         
         
 

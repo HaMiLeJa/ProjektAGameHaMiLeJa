@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6760128654043696987}
   m_Layer: 0
   m_Name: BoostInDirectionProp
-  m_TagString: Untagged
+  m_TagString: HexEffectObj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
