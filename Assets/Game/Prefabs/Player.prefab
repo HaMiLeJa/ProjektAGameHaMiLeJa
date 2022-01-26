@@ -468,6 +468,7 @@ GameObject:
   - component: {fileID: 7113652212557213417}
   - component: {fileID: 8453995144285553314}
   - component: {fileID: 6524010263172098936}
+  - component: {fileID: 5484961869664340384}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -855,6 +856,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aa246523f6c5c445b2c5e57062b8b95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5484961869664340384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4498330986242300544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 471a1e1cf0ef665439924051a7f4fc5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camShakeActivated: 0
+  ActivateOnEverything: 0
+  Destroyable: 1
+  MissionItem: 1
+  Wall: 1
+  Collectable: 0
+  Defense: 0
+  Rebound: 1
+  HexEffectObj: 0
+  Portal: 1
+  Curve: 1
+  Trampolin: 0
+  NPC: 0
+  CookingPot: 0
+  Critter: 0
+  ChickInLantern: 0
 --- !u!1 &4562467312241182471
 GameObject:
   m_ObjectHideFlags: 0

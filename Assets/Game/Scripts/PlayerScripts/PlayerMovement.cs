@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -350,19 +351,22 @@ public class PlayerMovement : MonoBehaviour
         
    }
 
-    //CollectEnergy
-    /*
-      private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "EnergyGenerator")
-        {
-            energyMng.Energy += collision.gameObject.GetComponent<EnergyGenerator>().GeneratedEnergy;
-
-            collision.gameObject.GetComponent<EnergyGenerator>().GeneratedEnergy = 0;
-
-        }
-    }
-    */
+   
+    
+     // private void OnCollisionEnter(Collision collision)
+     // {
+          //CollectEnergy
+          /*
+              if (collision.gameObject.tag == "EnergyGenerator")
+              {
+                  energyMng.Energy += collision.gameObject.GetComponent<EnergyGenerator>().GeneratedEnergy;
+      
+                  collision.gameObject.GetComponent<EnergyGenerator>().GeneratedEnergy = 0;
+      
+              }
+              */
+      //}
+        
 }
 
 
