@@ -43,7 +43,6 @@ GameObject:
   - component: {fileID: 6283924566819129580}
   - component: {fileID: 2985820778343212737}
   - component: {fileID: 9002549393317884401}
-  - component: {fileID: -457974258464620822}
   - component: {fileID: 6241288760297446380}
   m_Layer: 8
   m_Name: Hex
@@ -134,24 +133,6 @@ MonoBehaviour:
   colRef:
     HexScript: {fileID: 0}
     ActiveCollectable: 0
---- !u!114 &-457974258464620822
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6510926736812468260}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66288bdb1d68ffc4d9710d31a76dc2bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObjectToSpawn: {fileID: 3252091341079616284, guid: 529ec0dd2de732849bb475b44251d029, type: 3}
-  CurrentItem: {fileID: 0}
-  myHex: {fileID: 9002549393317884401}
-  MyProps: {fileID: 5754651978763513671}
-  DebugActiveObj: 0
-  DebugIsRunning: 1
 --- !u!114 &6241288760297446380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,7 +156,7 @@ MonoBehaviour:
   BoostInDirectionObj: {fileID: 3015468702232296225, guid: ddd7734fe3fcc2a41aa9dff727c193b1, type: 3}
   SlowDownObj: {fileID: 1964804301646275912, guid: bbb1d17a296bf734095ddcf2b97a3007, type: 3}
   ChangeDirectionObj: {fileID: 4605321229017117993, guid: a2623fd8c624c1e44857de12be95686d, type: 3}
-  CollectableObj: {fileID: 3252091341079616284, guid: 529ec0dd2de732849bb475b44251d029, type: 3}
+  CollectableObj: {fileID: 5876809362357372074, guid: 4f310dfa45f7bc647b12d811f19692bb, type: 3}
 --- !u!1 &8586191793409563930
 GameObject:
   m_ObjectHideFlags: 0

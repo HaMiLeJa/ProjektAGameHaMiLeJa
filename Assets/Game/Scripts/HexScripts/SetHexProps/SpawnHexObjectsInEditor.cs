@@ -480,12 +480,11 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         if (CheckForSpawnAllowanceCollectable())
         {
             currentHexType = myHex.hexType;
-            SpawnObjectInEditMode(0.26f);
+            SpawnObjectInEditMode(4.63f);
 
             //set collectable parent
         }
     }
-
 
 
     void ResetCurrentItemCollectable() //hier evt list einbauen und alles bis auf 1. löschen oder so
@@ -542,5 +541,6 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         CurrentItem = Instantiate(ObjectToSpawn, position, Quaternion.identity);
         CurrentItem.transform.parent = MyProps.transform;
     }
+
 
 }
