@@ -18,7 +18,6 @@ public class BoostForwardProp : MonoBehaviour
 
 
 
-
     void SetDesiredRotation(int sign)
     {
         Direction = new Vector3(ReferenceLibary.PlayerMov.Velocity.normalized.x, 0, ReferenceLibary.PlayerMov.Velocity.normalized.z);
