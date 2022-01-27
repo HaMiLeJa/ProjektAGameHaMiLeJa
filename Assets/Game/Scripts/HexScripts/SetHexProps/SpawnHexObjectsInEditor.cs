@@ -104,7 +104,6 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
             DestroyImmediate(CurrentItem);
             currentHexType = myHex.hexType;
         }
-
     }
 
     void Default()
