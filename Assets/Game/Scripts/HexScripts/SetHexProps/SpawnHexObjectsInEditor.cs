@@ -342,7 +342,6 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     void Trampolin()
     {
 
-
         SetNewValues(TrampolinObj);
 
         ClearFalseObj(); //ToTest
@@ -353,7 +352,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         if (CheckForSpawnAllowanceTrampolin())
         {
             currentHexType = myHex.hexType;
-            SpawnObjectInEditMode(0.26f);
+            SpawnObjectInEditMode(0.87f);
         }
     }
 
