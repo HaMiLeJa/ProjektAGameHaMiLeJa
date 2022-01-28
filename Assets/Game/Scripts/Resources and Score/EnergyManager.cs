@@ -53,7 +53,7 @@ public class EnergyManager : MonoBehaviour //for points and energy
 
         currentEnergyForInspector = CurrentEnergy;
 
-        if(GameManager.Instance.GameOver == false)
+        if(GameStateManager.GameOver == false)
             CheckEnergyAmount();
     }
 
@@ -137,7 +137,7 @@ public class EnergyManager : MonoBehaviour //for points and energy
             //StopAllCoroutines(); OLD
 
             //if(GameManager.Instance.GameOver == false)
-            GameManager.Instance.CheckForEndOfGame();
+            ReferenceLibary.GameStateMng.CheckForEndOfGame();
         }
         else
         {

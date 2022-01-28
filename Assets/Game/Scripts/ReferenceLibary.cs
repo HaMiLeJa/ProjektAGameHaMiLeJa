@@ -31,6 +31,7 @@ public class ReferenceLibary : MonoBehaviour
     public static ScoreManager ScoreMng;
     public static WindconditionManager WinconMng;
     public static AudioManager AudMng;
+    public static GameStateManager GameStateMng;
 
     private void Awake()
     {
