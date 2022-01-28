@@ -123,7 +123,7 @@ Material:
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _OutlineDepthSensitivity: 0.38
-    - _OutlineThickness: 1
+    - _OutlineThickness: 3.5
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -134,6 +134,8 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
+    - _emissionIntensity: 1.09
+    - _emissiveCutoff: 1.2
     - _normalStrength: 0.69
     m_Colors:
     - Color_e49dda51c9dd45848cffa50efba8a0ca: {r: 0.9528302, g: 0.84385675, b: 0.25618547, a: 0}

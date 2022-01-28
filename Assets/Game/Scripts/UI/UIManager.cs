@@ -648,7 +648,7 @@ public class UIManager : MonoBehaviour
     #endregion
 
     #region EndScreen
-    public void ShowEndMessage()
+   /* public void ShowEndMessage()
     {
         GameOverCanvas.SetActive(true);
         //EndMessage.SetActive(true);
@@ -660,7 +660,7 @@ public class UIManager : MonoBehaviour
         Debug.Log("TestCoroutine");
         StartCoroutine(GameOverCoroutine());
         yield return null;
-    }
+    }*/
 
 
    public IEnumerator GameOverCoroutine()
@@ -675,7 +675,7 @@ public class UIManager : MonoBehaviour
         GameOverCanvas.SetActive(true);
         NewHighscoreMessage.SetActive(false);
         PointsMessage.text = ScoreManager.CurrentScore + " points";
-        CurrentHighscoreMessage.text = "CurrentHighscore: " + PlayerPrefs.GetFloat("Highscore");
+        CurrentHighscoreMessage.text = PlayerPrefs.GetFloat("Highscore").ToString();
         
       /*  while (UpdateUI)
         {

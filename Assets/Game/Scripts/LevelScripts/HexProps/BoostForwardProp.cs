@@ -4,15 +4,35 @@ using UnityEngine;
 
 public class BoostForwardProp : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    Vector3 Direction;
 
-    // Update is called once per frame
+    public float angularSpeed = 15f;
+    Quaternion desiredRot;
+
+
+
     void Update()
     {
-        
+        InPlayerDirection();
+    }
+
+
+
+    void SetDesiredRotation(int sign)
+    {
+        Direction = new Vector3(ReferenceLibary.PlayerMov.Velocity.normalized.x, 0, ReferenceLibary.PlayerMov.Velocity.normalized.z);
+        if (Direction == Vector3.zero) return;
+        desiredRot = Quaternion.LookRotation(Direction * sign, Vector3.up);
+    }
+
+    void RotateTowardsDesiredPos()
+    {
+        this.transform.rotation = Quaternion.RotateTowards(from: this.transform.rotation, to: desiredRot, maxDegreesDelta: angularSpeed * Time.deltaTime);
+    }
+
+    void InPlayerDirection()
+    {
+        SetDesiredRotation(1);
+        RotateTowardsDesiredPos();
     }
 }

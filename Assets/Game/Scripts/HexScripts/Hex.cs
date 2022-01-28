@@ -11,11 +11,11 @@ public class Hex : MonoBehaviour
     private Rigidbody playerRb;
     HexMovements hexMov;
     GameManager gameMng;
-    AudioManager audManager;
-    AudioClipsHexes audioClipHexes;
+   // AudioManager audManager;
+    //AudioClipsHexes audioClipHexes;
     
 
-    [SerializeField] AudioSource myAudioSource;
+    //[SerializeField] AudioSource myAudioSource;
 
     private GlowHighlight highlight;
     //private HexCoordinates hexCoordinates;
@@ -67,7 +67,7 @@ public class Hex : MonoBehaviour
         Player = ReferenceLibary.Player;
         playerRb = ReferenceLibary.RigidbodyPl;
         hexMov = ReferenceLibary.HexMov;
-        audManager = ReferenceLibary.AudMng;
+       // audManager = ReferenceLibary.AudMng;
        // audioClipHexes = ReferenceLibary.AudMng.HexAudMng.gameObject.GetComponent<AudioClipsHexes>();
         //myAudioSource = this.GetComponent<AudioSource>();
         
@@ -85,7 +85,6 @@ public class Hex : MonoBehaviour
                 }
             }
         }*/
-
        
     }
 

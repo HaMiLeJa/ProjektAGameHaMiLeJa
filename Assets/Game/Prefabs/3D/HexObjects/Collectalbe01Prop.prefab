@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1217477346}
   m_Layer: 0
   m_Name: Collectalbe01Prop
-  m_TagString: Collectable
+  m_TagString: HexEffectObj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

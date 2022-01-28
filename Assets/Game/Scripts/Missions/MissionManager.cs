@@ -32,6 +32,8 @@ public class MissionManager : MonoBehaviour
     public float BringItemDistance = 0;
 
     //For NoMissionsLeft State
+
+    
     
 
     static MissionState missionState = MissionState.noMission;
@@ -61,7 +63,7 @@ public class MissionManager : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance.GameOver == true) return;
+        if (GameStateManager.GameOver == true) return;
 
         switch (missionState)
         {

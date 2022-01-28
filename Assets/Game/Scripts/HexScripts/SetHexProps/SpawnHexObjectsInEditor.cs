@@ -104,7 +104,6 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
             DestroyImmediate(CurrentItem);
             currentHexType = myHex.hexType;
         }
-
     }
 
     void Default()
@@ -342,7 +341,6 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     void Trampolin()
     {
 
-
         SetNewValues(TrampolinObj);
 
         ClearFalseObj(); //ToTest
@@ -353,7 +351,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         if (CheckForSpawnAllowanceTrampolin())
         {
             currentHexType = myHex.hexType;
-            SpawnObjectInEditMode(0.26f);
+            SpawnObjectInEditMode(0.87f);
         }
     }
 
