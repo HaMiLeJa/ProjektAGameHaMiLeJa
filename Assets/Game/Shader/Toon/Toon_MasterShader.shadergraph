@@ -3715,7 +3715,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "06d443ea33c54cd891f5d6fc8bdb4f44",
     "m_Id": 0,
-    "m_DisplayName": "EmisiveCutoff",
+    "m_DisplayName": "EmissiveCutoff",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",

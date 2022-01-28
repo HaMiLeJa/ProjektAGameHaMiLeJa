@@ -117,7 +117,7 @@ private float totalSceneProgress;
       
       while (loadingScreen.activeInHierarchy)
       {
-         yield return new WaitForSeconds(0.5f);
+         yield return new WaitForSeconds(2f);
          
          tipCount++;
          funnyMessagesCount++;

@@ -54,9 +54,9 @@ Material:
     m_Floats:
     - Vector1_22cf4c2837464c47bca2ad5a73c3299d: -0.28
     - Vector1_2feeead29503421aa307731c7b41ca8c: 0
-    - Vector1_8606F96E: 0
+    - Vector1_8606F96E: 8
     - Vector1_ce143bf86cc84122abc592324cb9417c: 4
-    - _EmisiveCutoff: 1.38
+    - _EmisiveCutoff: 0.78
     - _OutlineDepthSensitivity: 0.16
     - _OutlineNormalsSensitivity: 1
     - _OutlineThickness: 2.4
@@ -65,7 +65,10 @@ Material:
     - _Wind_Direction: 0
     - _Wind_Speed: 0
     - _Wind_Strength: 0
-    - _normalStrength: 0.5
+    - _emisiveCutoff: 0.2
+    - _emissionIntensity: 0
+    - _emissiveCutoff: 0.2
+    - _normalStrength: 1
     m_Colors:
     - Color_ca20a5cb7f2e4f5a9cd37d74b5f8bae1: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 0}

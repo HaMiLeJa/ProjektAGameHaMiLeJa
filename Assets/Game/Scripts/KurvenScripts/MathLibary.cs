@@ -49,4 +49,10 @@ public static class MathLibary
 		Vector3 Verbindungsvector = Player.transform.position - OtherObject.transform.position;
 		return Mathf.Sqrt(Mathf.Pow(Verbindungsvector.x, 2) + Mathf.Pow(Verbindungsvector.y, 2) + Mathf.Pow(Verbindungsvector.z, 2));
 	}
+	
+	public static float CalculateDistancePos(Vector3 Player, Vector3  OtherObject)
+	{
+		Vector3 Verbindungsvector = Player - OtherObject;
+		return Mathf.Sqrt(Mathf.Pow(Verbindungsvector.x, 2) + Mathf.Pow(Verbindungsvector.y, 2) + Mathf.Pow(Verbindungsvector.z, 2));
+	}
 }

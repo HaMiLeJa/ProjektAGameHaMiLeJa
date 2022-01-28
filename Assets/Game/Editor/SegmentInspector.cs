@@ -3,16 +3,18 @@ using UnityEditor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Apple.ReplayKit;
 
 // Hier wird ein Custom Inspector generiert mit extra handles für die länge der tangente von einer Segmentkurve
 
 [CustomEditor(typeof(Segment))]
-public class SegmentInspector : Editor 
+public class  SegmentInspector : Editor 
 {
 	const string UNDO_STR_ADJUST = "adjust bezier tangent";
 	
 	void OnSceneGUI() 
 	{
+	
 		// Generiert IDs für die UI Controls
 		int arrowIDFrw  = GUIUtility.GetControlID( "Arrow Frw".GetHashCode(),  FocusType.Passive );
 		int arrowIDBack = GUIUtility.GetControlID( "Arrow Back".GetHashCode(), FocusType.Passive );
@@ -23,7 +25,7 @@ public class SegmentInspector : Editor
 		Vector3 tangentFrw = road.GetControlPoint( 1, Space.World );
 		Vector3 tangentBack = origin * 2 - tangentFrw; // Mirror tangent point around origin
 		Vector3 tangentDir = road.transform.forward;
-
+  
 		// Berechnen einer Ebene, gegen die der Mausstrahl beim Ziehen projiziert wird
 		Vector3 camUp = SceneView.lastActiveSceneView.camera.transform.up;
 		Vector3 pNormal = Vector3.Cross( tangentDir, camUp ).normalized;
@@ -32,6 +34,7 @@ public class SegmentInspector : Editor
 		float newDistance = 0;
 		bool TangentHandle( int id, Vector3 handlePos, Vector3 direction ) => DrawTangentHandle( id, handlePos, origin, direction, draggingPlane, ref newDistance );
 
+		
 		//  Ziehen von Griffen und Ändern der Tangente, wenn Sie sie gezogen haben
 		bool changedFrw  = TangentHandle( arrowIDFrw,  tangentFrw,   tangentDir );
 		bool changedBack = TangentHandle( arrowIDBack, tangentBack, -tangentDir );
@@ -46,7 +49,7 @@ public class SegmentInspector : Editor
 		
 	}
 
-
+	
 	bool DrawTangentHandle( int id, Vector3 handlePos, Vector3 origin, Vector3 direction, Plane draggingPlane, ref float newDistance ) {
 
 		bool wasChanged = false;
@@ -60,6 +63,7 @@ public class SegmentInspector : Editor
 		bool isDraggingThis = GUIUtility.hotControl == id && leftMouseButtonDown;
 		bool isHoveringThis = HandleUtility.nearestControl == id;
 
+	
 		// DrawTangentHandle wird einmal pro Ereignistyp ausgeführt
 		switch( e.type ) 
 		{
