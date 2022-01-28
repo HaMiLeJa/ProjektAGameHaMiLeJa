@@ -48,6 +48,16 @@ public class GameStateManager : MonoBehaviour
                 //timescale wieder auf 1?
             }
         }
+
+        if(gameState == GameState.End)
+        {
+            if (Input.GetButtonDown("X"))
+            {
+
+                SceneManager.LoadScene(2); //2 = MainUIScene
+                //timescale wieder auf 1?
+            }
+        }
     }
 
 
@@ -73,13 +83,6 @@ public class GameStateManager : MonoBehaviour
 
 
 
-    void EndOfGame()
-    {
-        Time.timeScale = 0;
-    }
-
-
-
     #region EndOfGame
 
     Coroutine GameOverCoroutine;
@@ -101,6 +104,7 @@ public class GameStateManager : MonoBehaviour
         if (Mathf.Approximately(playerRb.velocity.x, 0) && Mathf.Approximately(playerRb.velocity.y, 0) && Mathf.Approximately(playerRb.velocity.z, 0))
         {
 
+            gameState = GameState.End;
             CalculateEndOfGame();
 
 

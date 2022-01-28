@@ -59,6 +59,7 @@ public class ReferenceLibary : MonoBehaviour
         ScoreMng = FindObjectOfType<ScoreManager>();
         WinconMng = FindObjectOfType<WindconditionManager>();
         AudMng = FindObjectOfType<AudioManager>();
+        GameStateMng = FindObjectOfType<GameStateManager>();
     }
 
 }
