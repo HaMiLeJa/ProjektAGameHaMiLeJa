@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 //In dieser Klasse werden die meshes (2d) extrudiert (3d).
@@ -10,7 +11,9 @@ public class MeshExtruder
 	List<Vector3> normals = new List<Vector3>();
 	List<Vector2> uvs0 = new List<Vector2>();
 	List<Vector2> uvs1 = new List<Vector2>();
+	List<Vector3> waypoints = new List<Vector3>();
 	List<int> triIndices = new List<int>();
+	Vector3  followpath;
 
 	
 	public void Extrude( Mesh mesh, Mesh2D mesh2D, OrientedCubicBezier3D bezier, Ease rotationEasing, UVMode uvMode, Vector2 nrmCoordStartEnd, float edgeLoopsPerMeter, float tilingAspectRatio ) 
@@ -22,12 +25,14 @@ public class MeshExtruder
 		uvs0.Clear();
 		uvs1.Clear();
 		triIndices.Clear();
-
+		waypoints.Clear();
+		followpath = new Vector3(0,0,0);
 		// UVs/Texture 
 		LengthTable table = null;
 		if(uvMode == UVMode.TiledWithFix)
 			table = new LengthTable( bezier, 12 );
 		float curveArcLength = bezier.GetArcLength();
+		
 		
 		// Tiling von den uvs
 		float tiling = tilingAspectRatio;
@@ -89,6 +94,9 @@ public class MeshExtruder
 				triIndices.Add( nextB );
 				triIndices.Add( currentB );
 			}
+
+			followpath = verts.Last();
+
 		}
 
 		// Simples assignen von allem
@@ -97,6 +105,5 @@ public class MeshExtruder
 		mesh.SetUVs( 0, uvs0 );
 		mesh.SetUVs( 1, uvs1 );
 		mesh.SetTriangles( triIndices, 0 );
-
 	}
 }
