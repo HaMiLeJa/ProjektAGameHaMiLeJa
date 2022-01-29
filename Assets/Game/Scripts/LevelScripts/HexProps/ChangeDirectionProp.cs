@@ -7,7 +7,7 @@ public class ChangeDirectionProp : MonoBehaviour
 
     Vector3 Direction;
 
-    public float angularSpeed = 15f;
+    public float angularSpeed = 400f;
     Quaternion desiredRot;
 
     void Start()

@@ -94,4 +94,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a05d15ff9bea0409cd22afdf923a57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  angularSpeed: 15
+  angularSpeed: 400

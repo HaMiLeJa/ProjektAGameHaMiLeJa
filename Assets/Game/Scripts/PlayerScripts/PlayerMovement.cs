@@ -91,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
         if (gameMng.AllowMovement == false) return;
 
         CalculateMovementDirection();
-        BasicJump();
+        //BasicJump();
     }
 
    

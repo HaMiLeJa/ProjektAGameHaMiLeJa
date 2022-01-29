@@ -117,13 +117,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b60e3edc1808cb74d88cf96ddb35b34f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myAudioSource: {fileID: 0}
   hexType: 1
   collectableType: 0
   hexEffectsSettings: {fileID: 11400000, guid: c664b87f68d9a8a44923cf97d225db1d, type: 2}
   forwardForce: 30
   IsHexForwardBoosting: 0
-  tramoplinForce: 10
+  tramoplinForce: 13
   XDirection: 1
   ZDirection: 1
   boostInDForce: 25
