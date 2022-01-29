@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e128d89f80050e84ca72ec4aefef72b3, type: 3}
   m_Name: ScriptableWall Gravestone
   m_EditorClassIdentifier: 
-  value: 50
+  value: 70
   particle: {fileID: 0}

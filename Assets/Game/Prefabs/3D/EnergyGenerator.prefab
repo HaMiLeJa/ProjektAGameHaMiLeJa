@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5028172692759181764}
   - component: {fileID: 8422314376729058640}
   - component: {fileID: 4292995578380543303}
+  - component: {fileID: 8784126562530450199}
   m_Layer: 7
   m_Name: EnergyGenerator
   m_TagString: EnergyGenerator
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1416004187086836661}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -9.4802475, y: 1.0884972, z: 78.31}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 2, y: 3.4394, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -96,3 +97,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generatedEnergy: 0
   settings: {fileID: 11400000, guid: eb1a5f53e1e90d74ab8b28aaccff30ef, type: 2}
+--- !u!136 &8784126562530450199
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416004187086836661}
+  m_Material: {fileID: 13400000, guid: 42352e1e017dce74c9f804cc74022fff, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.694205
+  m_Height: 9.032161
+  m_Direction: 1
+  m_Center: {x: 0, y: 4.548515, z: 0}

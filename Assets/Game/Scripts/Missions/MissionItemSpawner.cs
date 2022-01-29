@@ -80,6 +80,9 @@ public class MissionItemSpawner : MonoBehaviour
 
     void FindCollectItem()
     {
+        
+
+        
         if (MissionManager.CurrentMission.missionItem == MissionInformation.Item.CollectItem1)
         {
             currentItem = CollectItem1;
@@ -88,6 +91,8 @@ public class MissionItemSpawner : MonoBehaviour
         {
             currentItem = CollectItem2;
         }
+        else
+            currentItem = CollectItem1;
     }
 
     void CollectItemSpawner()

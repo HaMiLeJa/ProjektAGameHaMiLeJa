@@ -35,6 +35,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
 
     private void Start()
     {
+
         /*
         HexEffectsAndProps.Add(BoostForwardObj);
         HexEffectsAndProps.Add(TrampolinObj);
@@ -59,6 +60,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         if (GameManager.DisableSpawnHexObjectsInEditMode == true) return;
 
         EditModeSpawnAndDeletion();
+
 
         
     }
