@@ -315,17 +315,15 @@ public class PlayerMovement : MonoBehaviour
 
    void Gravity()
    {
-
-        
         if (hexMov.OnTrampolinHex) return;
 
         if (OnGround == false && jumping == false) //&&rebounding == false
         {
-            rb.AddForce((rb.velocity.normalized + Vector3.down) * fallDownSpeed * Time.fixedDeltaTime, ForceMode.Acceleration);
+            rb.AddForce((rb.velocity.normalized + Vector3.down) * fallDownSpeed, ForceMode.Acceleration);
         }
         else if (OnGround == false && hexMov.rebounded == false) //Trampolin
         {
-            rb.AddForce((rb.velocity.normalized + Vector3.down) * fallDownSpeed * Time.fixedDeltaTime, ForceMode.Acceleration);
+            rb.AddForce((rb.velocity.normalized + Vector3.down) * fallDownSpeed, ForceMode.Acceleration);
         }
         
    }
