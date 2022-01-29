@@ -109,42 +109,55 @@ public class PlayerMovement : MonoBehaviour
         }
         
     }
+
+     void InfluenceMovementDirection()
+     {
+        
+     }
+
+
     void MinVelocity()
     {
         if (!gameMng.AllowMovement)
             return;
 
+
+        InfluenceMovementDirection();
+
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+
+
+        if (math.abs(horizontalInput) > 0.3f || math.abs(verticalInput) > 0.3f)
+        {
+            rb.AddForce(MovementDirection.normalized * 30f);
+            Debug.Log("A");
+        }
+
+
         if (ReferenceLibary.Dash.IsBoosting == true || ReferenceLibary.SuperDash.isSuperDashing || ReferenceLibary.ShadowDashPl.isShadowDashing) return;
 
         if (constSpeedAllowed && Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z) < constspeed)
         { 
-            
-            Vector3 strafeMovement = transform.right * Input.GetAxis("Horizontal");
-            Vector3 forwardMovement = transform.forward * Input.GetAxis("Vertical");
-            MovementDirection = forwardMovement + strafeMovement;
-            float horizontalInput = Input.GetAxis("Horizontal");
-            float verticalInput = Input.GetAxis("Vertical");
-            
-            
-            if(math.abs(horizontalInput) < 0.3f  || math.abs(verticalInput) >0.3f)
-                rb.AddForce(MovementDirection.normalized * 5f);
-            
+           
+           
+
             var normalizeSpeed  = (rb.velocity.normalized);
-            rb.velocity = new Vector3(normalizeSpeed.x * constspeed + horizontalInput, rb.velocity.y, normalizeSpeed.z * constspeed + verticalInput);
+            rb.velocity = new Vector3(normalizeSpeed.x * constspeed , rb.velocity.y, normalizeSpeed.z * constspeed);
         }
     }
 
+    Vector3 strafeMovement;
+    Vector3 forwardMovement;
     void CalculateMovementDirection()
     {
         //Bewegung
-        Vector3 strafeMovement = transform.right * Input.GetAxis("Horizontal");
-        Vector3 forwardMovement = transform.forward * Input.GetAxis("Vertical");
+         strafeMovement = transform.right * Input.GetAxis("Horizontal");
+         forwardMovement = transform.forward * Input.GetAxis("Vertical");
 
         MovementDirection = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
         //Vector3 movement = MovementDirection * Time.deltaTime * StandardMovementSpeed;
 
-
-       
 
        
         /*
@@ -302,17 +315,15 @@ public class PlayerMovement : MonoBehaviour
 
    void Gravity()
    {
-
-        
         if (hexMov.OnTrampolinHex) return;
 
         if (OnGround == false && jumping == false) //&&rebounding == false
         {
-            rb.AddForce((rb.velocity.normalized + Vector3.down) * fallDownSpeed * Time.fixedDeltaTime, ForceMode.Acceleration);
+            rb.AddForce((rb.velocity.normalized + Vector3.down) * fallDownSpeed, ForceMode.Acceleration);
         }
         else if (OnGround == false && hexMov.rebounded == false) //Trampolin
         {
-            rb.AddForce((rb.velocity.normalized + Vector3.down) * fallDownSpeed * Time.fixedDeltaTime, ForceMode.Acceleration);
+            rb.AddForce((rb.velocity.normalized + Vector3.down) * fallDownSpeed, ForceMode.Acceleration);
         }
         
    }

@@ -44,7 +44,7 @@ public class GameStateManager : MonoBehaviour
             if(Input.GetButtonDown("X"))
             {
 
-                SceneManager.LoadScene(2); //2 = MainUIScene
+                SceneManager.LoadScene(1); 
                 //timescale wieder auf 1?
             }
         }
@@ -54,7 +54,7 @@ public class GameStateManager : MonoBehaviour
             if (Input.GetButtonDown("X"))
             {
 
-                SceneManager.LoadScene(2); //2 = MainUIScene
+                SceneManager.LoadScene(1); 
                 //timescale wieder auf 1?
             }
         }

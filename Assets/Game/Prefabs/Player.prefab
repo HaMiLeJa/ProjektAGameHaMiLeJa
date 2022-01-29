@@ -410,7 +410,7 @@ MonoBehaviour:
   rb: {fileID: 4498330986242300546}
   MovementDirection: {x: 0, y: 0, z: 0}
   SlowDownMultiplicator: 0.99
-  constspeed: 20
+  constspeed: 30
   constSpeedAllowed: 1
   forceJump: 110
   OnGround: 0
