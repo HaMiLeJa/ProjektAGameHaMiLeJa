@@ -25,7 +25,7 @@ public class WayPointGizmos
 
     public static void DrawWalkLine(Waypoint waypoint)
     {
-        if (!waypoint.NextWaypoint)
+        if (!waypoint.NextPoint)
         {
             return;
         }
@@ -33,7 +33,7 @@ public class WayPointGizmos
         Gizmos.color = Color.white;
 
         var waypointPosition = waypoint.transform.position;
-        var nextWaypointPoition = waypoint.NextWaypoint.transform.position;
+        var nextWaypointPoition = waypoint.NextPoint.transform.position;
         
        // Gizmos.DrawLine(waypointPosition, nextWaypointPoition);
         var direction = (nextWaypointPoition - waypointPosition).normalized;
@@ -52,7 +52,7 @@ public class WayPointGizmos
     }
     private static void DrawStartPoint(Waypoint waypoint)
     {
-        if (waypoint.PreviousWaypoint)
+        if (waypoint.PreviousPoint)
         {
             return;
         }
@@ -63,7 +63,7 @@ public class WayPointGizmos
 
     private static void DrawEndPoint(Waypoint waypoint)
     {
-        if (waypoint.NextWaypoint)
+        if (waypoint.NextPoint)
         {
             return;
         }
@@ -73,7 +73,7 @@ public class WayPointGizmos
     }
     private static void DrawMidPoint(Waypoint waypoint)
     {
-        if (!waypoint.NextWaypoint || !waypoint.PreviousWaypoint)
+        if (!waypoint.NextPoint || !waypoint.PreviousPoint)
         {
             return;
         }

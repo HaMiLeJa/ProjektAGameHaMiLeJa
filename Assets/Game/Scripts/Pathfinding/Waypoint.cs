@@ -7,8 +7,8 @@ using NaughtyAttributes;
 public class Waypoint : MonoBehaviour
 {
     [InfoBox("Rebuild nur falls was schief läuft. Ist auch im Parent und wird bei instanziieren gemacht", EInfoBoxType.Normal)]
-    public Waypoint NextWaypoint;
-   public Waypoint  PreviousWaypoint;
+    public Waypoint NextPoint;
+   public Waypoint  PreviousPoint;
   
    [Button()]
    void RebuildList()

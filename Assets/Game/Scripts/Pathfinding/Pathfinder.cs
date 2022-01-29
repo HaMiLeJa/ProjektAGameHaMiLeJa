@@ -6,7 +6,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine.PlayerLoop;
 using System.Linq;
 using System.Collections.Generic;
-
+using Cinemachine;
 public class Pathfinder : MonoBehaviour
 	{
 		private CatmullRom spline;
@@ -19,7 +19,7 @@ public class Pathfinder : MonoBehaviour
 		[BoxGroup("Einstellungen")] [Range(1, 3)][SerializeField]
 		private int speedLevel = 1;
 		[BoxGroup("Einstellungen")] [Range(2, 15)] [SerializeField]
-		private float secPathfindingDisabled = 5;
+		private float secPathDisabled = 5;
 		private float toFirstPointLerp = 0.5f;
 		private BoxCollider[] m_Collider;
 		
@@ -27,12 +27,37 @@ public class Pathfinder : MonoBehaviour
 		[BoxGroup("Debug")][SerializeField]private bool drawTangent;
 		[BoxGroup("Debug")][Range(0, 20)] public float normalLength;
 		[BoxGroup("Debug")][Range(0, 20)] public float tangentLength;
+		[BoxGroup("Debug")][Range(1, 20)] [SerializeField] private float colliderSize = 3;
 		private CatmullRom.CatmullRomPoint[] waypointsForPlayer;
 		private float Tvalue = 50f;
 		private bool pathfindingAllowed;
 		private bool startPathfindingDisable;
+		[SerializeField] private CinemachineVirtualCamera cam = default;
+		[SerializeField] private 	GameManager manager;
+		private bool noCam;
+		private bool noManager;
+
+		private void Awake()
+		{
+			if (manager == null)
+				noManager = true;
+			
+			if (cam != null)
+				noCam = false;
+			if (cam == null)
+			{
+				cam = this.GetComponent<Cinemachine.CinemachineVirtualCamera>();
+				noCam = true;
+			}
+			
+			
+			
+		}
+
 		void Start()
 		{
+		   if(cam != null) cam.gameObject.SetActive(false);
+		   
 			pathfindingAllowed = true;
 			if (spline == null)
 				spline = new CatmullRom(controlPoints, Resolution, ClosedLoop);
@@ -65,17 +90,22 @@ public class Pathfinder : MonoBehaviour
 		}
 		[Button("SetCollider")]
 		void setCollider()
-		{   Array.Clear(m_Collider,0,m_Collider.Length);
-			Array.Resize(ref m_Collider, 0);
+		{
+			if (m_Collider != null)
+			{
+				Array.Clear(m_Collider,0,m_Collider.Length);
+				Array.Resize(ref m_Collider, 0);
+			}
+			
 			m_Collider = GetComponents<BoxCollider>();
 			if (transform.childCount < 1)
 				return;
-			m_Collider[0].size = new Vector3(3, 3, 3);
+			m_Collider[0].size = new Vector3(colliderSize, colliderSize, colliderSize);
 			m_Collider[0].center = this.gameObject.transform.GetChild(0).transform.localPosition;
 			
 			if (transform.childCount < 2)
 				return;
-			m_Collider[1].size = new Vector3(3, 3, 3);
+			m_Collider[1].size = new Vector3(colliderSize, colliderSize, colliderSize);
 			m_Collider[1].center = this.gameObject.transform.GetChild(transform.childCount-1).transform.localPosition;
 		}
 		
@@ -112,7 +142,7 @@ public class Pathfinder : MonoBehaviour
 					spline.DrawTangents(tangentLength, Color.green);
 				waypointsForPlayer = spline.GetPoints();
 			}
-			else if(this.transform.childCount >3 && controlPoints.Length > 2)
+			else if(this.transform.childCount >2 && controlPoints.Length > 2)
 			{
 				spline = new CatmullRom(controlPoints, Resolution, ClosedLoop);
 			}
@@ -128,8 +158,11 @@ public class Pathfinder : MonoBehaviour
 				
 				if (i == waypointsForPlayer.Length-2)
 				{
+					if(!noCam)cam.gameObject.SetActive(false);
+					if(!noManager)manager.AllowMovement = true;
 					StopCoroutine(waitUntilNextTrigger());
 					StartCoroutine(waitUntilNextTrigger());
+					
 				}
 				
 				if (i < waypointsForPlayer.Length - 1 && i >1)
@@ -157,8 +190,11 @@ public class Pathfinder : MonoBehaviour
 			{
 				if (i == 2)
 				{
+					if(!noCam)cam.gameObject.SetActive(false);
+					if(!noManager)manager.AllowMovement = true;
 					StopCoroutine(waitUntilNextTrigger());
 					StartCoroutine(waitUntilNextTrigger());
+					
 				}
 				
 				if (i < waypointsForPlayer.Length - 1 && i >2)
@@ -183,7 +219,7 @@ public class Pathfinder : MonoBehaviour
 		
 		IEnumerator waitUntilNextTrigger()
 		{
-			yield return new WaitForSeconds(secPathfindingDisabled);
+			yield return new WaitForSeconds(secPathDisabled);
 	    	pathfindingAllowed = true;
 		}
 		private void OnTriggerEnter(Collider other)
@@ -200,6 +236,8 @@ public class Pathfinder : MonoBehaviour
 				if (pathfindingAllowed)
 				{
 					pathfindingAllowed = false;
+					if(!noCam) cam.gameObject.SetActive(true);
+					if(!noManager)manager.AllowMovement = false;
 					if (distanceStart > distanceEnd)
 					{
 						StopCoroutine(movePathReverse(other));
