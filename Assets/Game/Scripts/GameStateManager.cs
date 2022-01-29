@@ -93,6 +93,7 @@ public class GameStateManager : MonoBehaviour
 
     public void CheckForEndOfGame()
     {
+
         /*
         if (ReferenceLibary.PlayerMov.TotalVelocity < 10 && EndGameSafetyStarted == false)
         {
