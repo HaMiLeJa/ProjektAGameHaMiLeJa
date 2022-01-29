@@ -20,9 +20,10 @@ public class PlayerMovement : MonoBehaviour
 
     // void ControlVelocity
     public float SlowDownMultiplicator = 0.99f;
+    [SerializeField]  float constspeed = 60;
 
-    
-    // void Basic Jump
+    [SerializeField] private bool constSpeedAllowed = true;
+// void Basic Jump
     bool jumping = false;
     [SerializeField] float forceJump = 3;
     float jumpDuration = 0.1f;
@@ -77,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        MinVelocity();
         MaxVelocity();
         Velocity = rb.velocity; //Debug
 
@@ -106,6 +108,26 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector3(xVelocityMax, rb.velocity.y, zVelocityMax);
         }
         
+    }
+    void MinVelocity()
+    {
+        if (!gameMng.AllowMovement)
+            return;
+        if (constSpeedAllowed && rb.velocity.x + rb.velocity.z < constspeed)
+        { 
+            Vector3 strafeMovement = transform.right * Input.GetAxis("Horizontal");
+            Vector3 forwardMovement = transform.forward * Input.GetAxis("Vertical");
+            MovementDirection = forwardMovement + strafeMovement;
+            float horizontalInput = Input.GetAxis("Horizontal");
+            float verticalInput = Input.GetAxis("Vertical");
+            
+            
+            if(math.abs(horizontalInput) < 0.3f  || math.abs(verticalInput) <0.3f)
+                rb.AddForce(MovementDirection.normalized * 5f);
+            
+            var normalizeSpeed  = (rb.velocity.normalized);
+            rb.velocity = new Vector3(normalizeSpeed.x * constspeed + horizontalInput, normalizeSpeed.y, normalizeSpeed.z * constspeed + verticalInput);
+        }
     }
 
     void CalculateMovementDirection()
