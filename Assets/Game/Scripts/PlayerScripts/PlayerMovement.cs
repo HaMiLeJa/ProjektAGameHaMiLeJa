@@ -113,8 +113,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!gameMng.AllowMovement)
             return;
-        if (constSpeedAllowed && rb.velocity.x + rb.velocity.z < constspeed)
+
+        if (ReferenceLibary.Dash.IsBoosting == true || ReferenceLibary.SuperDash.isSuperDashing || ReferenceLibary.ShadowDashPl.isShadowDashing) return;
+
+        if (constSpeedAllowed && Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z) < constspeed)
         { 
+            
             Vector3 strafeMovement = transform.right * Input.GetAxis("Horizontal");
             Vector3 forwardMovement = transform.forward * Input.GetAxis("Vertical");
             MovementDirection = forwardMovement + strafeMovement;
@@ -122,11 +126,11 @@ public class PlayerMovement : MonoBehaviour
             float verticalInput = Input.GetAxis("Vertical");
             
             
-            if(math.abs(horizontalInput) < 0.3f  || math.abs(verticalInput) <0.3f)
+            if(math.abs(horizontalInput) < 0.3f  || math.abs(verticalInput) >0.3f)
                 rb.AddForce(MovementDirection.normalized * 5f);
             
             var normalizeSpeed  = (rb.velocity.normalized);
-            rb.velocity = new Vector3(normalizeSpeed.x * constspeed + horizontalInput, normalizeSpeed.y, normalizeSpeed.z * constspeed + verticalInput);
+            rb.velocity = new Vector3(normalizeSpeed.x * constspeed + horizontalInput, rb.velocity.y, normalizeSpeed.z * constspeed + verticalInput);
         }
     }
 
@@ -192,11 +196,6 @@ public class PlayerMovement : MonoBehaviour
           rb.velocity = new Vector3(rb.velocity.x * 1.1f, rb.velocity.y, rb.velocity.z * 1.0001f * Time.deltaTime);
         }
 
-       
-
-        
-        
-
     }
 
     void BasicJump()
@@ -249,53 +248,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    #region BasicBoost code (Not Used here)
-    /*
-     * 
-    // void basic boost
-    [SerializeField] float boostDuration = 0.1f;
-    bool boostButtonPressedInLastFrame = false;
-    bool allowBoost = false;
-    float timerBoost;
-    [SerializeField] float boostForce = 1;
-    public bool boosting;
    
-    void BasicBoost()
-    {
-        if (Input.GetButton("X"))
-        {
-
-            if (boostButtonPressedInLastFrame == false)
-            {
-                allowBoost = true;
-            }
-
-            boostButtonPressedInLastFrame = true;
-
-            if (allowBoost == true & timerBoost < boostDuration)
-            {
-                timerBoost += Time.deltaTime;
-
-                rb.AddForce(MovementDirection.normalized * boostForce * energyMng.EnergyBoostValue, ForceMode.Impulse);
-                //ANMERKUNG: falls Boosten energie verbrauchen soll hier abziehen
-
-                boosting = true;
-            }
-            else
-            {
-                boosting = false;
-            }
-        }
-        else
-        {
-            timerBoost = 0;
-            boostButtonPressedInLastFrame = false;
-            allowBoost = false;
-        }
-    }
-    */
-
-    #endregion
   
     void GroundCheck()
     {
