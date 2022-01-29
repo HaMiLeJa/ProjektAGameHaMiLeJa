@@ -10,6 +10,7 @@ public class ScoreManager : MonoBehaviour
     public static float CurrentMultiplicator = 1;
 
 
+
     #region Events
 
     public delegate void Scoring(float value);
