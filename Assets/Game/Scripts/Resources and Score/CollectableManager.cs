@@ -47,10 +47,13 @@ public class CollectableManager : MonoBehaviour
         OnRespawnCollectables += StartCollectableSpawn;
         // evt noch ui benachrichtigung
 
-        foreach (KeyValuePair<GameObject, CollectableReferences> hex in AllCollectables)
+        if (AllCollectables != null)
         {
-            hex.Value.HexScript = hex.Key.GetComponent<Hex>();
-            SetCollectableReferencesAtStart(hex.Value.HexScript);
+            foreach (KeyValuePair<GameObject, CollectableReferences> hex in AllCollectables)
+            {
+                hex.Value.HexScript = hex.Key.GetComponent<Hex>();
+                SetCollectableReferencesAtStart(hex.Value.HexScript);
+            }
         }
     }
 

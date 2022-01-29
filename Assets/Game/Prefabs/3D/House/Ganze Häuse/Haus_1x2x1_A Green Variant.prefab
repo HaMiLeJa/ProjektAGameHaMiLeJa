@@ -37,7 +37,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 9530c7eeb2c66d04dba6e0f2a9ccf87b, type: 2}
     - target: {fileID: 3796107769901961903, guid: 811f6d81d0cec8b40bfbf27072252fdf, type: 3}
       propertyPath: m_Name
-      value: Haus_1x2x1_A Green
+      value: Haus_1x2x1_A Green Variant
       objectReference: {fileID: 0}
     - target: {fileID: 3883712544343793728, guid: 811f6d81d0cec8b40bfbf27072252fdf, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -53,27 +53,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4995673190747285800, guid: 811f6d81d0cec8b40bfbf27072252fdf, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.37037036
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4995673190747285800, guid: 811f6d81d0cec8b40bfbf27072252fdf, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.37037042
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4995673190747285800, guid: 811f6d81d0cec8b40bfbf27072252fdf, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.37037036
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4995673190747285800, guid: 811f6d81d0cec8b40bfbf27072252fdf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.23
+      value: -168.96764
       objectReference: {fileID: 0}
     - target: {fileID: 4995673190747285800, guid: 811f6d81d0cec8b40bfbf27072252fdf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.61
+      value: 6.37
       objectReference: {fileID: 0}
     - target: {fileID: 4995673190747285800, guid: 811f6d81d0cec8b40bfbf27072252fdf, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.29
+      value: 262.336
       objectReference: {fileID: 0}
     - target: {fileID: 4995673190747285800, guid: 811f6d81d0cec8b40bfbf27072252fdf, type: 3}
       propertyPath: m_LocalRotation.w
