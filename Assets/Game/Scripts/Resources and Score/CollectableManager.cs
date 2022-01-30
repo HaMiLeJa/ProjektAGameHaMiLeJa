@@ -98,7 +98,7 @@ public class CollectableManager : MonoBehaviour
     {
         Vector3 Verbindungsvector = ReferenceLibary.Player.transform.position - hex.transform.position;
         float distance = Mathf.Sqrt(Mathf.Pow(Verbindungsvector.x, 2) + Mathf.Pow(Verbindungsvector.y, 2) + Mathf.Pow(Verbindungsvector.z, 2));
-        Debug.Log(distance);
+        
         return distance;
     }
 
