@@ -8,6 +8,11 @@ public class Wall : MonoBehaviour
     int hitCounter;
     [SerializeField] AudioSource myAudioSource;
 
+    private void Start()
+    {
+        myAudioSource.clip = settings.Clip;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject == ReferenceLibary.Player)

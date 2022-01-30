@@ -6,5 +6,5 @@ using UnityEngine;
 public class ScriptableLevelObject : ScriptableObject
 {
     public float value = 1;
-    public ParticleSystem particle;
+    public AudioClip Clip;
 }

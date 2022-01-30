@@ -99,6 +99,7 @@ MonoBehaviour:
   rotation: 20
   ParentHex: {fileID: 0}
   settings: {fileID: 11400000, guid: a3c1e0f79f902424c90ba234f2c3a5d7, type: 2}
+  myAudioSource: {fileID: 0}
 --- !u!65 &1217477346
 BoxCollider:
   m_ObjectHideFlags: 0

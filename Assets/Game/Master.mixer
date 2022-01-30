@@ -103,7 +103,7 @@ AudioMixerGroupController:
   m_Effects:
   - {fileID: -2484430364726228509}
   m_UserColorIndex: 3
-  m_Mute: 1
+  m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
 --- !u!244 &-5739300886276527678
@@ -150,7 +150,7 @@ AudioMixerGroupController:
   m_Effects:
   - {fileID: -115386013240555782}
   m_UserColorIndex: 0
-  m_Mute: 0
+  m_Mute: 1
   m_Solo: 0
   m_BypassEffects: 0
 --- !u!243 &-5072851526830963453
@@ -172,7 +172,7 @@ AudioMixerGroupController:
   m_Effects:
   - {fileID: 7094569995271679837}
   m_UserColorIndex: 8
-  m_Mute: 0
+  m_Mute: 1
   m_Solo: 0
   m_BypassEffects: 0
 --- !u!243 &-4967933247285336439
@@ -224,7 +224,7 @@ AudioMixerGroupController:
   m_Effects:
   - {fileID: -1899558146755702399}
   m_UserColorIndex: 8
-  m_Mute: 0
+  m_Mute: 1
   m_Solo: 0
   m_BypassEffects: 0
 --- !u!244 &-3398629004039433813
@@ -361,7 +361,7 @@ AudioMixerGroupController:
   m_Effects:
   - {fileID: -8358473463434308047}
   m_UserColorIndex: 0
-  m_Mute: 0
+  m_Mute: 1
   m_Solo: 0
   m_BypassEffects: 0
 --- !u!243 &-1578596649211140011
@@ -381,7 +381,7 @@ AudioMixerGroupController:
   - {fileID: -8102110366477021277}
   - {fileID: 1286560693349551841}
   m_UserColorIndex: 8
-  m_Mute: 0
+  m_Mute: 1
   m_Solo: 0
   m_BypassEffects: 0
 --- !u!244 &-115386013240555782
@@ -414,7 +414,7 @@ AudioMixerGroupController:
   m_Effects:
   - {fileID: 7111725450000121646}
   m_UserColorIndex: 8
-  m_Mute: 0
+  m_Mute: 1
   m_Solo: 0
   m_BypassEffects: 0
 --- !u!241 &24100000
@@ -534,7 +534,7 @@ AudioMixerGroupController:
   m_Effects:
   - {fileID: 1217808268275477036}
   m_UserColorIndex: 0
-  m_Mute: 0
+  m_Mute: 1
   m_Solo: 0
   m_BypassEffects: 0
 --- !u!244 &1217808268275477036
@@ -581,7 +581,7 @@ AudioMixerGroupController:
   m_Effects:
   - {fileID: -6089528683120753341}
   m_UserColorIndex: 8
-  m_Mute: 0
+  m_Mute: 1
   m_Solo: 0
   m_BypassEffects: 0
 --- !u!243 &1961532100019865312
@@ -600,7 +600,7 @@ AudioMixerGroupController:
   m_Effects:
   - {fileID: 8036262652193610147}
   m_UserColorIndex: 8
-  m_Mute: 0
+  m_Mute: 1
   m_Solo: 0
   m_BypassEffects: 0
 --- !u!244 &3800786548123821133
@@ -694,6 +694,6 @@ AudioMixerGroupController:
   m_Effects:
   - {fileID: -4714283297798025848}
   m_UserColorIndex: 0
-  m_Mute: 0
+  m_Mute: 1
   m_Solo: 0
   m_BypassEffects: 0
