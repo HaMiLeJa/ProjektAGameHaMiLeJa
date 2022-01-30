@@ -17,7 +17,8 @@ public class Destroyables : MonoBehaviour
 
     void Start()
     {
-        AudioSource = this.GetComponent<AudioSource>();
+        if(AudioSource == null)
+             AudioSource = this.GetComponent<AudioSource>();
         col = this.GetComponent<Collider>();
 
         superDash = ReferenceLibary.SuperDash;
@@ -47,7 +48,8 @@ public class Destroyables : MonoBehaviour
 
        if (settings.DestructionClip != null)
        {
-           AudioSource.PlayOneShot(settings.DestructionClip);
+            if(AudioSource.isPlaying == false)
+                 AudioSource.PlayOneShot(settings.DestructionClip);
        }
 
         GameObject brokenPrefabCopy = settings.BrokenPrefab;
@@ -138,6 +140,10 @@ public class Destroyables : MonoBehaviour
         GetComponent<Renderer>().enabled = true;
     }
 
+
+    int hitCounter;
+
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject != player) return;
@@ -148,16 +154,34 @@ public class Destroyables : MonoBehaviour
             
             ReferenceLibary.RigidbodyPl.velocity *= -1;
             Explode();
+
           
-            ScoreManager.OnScoring?.Invoke(settings.value);
+            ScoreManager.OnScoring?.Invoke(settings.DestroyValue);
+
         }
         else
         {
+
+            if (hitCounter >= 20)
+            {
+                ScoreManager.OnScoring?.Invoke(settings.CollisionValue / 20);
+                return;
+            }
+
+          
+
             if (AudioSource.isPlaying == false)
             {
                 AudioSource.clip = settings.CollisionClip;
                 AudioSource.Play();
+                Debug.Log("Play Col");
             }
+            else Debug.Log("PlayCol Not");
+
+
+
+            ScoreManager.OnScoring?.Invoke(settings.CollisionValue);
+            hitCounter++;
         }
 
     }

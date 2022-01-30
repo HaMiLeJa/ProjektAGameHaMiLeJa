@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 8800927073148560335}
   - component: {fileID: 5577234313772359238}
   - component: {fileID: 3829536156556084525}
-  - component: {fileID: 3829536156556084524}
   - component: {fileID: 3829536156556084523}
+  - component: {fileID: -4687416929164521860}
   m_Layer: 7
   m_Name: PilzBaum
   m_TagString: Wall
@@ -98,20 +98,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -1654494664126184522, guid: 8885f48870488904ca5a2192279b6cb1, type: 3}
---- !u!114 &3829536156556084524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5338952289351731444}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f99e3a8d588337d428ae874c6bf38239, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 198316aee99ec36428b827e9b484f962, type: 2}
-  myAudioSource: {fileID: 3829536156556084523}
 --- !u!82 &3829536156556084523
 AudioSource:
   m_ObjectHideFlags: 0
@@ -121,9 +107,9 @@ AudioSource:
   m_GameObject: {fileID: 5338952289351731444}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -1578596649211140011, guid: 369e9ea0dfb4b7d4c8794c09bbe4bc2f, type: 2}
+  OutputAudioMixerGroup: {fileID: -1585942546712559585, guid: 369e9ea0dfb4b7d4c8794c09bbe4bc2f, type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -208,3 +194,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-4687416929164521860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338952289351731444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cfc4a5ea237f67498fea914049564d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: bc0186b8df93c7d46bdbb4f9fe27d6e6, type: 2}
+  player: {fileID: 0}
+  AudioSource: {fileID: 3829536156556084523}

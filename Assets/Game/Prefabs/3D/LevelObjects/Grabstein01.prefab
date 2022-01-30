@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 7588972384004906853}
   - component: {fileID: 8135210823051027850}
   - component: {fileID: 5404458303946703816}
-  - component: {fileID: 344137230588136929}
   - component: {fileID: 4086649366037571743}
   - component: {fileID: -8166040004382233010}
+  - component: {fileID: 3954890159712919225}
   m_Layer: 7
   m_Name: Grabstein01
   m_TagString: Wall
@@ -84,20 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &344137230588136929
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22708796146982165}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f99e3a8d588337d428ae874c6bf38239, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 43cbeaafabe98c84cb363b9603419991, type: 2}
-  myAudioSource: {fileID: 4086649366037571743}
 --- !u!82 &4086649366037571743
 AudioSource:
   m_ObjectHideFlags: 0
@@ -207,3 +193,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.050896, y: 4.5397644, z: 1.3415821}
   m_Center: {x: 0.037750006, y: 2.266417, z: 0.420969}
+--- !u!114 &3954890159712919225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22708796146982165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cfc4a5ea237f67498fea914049564d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: b5c9d14a6ad135a4da7a88cf392022bb, type: 2}
+  player: {fileID: 0}
+  AudioSource: {fileID: 4086649366037571743}

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d932235402885ae4c847f361c6bd5b07, type: 3}
   m_Name: ScriptableEnergyGenBasic
   m_EditorClassIdentifier: 
-  maxEnergy: 10
+  maxEnergy: 15
   energyGenerationAmount: 1
   energyGenerationRate: 2

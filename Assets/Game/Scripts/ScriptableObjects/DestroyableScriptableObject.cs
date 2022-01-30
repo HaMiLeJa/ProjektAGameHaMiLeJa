@@ -16,6 +16,7 @@ public class DestroyableScriptableObject : ScriptableObject
     
    public bool Respawn = true;
    public float resetTimer = 3; 
-   public float value = 50;
+   public float DestroyValue = 50;
 
+    public float CollisionValue = 50;
 }

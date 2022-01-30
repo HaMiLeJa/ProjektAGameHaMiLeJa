@@ -131,7 +131,7 @@ public class PlayerMovement : MonoBehaviour
         if (math.abs(horizontalInput) > 0.3f || math.abs(verticalInput) > 0.3f)
         {
             rb.AddForce(MovementDirection.normalized * 30f);
-            Debug.Log("A");
+            
         }
 
 
