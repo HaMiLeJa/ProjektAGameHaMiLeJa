@@ -2,10 +2,8 @@
 using System.Collections;
 using UnityEngine;
 using NaughtyAttributes;
-using UnityEditor.SceneManagement;
 using UnityEngine.PlayerLoop;
 using System.Linq;
-using System.Collections.Generic;
 using Cinemachine;
 public class Pathfinder : MonoBehaviour
 	{
@@ -118,6 +116,7 @@ public class Pathfinder : MonoBehaviour
 				this.gameObject.transform.GetChild(i).transform.rotation = new Quaternion(0, 0, 0, 0);
 			}
 		}
+		#if UNITY_EDITOR
 		private void OnDrawGizmos()
 		{
 			foreach(Transform elem in controlPoints)
@@ -147,7 +146,7 @@ public class Pathfinder : MonoBehaviour
 				spline = new CatmullRom(controlPoints, Resolution, ClosedLoop);
 			}
 		}
-	
+	#endif
 
 
 		
