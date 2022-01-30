@@ -23,6 +23,10 @@ Material:
         m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_e235cf602d4f4dbf8e0be748a9579868_Texture_1:
+        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -37,7 +41,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_a1a28764e7c9442f8cffdab6c24b5031_1: 0.66
+<<<<<<< Updated upstream
     - _control: 0.039999392
+=======
+    - _control: 0
+>>>>>>> Stashed changes
     m_Colors: []
   m_BuildTextureStacks: []
 --- !u!114 &4191448345069020588
