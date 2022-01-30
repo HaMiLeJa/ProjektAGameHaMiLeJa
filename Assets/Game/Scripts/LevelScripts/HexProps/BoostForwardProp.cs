@@ -6,7 +6,7 @@ public class BoostForwardProp : MonoBehaviour
 {
     Vector3 Direction;
 
-    public float angularSpeed = 15f;
+    public float angularSpeed = 400f;
     Quaternion desiredRot;
 
 
@@ -15,6 +15,8 @@ public class BoostForwardProp : MonoBehaviour
     {
         InPlayerDirection();
     }
+
+
 
 
 

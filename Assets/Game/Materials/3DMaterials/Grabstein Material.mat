@@ -126,7 +126,7 @@ Material:
     - _ZWrite: 1
     - _emissionIntensity: 0
     - _emissiveCutoff: 0.2
-    - _normalStrength: 1.19
+    - _normalStrength: 1.34
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 1}

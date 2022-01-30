@@ -410,6 +410,8 @@ MonoBehaviour:
   rb: {fileID: 4498330986242300546}
   MovementDirection: {x: 0, y: 0, z: 0}
   SlowDownMultiplicator: 0.99
+  constspeed: 30
+  constSpeedAllowed: 1
   forceJump: 110
   OnGround: 0
   fallDownSpeed: 800
@@ -429,7 +431,6 @@ MonoBehaviour:
   velocityInfluence: 0.1
   maxHight: 35
   jumpAudioSource: {fileID: 2098955657895353872}
-  basedrumAudioSource: {fileID: 0}
 --- !u!114 &4498330986242300552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6850,14 +6851,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 510b830ba295f52438831c39312eb0d8, type: 3}
---- !u!4 &7382486788070721509 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6349675991529515086, guid: 510b830ba295f52438831c39312eb0d8, type: 3}
-  m_PrefabInstance: {fileID: 4498330985486167979}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &7382486788070721510 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 6349675991529515085, guid: 510b830ba295f52438831c39312eb0d8, type: 3}
+  m_PrefabInstance: {fileID: 4498330985486167979}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7382486788070721509 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6349675991529515086, guid: 510b830ba295f52438831c39312eb0d8, type: 3}
   m_PrefabInstance: {fileID: 4498330985486167979}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5422289936955480251

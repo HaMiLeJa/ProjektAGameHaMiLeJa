@@ -20,9 +20,10 @@ public class PlayerMovement : MonoBehaviour
 
     // void ControlVelocity
     public float SlowDownMultiplicator = 0.99f;
+    [SerializeField]  float constspeed = 60;
 
-    
-    // void Basic Jump
+    [SerializeField] private bool constSpeedAllowed = true;
+// void Basic Jump
     bool jumping = false;
     [SerializeField] float forceJump = 3;
     float jumpDuration = 0.1f;
@@ -77,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        MinVelocity();
         MaxVelocity();
         Velocity = rb.velocity; //Debug
 
@@ -91,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
         if (gameMng.AllowMovement == false) return;
 
         CalculateMovementDirection();
-        BasicJump();
+        //BasicJump();
     }
 
    
@@ -108,17 +110,54 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
+     void InfluenceMovementDirection()
+     {
+        
+     }
+
+
+    void MinVelocity()
+    {
+        if (!gameMng.AllowMovement)
+            return;
+
+
+        InfluenceMovementDirection();
+
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+
+
+        if (math.abs(horizontalInput) > 0.3f || math.abs(verticalInput) > 0.3f)
+        {
+            rb.AddForce(MovementDirection.normalized * 30f);
+            Debug.Log("A");
+        }
+
+
+        if (ReferenceLibary.Dash.IsBoosting == true || ReferenceLibary.SuperDash.isSuperDashing || ReferenceLibary.ShadowDashPl.isShadowDashing) return;
+
+        if (constSpeedAllowed && Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z) < constspeed)
+        { 
+           
+           
+
+            var normalizeSpeed  = (rb.velocity.normalized);
+            rb.velocity = new Vector3(normalizeSpeed.x * constspeed , rb.velocity.y, normalizeSpeed.z * constspeed);
+        }
+    }
+
+    Vector3 strafeMovement;
+    Vector3 forwardMovement;
     void CalculateMovementDirection()
     {
         //Bewegung
-        Vector3 strafeMovement = transform.right * Input.GetAxis("Horizontal");
-        Vector3 forwardMovement = transform.forward * Input.GetAxis("Vertical");
+         strafeMovement = transform.right * Input.GetAxis("Horizontal");
+         forwardMovement = transform.forward * Input.GetAxis("Vertical");
 
         MovementDirection = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
         //Vector3 movement = MovementDirection * Time.deltaTime * StandardMovementSpeed;
 
-
-       
 
        
         /*
@@ -169,11 +208,6 @@ public class PlayerMovement : MonoBehaviour
         {
           rb.velocity = new Vector3(rb.velocity.x * 1.1f, rb.velocity.y, rb.velocity.z * 1.0001f * Time.deltaTime);
         }
-
-       
-
-        
-        
 
     }
 
@@ -227,53 +261,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    #region BasicBoost code (Not Used here)
-    /*
-     * 
-    // void basic boost
-    [SerializeField] float boostDuration = 0.1f;
-    bool boostButtonPressedInLastFrame = false;
-    bool allowBoost = false;
-    float timerBoost;
-    [SerializeField] float boostForce = 1;
-    public bool boosting;
    
-    void BasicBoost()
-    {
-        if (Input.GetButton("X"))
-        {
-
-            if (boostButtonPressedInLastFrame == false)
-            {
-                allowBoost = true;
-            }
-
-            boostButtonPressedInLastFrame = true;
-
-            if (allowBoost == true & timerBoost < boostDuration)
-            {
-                timerBoost += Time.deltaTime;
-
-                rb.AddForce(MovementDirection.normalized * boostForce * energyMng.EnergyBoostValue, ForceMode.Impulse);
-                //ANMERKUNG: falls Boosten energie verbrauchen soll hier abziehen
-
-                boosting = true;
-            }
-            else
-            {
-                boosting = false;
-            }
-        }
-        else
-        {
-            timerBoost = 0;
-            boostButtonPressedInLastFrame = false;
-            allowBoost = false;
-        }
-    }
-    */
-
-    #endregion
   
     void GroundCheck()
     {
@@ -327,17 +315,15 @@ public class PlayerMovement : MonoBehaviour
 
    void Gravity()
    {
-
-        
         if (hexMov.OnTrampolinHex) return;
 
         if (OnGround == false && jumping == false) //&&rebounding == false
         {
-            rb.AddForce((rb.velocity.normalized + Vector3.down) * fallDownSpeed * Time.fixedDeltaTime, ForceMode.Acceleration);
+            rb.AddForce((rb.velocity.normalized + Vector3.down) * fallDownSpeed, ForceMode.Acceleration);
         }
         else if (OnGround == false && hexMov.rebounded == false) //Trampolin
         {
-            rb.AddForce((rb.velocity.normalized + Vector3.down) * fallDownSpeed * Time.fixedDeltaTime, ForceMode.Acceleration);
+            rb.AddForce((rb.velocity.normalized + Vector3.down) * fallDownSpeed, ForceMode.Acceleration);
         }
         
    }
