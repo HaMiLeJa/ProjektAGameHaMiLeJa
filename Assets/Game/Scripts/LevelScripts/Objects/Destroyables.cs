@@ -165,6 +165,7 @@ public class Destroyables : MonoBehaviour
             if (hitCounter >= 20)
             {
                 ScoreManager.OnScoring?.Invoke(settings.CollisionValue / 20);
+                Debug.Log("20 approached");
                 return;
             }
 
@@ -176,10 +177,10 @@ public class Destroyables : MonoBehaviour
                 AudioSource.Play();
             }
 
-
-
-            ScoreManager.OnScoring?.Invoke(settings.CollisionValue);
+            float scoreValue = ((hitCounter * 0.05f)) * settings.CollisionValue;
             hitCounter++;
+            ScoreManager.OnScoring?.Invoke(settings.CollisionValue - scoreValue);
+            
         }
 
     }
