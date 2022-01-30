@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4709661839257096782}
   - component: {fileID: 8800927073148560335}
   - component: {fileID: 5577234313772359238}
-  - component: {fileID: 3829536156556084525}
   - component: {fileID: 3829536156556084523}
   - component: {fileID: -4687416929164521860}
+  - component: {fileID: 8819055657735503959}
   m_Layer: 7
   m_Name: PilzBaum
   m_TagString: Wall
@@ -84,20 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3829536156556084525
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5338952289351731444}
-  m_Material: {fileID: 13400000, guid: 42352e1e017dce74c9f804cc74022fff, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -1654494664126184522, guid: 8885f48870488904ca5a2192279b6cb1, type: 3}
 --- !u!82 &3829536156556084523
 AudioSource:
   m_ObjectHideFlags: 0
@@ -209,3 +195,17 @@ MonoBehaviour:
   settings: {fileID: 11400000, guid: bc0186b8df93c7d46bdbb4f9fe27d6e6, type: 2}
   player: {fileID: 0}
   AudioSource: {fileID: 3829536156556084523}
+--- !u!64 &8819055657735503959
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338952289351731444}
+  m_Material: {fileID: 13400000, guid: 42352e1e017dce74c9f804cc74022fff, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2432090755550338912, guid: 8885f48870488904ca5a2192279b6cb1, type: 3}
