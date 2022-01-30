@@ -174,9 +174,7 @@ public class Destroyables : MonoBehaviour
             {
                 AudioSource.clip = settings.CollisionClip;
                 AudioSource.Play();
-                Debug.Log("Play Col");
             }
-            else Debug.Log("PlayCol Not");
 
 
 

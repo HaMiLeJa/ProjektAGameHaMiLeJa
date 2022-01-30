@@ -94,7 +94,7 @@ public class MenuController : MonoBehaviour
     {
         if (amount <= goalAmount - 1)
         {
-            lv.text = amount + "/" + goalAmount + "Hextiles";
+            lv.text = amount + "/" + goalAmount;
         }
         else if (amount >= goalAmount)
         {
