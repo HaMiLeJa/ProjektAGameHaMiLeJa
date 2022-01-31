@@ -15,6 +15,7 @@ public class ShadowDash : MonoBehaviour
     [SerializeField] public float currentShadowDashForce = 0.0f;
     [SerializeField] private float disappearingDuringShadowDashStart;
     [SerializeField] private float disappearingDuringShadowDashEnd;
+    [SerializeField] private GameObject Flashlight;
     public ParticleSystem dust;
 
     public MeshRenderer mr;
@@ -80,6 +81,7 @@ public class ShadowDash : MonoBehaviour
         if (Input.GetButton("RightBumper") && isShadowDashing == false)
         {
             isShadowDashing = true;
+            Flashlight.SetActive(true);
             ShadowDashStarter();
 
             if (dash.IsBoosting == true)
@@ -197,6 +199,7 @@ public class ShadowDash : MonoBehaviour
         rb.velocity = rb.velocity / 2;
 
         currentShadowDashForce = 0;
+        Flashlight.SetActive(false);
         isShadowDashing = false;
 
 
