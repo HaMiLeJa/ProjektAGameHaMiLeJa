@@ -76,7 +76,7 @@ public class GameStateManager : MonoBehaviour
         SceneManager.LoadScene((int)SceneIndexes.MANAGER); 
         
         Time.timeScale = 1;
-        Destroy(this);
+        //Destroy(this);
     }
     void AddAllManagers()
     {

@@ -49,9 +49,10 @@ public class UIManager : MonoBehaviour
 
         pointsParent.SetActive(true);
         TMPro.TMP_Text[] FindPointTMPs;
-         FindPointTMPs = pointsParent.GetComponentsInChildren<TMPro.TMP_Text>();
+        FindPointTMPs = pointsParent.GetComponentsInChildren<TMPro.TMP_Text>();
 
-        foreach(TMPro.TMP_Text obj in FindPointTMPs)
+        allPointsTexMeshs.Clear();
+        foreach (TMPro.TMP_Text obj in FindPointTMPs)
         {
             obj.text = "";
             obj.gameObject.SetActive(true);
@@ -440,12 +441,13 @@ public class UIManager : MonoBehaviour
     public void UpdateScore(float value)
     {
         score.text = ScoreManager.CurrentScore.ToString();
+        Debug.Log("Update Score");
     }
 
     public void UpdateMultiplicatorUI(float value)
     {
         multiplicator.text = "x" + ScoreManager.CurrentMultiplicator.ToString();
-        
+        Debug.Log("Multiplicator");
     }
     #endregion
 
@@ -478,7 +480,7 @@ public class UIManager : MonoBehaviour
 
         SetStartValues(myTxt, value);
 
-        StopCoroutine(AnimatePoints(myTxt));
+        //StopCoroutine(AnimatePoints(myTxt));
         StartCoroutine(AnimatePoints(myTxt));
     }
 
@@ -502,19 +504,12 @@ public class UIManager : MonoBehaviour
         return null;
     }
 
-    
-
 
     void SetStartValues(PointsAndState txt, float value)
     {
         txt.textMesh.text = Mathf.RoundToInt(value * ScoreManager.CurrentMultiplicator) + " points!";
 
     }
-
-    
-
-   
-
 
     IEnumerator AnimatePoints(PointsAndState txt)
     {
@@ -588,17 +583,10 @@ public class UIManager : MonoBehaviour
     public void PermanentMulitplicatorStarter(float value)
     {
         permanentTxt.text = "+" + value + " permanent!";
-        StopCoroutine(AnimatePermanentMultiplicator());
+        //StopCoroutine(AnimatePermanentMultiplicator());
         StartCoroutine(AnimatePermanentMultiplicator());
     }
 
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.L))
-           // StartCoroutine(UIHexAlreadyUnlocked());
-            PermanentMulitplicatorStarter(0.5f);
-    }
 
     IEnumerator AnimatePermanentMultiplicator()
     {
