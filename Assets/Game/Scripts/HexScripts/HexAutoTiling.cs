@@ -137,6 +137,7 @@ public class HexAutoTiling : MonoBehaviour
             if (playerLocation.transform.position.z < zMinusSnapShotPos)
             {
                 bottomMove = true; compareRightLeft();
+                topMove = true; //wegen bug wird das hier aktiviert
             }
         }
     }
@@ -149,8 +150,12 @@ public class HexAutoTiling : MonoBehaviour
         
         if ( noSide && zPlus < zMinus )
             topMove = true;
-        if (noSide && zPlus > zMinus )
+        if (noSide && zPlus > zMinus)
+        {
+            topMove = true; //wegen bug wird das hier aktiviert
             bottomMove = true;
+        }
+          
     }
     void compareRightLeft()
     {
