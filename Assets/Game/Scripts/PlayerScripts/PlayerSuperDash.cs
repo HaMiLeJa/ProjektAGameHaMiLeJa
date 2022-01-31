@@ -68,7 +68,7 @@ public class PlayerSuperDash : MonoBehaviour
         {
             isSuperDashing = true;
             SuperDashStarter();
-
+            Debug.Log("D");
             if (dash.IsBoosting == true)
                 dash.IsBoosting = false;
         }

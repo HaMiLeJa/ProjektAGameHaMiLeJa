@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public class Destroyables : MonoBehaviour
 {
@@ -15,6 +16,11 @@ public class Destroyables : MonoBehaviour
     private GameObject brokenInstance;
     bool TriggerResetted = false;
 
+    Renderer myRenderer;
+
+    List<Material> AllMaterials = new List<Material>();
+
+
     void Start()
     {
         if(AudioSource == null)
@@ -23,22 +29,21 @@ public class Destroyables : MonoBehaviour
 
         superDash = ReferenceLibary.SuperDash;
         player = ReferenceLibary.Player;
+
+        if (settings.ChangeMaterial == true)
+        {
+            myRenderer = this.GetComponent<Renderer>();
+
+            AllMaterials.Add(settings.Material01);
+            AllMaterials.Add(settings.Material02);
+            AllMaterials.Add(settings.Material03);
+            AllMaterials.Add(settings.Material04);
+        }
     }
     
     private void FixedUpdate()
     {
-        /*
-        if (superDash.isDestroying == true)
-        {
-            col.isTrigger = true;
-            TriggerResetted = true;
-        }
-        else if (TriggerResetted == false)
-        {
-            TriggerResetted = true;
-            col.isTrigger = false;
-        }
-        */
+      
     }
     public void Explode()
     {
@@ -136,6 +141,11 @@ public class Destroyables : MonoBehaviour
     IEnumerator Coroutine_ResetObject()
     {
         yield return new WaitForSeconds(settings.resetTimer);
+
+        //Change Material
+        if(settings.ChangeMaterial == true)
+            myRenderer.material = AllMaterials[UnityEngine.Random.Range(0, 4)];
+
         GetComponent<Collider>().enabled = true;
         GetComponent<Renderer>().enabled = true;
     }
@@ -154,7 +164,7 @@ public class Destroyables : MonoBehaviour
             if(DestroyCounter >= 15)
             {
                 ScoreManager.OnScoring?.Invoke(settings.DestroyValue/15);
-                Debug.Log("Destroy 10 Approached");
+                //Debug.Log("Destroy 10 Approached");
             }
 
             col.enabled = false;
@@ -174,7 +184,7 @@ public class Destroyables : MonoBehaviour
             if (hitCounter >= 15)
             {
                 ScoreManager.OnScoring?.Invoke(settings.CollisionValue / 15);
-                Debug.Log("Hit 20 approached");
+                //Debug.Log("Hit 20 approached");
                 return;
             }
 

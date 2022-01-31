@@ -81,7 +81,7 @@ public class ShadowDash : MonoBehaviour
         if (Input.GetButton("RightBumper") && isShadowDashing == false)
         {
             isShadowDashing = true;
-            Flashlight.SetActive(true);
+            //Flashlight.SetActive(true);
             ShadowDashStarter();
 
             if (dash.IsBoosting == true)
@@ -199,7 +199,7 @@ public class ShadowDash : MonoBehaviour
         rb.velocity = rb.velocity / 2;
 
         currentShadowDashForce = 0;
-        Flashlight.SetActive(false);
+       // Flashlight.SetActive(false);
         isShadowDashing = false;
 
 
