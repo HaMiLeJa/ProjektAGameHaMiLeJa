@@ -51,18 +51,19 @@ public class Hex : MonoBehaviour
        // hexCoordinates = GetComponent<HexCoordinates>();
         highlight = GetComponent<GlowHighlight>();
 
-        if (hexType == HexType.DefaultCollectable)
-        {
-
-            //colRef.HexScript = this;
-          // colRef.HexScript = this.gameObject.GetComponent<Hex>();
-            CollectableManager.AllCollectables.Add(this.gameObject, colRef); //Nur adden, werte angepasst wird sp�ter
-        }
+       
 
     }
 
     private void Start()
     {
+        if (hexType == HexType.DefaultCollectable)
+        {
+
+            //colRef.HexScript = this;
+            // colRef.HexScript = this.gameObject.GetComponent<Hex>();
+            CollectableManager.AllCollectables.Add(this.gameObject, colRef); //Nur adden, werte angepasst wird sp�ter
+        }
         gameMng = ReferenceLibary.GameMng;
         Player = ReferenceLibary.Player;
         playerRb = ReferenceLibary.RigidbodyPl;

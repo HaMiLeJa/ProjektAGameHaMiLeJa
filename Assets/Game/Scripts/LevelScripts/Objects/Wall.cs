@@ -24,7 +24,7 @@ public class Wall : MonoBehaviour
             }
             
 
-            float scoreValue = ((hitCounter * 0.05f)) * settings.value; //bei 0.05 sind total 20 schritte möglich
+            float scoreValue = ((hitCounter * 0.05f)) * settings.value; //bei 0.05 sind total 20 schritte mÃ¶glich
 
             ScoreManager.OnScoring?.Invoke(settings.value - scoreValue);
             hitCounter++;
