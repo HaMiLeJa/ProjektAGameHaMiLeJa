@@ -51,6 +51,7 @@ public class MissionManager : MonoBehaviour
 
     void Start()
     {
+        missionState = MissionState.noMission;
         NoMissionMissionState = GetComponentInChildren<MissionStateNoMission>();
         FindMissionState = GetComponentInChildren<MissionStateFindMission>();
         PrepareMissionState = GetComponentInChildren<MissionStatePrepareMission>();

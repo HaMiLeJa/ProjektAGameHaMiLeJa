@@ -7,7 +7,7 @@ public class ScoreManager : MonoBehaviour
 
     public static float CurrentScore = 0;
     public static float CurrentMultiplicator = 1;
-
+    public float DebugScore;
 
 
     #region Events
@@ -51,7 +51,7 @@ public class ScoreManager : MonoBehaviour
     
     void Update()
     {
-        
+        DebugScore = CurrentScore;
     }
 
     void UpdateScore(float value)
