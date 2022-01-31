@@ -218,6 +218,8 @@ public class Pathfinder : MonoBehaviour
 		}
 		IEnumerator waitUntilNextTrigger()
 		{
+			ReferenceLibary.PlayerMov.DisableGravity = false;
+
 			yield return new WaitForSeconds(secPathDisabled);
 	    	pathfindingAllowed = true;
 		}
@@ -237,6 +239,10 @@ public class Pathfinder : MonoBehaviour
 					pathfindingAllowed = false;
 					if(!noCam) cam.gameObject.SetActive(true);
 					if(!noManager)manager.AllowMovement = false;
+
+					ReferenceLibary.PlayerMov.DisableGravity = true;
+
+
 					if (distanceStart > distanceEnd)
 					{
 						StopCoroutine(movePathReverse(other));

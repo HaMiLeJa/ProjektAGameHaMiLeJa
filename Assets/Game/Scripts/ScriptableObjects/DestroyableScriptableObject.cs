@@ -19,4 +19,11 @@ public class DestroyableScriptableObject : ScriptableObject
    public float DestroyValue = 50;
 
     public float CollisionValue = 50;
+
+    public bool ChangeMaterial = false;
+    public Material Material01;
+    public Material Material02;
+    public Material Material03;
+    public Material Material04;
+
 }

@@ -33,6 +33,7 @@ public class DownDash : MonoBehaviour
     AudioManager audManager;
     [SerializeField] AudioSource audioSource;
 
+    Vector3 direction;
     #endregion
 
 
@@ -55,16 +56,16 @@ public class DownDash : MonoBehaviour
             {
                 boostingDown = true;
                 buttonPressedInLastFrame = true;
+                Debug.Log("L");
+                direction = rb.velocity.normalized;
 
-
-
-                StartCoroutine(EnergyManager.Instance.ModifyEnergy(-gameMng.DownDashCosts));
+                StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(-gameMng.DownDashCosts));
 
             }
         }
         else
         {
-            buttonPressedInLastFrame = false;
+            //buttonPressedInLastFrame = false;
         }
 
 
@@ -82,7 +83,7 @@ public class DownDash : MonoBehaviour
                     StartCoroutine(PlayParticle());
                 }
                 */
-
+                ReferenceLibary.GameMng.AllowMovement = false;
                 rb.AddForce((rb.velocity.normalized/2 + Vector3.down) * speed * 100  *Time.deltaTime, ForceMode.Impulse);
                 isDestroying = true;
             }
@@ -115,20 +116,22 @@ public class DownDash : MonoBehaviour
     {
         isDestroying = false;
         Vector3 pos = this.transform.position;
-        gameMng.AllowMovement = false;
+        //gameMng.AllowMovement = false;
         gameMng.AllowHexEffects = false;
 
         float timer = 0;
-        while (timer < 3)
+        while (timer < 1)
         {
             timer += Time.deltaTime;
             this.transform.position = pos;
             yield return null;
         }
 
+        rb.AddForce(new Vector3(direction.x, 0, direction.y) * 15);
+
         gameMng.AllowMovement = true;
         gameMng.AllowHexEffects = true;
-
+        buttonPressedInLastFrame = false;
         yield return null;
     }
 

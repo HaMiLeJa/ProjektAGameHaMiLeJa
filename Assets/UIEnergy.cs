@@ -15,11 +15,12 @@ public class UIEnergy : MonoBehaviour
     void Update()
     {
         material.SetFloat("_control",  MathLibary.Remap(
-            EnergyManager.Instance.MaxEnergyAmount*0.1f,
-            EnergyManager.Instance.MaxEnergyAmount,
+            ReferenceLibary.EnergyMng.MaxEnergyAmount*0.1f,
+            ReferenceLibary.EnergyMng.MaxEnergyAmount,
             0.45f,
             0,
             EnergyManager.CurrentEnergy));
     }
     
+
 }

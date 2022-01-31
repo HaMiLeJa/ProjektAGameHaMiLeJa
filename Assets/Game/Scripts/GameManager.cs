@@ -62,13 +62,10 @@ public class GameManager : MonoBehaviour
    // GameObject player;
    
     Rigidbody playerRb;
-
-   
     #endregion
 
 
 
-   
 
     #region Singleton
     public static GameManager Instance;
@@ -97,10 +94,11 @@ public class GameManager : MonoBehaviour
         
         vcam = GetComponent<CinemachineVirtualCamera>();
 
-        if (PlayerPrefs.HasKey("Highscore") == false)
-            PlayerPrefs.SetFloat("Highscore", 0);
+        // if (PlayerPrefs.HasKey("Highscore") == false)
+        //   PlayerPrefs.SetFloat("Highscore", 0);
 
-        Debug.Log("Highscore: " + PlayerPrefs.GetFloat("Highscore"));
+        AllowMovement = true;
+        AllowHexEffects = true;
     }
 
 

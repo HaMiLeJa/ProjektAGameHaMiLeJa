@@ -105,7 +105,7 @@ public class PlayerBoost : MonoBehaviour
     private IEnumerator BoostCoroutine()
     {
         if(gameMng.DashCosts != 0)
-            StartCoroutine(EnergyManager.Instance.ModifyEnergy(-gameMng.DashCosts));
+            StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(-gameMng.DashCosts));
 
         float t = 0;
         while (t < boostDuration)
