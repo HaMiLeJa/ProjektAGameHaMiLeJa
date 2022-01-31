@@ -225,6 +225,7 @@ public class Pathfinder : MonoBehaviour
 		}
 		private void OnTriggerEnter(Collider other)
 		{
+			spline = new CatmullRom(controlPoints, Resolution, ClosedLoop);
 			if (other.CompareTag("Player"))
 			{   float distanceStart = 0;
 				float distanceEnd = 0;
