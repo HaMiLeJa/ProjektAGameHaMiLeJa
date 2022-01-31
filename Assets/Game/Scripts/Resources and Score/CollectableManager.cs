@@ -38,7 +38,7 @@ public class CollectableManager : MonoBehaviour
 
     public CollectableReferences refff;
 
-    private bool addAll = true;
+   // private bool addAll = true;
 
     private void Awake()
     {
@@ -47,7 +47,24 @@ public class CollectableManager : MonoBehaviour
     }
     void Start()
     {
-        
+
+        //if (addAll == true)
+        // {
+        OnRespawnCollectables = null;
+             OnRespawnCollectables += StartCollectableSpawn;
+            // evt noch ui benachrichtigung
+
+            if (AllCollectables != null)
+            {
+                foreach (KeyValuePair<GameObject, CollectableReferences> hex in AllCollectables)
+                {
+                    hex.Value.HexScript = hex.Key.GetComponent<Hex>();
+                    SetCollectableReferencesAtStart(hex.Value.HexScript);
+                }
+            }
+
+         //   addAll = false;
+        //}
     }
 
     void SetCollectableReferencesAtStart(Hex hex)
@@ -68,31 +85,18 @@ public class CollectableManager : MonoBehaviour
     }
 
 
-
+    
     void Update()
     {
-        if (addAll)
-        {
-            OnRespawnCollectables += StartCollectableSpawn;
-            // evt noch ui benachrichtigung
-
-            if (AllCollectables != null)
-            {
-                foreach (KeyValuePair<GameObject, CollectableReferences> hex in AllCollectables)
-                {
-                    hex.Value.HexScript = hex.Key.GetComponent<Hex>();
-                    SetCollectableReferencesAtStart(hex.Value.HexScript);
-                }
-            }
-
-            addAll = false;
-        }
+       
         if (Input.GetKeyDown(KeyCode.J))
-            StartCollectableSpawn();
+            OnRespawnCollectables?.Invoke();
+
     }
 
-    void StartCollectableSpawn()
+    public void StartCollectableSpawn()
     {
+        Debug.Log("Collectable Spawn");
         foreach (KeyValuePair <GameObject, CollectableReferences> hex in AllCollectables)
         {
             if(hex.Value.ActiveCollectable == false && DistanceToPlayer(hex.Key) >= 100f) //&& if Distance to player ist höher als was auch immer

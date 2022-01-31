@@ -56,7 +56,7 @@ public class DownDash : MonoBehaviour
             {
                 boostingDown = true;
                 buttonPressedInLastFrame = true;
-                Debug.Log("L");
+                
                 direction = rb.velocity.normalized;
 
                 StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(-gameMng.DownDashCosts));

@@ -27,18 +27,21 @@ public class ScoreManager : MonoBehaviour
     void Start()
     {
 
+        OnScoring = null;
         OnScoring += UpdateScore;
-        OnScoring += ReferenceLibary.UIMng.UpdateScore;
+        OnScoring += ReferenceLibary.UIMng.UpdateUIScore;
         OnScoring += ReferenceLibary.UIMng.PointsStarter;
+
 
         if (ReferenceLibary.WinconMng.WinConPoints == 0)
             OnScoring += ReferenceLibary.WinconMng.CheckForWinConPoints;
 
-
+        OnPermanentMultiplicatorUpdate = null;
         OnPermanentMultiplicatorUpdate += UpdateMultiplicator;
         OnPermanentMultiplicatorUpdate += ReferenceLibary.UIMng.UpdateMultiplicatorUI;
         OnPermanentMultiplicatorUpdate += ReferenceLibary.UIMng.PermanentMulitplicatorStarter;
 
+        OnPermanentMultiplicatorUpdate = null;
         OnTemporaryMultiplicatorUpdate += UpdateMultiplicator;
         OnTemporaryMultiplicatorUpdate += ReferenceLibary.UIMng.UpdateMultiplicatorUI;
         OnTemporaryMultiplicatorUpdate += ReferenceLibary.UIMng.UpdateTemporaryMultiplicator;
@@ -54,14 +57,13 @@ public class ScoreManager : MonoBehaviour
         DebugScore = CurrentScore;
     }
 
-    void UpdateScore(float value)
+    public void UpdateScore(float value)
     {
         CurrentScore += Mathf.RoundToInt((value * CurrentMultiplicator));
-        
-        
+        //Debug.Log("Update Score");
     }
 
-    void UpdateMultiplicator(float value)
+    public void UpdateMultiplicator(float value)
     {
         CurrentMultiplicator += value;
     }

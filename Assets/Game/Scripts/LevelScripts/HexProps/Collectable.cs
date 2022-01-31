@@ -37,8 +37,9 @@ public class Collectable : MonoBehaviour
 
             ReferenceLibary.ColMng.CollectableCollected(this.gameObject, ParentHex);
 
+            Debug.Log("Collectable Collected");
             
-             ReferenceLibary.AudMng.HexAudMng.PlayHex(HexType.DefaultCollectable);
+            ReferenceLibary.AudMng.HexAudMng.PlayHex(HexType.DefaultCollectable);
             
             
 
