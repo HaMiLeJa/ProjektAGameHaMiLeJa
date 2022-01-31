@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    GameManager gameMng;
 
     public static float CurrentScore = 0;
     public static float CurrentMultiplicator = 1;
@@ -27,7 +26,6 @@ public class ScoreManager : MonoBehaviour
    
     void Start()
     {
-        gameMng = ReferenceLibary.GameMng;
 
         OnScoring += UpdateScore;
         OnScoring += ReferenceLibary.UIMng.UpdateScore;

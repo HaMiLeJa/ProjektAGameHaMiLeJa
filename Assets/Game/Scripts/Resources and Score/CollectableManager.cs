@@ -32,29 +32,22 @@ public class CollectableManager : MonoBehaviour
     //du kannst ne boolean abfrage machen. sobald was eingesammelt wurde, triggert es einen timer der erst beim ablaufen  wieder das feld als "bespawnable" macht
 
     // Hex und References(Hex und bool)
-    public static Dictionary<GameObject, CollectableReferences> AllCollectables = new Dictionary<GameObject, CollectableReferences>();
+    public static Dictionary<GameObject, CollectableReferences> AllCollectables;
 
     public static bool StopEditorScript = false;
 
     public CollectableReferences refff;
 
+    private bool addAll = true;
+
     private void Awake()
     {
         StopEditorScript = true;
+        AllCollectables =  new Dictionary<GameObject, CollectableReferences>();
     }
     void Start()
     {
-        OnRespawnCollectables += StartCollectableSpawn;
-        // evt noch ui benachrichtigung
-
-        if (AllCollectables != null)
-        {
-            foreach (KeyValuePair<GameObject, CollectableReferences> hex in AllCollectables)
-            {
-                hex.Value.HexScript = hex.Key.GetComponent<Hex>();
-                SetCollectableReferencesAtStart(hex.Value.HexScript);
-            }
-        }
+        
     }
 
     void SetCollectableReferencesAtStart(Hex hex)
@@ -78,6 +71,22 @@ public class CollectableManager : MonoBehaviour
 
     void Update()
     {
+        if (addAll)
+        {
+            OnRespawnCollectables += StartCollectableSpawn;
+            // evt noch ui benachrichtigung
+
+            if (AllCollectables != null)
+            {
+                foreach (KeyValuePair<GameObject, CollectableReferences> hex in AllCollectables)
+                {
+                    hex.Value.HexScript = hex.Key.GetComponent<Hex>();
+                    SetCollectableReferencesAtStart(hex.Value.HexScript);
+                }
+            }
+
+            addAll = false;
+        }
         if (Input.GetKeyDown(KeyCode.J))
             StartCollectableSpawn();
     }

@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] GameManager gameMng;
-
+    
     [Header ("Basic UI")]
     [SerializeField] TMPro.TMP_Text score;
     [SerializeField] TMPro.TMP_Text multiplicator;
@@ -24,8 +24,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject NewHighscoreMessage;
     [SerializeField] TMPro.TMP_Text CurrentHighscoreMessage;
 
-
-   
+    
 
     void Start()
     {
@@ -49,7 +48,8 @@ public class UIManager : MonoBehaviour
         WinConMissions.SetActive(false);
 
         pointsParent.SetActive(true);
-        TMPro.TMP_Text[] FindPointTMPs = pointsParent.GetComponentsInChildren<TMPro.TMP_Text>();
+        TMPro.TMP_Text[] FindPointTMPs;
+         FindPointTMPs = pointsParent.GetComponentsInChildren<TMPro.TMP_Text>();
 
         foreach(TMPro.TMP_Text obj in FindPointTMPs)
         {
@@ -478,7 +478,7 @@ public class UIManager : MonoBehaviour
 
         SetStartValues(myTxt, value);
 
-
+        StopCoroutine(AnimatePoints(myTxt));
         StartCoroutine(AnimatePoints(myTxt));
     }
 
@@ -588,7 +588,7 @@ public class UIManager : MonoBehaviour
     public void PermanentMulitplicatorStarter(float value)
     {
         permanentTxt.text = "+" + value + " permanent!";
-
+        StopCoroutine(AnimatePermanentMultiplicator());
         StartCoroutine(AnimatePermanentMultiplicator());
     }
 
