@@ -25,20 +25,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMPro.TMP_Text CurrentHighscoreMessage;
 
 
-    #region Singleton
-    public static UIManager Instance;
-    private void Awake()
-    {
-        if (UIManager.Instance != null)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            UIManager.Instance = this;
-        }
-    }
-    #endregion
+   
 
     void Start()
     {

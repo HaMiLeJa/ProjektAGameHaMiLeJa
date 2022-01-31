@@ -52,8 +52,8 @@ public class MissionStateActiveMission : MonoBehaviour
         MissionTimer();
 
 
-        UIManager.Instance.UpdateBasicMissionUI();
-        UIManager.Instance.UpdateCollectItemUI();
+        ReferenceLibary.UIMng.UpdateBasicMissionUI();
+        ReferenceLibary.UIMng.UpdateCollectItemUI();
 
         CheckForEnd();
     }
@@ -73,8 +73,8 @@ public class MissionStateActiveMission : MonoBehaviour
     {
         MissionTimer();
 
-        UIManager.Instance.UpdateBasicMissionUI();
-        UIManager.Instance.UpdateDestroObjUI();
+        ReferenceLibary.UIMng.UpdateBasicMissionUI();
+        ReferenceLibary.UIMng.UpdateDestroObjUI();
 
         CheckForEnd();
     }
@@ -91,10 +91,10 @@ public class MissionStateActiveMission : MonoBehaviour
 
     void UpdateCollectPoints()
     {
-       // MissionTimer();
+        // MissionTimer();
 
-       // UIManager.Instance.UpdateBasicMissionUI();
-        UIManager.Instance.UpdateCollectPointsUI();
+        // UIManager.Instance.UpdateBasicMissionUI();
+        ReferenceLibary.UIMng.UpdateCollectPointsUI();
 
         CheckForCollectPointsEnd();
     }
@@ -124,7 +124,7 @@ public class MissionStateActiveMission : MonoBehaviour
     void UpdateBringItem()
     {
         MissionTimer();
-        UIManager.Instance.UpdateBasicMissionUI();
+        ReferenceLibary.UIMng.UpdateBasicMissionUI();
         CheckForBringItemEnd();
     }
 
@@ -147,14 +147,14 @@ public class MissionStateActiveMission : MonoBehaviour
         MissionManager.ItemCollected = true;
         MissionItemSpawner.CurrentMissionItems.Remove(item);
         Destroy(item);
-        UIManager.Instance.ChangeProgressState1();
+        ReferenceLibary.UIMng.ChangeProgressState1();
     }
 
     public void BringItemDelivered(GameObject item)
     {
        if(MissionManager.ItemCollected == true)
        {
-            UIManager.Instance.ChangeProgressState2();
+            ReferenceLibary.UIMng.ChangeProgressState2();
             Debug.Log("2");
             MissionManager.ItemDelivered = true;
 

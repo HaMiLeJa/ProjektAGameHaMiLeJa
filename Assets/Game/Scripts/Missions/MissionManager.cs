@@ -129,7 +129,7 @@ public class MissionManager : MonoBehaviour
 
     public void SwitchToNoMissionState()
     {
-        UIManager.Instance.ActivateNoMissionUI();
+        ReferenceLibary.UIMng.ActivateNoMissionUI();
         missionState = MissionState.noMission;
     }
 

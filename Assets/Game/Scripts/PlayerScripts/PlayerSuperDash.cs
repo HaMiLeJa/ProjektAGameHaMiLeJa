@@ -47,7 +47,7 @@ public class PlayerSuperDash : MonoBehaviour
 
         dash = ReferenceLibary.Dash;
         playerMov = ReferenceLibary.PlayerMov;
-        gameMng = GameManager.Instance;
+        gameMng = ReferenceLibary.GameMng;
         shadowDash = ReferenceLibary.ShadowDashPl;
 
         //playerLayerInt = LayerMask.NameToLayer("Player");

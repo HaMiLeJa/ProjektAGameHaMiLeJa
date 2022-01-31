@@ -71,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = ReferenceLibary.RigidbodyPl;
-        gameMng = GameManager.Instance;
+        gameMng = ReferenceLibary.GameMng;
         audManager = ReferenceLibary.AudMng;
         hexMov = ReferenceLibary.HexMov;
     }

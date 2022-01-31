@@ -23,10 +23,10 @@ public class MissionStateNoMission : MonoBehaviour
             randomDurationSet = false;
             ReferenceLibary.MissionMng.SwitchToFindMissionState();
             duration = 0;
-            UIManager.Instance.DeactivateNoMissionUI();
+            ReferenceLibary.UIMng.DeactivateNoMissionUI();
         }
         else
-            UIManager.Instance.TimerUntilNexMission();
+            ReferenceLibary.UIMng.TimerUntilNexMission();
     }
 
 

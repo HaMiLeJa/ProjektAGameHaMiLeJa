@@ -66,26 +66,14 @@ public class GameManager : MonoBehaviour
 
 
 
-
-    #region Singleton
-    public static GameManager Instance;
     private void Awake()
     {
-        if(GameManager.Instance != null)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            GameManager.Instance = this;
-        }
-
-
+       
         DisableSpawnHexObjectsInEditMode = true;
         
         CameraHelper = GameObject.FindGameObjectWithTag("CameraHelper");
     }
-    #endregion
+    
     
     private void Start()
     {

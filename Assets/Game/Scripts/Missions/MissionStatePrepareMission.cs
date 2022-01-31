@@ -76,8 +76,8 @@ public class MissionStatePrepareMission : MonoBehaviour
 
     void ActivateCollectItemUI()
     {
-        UIManager.Instance.ActivateBasicMissionUI();
-        UIManager.Instance.ActivateCollectItemUI();
+        ReferenceLibary.UIMng.ActivateBasicMissionUI();
+        ReferenceLibary.UIMng.ActivateCollectItemUI();
     }
 
 
@@ -120,8 +120,8 @@ public class MissionStatePrepareMission : MonoBehaviour
 
     void ActivateDestoryObjUi()
     {
-        UIManager.Instance.ActivateBasicMissionUI();
-        UIManager.Instance.ActivateDestroyObjUI();
+        ReferenceLibary.UIMng.ActivateBasicMissionUI();
+        ReferenceLibary.UIMng.ActivateDestroyObjUI();
     }
 
     #endregion
@@ -161,7 +161,7 @@ public class MissionStatePrepareMission : MonoBehaviour
     void ActivateCollectPointsUI()
     {
         //UIManager.Instance.ActivateBasicMissionUI();
-        UIManager.Instance.ActivateCollectPointsUI();
+        ReferenceLibary.UIMng.ActivateCollectPointsUI();
     }
 
     #endregion
@@ -212,8 +212,8 @@ public class MissionStatePrepareMission : MonoBehaviour
 
     void ActivateBringItemUI()
     {
-        UIManager.Instance.ActivateBasicMissionUI();
-        UIManager.Instance.ActivateBringItemUI();
+        ReferenceLibary.UIMng.ActivateBasicMissionUI();
+        ReferenceLibary.UIMng.ActivateBringItemUI();
     }
 
   

@@ -53,7 +53,7 @@ public class ShadowDash : MonoBehaviour
         dash = ReferenceLibary.Dash;
         superDash = ReferenceLibary.SuperDash;
         playerMov = ReferenceLibary.PlayerMov;
-        gameMng = GameManager.Instance;
+        gameMng = ReferenceLibary.GameMng;
 
         playerLayerInt = LayerMask.NameToLayer("Player");
         playerNoCollisionLayerInt = LayerMask.NameToLayer("PlayerNoCollision");

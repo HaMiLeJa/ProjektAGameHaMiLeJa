@@ -40,7 +40,7 @@ public class DownDash : MonoBehaviour
     void Start()
     {
         rb = ReferenceLibary.RigidbodyPl;
-        gameMng = GameManager.Instance;
+        gameMng = ReferenceLibary.GameMng;
         playerMov = ReferenceLibary.PlayerMov;
         audManager = ReferenceLibary.AudMng;
     }

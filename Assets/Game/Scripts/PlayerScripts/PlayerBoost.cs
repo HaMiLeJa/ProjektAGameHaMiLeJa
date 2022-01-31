@@ -39,7 +39,7 @@ public class PlayerBoost : MonoBehaviour
         shadowDash = ReferenceLibary.ShadowDashPl;
         playerMov = ReferenceLibary.PlayerMov;
 
-        gameMng = GameManager.Instance;
+        gameMng = ReferenceLibary.GameMng;
         audManager = ReferenceLibary.AudMng;
 
         //audioSource = 

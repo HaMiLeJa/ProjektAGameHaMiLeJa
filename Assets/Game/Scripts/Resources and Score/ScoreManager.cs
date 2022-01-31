@@ -24,28 +24,13 @@ public class ScoreManager : MonoBehaviour
 
     #endregion
 
-    #region Singleton
-    public static ScoreManager Instance;
-    private void Awake()
-    {
-        if (ScoreManager.Instance != null)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            ScoreManager.Instance = this;
-        }
-
-    }
-    #endregion
-
+   
     void Start()
     {
-        gameMng = GameManager.Instance;
+        gameMng = ReferenceLibary.GameMng;
 
         OnScoring += UpdateScore;
-        OnScoring += UIManager.Instance.UpdateScore;
+        OnScoring += ReferenceLibary.UIMng.UpdateScore;
         OnScoring += ReferenceLibary.UIMng.PointsStarter;
 
         if (ReferenceLibary.WinconMng.WinConPoints == 0)
@@ -53,11 +38,11 @@ public class ScoreManager : MonoBehaviour
 
 
         OnPermanentMultiplicatorUpdate += UpdateMultiplicator;
-        OnPermanentMultiplicatorUpdate += UIManager.Instance.UpdateMultiplicatorUI;
+        OnPermanentMultiplicatorUpdate += ReferenceLibary.UIMng.UpdateMultiplicatorUI;
         OnPermanentMultiplicatorUpdate += ReferenceLibary.UIMng.PermanentMulitplicatorStarter;
 
         OnTemporaryMultiplicatorUpdate += UpdateMultiplicator;
-        OnTemporaryMultiplicatorUpdate += UIManager.Instance.UpdateMultiplicatorUI;
+        OnTemporaryMultiplicatorUpdate += ReferenceLibary.UIMng.UpdateMultiplicatorUI;
         OnTemporaryMultiplicatorUpdate += ReferenceLibary.UIMng.UpdateTemporaryMultiplicator;
 
         CurrentMultiplicator = 1;

@@ -37,7 +37,7 @@ public class HexMovements : MonoBehaviour
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        gameMng = GameManager.Instance;
+        gameMng = ReferenceLibary.GameMng;
     }
 
 
