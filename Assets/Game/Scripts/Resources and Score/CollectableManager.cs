@@ -26,7 +26,7 @@ public class CollectableManager : MonoBehaviour
 
 
     //  MIRO SCHREIBT:
-    //wenn du willst das 3 stück auf einmal spawnen sollen, kannst du entweder eine verkettete liste nutzen oder ein event trigger.
+    //wenn du willst das 3 stÃ¼ck auf einmal spawnen sollen, kannst du entweder eine verkettete liste nutzen oder ein event trigger.
     //Wenn eins von denen spawnt, check ob da schon ein Objekt ist und falls nicht spawne die auch.
 
     //du kannst ne boolean abfrage machen. sobald was eingesammelt wurde, triggert es einen timer der erst beim ablaufen  wieder das feld als "bespawnable" macht
@@ -86,7 +86,7 @@ public class CollectableManager : MonoBehaviour
     {
         foreach (KeyValuePair <GameObject, CollectableReferences> hex in AllCollectables)
         {
-            if(hex.Value.ActiveCollectable == false && DistanceToPlayer(hex.Key) >= 100f) //&& if Distance to player ist höher als was auch immer
+            if(hex.Value.ActiveCollectable == false && DistanceToPlayer(hex.Key) >= 100f) //&& if Distance to player ist hÃ¶her als was auch immer
             {
                 hex.Value.HexScript.SpawnCollectable();
 

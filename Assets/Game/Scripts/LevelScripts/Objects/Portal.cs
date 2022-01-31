@@ -27,6 +27,7 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
     private float cashedVelocity;
     private GameManager _gameManager;
     private float cashedFovTemp;
+    private float cashedFovNewCam;
     private float distanceBetweenCamHelperAndPlayerCashed;
     [Range(0,70)]
     [SerializeField] float zoomOutDuringTeleport = 18;
@@ -36,7 +37,8 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
         _playerMovement = ReferenceLibary.PlayerMov;
         _gameManager = ReferenceLibary.GameMng;
         cashedlerpValue = _gameManager.followRoughness;
-
+        if (cam != CameraZoomOut.vcamera)
+            cashedFovNewCam = cam.m_Lens.FieldOfView;
 
         //myAudioSource = this.GetComponent<AudioSource>();
 
@@ -97,6 +99,7 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
                _gameManager.followRoughness = cashedlerpValue;
                distanceCamHelperPlayer = 0;
                GameManager.CameraHelper.transform.position = cashedCamHelperPos;
+               cam.m_Lens.FieldOfView = cashedFovNewCam;
                GameManager.CameraTeleportActive = false;
                SetBackFollowSpeed();
            }
