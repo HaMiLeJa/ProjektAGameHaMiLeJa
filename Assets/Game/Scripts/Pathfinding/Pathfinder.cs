@@ -2,10 +2,8 @@
 using System.Collections;
 using UnityEngine;
 using NaughtyAttributes;
-using UnityEditor.SceneManagement;
 using UnityEngine.PlayerLoop;
 using System.Linq;
-using System.Collections.Generic;
 using Cinemachine;
 public class Pathfinder : MonoBehaviour
 	{
@@ -59,14 +57,14 @@ public class Pathfinder : MonoBehaviour
 		   if(cam != null) cam.gameObject.SetActive(false);
 		   
 			pathfindingAllowed = true;
-			if (spline == null)
+			if (spline == null && controlPoints.Length > 2)
 				spline = new CatmullRom(controlPoints, Resolution, ClosedLoop);
 			
 			if (spline != null)
 			{ 
 				waypointsForPlayer = spline.GetPoints();
 			}
-			else
+			else if (controlPoints.Length > 2)
 			{
 				spline = new CatmullRom(controlPoints, Resolution, ClosedLoop);
 			}
@@ -91,6 +89,7 @@ public class Pathfinder : MonoBehaviour
 		[Button("SetCollider")]
 		void setCollider()
 		{
+			
 			if (m_Collider != null)
 			{
 				Array.Clear(m_Collider,0,m_Collider.Length);
@@ -118,6 +117,7 @@ public class Pathfinder : MonoBehaviour
 				this.gameObject.transform.GetChild(i).transform.rotation = new Quaternion(0, 0, 0, 0);
 			}
 		}
+		#if UNITY_EDITOR
 		private void OnDrawGizmos()
 		{
 			foreach(Transform elem in controlPoints)
@@ -147,7 +147,7 @@ public class Pathfinder : MonoBehaviour
 				spline = new CatmullRom(controlPoints, Resolution, ClosedLoop);
 			}
 		}
-	
+	#endif
 
 
 		
@@ -216,9 +216,10 @@ public class Pathfinder : MonoBehaviour
 				}
 			}
 		}
-		
 		IEnumerator waitUntilNextTrigger()
 		{
+			ReferenceLibary.PlayerMov.DisableGravity = false;
+
 			yield return new WaitForSeconds(secPathDisabled);
 	    	pathfindingAllowed = true;
 		}
@@ -238,6 +239,10 @@ public class Pathfinder : MonoBehaviour
 					pathfindingAllowed = false;
 					if(!noCam) cam.gameObject.SetActive(true);
 					if(!noManager)manager.AllowMovement = false;
+
+					ReferenceLibary.PlayerMov.DisableGravity = true;
+
+
 					if (distanceStart > distanceEnd)
 					{
 						StopCoroutine(movePathReverse(other));

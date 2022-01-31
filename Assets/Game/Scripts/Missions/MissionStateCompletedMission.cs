@@ -36,8 +36,8 @@ public class MissionStateCompletedMission : MonoBehaviour
     #region Collect Item
     void UpdateCollectItem()
     {
-        UIManager.Instance.DeactivateCollectItemUI();
-        UIManager.Instance.DeactivateBasicMissionUI();
+        ReferenceLibary.UIMng.DeactivateCollectItemUI();
+        ReferenceLibary.UIMng.DeactivateBasicMissionUI();
         UpdateMultiplicator();
         RemoveRemainingCollectables();
     }
@@ -52,8 +52,8 @@ public class MissionStateCompletedMission : MonoBehaviour
 
     void UpdateDestroyObj()
     {
-        UIManager.Instance.DeactivateBasicMissionUI();
-        UIManager.Instance.DeactivateDestroyObjUI();
+        ReferenceLibary.UIMng.DeactivateBasicMissionUI();
+        ReferenceLibary.UIMng.DeactivateDestroyObjUI();
         UpdateMultiplicator();
     }
 
@@ -63,8 +63,8 @@ public class MissionStateCompletedMission : MonoBehaviour
     #region Collect Points
     void UpdateCollectPoints()
     {
-        UIManager.Instance.DeactivateBasicMissionUI();
-        UIManager.Instance.DeactivateCollectPointsUI();
+        ReferenceLibary.UIMng.DeactivateBasicMissionUI();
+        ReferenceLibary.UIMng.DeactivateCollectPointsUI();
         UpdateMultiplicator();
     }
     #endregion
@@ -73,8 +73,8 @@ public class MissionStateCompletedMission : MonoBehaviour
 
     void UpdateBringItem()
     {
-        UIManager.Instance.DeactivateBasicMissionUI();
-        UIManager.Instance.DeactivateBringItemUI();
+        ReferenceLibary.UIMng.DeactivateBasicMissionUI();
+        ReferenceLibary.UIMng.DeactivateBringItemUI();
 
         UpdateMultiplicator();
     }

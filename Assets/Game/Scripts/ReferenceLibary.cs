@@ -32,6 +32,7 @@ public class ReferenceLibary : MonoBehaviour
     public static WindconditionManager WinconMng;
     public static AudioManager AudMng;
     public static GameStateManager GameStateMng;
+    public static EnergyManager EnergyMng;
 
     private void Awake()
     {
@@ -60,6 +61,7 @@ public class ReferenceLibary : MonoBehaviour
         WinconMng = FindObjectOfType<WindconditionManager>();
         AudMng = FindObjectOfType<AudioManager>();
         GameStateMng = FindObjectOfType<GameStateManager>();
+        EnergyMng = FindObjectOfType<EnergyManager>();
     }
 
 }

@@ -105,6 +105,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fenster03 (1) Variant (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2436641685243933596, guid: 3757aead9b0c82d4abc4e30a791e9841, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2436641685243933596, guid: 3757aead9b0c82d4abc4e30a791e9841, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 6726548618742943778, guid: 3757aead9b0c82d4abc4e30a791e9841, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6726548618742943778, guid: 3757aead9b0c82d4abc4e30a791e9841, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.13
+      objectReference: {fileID: 0}
     - target: {fileID: 6824838409076459455, guid: 3757aead9b0c82d4abc4e30a791e9841, type: 3}
       propertyPath: m_RootOrder
       value: 1

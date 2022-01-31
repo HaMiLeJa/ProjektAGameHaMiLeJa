@@ -62,33 +62,18 @@ public class GameManager : MonoBehaviour
    // GameObject player;
    
     Rigidbody playerRb;
-
-   
     #endregion
 
 
 
-   
-
-    #region Singleton
-    public static GameManager Instance;
     private void Awake()
     {
-        if(GameManager.Instance != null)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            GameManager.Instance = this;
-        }
-
-
+       
         DisableSpawnHexObjectsInEditMode = true;
         
         CameraHelper = GameObject.FindGameObjectWithTag("CameraHelper");
     }
-    #endregion
+    
     
     private void Start()
     {
@@ -97,10 +82,11 @@ public class GameManager : MonoBehaviour
         
         vcam = GetComponent<CinemachineVirtualCamera>();
 
-        if (PlayerPrefs.HasKey("Highscore") == false)
-            PlayerPrefs.SetFloat("Highscore", 0);
+        // if (PlayerPrefs.HasKey("Highscore") == false)
+        //   PlayerPrefs.SetFloat("Highscore", 0);
 
-        Debug.Log("Highscore: " + PlayerPrefs.GetFloat("Highscore"));
+        AllowMovement = true;
+        AllowHexEffects = true;
     }
 
 
@@ -108,12 +94,13 @@ public class GameManager : MonoBehaviour
     float startSkyBoxrotation = 5;
     void Update()
     {
-        if (startSkyBoxrotation > 0)
-            startSkyBoxrotation--;
-
-        if (startSkyBoxrotation == 0)
-            RenderSettings.skybox.SetFloat("_Rotation", Time.time*Skyboxspeed);
-        
+        //nicht mehr nötig
+        // if (startSkyBoxrotation > 0)
+        //     startSkyBoxrotation--;
+        //
+        // if (startSkyBoxrotation == 0)
+        //     RenderSettings.skybox.SetFloat("_Rotation", Time.time*Skyboxspeed);
+        //
      
         if(Input.GetKey(KeyCode.Escape))
         {

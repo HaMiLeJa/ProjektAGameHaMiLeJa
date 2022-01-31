@@ -8,15 +8,23 @@ public class Wall : MonoBehaviour
     int hitCounter;
     [SerializeField] AudioSource myAudioSource;
 
+    private void Start()
+    {
+        myAudioSource.clip = settings.Clip;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject == ReferenceLibary.Player)
         {
-            if (hitCounter >= 20) return;
-
+            if (hitCounter >= 15)
+            {
+                ScoreManager.OnScoring?.Invoke(settings.value/15);
+                return;
+            }
             
 
-            float scoreValue = ((hitCounter * 0.05f)) * settings.value;
+            float scoreValue = ((hitCounter * 0.05f)) * settings.value; //bei 0.05 sind total 20 schritte möglich
 
             ScoreManager.OnScoring?.Invoke(settings.value - scoreValue);
             hitCounter++;

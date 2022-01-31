@@ -9,7 +9,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3374946626232835609, guid: da7650529775b8c4a9a35f1f63a7cdf3, type: 3}
       propertyPath: m_Name
-      value: Dach_1x1_2Fenster
+      value: Dach_1x1_2Fenster Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608472033776683281, guid: da7650529775b8c4a9a35f1f63a7cdf3, type: 3}
+      propertyPath: m_RootOrder
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239751137879693599, guid: da7650529775b8c4a9a35f1f63a7cdf3, type: 3}
+      propertyPath: m_RootOrder
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 4803630258194035510, guid: da7650529775b8c4a9a35f1f63a7cdf3, type: 3}
       propertyPath: m_RootOrder
@@ -61,7 +69,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8437044551245291771, guid: da7650529775b8c4a9a35f1f63a7cdf3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8.41
+      value: -8.47
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da7650529775b8c4a9a35f1f63a7cdf3, type: 3}

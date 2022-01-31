@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class WaypointCreator : EditorWindow
 {
+#if UNITY_EDITOR
  [MenuItem("HaMiLeJa/Waypoint Creator")]
  private static void ShowWindow()
  {
@@ -202,4 +203,5 @@ private void CreateWaypointBefore(Waypoint selectedWaypoint)
   return waypointGameObject.GetComponent<Waypoint>();
   
  }
+#endif
 }

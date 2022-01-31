@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2714527385423207862}
   - component: {fileID: 1481203134962039074}
   - component: {fileID: 8343745573618481096}
-  - component: {fileID: 8343745573618481097}
   - component: {fileID: 8343745573618481094}
+  - component: {fileID: -9137985728789673726}
   m_Layer: 7
   m_Name: Grabstein03
   m_TagString: Wall
@@ -95,22 +95,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.015133, y: 0.943255, z: 4.276458}
-  m_Center: {x: 0.00046747923, y: 0.4742855, z: 0.06274998}
---- !u!114 &8343745573618481097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8343745573618481095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f99e3a8d588337d428ae874c6bf38239, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 43cbeaafabe98c84cb363b9603419991, type: 2}
-  myAudioSource: {fileID: 8343745573618481094}
+  m_Size: {x: 3.015133, y: 1.9998263, z: 4.276458}
+  m_Center: {x: 0.00046745938, y: 1.0025716, z: 0.06275003}
 --- !u!82 &8343745573618481094
 AudioSource:
   m_ObjectHideFlags: 0
@@ -207,3 +193,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-9137985728789673726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8343745573618481095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cfc4a5ea237f67498fea914049564d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: b5c9d14a6ad135a4da7a88cf392022bb, type: 2}
+  player: {fileID: 0}
+  AudioSource: {fileID: 8343745573618481094}

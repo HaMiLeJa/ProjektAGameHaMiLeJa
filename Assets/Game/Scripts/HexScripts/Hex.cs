@@ -63,7 +63,7 @@ public class Hex : MonoBehaviour
 
     private void Start()
     {
-        gameMng = GameManager.Instance;
+        gameMng = ReferenceLibary.GameMng;
         Player = ReferenceLibary.Player;
         playerRb = ReferenceLibary.RigidbodyPl;
         hexMov = ReferenceLibary.HexMov;

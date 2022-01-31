@@ -410,11 +410,11 @@ MonoBehaviour:
   rb: {fileID: 4498330986242300546}
   MovementDirection: {x: 0, y: 0, z: 0}
   SlowDownMultiplicator: 0.99
-  constspeed: 30
+  constspeed: 47
   constSpeedAllowed: 1
   forceJump: 110
   OnGround: 0
-  fallDownSpeed: 800
+  fallDownSpeed: 50
   distance: 1.6
   hexMask:
     serializedVersion: 2
@@ -425,6 +425,7 @@ MonoBehaviour:
   levelMask:
     serializedVersion: 2
     m_Bits: 64
+  DisableGravity: 0
   Velocity: {x: 0, y: 0, z: 0}
   maxSpeedLimitStartClamping: 800
   TotalVelocity: 0
@@ -443,7 +444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c23a69259ad69646ae52bf7732edc92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BoostForce: 55
+  BoostForce: 48
   BoostDashcurve:
     serializedVersion: 2
     m_Curve:
@@ -491,7 +492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6b4d1d97f795a54db01f7280bc47960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SuperDashForce: 50
+  SuperDashForce: 55
   ShadowDashDuration: 0.8
   SuperDashcurve:
     serializedVersion: 2
@@ -546,7 +547,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   isSuperDashing: 0
   currentSuperDashForce: 0
-  disappearingDuringSuperDashStart: 12
+  disappearingDuringSuperDashStart: 5
   disappearingDuringSuperDashEnd: 26
   effect: {fileID: 5422289936547993637}
   isDestroying: 0
@@ -567,7 +568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b297dbe61a5dbb4aa6be732ae9b002b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShadowDashForce: 50
+  ShadowDashForce: 52
   ShadowDashDuration: 0.8
   shadowDashcurve:
     serializedVersion: 2
@@ -624,6 +625,7 @@ MonoBehaviour:
   currentShadowDashForce: 0
   disappearingDuringShadowDashStart: 12
   disappearingDuringShadowDashEnd: 26
+  Flashlight: {fileID: 0}
   dust: {fileID: 7382486788070721510}
   mr: {fileID: 5422289937533297311}
   worldMask:

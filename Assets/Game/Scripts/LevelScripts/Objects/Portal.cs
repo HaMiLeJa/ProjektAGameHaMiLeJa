@@ -5,6 +5,7 @@ using UnityEngine;
 using Cinemachine;
 using Cinemachine.Utility;
 using JetBrains.Annotations;
+using NaughtyAttributes;
 
 
 public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinander verlinkbar
@@ -25,13 +26,19 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
     private Vector3 cashedCamHelperPos;
     private float cashedVelocity;
     private GameManager _gameManager;
+    private float cashedFovTemp;
+    private float cashedFovNewCam;
+    private float distanceBetweenCamHelperAndPlayerCashed;
+    [Range(0,70)]
+    [SerializeField] float zoomOutDuringTeleport = 18;
     void Start()
     {
         cam = CameraZoomOut.vcamera;
         _playerMovement = ReferenceLibary.PlayerMov;
         _gameManager = ReferenceLibary.GameMng;
         cashedlerpValue = _gameManager.followRoughness;
-
+        if (cam != CameraZoomOut.vcamera)
+            cashedFovNewCam = cam.m_Lens.FieldOfView;
 
         //myAudioSource = this.GetComponent<AudioSource>();
 
@@ -51,11 +58,18 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
 
 
         if (GameManager.CameraTeleportActive)
-       {   
+        {
+         
+           
            
            //Calculate Helper Distance to player
           
            float distanceCamHelperPlayer =  MathLibary.CalculateDistance(ReferenceLibary.Player, GameManager.CameraHelper);
+           //modifiy fov
+           if( distanceCamHelperPlayer > distanceBetweenCamHelperAndPlayerCashed/2)
+               cam.m_Lens.FieldOfView = Mathf.Lerp(cam.m_Lens.FieldOfView, cashedFovTemp+zoomOutDuringTeleport, 1*Time.deltaTime);
+           else if (distanceCamHelperPlayer< distanceBetweenCamHelperAndPlayerCashed/2)
+               cam.m_Lens.FieldOfView = Mathf.Lerp(cam.m_Lens.FieldOfView, cashedFovTemp, 1*Time.deltaTime);
             //Zero out speed 
            if(distanceCamHelperPlayer > Mathf.Abs(8))
                _playerMovement.rb.velocity = Vector3.zero;
@@ -85,6 +99,7 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
                _gameManager.followRoughness = cashedlerpValue;
                distanceCamHelperPlayer = 0;
                GameManager.CameraHelper.transform.position = cashedCamHelperPos;
+               cam.m_Lens.FieldOfView = cashedFovNewCam;
                GameManager.CameraTeleportActive = false;
                SetBackFollowSpeed();
            }
@@ -136,11 +151,14 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
                 */
                 if (DelayActive && !GameManager.CameraTeleportActive)
                 {
+                    cashedFovTemp = cam.m_Lens.FieldOfView;
+                  
                     GameManager.StopGiveVelocityBack = false;
                         GameManager.CameraHelper.transform.position = player.transform.position;
                         cam.LookAt =  GameManager.CameraHelper.transform; 
                         cam.Follow =  GameManager.CameraHelper.transform;
                         player.transform.position = Goal.transform.position;
+                        distanceBetweenCamHelperAndPlayerCashed = MathLibary.CalculateDistance(GameManager.CameraHelper, player);
                         GameManager.CameraTeleportActive = true;
                     
                 }

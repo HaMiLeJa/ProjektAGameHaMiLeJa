@@ -41,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] LayerMask hexMask;
     [SerializeField] LayerMask worldMask;
     [SerializeField] LayerMask levelMask;
+    public bool DisableGravity = false;
 
     public Vector3 Velocity; //Debug
     
@@ -70,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = ReferenceLibary.RigidbodyPl;
-        gameMng = GameManager.Instance;
+        gameMng = ReferenceLibary.GameMng;
         audManager = ReferenceLibary.AudMng;
         hexMov = ReferenceLibary.HexMov;
     }
@@ -131,7 +132,7 @@ public class PlayerMovement : MonoBehaviour
         if (math.abs(horizontalInput) > 0.3f || math.abs(verticalInput) > 0.3f)
         {
             rb.AddForce(MovementDirection.normalized * 30f);
-            Debug.Log("A");
+            
         }
 
 
@@ -316,6 +317,7 @@ public class PlayerMovement : MonoBehaviour
    void Gravity()
    {
         if (hexMov.OnTrampolinHex) return;
+        if (DisableGravity == true) return;
 
         if (OnGround == false && jumping == false) //&&rebounding == false
         {

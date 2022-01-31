@@ -7,7 +7,7 @@ public class GameStateManager : MonoBehaviour
 {
     GameState gameState = GameState.Play;
     Rigidbody playerRb;
-
+    List<GameObject> hasAlltheManagers = new List<GameObject>();
     enum GameState
     {
         Play,
@@ -43,9 +43,7 @@ public class GameStateManager : MonoBehaviour
         {
             if(Input.GetButtonDown("X"))
             {
-
-                SceneManager.LoadScene(1); 
-                //timescale wieder auf 1?
+                loadMainScreen();
             }
         }
 
@@ -53,13 +51,53 @@ public class GameStateManager : MonoBehaviour
         {
             if (Input.GetButtonDown("X"))
             {
-
-                SceneManager.LoadScene(1); 
-                //timescale wieder auf 1?
+                loadMainScreen();
             }
         }
     }
 
+    void loadMainScreen()
+    {
+       // AddAllManagers();
+       // DestroyAllTheManagers();
+       // for (int j = 0; j < UnityEngine.SceneManagement.SceneManager.sceneCount; j++)
+       // {
+       //     foreach (GameObject allParentObjects in UnityEngine.SceneManagement.SceneManager.GetSceneAt(j)
+       //         .GetRootGameObjects())
+       //      
+       //     {  if(allParentObjects != this.gameObject)
+       //         Destroy(allParentObjects);
+       //       
+       //     }
+       //     
+       // }
+        SceneManager.UnloadSceneAsync((int)SceneIndexes.MAINGAME); 
+      
+        SceneManager.LoadScene((int)SceneIndexes.MANAGER); 
+        
+        Time.timeScale = 1;
+        Destroy(this);
+    }
+    void AddAllManagers()
+    {
+     
+
+      
+        foreach (GameObject manager in GameObject.FindGameObjectsWithTag("Manager"))
+        {
+            hasAlltheManagers.Add(manager);
+        }
+    }
+
+    void DestroyAllTheManagers()
+    {
+        foreach (GameObject hex in hasAlltheManagers)
+        {
+            Destroy(hex);
+        }
+
+       
+    }
 
    void PauseGame()
    {

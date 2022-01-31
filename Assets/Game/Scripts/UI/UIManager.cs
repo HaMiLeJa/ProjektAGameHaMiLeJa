@@ -10,8 +10,7 @@ public class UIManager : MonoBehaviour
     [Header ("Basic UI")]
     [SerializeField] TMPro.TMP_Text score;
     [SerializeField] TMPro.TMP_Text multiplicator;
-    //[SerializeField] TMPro.TMP_Text CurrentEnergy;
-    [SerializeField] Image CurrentEnergy;
+    //[SerializeField] Image CurrentEnergy;
 
     public GameObject PauseCanvas;
 
@@ -26,20 +25,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMPro.TMP_Text CurrentHighscoreMessage;
 
 
-    #region Singleton
-    public static UIManager Instance;
-    private void Awake()
-    {
-        if (UIManager.Instance != null)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            UIManager.Instance = this;
-        }
-    }
-    #endregion
+   
 
     void Start()
     {
@@ -52,7 +38,7 @@ public class UIManager : MonoBehaviour
 
         UpdateScore(1);
         UpdateMultiplicatorUI(1);
-        UpdateEnergyUI();
+        //UpdateEnergyUI();
 
         ActivateNoMissionUI();
         DeactivateBasicMissionUI();
@@ -442,11 +428,13 @@ public class UIManager : MonoBehaviour
     #endregion
 
     #region Energy
+    /*
     public void UpdateEnergyUI()
     {
         CurrentEnergy.fillAmount = EnergyManager.CurrentEnergy / EnergyManager.Instance.MaxEnergyAmount;
-    }
+    }*/
     #endregion
+
 
     #region Update Score and Multiplicator
     public void UpdateScore(float value)

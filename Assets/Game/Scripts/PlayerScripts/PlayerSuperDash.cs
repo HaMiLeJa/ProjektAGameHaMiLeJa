@@ -47,7 +47,7 @@ public class PlayerSuperDash : MonoBehaviour
 
         dash = ReferenceLibary.Dash;
         playerMov = ReferenceLibary.PlayerMov;
-        gameMng = GameManager.Instance;
+        gameMng = ReferenceLibary.GameMng;
         shadowDash = ReferenceLibary.ShadowDashPl;
 
         //playerLayerInt = LayerMask.NameToLayer("Player");
@@ -68,7 +68,6 @@ public class PlayerSuperDash : MonoBehaviour
         {
             isSuperDashing = true;
             SuperDashStarter();
-
             if (dash.IsBoosting == true)
                 dash.IsBoosting = false;
         }
@@ -114,7 +113,7 @@ public class PlayerSuperDash : MonoBehaviour
 
     private IEnumerator SuperDashCoroutine()
     {
-        StartCoroutine(EnergyManager.Instance.ModifyEnergy(-gameMng.SuperDashCosts));
+        StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(-gameMng.SuperDashCosts));
 
         if (audioSource.isPlaying == false)
             audioSource.Play();
