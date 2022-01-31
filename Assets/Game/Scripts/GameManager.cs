@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     public static bool CameraTeleportActive = false;
     public static bool StopGiveVelocityBack = true;
     public static CinemachineVirtualCamera vcam;
-   // GameObject player;
+   
    
     Rigidbody playerRb;
     #endregion
@@ -192,6 +192,8 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-
+    
    
+
+  
 }

@@ -18,6 +18,7 @@ public class GameStateManager : MonoBehaviour
 
     void Start()
     {
+        gameState = GameState.Play;
         playerRb = ReferenceLibary.RigidbodyPl;
     }
 
@@ -58,19 +59,24 @@ public class GameStateManager : MonoBehaviour
 
     void loadMainScreen()
     {
-       // AddAllManagers();
-       // DestroyAllTheManagers();
-       // for (int j = 0; j < UnityEngine.SceneManagement.SceneManager.sceneCount; j++)
-       // {
-       //     foreach (GameObject allParentObjects in UnityEngine.SceneManagement.SceneManager.GetSceneAt(j)
-       //         .GetRootGameObjects())
-       //      
-       //     {  if(allParentObjects != this.gameObject)
-       //         Destroy(allParentObjects);
-       //       
-       //     }
-       //     
-       // }
+        // AddAllManagers();
+        // DestroyAllTheManagers();
+        // for (int j = 0; j < UnityEngine.SceneManagement.SceneManager.sceneCount; j++)
+        // {
+        //     foreach (GameObject allParentObjects in UnityEngine.SceneManagement.SceneManager.GetSceneAt(j)
+        //         .GetRootGameObjects())
+        //      
+        //     {  if(allParentObjects != this.gameObject)
+        //         Destroy(allParentObjects);
+        //       
+        //     }
+        //     
+        // }
+
+
+
+       // UnsubscribeEvents();
+
         SceneManager.UnloadSceneAsync((int)SceneIndexes.MAINGAME); 
       
         SceneManager.LoadScene((int)SceneIndexes.MANAGER); 
@@ -78,6 +84,26 @@ public class GameStateManager : MonoBehaviour
         Time.timeScale = 1;
         //Destroy(this);
     }
+
+    void UnsubscribeEvents()
+    {
+        Debug.Log("Unsubscirbe Events");
+        ScoreManager.OnScoring -= ReferenceLibary.ScoreMng.UpdateScore;
+        ScoreManager.OnScoring -= ReferenceLibary.UIMng.UpdateUIScore;
+        ScoreManager.OnScoring -= ReferenceLibary.UIMng.PointsStarter;
+
+
+        ScoreManager.OnPermanentMultiplicatorUpdate -= ReferenceLibary.ScoreMng.UpdateMultiplicator;
+        ScoreManager.OnPermanentMultiplicatorUpdate -= ReferenceLibary.UIMng.UpdateMultiplicatorUI;
+        ScoreManager.OnPermanentMultiplicatorUpdate -= ReferenceLibary.UIMng.PermanentMulitplicatorStarter;
+
+        ScoreManager.OnTemporaryMultiplicatorUpdate -= ReferenceLibary.ScoreMng.UpdateMultiplicator;
+        ScoreManager.OnTemporaryMultiplicatorUpdate -= ReferenceLibary.UIMng.UpdateMultiplicatorUI;
+        ScoreManager.OnTemporaryMultiplicatorUpdate -= ReferenceLibary.UIMng.UpdateTemporaryMultiplicator;
+
+        CollectableManager.OnRespawnCollectables -= ReferenceLibary.ColMng.StartCollectableSpawn;
+    }
+
     void AddAllManagers()
     {
      

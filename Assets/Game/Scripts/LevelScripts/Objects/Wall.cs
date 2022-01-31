@@ -17,6 +17,9 @@ public class Wall : MonoBehaviour
     {
         if (collision.gameObject == ReferenceLibary.Player)
         {
+
+            //Debug.Log("Collision");
+
             if (hitCounter >= 15)
             {
                 ScoreManager.OnScoring?.Invoke(settings.value/15);
@@ -27,6 +30,9 @@ public class Wall : MonoBehaviour
             float scoreValue = ((hitCounter * 0.05f)) * settings.value; //bei 0.05 sind total 20 schritte möglich
 
             ScoreManager.OnScoring?.Invoke(settings.value - scoreValue);
+
+            //ScoreManager.OnScoring(settings.value - scoreValue);
+
             hitCounter++;
 
             if(myAudioSource.isPlaying == false)

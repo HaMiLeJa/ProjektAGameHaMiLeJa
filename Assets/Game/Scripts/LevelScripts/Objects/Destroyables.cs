@@ -157,7 +157,7 @@ public class Destroyables : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject != player) return;
-        
+        //Debug.Log("Collision");
         if (superDash.isDestroying == true || ReferenceLibary.DownDashPl.isDestroying == true)
         {
 
@@ -198,9 +198,18 @@ public class Destroyables : MonoBehaviour
 
             float scoreValue = ((hitCounter * 0.05f)) * settings.CollisionValue;
             hitCounter++;
+            //Debug.Log("Before On Scoring");
+
+
             ScoreManager.OnScoring?.Invoke(settings.CollisionValue - scoreValue);
-            
+            /*
+            ReferenceLibary.ScoreMng.UpdateScore(settings.CollisionValue - scoreValue);
+            ReferenceLibary.UIMng.UpdateUIScore(settings.CollisionValue - scoreValue);
+            ReferenceLibary.UIMng.PointsStarter(settings.CollisionValue - scoreValue);
+            */
         }
 
+
     }
+
 }

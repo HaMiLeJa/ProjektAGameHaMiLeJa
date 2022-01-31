@@ -34,8 +34,6 @@ public class MissionManager : MonoBehaviour
     //For NoMissionsLeft State
 
     
-    
-
     static MissionState missionState = MissionState.noMission;
     enum MissionState
     {
@@ -51,6 +49,8 @@ public class MissionManager : MonoBehaviour
 
     void Start()
     {
+        MissionRound = 0;
+
         missionState = MissionState.noMission;
         NoMissionMissionState = GetComponentInChildren<MissionStateNoMission>();
         FindMissionState = GetComponentInChildren<MissionStateFindMission>();

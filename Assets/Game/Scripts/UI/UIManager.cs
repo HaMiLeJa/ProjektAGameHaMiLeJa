@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
+        //StopAllCoroutines();
 
         //gameMng.onUIEnergyChange += UpdateEnergyUI;
         IngameCanvas.SetActive(true);
@@ -35,7 +36,7 @@ public class UIManager : MonoBehaviour
         PauseCanvas.SetActive(false);
 
 
-        UpdateScore(1);
+        UpdateUIScore(1);
         UpdateMultiplicatorUI(1);
         //UpdateEnergyUI();
 
@@ -438,16 +439,16 @@ public class UIManager : MonoBehaviour
 
 
     #region Update Score and Multiplicator
-    public void UpdateScore(float value)
+    public void UpdateUIScore(float value)
     {
         score.text = ScoreManager.CurrentScore.ToString();
-        Debug.Log("Update Score");
+       // Debug.Log("Update Score UI");
     }
 
     public void UpdateMultiplicatorUI(float value)
     {
         multiplicator.text = "x" + ScoreManager.CurrentMultiplicator.ToString();
-        Debug.Log("Multiplicator");
+       // Debug.Log("Multiplicator");
     }
     #endregion
 
@@ -462,26 +463,23 @@ public class UIManager : MonoBehaviour
     [Range(30, 150)]
     [SerializeField] float sizeModfierPoints = 110;
 
-   
-    public class PointsAndState
-    {
-        public TMPro.TMP_Text textMesh;
-
-        public bool inUse = false;
-    }
+  
 
      List<PointsAndState> allPointsTexMeshs = new List<PointsAndState>();
      int freeTexmeshes;
+   
 
     public void PointsStarter(float value)  //find textmesh, set color, startscale etc
     {
+        
         if (freeTexmeshes == 0) return;
         PointsAndState myTxt = SetTextmesh();
-
+        
         SetStartValues(myTxt, value);
-
-        //StopCoroutine(AnimatePoints(myTxt));
+        
         StartCoroutine(AnimatePoints(myTxt));
+        
+
     }
 
     PointsAndState SetTextmesh()
@@ -511,11 +509,11 @@ public class UIManager : MonoBehaviour
 
     }
 
-    IEnumerator AnimatePoints(PointsAndState txt)
+    public IEnumerator AnimatePoints(PointsAndState txt)
     {
 
         float fontSize = StartFontSizePoints;
-
+        
         while(fontSize <= MaxFontSizePoints)
         {
 
@@ -539,13 +537,10 @@ public class UIManager : MonoBehaviour
 
         txt.textMesh.text = "";
         txt.inUse = false;
-        freeTexmeshes++;
-
+        freeTexmeshes++; // Problemstelle
+         
         yield return null;
     }
-
-
-
 
     #endregion
 
@@ -693,4 +688,13 @@ public class UIManager : MonoBehaviour
 
 
     #endregion
+
+}
+
+[System.Serializable]
+public class PointsAndState
+{
+    public TMPro.TMP_Text textMesh;
+
+    public bool inUse = false;
 }
