@@ -41,6 +41,7 @@ public class Collectable : MonoBehaviour
              ReferenceLibary.AudMng.HexAudMng.PlayHex(HexType.DefaultCollectable);
             
             
+
         }
     }
 }
