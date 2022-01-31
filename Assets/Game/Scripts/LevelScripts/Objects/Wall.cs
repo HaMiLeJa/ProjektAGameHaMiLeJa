@@ -17,14 +17,14 @@ public class Wall : MonoBehaviour
     {
         if (collision.gameObject == ReferenceLibary.Player)
         {
-            if (hitCounter >= 20)
+            if (hitCounter >= 15)
             {
-                ScoreManager.OnScoring?.Invoke(settings.value/20);
+                ScoreManager.OnScoring?.Invoke(settings.value/15);
                 return;
             }
             
 
-            float scoreValue = ((hitCounter * 0.05f)) * settings.value;
+            float scoreValue = ((hitCounter * 0.05f)) * settings.value; //bei 0.05 sind total 20 schritte möglich
 
             ScoreManager.OnScoring?.Invoke(settings.value - scoreValue);
             hitCounter++;

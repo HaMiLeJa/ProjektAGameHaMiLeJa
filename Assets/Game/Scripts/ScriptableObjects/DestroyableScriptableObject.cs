@@ -19,4 +19,5 @@ public class DestroyableScriptableObject : ScriptableObject
    public float DestroyValue = 50;
 
     public float CollisionValue = 50;
+
 }
