@@ -93,13 +93,13 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
                    0,
                    verticalInput*(_gameManager.SpeedAfterTeleport+ (cashedVelocity/_gameManager.ReduceSpeedInfluenceBeforeTeleport*_gameManager.IncreaseSpeedInfluenceBeforeTeleport))
                    );
-               
+         
                cam.LookAt = player.transform;
                cam.Follow =  player.transform;
                _gameManager.followRoughness = cashedlerpValue;
                distanceCamHelperPlayer = 0;
                GameManager.CameraHelper.transform.position = cashedCamHelperPos;
-               cam.m_Lens.FieldOfView = cashedFovNewCam;
+               
                GameManager.CameraTeleportActive = false;
                SetBackFollowSpeed();
            }
