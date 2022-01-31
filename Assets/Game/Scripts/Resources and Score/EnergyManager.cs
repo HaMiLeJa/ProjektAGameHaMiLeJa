@@ -18,29 +18,11 @@ public class EnergyManager : MonoBehaviour //for points and energy
     [SerializeField] float stepSize = 0.1f;
 
 
-    #region Singleton and Set Energy
-    public static EnergyManager Instance;
-    private void Awake()
-    {
-        if (EnergyManager.Instance != null)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            EnergyManager.Instance = this;
-        }
-
-        CurrentEnergy = EnergyStartAmount;
-    }
-    #endregion
-
     void Start()
     {
-        gameMng = GameManager.Instance;
+        gameMng = ReferenceLibary.GameMng;
+        CurrentEnergy = EnergyStartAmount;
        
-       
-
     }
 
     
@@ -89,7 +71,6 @@ public class EnergyManager : MonoBehaviour //for points and energy
 
     public IEnumerator ModifyEnergy(float value)
     {
-        
 
         float absValue = Mathf.Abs(value);
 
@@ -101,7 +82,7 @@ public class EnergyManager : MonoBehaviour //for points and energy
             CurrentEnergy += step;
             stepsDone += stepSize;
 
-            UIManager.Instance.UpdateEnergyUI();
+            //UIManager.Instance.UpdateEnergyUI();
 
             if (Mathf.Approximately(CurrentEnergy, 0) == true)
             {

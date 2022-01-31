@@ -157,7 +157,7 @@ public class ShadowDash : MonoBehaviour
     {
         
 
-        StartCoroutine(EnergyManager.Instance.ModifyEnergy(-gameMng.ShadowDashCosts));
+        StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(-gameMng.ShadowDashCosts));
 
         if (audioSource.isPlaying == false)
             audioSource.Play();

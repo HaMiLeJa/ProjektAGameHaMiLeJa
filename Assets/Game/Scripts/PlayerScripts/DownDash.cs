@@ -58,7 +58,7 @@ public class DownDash : MonoBehaviour
 
 
 
-                StartCoroutine(EnergyManager.Instance.ModifyEnergy(-gameMng.DownDashCosts));
+                StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(-gameMng.DownDashCosts));
 
             }
         }
