@@ -57,14 +57,14 @@ public class Pathfinder : MonoBehaviour
 		   if(cam != null) cam.gameObject.SetActive(false);
 		   
 			pathfindingAllowed = true;
-			if (spline == null)
+			if (spline == null && controlPoints.Length > 2)
 				spline = new CatmullRom(controlPoints, Resolution, ClosedLoop);
 			
 			if (spline != null)
 			{ 
 				waypointsForPlayer = spline.GetPoints();
 			}
-			else
+			else if (controlPoints.Length > 2)
 			{
 				spline = new CatmullRom(controlPoints, Resolution, ClosedLoop);
 			}

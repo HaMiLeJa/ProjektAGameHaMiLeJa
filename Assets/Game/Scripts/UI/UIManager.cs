@@ -32,7 +32,7 @@ public class UIManager : MonoBehaviour
     {
         if (UIManager.Instance != null)
         {
-            Destroy(this.gameObject);
+          //  Destroy(this.gameObject);
         }
         else
         {
