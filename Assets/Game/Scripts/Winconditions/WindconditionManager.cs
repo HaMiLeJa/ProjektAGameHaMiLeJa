@@ -29,7 +29,7 @@ public class WindconditionManager : MonoBehaviour
     }
 
 
-    public void CheckForWinConMission() //Über MissionManager State NO MIssions left
+    public void CheckForWinConMission() //Ãœber MissionManager State NO MIssions left
     {
         if (MissionManager.MissionRound == 1)
         {

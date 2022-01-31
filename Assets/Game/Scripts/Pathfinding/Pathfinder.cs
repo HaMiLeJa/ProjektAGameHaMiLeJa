@@ -89,6 +89,7 @@ public class Pathfinder : MonoBehaviour
 		[Button("SetCollider")]
 		void setCollider()
 		{
+			
 			if (m_Collider != null)
 			{
 				Array.Clear(m_Collider,0,m_Collider.Length);
@@ -215,7 +216,6 @@ public class Pathfinder : MonoBehaviour
 				}
 			}
 		}
-		
 		IEnumerator waitUntilNextTrigger()
 		{
 			yield return new WaitForSeconds(secPathDisabled);

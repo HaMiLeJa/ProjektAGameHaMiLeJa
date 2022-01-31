@@ -108,12 +108,13 @@ public class GameManager : MonoBehaviour
     float startSkyBoxrotation = 5;
     void Update()
     {
-        if (startSkyBoxrotation > 0)
-            startSkyBoxrotation--;
-
-        if (startSkyBoxrotation == 0)
-            RenderSettings.skybox.SetFloat("_Rotation", Time.time*Skyboxspeed);
-        
+        //nicht mehr nötig
+        // if (startSkyBoxrotation > 0)
+        //     startSkyBoxrotation--;
+        //
+        // if (startSkyBoxrotation == 0)
+        //     RenderSettings.skybox.SetFloat("_Rotation", Time.time*Skyboxspeed);
+        //
      
         if(Input.GetKey(KeyCode.Escape))
         {

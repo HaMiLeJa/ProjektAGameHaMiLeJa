@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5783154f46661640882bfc1b68654a4, type: 3}
-  m_Name: Road Shape
+  m_Name: "Br\xFCcke"
   m_EditorClassIdentifier: 
   lineIndices: 0f000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e000000
   vertices:
@@ -32,16 +32,16 @@ MonoBehaviour:
   - point: {x: 5, y: 1}
     normal: {x: 1, y: 0}
     u: 0.077
-  - point: {x: 5, y: -1}
+  - point: {x: 5, y: -2}
     normal: {x: 1, y: 0}
     u: 0
-  - point: {x: 5, y: -1}
+  - point: {x: 5, y: -2}
     normal: {x: 0, y: -1}
     u: 1
-  - point: {x: -5, y: -1}
+  - point: {x: -5, y: -2}
     normal: {x: 0, y: -1}
     u: 0.613
-  - point: {x: -5, y: -1}
+  - point: {x: -5, y: -2}
     normal: {x: -1, y: 0}
     u: 0.574
   - point: {x: -5, y: 1}
