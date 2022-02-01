@@ -18,6 +18,7 @@ public class GameStateManager : MonoBehaviour
 
     void Start()
     {
+        GameOver = false;
         gameState = GameState.Play;
         playerRb = ReferenceLibary.RigidbodyPl;
     }
@@ -155,6 +156,14 @@ public class GameStateManager : MonoBehaviour
    // public bool EndGameSafetyStarted = false;
     public static bool GameOver = false;
 
+    float velocityX = 0;
+    float velocityZ = 0;
+    float velocityY = 0;
+
+    Vector3 velocityLastFrame;
+    Vector3 velocitySecondToLastFrame;
+    
+
     public void CheckForEndOfGame()
     {
 
@@ -168,15 +177,32 @@ public class GameStateManager : MonoBehaviour
 
         if (Mathf.Approximately(playerRb.velocity.x, 0) && Mathf.Approximately(playerRb.velocity.y, 0) && Mathf.Approximately(playerRb.velocity.z, 0))
         {
+            if (GameOver == true) return;
+
+            StopAllCoroutines();
 
             gameState = GameState.End;
             CalculateEndOfGame();
 
 
         }
-        else
+        else // vergleichen der Velocity des vorherigen frames mit dem der aktuellen;
         {
-            // Debug.Log("CheckVelocity");
+
+            if (velocityLastFrame == playerRb.velocity)
+            {
+                if (velocityLastFrame == velocitySecondToLastFrame) return;
+                
+                StartCoroutine(EndGameSavety(velocityLastFrame));
+            }
+            else
+            {
+                StopAllCoroutines();
+            }
+
+            velocitySecondToLastFrame = velocityLastFrame;
+            velocityLastFrame = playerRb.velocity;
+
             return;
         }
 
@@ -201,18 +227,32 @@ public class GameStateManager : MonoBehaviour
         {
             if (GameOverCoroutine == null)
                 GameOverCoroutine = StartCoroutine(ReferenceLibary.UIMng.GameOverCoroutine());
+            else Debug.Log("GameOverCoroutine not null, whyever");
 
             Debug.Log("no new highscore");
             StartCoroutine(playerDissolve.Coroutine_DisolveShield(1.1f));
         }
     }
 
-    public IEnumerator EndGameSavety()
+    IEnumerator EndGameSavety(Vector3 lastVelocity)
     {
-        yield return new WaitForSeconds(10f);
 
+        yield return new WaitForSeconds(3f);
+        if (lastVelocity == playerRb.velocity && GameOver == false)
+        {
+            GameOver = true;
+        }
+        else
+            yield break;
 
+        
+        yield return new WaitForSeconds(2f);
+        
+        
+        gameState = GameState.End;
         CalculateEndOfGame();
+            
+        
 
         yield return null;
     }

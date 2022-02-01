@@ -16,6 +16,7 @@ public class Dissolve : MonoBehaviour
 
     public IEnumerator Coroutine_DisolveShield(float target)
     {
+        Debug.Log("Dissolving");
         float start = renderer.material.GetFloat("_Disolve");
         float lerp = 0;
 
@@ -25,5 +26,7 @@ public class Dissolve : MonoBehaviour
             lerp += Time.deltaTime * DisolveSpeed;
             yield return null;
         }
+
+        Debug.Log("Dissolving END");
     }
 }
