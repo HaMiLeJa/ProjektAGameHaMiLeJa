@@ -55,4 +55,12 @@ public static class MathLibary
 		Vector3 Verbindungsvector = Player - OtherObject;
 		return Mathf.Sqrt(Mathf.Pow(Verbindungsvector.x, 2) + Mathf.Pow(Verbindungsvector.y, 2) + Mathf.Pow(Verbindungsvector.z, 2));
 	}
+	
+	public static void boostDirection(Vector3 pointA, Vector3 pointB, float forceAmount, Rigidbody rb)
+	{
+		var aToB = pointB - pointA;
+		var aToBDir = aToB.normalized;
+		aToBDir = new Vector3(aToBDir.x, 0, aToBDir.z);
+		rb.AddForce(aToBDir * forceAmount, ForceMode.Impulse);
+	}
 }

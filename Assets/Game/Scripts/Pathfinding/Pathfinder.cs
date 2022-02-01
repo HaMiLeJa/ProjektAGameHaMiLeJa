@@ -18,6 +18,11 @@ public class Pathfinder : MonoBehaviour
 		private int speedLevel = 1;
 		[BoxGroup("Einstellungen")] [Range(2, 15)] [SerializeField]
 		private float secPathDisabled = 5;
+
+		[BoxGroup("Einstellungen")] [Range(5, 200)] [SerializeField]
+		private float forceRedExit = 80;
+		[BoxGroup("Einstellungen")] [Range(5, 200)] [SerializeField]
+		private float forceGreenExit = 80;
 		private float toFirstPointLerp = 0.5f;
 		private BoxCollider[] m_Collider;
 		
@@ -47,11 +52,7 @@ public class Pathfinder : MonoBehaviour
 				cam = this.GetComponent<Cinemachine.CinemachineVirtualCamera>();
 				noCam = true;
 			}
-			
-			
-			
 		}
-
 		void Start()
 		{
 		   if(cam != null) cam.gameObject.SetActive(false);
@@ -162,7 +163,8 @@ public class Pathfinder : MonoBehaviour
 					if(!noManager)manager.AllowMovement = true;
 					StopCoroutine(waitUntilNextTrigger());
 					StartCoroutine(waitUntilNextTrigger());
-					
+					MathLibary.boostDirection(waypointsForPlayer[waypointsForPlayer.Length - 2].position,
+						waypointsForPlayer[waypointsForPlayer.Length - 1].position, forceRedExit, other.attachedRigidbody);
 				}
 				
 				if (i < waypointsForPlayer.Length - 1 && i >1)
@@ -194,7 +196,8 @@ public class Pathfinder : MonoBehaviour
 					if(!noManager)manager.AllowMovement = true;
 					StopCoroutine(waitUntilNextTrigger());
 					StartCoroutine(waitUntilNextTrigger());
-					
+					MathLibary.boostDirection(waypointsForPlayer[2].position,
+						waypointsForPlayer[1].position, forceGreenExit, other.attachedRigidbody);
 				}
 				
 				if (i < waypointsForPlayer.Length - 1 && i >2)

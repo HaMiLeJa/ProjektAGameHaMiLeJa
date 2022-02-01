@@ -1,12 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
-using Cinemachine.Utility;
-using JetBrains.Annotations;
-using NaughtyAttributes;
-
 
 public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinander verlinkbar
 {
@@ -31,6 +24,8 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
     private float distanceBetweenCamHelperAndPlayerCashed;
     [Range(0,70)]
     [SerializeField] float zoomOutDuringTeleport = 18;
+    [Range(25,200)]
+    [SerializeField] private float forceWhenNothingIsPressed = 75;
     void Start()
     {
         cam = CameraZoomOut.vcamera;
@@ -59,9 +54,7 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
 
         if (GameManager.CameraTeleportActive)
         {
-         
-           
-           
+            
            //Calculate Helper Distance to player
           
            float distanceCamHelperPlayer =  MathLibary.CalculateDistance(ReferenceLibary.Player, GameManager.CameraHelper);
@@ -83,15 +76,14 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
            {
                float horizontalInput = Input.GetAxis("Horizontal");
                float verticalInput = Input.GetAxis("Vertical");
-               if (horizontalInput == 0)
-                   horizontalInput = UnityEngine.Random.Range(-1f, 1f);
-               if (verticalInput == 0)
-                   verticalInput = UnityEngine.Random.Range(-1f, 1f);
+               if (horizontalInput == 0 || verticalInput == 0)
+                   MathLibary.boostDirection(GameManager.CameraHelper.transform.position,
+                       player.transform.position, forceWhenNothingIsPressed,  _playerMovement.rb);
                
                _playerMovement.rb.velocity = new Vector3(
-                   horizontalInput*(_gameManager.SpeedAfterTeleport + (cashedVelocity/_gameManager.ReduceSpeedInfluenceBeforeTeleport*_gameManager.IncreaseSpeedInfluenceBeforeTeleport)),
+                   horizontalInput*(_gameManager.SpeedAfterTeleport + (cashedVelocity/_gameManager.ReduceSpeedInfluenceBeforeTeleport*_gameManager.IncreaseSpeedInfluenceBeforeTeleport)+forceWhenNothingIsPressed/5f),
                    0,
-                   verticalInput*(_gameManager.SpeedAfterTeleport+ (cashedVelocity/_gameManager.ReduceSpeedInfluenceBeforeTeleport*_gameManager.IncreaseSpeedInfluenceBeforeTeleport))
+                   verticalInput*(_gameManager.SpeedAfterTeleport+ (cashedVelocity/_gameManager.ReduceSpeedInfluenceBeforeTeleport*_gameManager.IncreaseSpeedInfluenceBeforeTeleport)+forceWhenNothingIsPressed/5f)
                    );
          
                cam.LookAt = player.transform;
@@ -175,6 +167,7 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
         }
     }
 
+ 
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == player.tag && GoalPortal == true)

@@ -119,7 +119,12 @@ public class HexAutoTiling : MonoBehaviour
     {   
         if(tilingDistanceCheck)  //only one if is less heavy + make sure that everything gets checked once
         {
-            if (playerLocation.transform.position.x > xPlusSnapShotPos)
+            topMove = true;
+            bottomMove = true;
+            leftMove = true;
+            rightMove = true;
+            //wegen bug deaktiviert
+            /*if (playerLocation.transform.position.x > xPlusSnapShotPos)
             {
                 rightMove = true; compareTopBottom();
             }
@@ -138,7 +143,7 @@ public class HexAutoTiling : MonoBehaviour
             {
                 bottomMove = true; compareRightLeft();
                 topMove = true; //wegen bug wird das hier aktiviert
-            }
+            }*/
         }
     }
     void compareTopBottom()
