@@ -39,6 +39,8 @@ public class Destroyables : MonoBehaviour
             AllMaterials.Add(settings.Material03);
             AllMaterials.Add(settings.Material04);
         }
+
+
     }
     
     private void FixedUpdate()
