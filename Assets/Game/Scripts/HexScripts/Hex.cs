@@ -51,8 +51,6 @@ public class Hex : MonoBehaviour
        // hexCoordinates = GetComponent<HexCoordinates>();
         highlight = GetComponent<GlowHighlight>();
 
-       
-
     }
 
     private void Start()
@@ -90,28 +88,19 @@ public class Hex : MonoBehaviour
     }
 
     #region  HighlightHexs
-    public void EnableHighlight()
-    {
-        highlight.ToggleGlow(true);
-    }
-
-    public void DisableHighlight()
-    {
-        highlight.ToggleGlow(false);
-    }
+ 
 
     internal void ResetHighlight()
     {
-        highlight.ResetGlowHighlight();
+        highlight.ResetGlowHighlight(false);
     }
 
     internal void HighlightPath()
     {
-        highlight.HighlightValidPath();
+        highlight.HighlightValidPath(false );
     }
-    
-    
-    
+
+
     #endregion
     
     #region OnTriggerHexTypes
@@ -144,28 +133,47 @@ public class Hex : MonoBehaviour
                 BoostInDirectionStarter();
             }
 
-            StartCoroutine(EnableHighlightDelayed());
-            StartCoroutine(DisableHighlightDelayed());
+            StartCoroutine(EnableHighlightDelayed(false));
+            StartCoroutine(DisableHighlightDelayed(false));
         }
-        
-        
+
     }
+
+    public void highlightProps()
+    {
+        StartCoroutine(EnableHighlightDelayed(true));
+        StartCoroutine(DisableHighlightDelayed(true));
+       // Collider[] colliders = gameObject.transform.GetChild(1).GetComponentsInChildren<Collider>();
+    }
+
+      
+        
+
+                                                      
     #endregion
     
-    IEnumerator EnableHighlightDelayed()
+    IEnumerator EnableHighlightDelayed(bool isProp)
     {
     
         yield return new WaitForSeconds(GameManager.GlowEnableDelay);
-        EnableHighlight();
+        EnableHighlight(isProp);
     }
 
    
-    IEnumerator DisableHighlightDelayed()
+    IEnumerator DisableHighlightDelayed(bool isProp)
     {
         yield return new WaitForSeconds(GameManager.GlowDisableDelay);
-        DisableHighlight();
+        DisableHighlight(isProp);
+    }
+    public void EnableHighlight(bool isProp)
+    {
+        highlight.ToggleGlow(true, isProp);
     }
 
+    public void DisableHighlight(bool isProp)
+    {
+        highlight.ToggleGlow(false, isProp);
+    }
     #region HexEffects
 
     [SerializeField ]ScriptableHexEffects hexEffectsSettings;
