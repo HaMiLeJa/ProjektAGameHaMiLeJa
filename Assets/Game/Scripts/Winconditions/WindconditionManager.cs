@@ -31,9 +31,12 @@ public class WindconditionManager : MonoBehaviour
 
     public void CheckForWinConMission() //Über MissionManager State NO MIssions left
     {
+        Debug.Log("CheckForWinConMissions");
+
         if (MissionManager.MissionRound == 1)
         {
-            if (MissionManager.CompletedMissions == MissionManager.MissionAmount)
+            Debug.Log("1");
+            if (MissionManager.CompletedMissions == MissionManager.MissionAmount) //Next Mission Round is initiaten in UI Coroutine
             {
                 //ALLE MISSIONEN GESCHAFFT!
 
@@ -41,20 +44,29 @@ public class WindconditionManager : MonoBehaviour
                 {
                     PlayerPrefs.SetInt("WinConMissions", 1);
                     StartCoroutine(ReferenceLibary.UIMng.UIHexUnlocked());
-                   
+                    Debug.Log("3");
                 }
                 else
                 {
                     StartCoroutine(ReferenceLibary.UIMng.UIHexAlreadyUnlocked());
-                    
+                    Debug.Log("4");
                 }
 
             }
             else
             {
                 StartCoroutine(ReferenceLibary.UIMng.UIHexUnlockedFailed());
+                Debug.Log("5");
             }
         }
+        else
+        {
+            MissionManager.StartNewMissionRoundAllowed = true;
+
+
+        }
+
+        Debug.Log("7: End");
 
     }
 

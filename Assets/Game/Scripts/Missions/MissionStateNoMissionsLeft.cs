@@ -10,8 +10,8 @@ public class MissionStateNoMissionsLeft : MonoBehaviour
 
     public void ReactiveMissions()
     {
+        if (MissionManager.MissionRound >= 5) return;
 
-        if (MissionManager.MissionRound <= 4) return;
         ReferenceLibary.MissLib.CopyMissionLists();
         ReferenceLibary.MissionMng.SwitchToNoMissionState();
 

@@ -32,6 +32,7 @@ public class MissionManager : MonoBehaviour
     public float BringItemDistance = 0;
 
     //For NoMissionsLeft State
+    public static bool StartNewMissionRoundAllowed = false;
 
     
     static MissionState missionState = MissionState.noMission;
@@ -49,7 +50,7 @@ public class MissionManager : MonoBehaviour
 
     void Start()
     {
-        MissionRound = 0;
+        
 
         missionState = MissionState.noMission;
         NoMissionMissionState = GetComponentInChildren<MissionStateNoMission>();
@@ -83,7 +84,7 @@ public class MissionManager : MonoBehaviour
                 ActiveMissionState.UpdateActiveMission();
                 break;
             case MissionState.CompletedMission:
-                CompletedMissionState.UpdateCompletedMission();
+                CompletedMissionState.UpdateCompletedMission(); //Hier
                 CheckForAllMissionsDone();
                 CollectableManager.OnRespawnCollectables?.Invoke();
                 break;
@@ -97,6 +98,7 @@ public class MissionManager : MonoBehaviour
                 missionState = MissionState.transitionCase;
                 break;
             case MissionState.transitionCase:
+                CheckForReactivation();
                 break;
             default:
                 break;
@@ -148,10 +150,10 @@ public class MissionManager : MonoBehaviour
 
 
 
-    //Check if alle missiosn erfüllt wurden oder nicht, dann mission restart
+    
     public void CheckForAllMissionsDone()
     {
-        if(ReferenceLibary.MissLib.Missions.Count == 0)
+        if(ReferenceLibary.MissLib.Missions.Count == 0) // Alle Missionen in der Liste wurde erfüllt
         {
             SwitchToNoMissionLeftState();
         }
@@ -162,4 +164,13 @@ public class MissionManager : MonoBehaviour
     }
 
 
+
+    void CheckForReactivation() //Used, when The first Mission Round is over
+    {
+        if(StartNewMissionRoundAllowed == true)
+        {
+            StartNewMissionRoundAllowed = false;
+            NoMissionLeft.ReactiveMissions();
+        }
+    }
 }

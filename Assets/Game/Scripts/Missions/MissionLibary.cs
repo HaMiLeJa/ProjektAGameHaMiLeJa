@@ -10,6 +10,7 @@ public class MissionLibary : MonoBehaviour
 
     private void Awake()
     {
+        MissionManager.MissionRound = 0;
         CopyMissionLists();
     }
 

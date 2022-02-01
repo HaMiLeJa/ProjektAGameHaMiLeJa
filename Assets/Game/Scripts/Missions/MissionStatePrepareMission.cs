@@ -49,7 +49,7 @@ public class MissionStatePrepareMission : MonoBehaviour
     {
         if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.easy)
         {
-            MissionManager.CurrentMission.Amount = RandomInt(3, 10);
+            MissionManager.CurrentMission.Amount = RandomInt(3, 4);
             MissionManager.CurrentMission.time = 80 + (MissionManager.CurrentMission.Amount * 40);
             MissionManager.CurrentMission.multiplicator = 0.5f; //MissionManager.CurrentMission.Amount * 0.04f;
         }
@@ -90,7 +90,7 @@ public class MissionStatePrepareMission : MonoBehaviour
     {
         if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.easy)
         {
-            MissionManager.CurrentMission.Amount = RandomInt(3, 10);
+            MissionManager.CurrentMission.Amount = RandomInt(1, 3);
             MissionManager.CurrentMission.time = 100f + (MissionManager.CurrentMission.Amount * 30);
             MissionManager.CurrentMission.multiplicator = 0.5f; //MissionManager.CurrentMission.Amount * 0.05f;
         }
@@ -132,7 +132,7 @@ public class MissionStatePrepareMission : MonoBehaviour
     {
         if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.easy)
         {
-            MissionManager.CurrentMission.Amount = 2000;
+            MissionManager.CurrentMission.Amount = 500;
             MissionManager.CurrentMission.time = 100f;
             MissionManager.CurrentMission.multiplicator = 0.5f; //0.3f
         }

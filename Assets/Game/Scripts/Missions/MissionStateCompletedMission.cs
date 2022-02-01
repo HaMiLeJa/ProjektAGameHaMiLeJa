@@ -15,7 +15,7 @@ public class MissionStateCompletedMission : MonoBehaviour
                 UpdateDestroyObj();
                 break;
             case MissionInformation.MissionType.CollectPoints:
-                UpdateCollectPoints();
+                UpdateCollectPoints(); //Hier
                 break;
             case MissionInformation.MissionType.BringFromAToB:
                 UpdateBringItem();
@@ -30,6 +30,7 @@ public class MissionStateCompletedMission : MonoBehaviour
 
     void UpdateMultiplicator()
     {
+        Debug.Log("Update Multiplicator");
         ScoreManager.OnPermanentMultiplicatorUpdate(MissionManager.CurrentMission.multiplicator);
     }
 

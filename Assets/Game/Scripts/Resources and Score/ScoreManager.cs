@@ -41,7 +41,7 @@ public class ScoreManager : MonoBehaviour
         OnPermanentMultiplicatorUpdate += ReferenceLibary.UIMng.UpdateMultiplicatorUI;
         OnPermanentMultiplicatorUpdate += ReferenceLibary.UIMng.PermanentMulitplicatorStarter;
 
-        OnPermanentMultiplicatorUpdate = null;
+        OnTemporaryMultiplicatorUpdate = null;
         OnTemporaryMultiplicatorUpdate += UpdateMultiplicator;
         OnTemporaryMultiplicatorUpdate += ReferenceLibary.UIMng.UpdateMultiplicatorUI;
         OnTemporaryMultiplicatorUpdate += ReferenceLibary.UIMng.UpdateTemporaryMultiplicator;

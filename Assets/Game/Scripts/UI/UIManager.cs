@@ -256,7 +256,7 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator UIHexUnlocked()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.2f);
 
         WinConMissions.SetActive(true);
         AllCompleted.gameObject.SetActive(true);
@@ -290,7 +290,7 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator UIHexAlreadyUnlocked()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.2f);
 
         WinConMissions.SetActive(true);
         AllCompleted.gameObject.SetActive(true);
@@ -306,6 +306,7 @@ public class UIManager : MonoBehaviour
         
         AlreadyUnlocked.gameObject.SetActive(true);
         // + Multiplikator
+        yield return new WaitForSeconds(1f);
         ScoreManager.OnPermanentMultiplicatorUpdate(2f);
 
 
@@ -337,7 +338,7 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator UIHexUnlockedFailed()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.2f);
 
         WinConMissions.SetActive(true);
         Failed.gameObject.SetActive(true);

@@ -96,7 +96,6 @@ public class CollectableManager : MonoBehaviour
 
     public void StartCollectableSpawn()
     {
-        Debug.Log("Collectable Spawn");
         foreach (KeyValuePair <GameObject, CollectableReferences> hex in AllCollectables)
         {
             if(hex.Value.ActiveCollectable == false && DistanceToPlayer(hex.Key) >= 100f) //&& if Distance to player ist höher als was auch immer

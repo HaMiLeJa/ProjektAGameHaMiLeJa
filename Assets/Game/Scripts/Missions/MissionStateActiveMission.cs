@@ -109,6 +109,7 @@ public class MissionStateActiveMission : MonoBehaviour
     {
         if(ScoreManager.CurrentScore >= MissionManager.EndPoints)
         {
+            MissionManager.CompletedMissions++;
             ReferenceLibary.MissionMng.SwitchToCompletedMissionState();
         }
         else if (MissionManager.MissionTimeLeft <= 0)
@@ -132,6 +133,7 @@ public class MissionStateActiveMission : MonoBehaviour
     {
         if (MissionManager.ItemDelivered == true)
         {
+            MissionManager.CompletedMissions++;
             Debug.Log("ItemDelivered CheckForEnd");
             ReferenceLibary.MissionMng.SwitchToCompletedMissionState();
         }
