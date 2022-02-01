@@ -30,6 +30,9 @@ public class MenuController : MonoBehaviour
     private string levelToLoad;
     [SerializeField] private GameObject noSaveGameDialog = null;
 
+    [Header ("Audio")]
+    [SerializeField] AudioSource MenuBaseLineAudioSource;
+
     private void Start()
     {
         MainMenuContainer.SetActive(true);
@@ -43,6 +46,7 @@ public class MenuController : MonoBehaviour
         Credits.SetActive(false);
 
         VolumeSlider.value = PlayerPrefs.GetFloat("masterVolume");
+        AudioListener.volume = VolumeSlider.value;
 
         amount = PlayerPrefs.GetInt("WinConPoints") + PlayerPrefs.GetInt("WinConHex") + PlayerPrefs.GetInt("WinConMissions");
 
@@ -50,6 +54,8 @@ public class MenuController : MonoBehaviour
 
         ManageHextileAmount(ProgressLv2, 3, Level2Image);
         ManageHextileAmount(ProgressLv3, 6, Level3Image);
+
+        MenuBaseLineAudioSource.volume = 1;
     }
 
 
@@ -141,6 +147,7 @@ public class MenuController : MonoBehaviour
     {
         AudioListener.volume = volume;
         volumeTextValue.text = volume.ToString("0.0");
+        AudioListener.volume = VolumeSlider.value;
     }
 
     public void VolumeApply()
