@@ -49,21 +49,21 @@ public class MissionStatePrepareMission : MonoBehaviour
     {
         if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.easy)
         {
-            MissionManager.CurrentMission.Amount = RandomInt(3, 4);
-            MissionManager.CurrentMission.time = 80 + (MissionManager.CurrentMission.Amount * 40);
-            MissionManager.CurrentMission.multiplicator = 0.5f; //MissionManager.CurrentMission.Amount * 0.04f;
+            MissionManager.CurrentMission.Amount = RandomInt(2, 5);
+            MissionManager.CurrentMission.time = 80f + (MissionManager.CurrentMission.Amount * 40);
+            MissionManager.CurrentMission.multiplicator = MissionManager.CurrentMission.Amount * 0.04f;
         }
         else if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.medium)
         {
-            MissionManager.CurrentMission.Amount = RandomInt(5, 15);
-            MissionManager.CurrentMission.time = 60f + (MissionManager.CurrentMission.Amount * 20);
-            MissionManager.CurrentMission.multiplicator = 1f; //MissionManager.CurrentMission.Amount * 0.05f;
+            MissionManager.CurrentMission.Amount = RandomInt(5, 10);
+            MissionManager.CurrentMission.time = 60f + (MissionManager.CurrentMission.Amount * 25);
+            MissionManager.CurrentMission.multiplicator = MissionManager.CurrentMission.Amount * 0.05f;
         }
         else if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.hard)
         {
-            MissionManager.CurrentMission.Amount = RandomInt(10, 20);
-            MissionManager.CurrentMission.time = 40f + (MissionManager.CurrentMission.Amount * 10);
-            MissionManager.CurrentMission.multiplicator = 1.5f; //MissionManager.CurrentMission.Amount * 0.07f;
+            MissionManager.CurrentMission.Amount = RandomInt(10, 15);
+            MissionManager.CurrentMission.time = 40f + (MissionManager.CurrentMission.Amount * 15);
+            MissionManager.CurrentMission.multiplicator = MissionManager.CurrentMission.Amount * 0.07f;
         }
     }
 
@@ -90,21 +90,21 @@ public class MissionStatePrepareMission : MonoBehaviour
     {
         if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.easy)
         {
-            MissionManager.CurrentMission.Amount = RandomInt(1, 3);
-            MissionManager.CurrentMission.time = 100f + (MissionManager.CurrentMission.Amount * 30);
-            MissionManager.CurrentMission.multiplicator = 0.5f; //MissionManager.CurrentMission.Amount * 0.05f;
+            MissionManager.CurrentMission.Amount = RandomInt(2, 5);
+            MissionManager.CurrentMission.time = 100f + (MissionManager.CurrentMission.Amount * 40);
+            MissionManager.CurrentMission.multiplicator = MissionManager.CurrentMission.Amount * 0.04f;
         }
         else if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.medium)
         {
-            MissionManager.CurrentMission.Amount = RandomInt(5, 15);
-            MissionManager.CurrentMission.time = 60f + (MissionManager.CurrentMission.Amount * 20);
-            MissionManager.CurrentMission.multiplicator = 1f;//MissionManager.CurrentMission.Amount * 0.05f;
+            MissionManager.CurrentMission.Amount = RandomInt(5, 10);
+            MissionManager.CurrentMission.time = 60f + (MissionManager.CurrentMission.Amount * 25);
+            MissionManager.CurrentMission.multiplicator = MissionManager.CurrentMission.Amount * 0.05f;
         }
         else if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.hard)
         {
-            MissionManager.CurrentMission.Amount = RandomInt(10, 20);
-            MissionManager.CurrentMission.time = 40f + (MissionManager.CurrentMission.Amount * 10);
-            MissionManager.CurrentMission.multiplicator = 1.5f; //MissionManager.CurrentMission.Amount * 0.05f;
+            MissionManager.CurrentMission.Amount = RandomInt(10, 15);
+            MissionManager.CurrentMission.time = 40f + (MissionManager.CurrentMission.Amount * 15);
+            MissionManager.CurrentMission.multiplicator = MissionManager.CurrentMission.Amount * 0.07f;
 
         }
     }

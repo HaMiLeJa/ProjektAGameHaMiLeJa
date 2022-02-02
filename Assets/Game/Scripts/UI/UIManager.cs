@@ -215,6 +215,7 @@ public class UIManager : MonoBehaviour
 
     }
 
+
     public void DeactivateCollectPointsUI()
     {
         collectPointsParent.SetActive(false);

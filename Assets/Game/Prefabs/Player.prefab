@@ -357,7 +357,7 @@ Transform:
   m_GameObject: {fileID: 4498330986242300544}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 55.41, y: 9.8, z: 58.42}
-  m_LocalScale: {x: 1.7500002, y: 1.7500002, z: 1.7500002}
+  m_LocalScale: {x: 1.7500002, y: 1.7500001, z: 1.7500001}
   m_Children:
   - {fileID: 8180296806907601072}
   - {fileID: 6090060196175210788}
@@ -410,7 +410,7 @@ MonoBehaviour:
   rb: {fileID: 4498330986242300546}
   MovementDirection: {x: 0, y: 0, z: 0}
   SlowDownMultiplicator: 0.99
-  constspeed: 47
+  constspeed: 55
   constSpeedAllowed: 1
   forceJump: 110
   OnGround: 0
@@ -444,7 +444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c23a69259ad69646ae52bf7732edc92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BoostForce: 48
+  BoostForce: 52
   BoostDashcurve:
     serializedVersion: 2
     m_Curve:
@@ -492,7 +492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6b4d1d97f795a54db01f7280bc47960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SuperDashForce: 55
+  SuperDashForce: 58
   ShadowDashDuration: 0.8
   SuperDashcurve:
     serializedVersion: 2
@@ -632,6 +632,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   audioSource: {fileID: 4260411287280632998}
+  StartClip: {fileID: 8300000, guid: 0e163b9fa0d7a204382aa411e0b70da0, type: 3}
+  EndClip: {fileID: 8300000, guid: 48b7f065733cb1b4b93b72abbbab8718, type: 3}
 --- !u!114 &4498330986242300597
 MonoBehaviour:
   m_ObjectHideFlags: 0
