@@ -63,4 +63,33 @@ public static class MathLibary
 		aToBDir = new Vector3(aToBDir.x, 0, aToBDir.z);
 		rb.AddForce(aToBDir * forceAmount, ForceMode.Impulse);
 	}
+
+	public static string TrimToFirstDigitA(float number)//nur bis 9999
+	{
+		string firstDigit = number.ToString().Remove(1, number.ToString().Length - 1);
+
+		Debug.Log(firstDigit);
+		return firstDigit;
+	}
+
+	/*
+	public static string RemoveDigits(float number, float removeAmount) 
+	{
+		string digits = "";
+
+		string progress = number.ToString();
+
+
+
+		int charAmount = progress.ToCharArray().Length;
+
+		for (int i = 1; i < charAmount-removeAmount+1; i++)
+		{
+			digits = progress.Remove(progress.Length - 1, 1);
+			Debug.Log("Removeing " + i);
+		}
+
+
+		return digits;
+	}*/
 }

@@ -132,7 +132,7 @@ public class MissionStatePrepareMission : MonoBehaviour
     {
         if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.easy)
         {
-            MissionManager.CurrentMission.Amount = 500;
+            MissionManager.CurrentMission.Amount = 2000;
             MissionManager.CurrentMission.time = 100f;
             MissionManager.CurrentMission.multiplicator = 0.5f; //0.3f
         }
@@ -144,7 +144,7 @@ public class MissionStatePrepareMission : MonoBehaviour
         }
         else if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.hard)
         {
-            MissionManager.CurrentMission.Amount = 10000;
+            MissionManager.CurrentMission.Amount = 9000; // NICHT HÖHER ALS 9999 GEHEN; SONST MACHT DAS UI NICHT MIT
             MissionManager.CurrentMission.time = 250f;
             MissionManager.CurrentMission.multiplicator = 1.5f; //0.7f
         }

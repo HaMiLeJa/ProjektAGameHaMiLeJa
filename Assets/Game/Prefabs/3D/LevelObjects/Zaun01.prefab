@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 1974754960111857928}
   - component: {fileID: 3104405708593422488}
   - component: {fileID: 1887195892562576396}
+  - component: {fileID: -3120303174012246138}
   - component: {fileID: -4309823492789925926}
   - component: {fileID: -3909492745301158100}
-  - component: {fileID: -3120303174012246138}
-  - component: {fileID: 7623703020205809624}
+  - component: {fileID: 5377930689931817860}
   m_Layer: 7
   m_Name: Zaun01
   m_TagString: Destroyable
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 1974754960111857972}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -14.72, y: -0.05, z: 155.87}
-  m_LocalScale: {x: 7.5, y: 3.5, z: 3.5}
+  m_LocalScale: {x: 21.25079, y: 3.5, z: 3.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -43,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1974754960111857972}
-  m_Mesh: {fileID: -2432090755550338912, guid: 483f1653a5627a542a0a597068667646, type: 3}
+  m_Mesh: {fileID: -6831440722055496184, guid: 483f1653a5627a542a0a597068667646, type: 3}
 --- !u!23 &1887195892562576396
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63,9 +63,6 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8234a5fcca1d26846b905f5f96ed604d, type: 2}
-  - {fileID: 2100000, guid: 8234a5fcca1d26846b905f5f96ed604d, type: 2}
-  - {fileID: 2100000, guid: 8234a5fcca1d26846b905f5f96ed604d, type: 2}
   - {fileID: 2100000, guid: 8234a5fcca1d26846b905f5f96ed604d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -88,6 +85,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &-3120303174012246138
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974754960111857972}
+  m_Material: {fileID: 13400000, guid: 42352e1e017dce74c9f804cc74022fff, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.091846004, y: 1.6872199, z: 2.9505558}
+  m_Center: {x: -0.004922999, y: 0.122159, z: -0.53921896}
 --- !u!82 &-4309823492789925926
 AudioSource:
   m_ObjectHideFlags: 0
@@ -199,20 +209,7 @@ MonoBehaviour:
   settings: {fileID: 11400000, guid: de7a34620930d244b83e9b351c9c6f64, type: 2}
   player: {fileID: 0}
   AudioSource: {fileID: -4309823492789925926}
---- !u!65 &-3120303174012246138
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1974754960111857972}
-  m_Material: {fileID: 13400000, guid: 42352e1e017dce74c9f804cc74022fff, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.091846004, y: 1.6872199, z: 2.9505558}
-  m_Center: {x: -0.004922999, y: 0.122159, z: -0.53921896}
---- !u!114 &7623703020205809624
+--- !u!114 &5377930689931817860
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -221,9 +218,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 1974754960111857972}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee44655121081924ba7e44ee25369632, type: 3}
+  m_Script: {fileID: 11500000, guid: 163705768c6446b46b67b8b66c0427ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasOwnGlow: 0
-  glowAmount: 0
-  CutoffEmissive: 0
+  glowAmount: 3.9
+  CutoffEmissive: 0.5

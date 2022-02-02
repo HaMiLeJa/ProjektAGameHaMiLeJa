@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4086649366037571743}
   - component: {fileID: -8166040004382233010}
   - component: {fileID: 3954890159712919225}
+  - component: {fileID: 8172929863378724452}
   m_Layer: 7
   m_Name: Grabstein01
   m_TagString: Wall
@@ -208,3 +209,17 @@ MonoBehaviour:
   settings: {fileID: 11400000, guid: b5c9d14a6ad135a4da7a88cf392022bb, type: 2}
   player: {fileID: 0}
   AudioSource: {fileID: 4086649366037571743}
+--- !u!114 &8172929863378724452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22708796146982165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 163705768c6446b46b67b8b66c0427ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  glowAmount: 3.9
+  CutoffEmissive: 0.5
