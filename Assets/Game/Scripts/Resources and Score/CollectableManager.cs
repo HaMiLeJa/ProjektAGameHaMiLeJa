@@ -121,7 +121,7 @@ public class CollectableManager : MonoBehaviour
 
 
         EnergyManager.energyGotHigher = true;
-        StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(5));
+        StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(1));
         ReferenceLibary.AudMng.HexAudMng.PlayHex(HexType.DefaultCollectable);
 
         item.SetActive(false);

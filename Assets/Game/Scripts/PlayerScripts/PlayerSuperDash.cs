@@ -138,7 +138,7 @@ public class PlayerSuperDash : MonoBehaviour
                 if(effect.isPlaying == false)
                      effect.Play();
 
-                gameMng.AllowHexEffects = false;
+                //gameMng.AllowHexEffects = false;
 
             }
 
@@ -159,7 +159,7 @@ public class PlayerSuperDash : MonoBehaviour
         isSuperDashing = false;
 
 
-        gameMng.AllowHexEffects = true;
+        //gameMng.AllowHexEffects = true;
 
     }
     #endregion

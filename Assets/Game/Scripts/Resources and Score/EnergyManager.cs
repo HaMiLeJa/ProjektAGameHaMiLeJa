@@ -77,7 +77,7 @@ public class EnergyManager : MonoBehaviour //for points and energy
 
     public IEnumerator ModifyEnergy(float value)
     {
-       
+        Debug.Log("Modifying");  
         float absValue = Mathf.Abs(value);
 
         float step = stepSize * Mathf.Sign(value);
