@@ -80,7 +80,11 @@ public class UIManager : MonoBehaviour
         score.text = ScoreManager.CurrentScore.ToString();
     }
 
-    
+    void Update()
+    {
+        
+
+    }
 
     #region Missions
 
@@ -200,10 +204,15 @@ public class UIManager : MonoBehaviour
     [Header ("Collect Points")]
     [SerializeField] GameObject collectPointsParent;
     [SerializeField] TMPro.TMP_Text collectPointsProgressTxt;
+    string pointsGoalAmount;
     public void ActivateCollectPointsUI()
     {
+        pointsGoalAmount = MathLibary.TrimToFirstDigitA(MissionManager.CurrentMission.Amount);
+
         collectPointsParent.SetActive(true);
-        collectPointsProgressTxt.text = "0/" + MissionManager.CurrentMission.Amount;
+
+        collectPointsProgressTxt.text = "0/" + pointsGoalAmount+ "k";
+
     }
 
     public void DeactivateCollectPointsUI()
@@ -213,7 +222,18 @@ public class UIManager : MonoBehaviour
 
     public void UpdateCollectPointsUI()
     {
-        collectPointsProgressTxt.text = MissionManager.Progress + "/" + MissionManager.CurrentMission.Amount;
+
+        if(MissionManager.Progress >= 1000)
+        {
+            string progress = MathLibary.TrimToFirstDigitA(MissionManager.Progress);
+            collectPointsProgressTxt.text = progress + "k/" + pointsGoalAmount + "k";
+        }
+        else
+        {
+            collectPointsProgressTxt.text = MissionManager.Progress + "/" + pointsGoalAmount + "k";
+        }
+
+
     }
     #endregion
 
