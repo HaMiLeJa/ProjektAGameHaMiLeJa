@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 224233984671437713}
   - component: {fileID: -3879513491599011580}
   - component: {fileID: 2033532250155160810}
-  - component: {fileID: 7447379208024902498}
+  - component: {fileID: -4025265696576307074}
   m_Layer: 7
   m_Name: Zaun03
   m_TagString: Destroyable
@@ -43,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3639251829226844840}
-  m_Mesh: {fileID: -2432090755550338912, guid: 3062d0b84d4b0804980412d3602f14d0, type: 3}
+  m_Mesh: {fileID: -6831440722055496184, guid: 3062d0b84d4b0804980412d3602f14d0, type: 3}
 --- !u!23 &6180489287794867277
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63,12 +63,6 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8234a5fcca1d26846b905f5f96ed604d, type: 2}
-  - {fileID: 2100000, guid: 8234a5fcca1d26846b905f5f96ed604d, type: 2}
-  - {fileID: 2100000, guid: 8234a5fcca1d26846b905f5f96ed604d, type: 2}
-  - {fileID: 2100000, guid: 8234a5fcca1d26846b905f5f96ed604d, type: 2}
-  - {fileID: 2100000, guid: 8234a5fcca1d26846b905f5f96ed604d, type: 2}
-  - {fileID: 2100000, guid: 8234a5fcca1d26846b905f5f96ed604d, type: 2}
   - {fileID: 2100000, guid: 8234a5fcca1d26846b905f5f96ed604d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -215,7 +209,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &7447379208024902498
+--- !u!114 &-4025265696576307074
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -224,9 +218,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 3639251829226844840}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee44655121081924ba7e44ee25369632, type: 3}
+  m_Script: {fileID: 11500000, guid: 163705768c6446b46b67b8b66c0427ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasOwnGlow: 0
-  glowAmount: 0
-  CutoffEmissive: 0
+  glowAmount: 3.9
+  CutoffEmissive: 0.5

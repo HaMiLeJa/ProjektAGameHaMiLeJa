@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6124429940983046999, guid: ee8fd7ea3b251ff4b8964578102d7f58, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1819030845816093882, guid: ee8fd7ea3b251ff4b8964578102d7f58, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.465
@@ -187,5 +191,6 @@ PrefabInstance:
       propertyPath: OutputAudioMixerGroup
       value: 
       objectReference: {fileID: -5140547902340752598, guid: 369e9ea0dfb4b7d4c8794c09bbe4bc2f, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: ee8fd7ea3b251ff4b8964578102d7f58, type: 3}
