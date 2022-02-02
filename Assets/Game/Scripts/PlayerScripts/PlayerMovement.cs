@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
     [Range(0, 10)]
     [SerializeField] float distance = 1.6f;
     [SerializeField] LayerMask hexMask;
-    [SerializeField] LayerMask worldMask;
+    [SerializeField] LayerMask worldMask; //Disabled during shadowdash
     [SerializeField] LayerMask levelMask;
     public bool DisableGravity = false;
 

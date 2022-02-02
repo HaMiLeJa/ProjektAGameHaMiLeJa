@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ZaunSettings
   m_EditorClassIdentifier: 
   BrokenPrefab: {fileID: 8694883880990774153, guid: 3149ff660944b8440a3bc682cdd36e8b, type: 3}
-  CollisionClip: {fileID: 8300000, guid: 9eb5802e666bc5848a2f8e887d19001b, type: 3}
+  CollisionClip: {fileID: 8300000, guid: e28896853e2102041951b8177ea68ee3, type: 3}
   DestructionClip: {fileID: 8300000, guid: 90338a0215e53de46bbdd56f80fcb6d0, type: 3}
   ExplosiveForce: 800
   ExplosiveRadius: 3
@@ -24,3 +24,8 @@ MonoBehaviour:
   resetTimer: 20
   DestroyValue: 30
   CollisionValue: 10
+  ChangeMaterial: 0
+  Material01: {fileID: 0}
+  Material02: {fileID: 0}
+  Material03: {fileID: 0}
+  Material04: {fileID: 0}

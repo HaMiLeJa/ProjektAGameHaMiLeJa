@@ -15,3 +15,4 @@ MonoBehaviour:
   maxEnergy: 20
   energyGenerationAmount: 1
   energyGenerationRate: 2
+  clip: {fileID: 8300000, guid: 3de94f38964478f47b880098108216fe, type: 3}

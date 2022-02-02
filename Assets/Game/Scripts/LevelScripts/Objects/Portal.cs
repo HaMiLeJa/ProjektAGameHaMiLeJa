@@ -26,6 +26,8 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
     [SerializeField] float zoomOutDuringTeleport = 18;
     [Range(25,200)]
     [SerializeField] private float forceWhenNothingIsPressed = 75;
+
+    [SerializeField] ScriptableLevelObject settings;
     void Start()
     {
         cam = CameraZoomOut.vcamera;
@@ -39,6 +41,8 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
 
         player = ReferenceLibary.Player;
         cashedCamHelperPos = GameManager.CameraHelper.transform.position;
+
+        myAudioSource.clip = settings.Clip;
     }
 
     private void SetBackFollowSpeed()

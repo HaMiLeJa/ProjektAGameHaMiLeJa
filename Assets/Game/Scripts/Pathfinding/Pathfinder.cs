@@ -69,6 +69,9 @@ public class Pathfinder : MonoBehaviour
 			{
 				spline = new CatmullRom(controlPoints, Resolution, ClosedLoop);
 			}
+
+			playerLayerInt = LayerMask.NameToLayer("Player");
+			playerNoCollisionLayerInt = LayerMask.NameToLayer("PlayerNoCollision");
 		}
 		
 		
@@ -185,6 +188,7 @@ public class Pathfinder : MonoBehaviour
 					 	yield return new WaitForFixedUpdate();
 				}
 			}
+			ReferenceLibary.Player.layer = playerLayerInt;
 		}
 		IEnumerator movePathReverse(Collider other)
 		{
@@ -218,7 +222,8 @@ public class Pathfinder : MonoBehaviour
 						yield return new WaitForFixedUpdate();
 				}
 			}
-		}
+			 ReferenceLibary.Player.layer = playerLayerInt;
+	    }
 		IEnumerator waitUntilNextTrigger()
 		{
 			ReferenceLibary.PlayerMov.DisableGravity = false;
@@ -238,6 +243,7 @@ public class Pathfinder : MonoBehaviour
 					waypointsForPlayer[0].position);
 				distanceEnd = MathLibary.CalculateDistancePos(other.transform.position,
 					waypointsForPlayer[waypointsForPlayer.Length-1].position);
+
 				if (pathfindingAllowed)
 				{
 					pathfindingAllowed = false;
@@ -246,8 +252,9 @@ public class Pathfinder : MonoBehaviour
 
 					ReferenceLibary.PlayerMov.DisableGravity = true;
 
+				    ReferenceLibary.Player.layer = playerNoCollisionLayerInt;
 
-					if (distanceStart > distanceEnd)
+				if (distanceStart > distanceEnd)
 					{
 						StopCoroutine(movePathReverse(other));
 						StartCoroutine(movePathReverse(other));
@@ -260,7 +267,10 @@ public class Pathfinder : MonoBehaviour
 				}
 			}
 		}
-	}
+
+	int playerLayerInt;
+	int playerNoCollisionLayerInt;
+}
 
 	
 	

@@ -10,9 +10,15 @@ public class EnergyGenerator : MonoBehaviour
     //[SerializeField] GameObject player;
 
     [SerializeField] ScriptableEnergyGenerator settings;
+    [SerializeField] AudioSource mySource;
 
     float timer;
-   
+
+    private void Start()
+    {
+        mySource.clip = settings.clip;
+    }
+
 
     private void Update()
     {
@@ -36,6 +42,9 @@ public class EnergyGenerator : MonoBehaviour
             EnergyManager.energyGotHigher = true;
             StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(generatedEnergy));
             generatedEnergy = 0;
+
+            if(mySource.isPlaying == false)
+                mySource.Play();
         }
     }
    
