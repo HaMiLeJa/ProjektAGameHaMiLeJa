@@ -120,7 +120,9 @@ public class CollectableManager : MonoBehaviour
         AllCollectables[hex].ActiveCollectable = false;
 
 
-        //Effekte, Sound
+        EnergyManager.energyGotHigher = true;
+        StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(5));
+        ReferenceLibary.AudMng.HexAudMng.PlayHex(HexType.DefaultCollectable);
 
         item.SetActive(false);
         //Destroy(item);

@@ -9,15 +9,19 @@ public class MissionStateCompletedMission : MonoBehaviour
         switch (MissionManager.CurrentMission.missionType)
         {
             case MissionInformation.MissionType.CollectItem:
+                UpdateEnergy();
                 UpdateCollectItem();
                 break;
             case MissionInformation.MissionType.DestroyObjs:
+                UpdateEnergy();
                 UpdateDestroyObj();
                 break;
             case MissionInformation.MissionType.CollectPoints:
+                UpdateEnergy();
                 UpdateCollectPoints(); //Hier
                 break;
             case MissionInformation.MissionType.BringFromAToB:
+                UpdateEnergy();
                 UpdateBringItem();
                 break;
             default:
@@ -32,7 +36,16 @@ public class MissionStateCompletedMission : MonoBehaviour
     {
         Debug.Log("Update Multiplicator");
         ScoreManager.OnPermanentMultiplicatorUpdate(MissionManager.CurrentMission.multiplicator);
+
+       
     }
+
+    private void UpdateEnergy()
+    {
+        EnergyManager.energyGotHigher = true;
+        StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(20));
+    }
+
 
     #region Collect Item
     void UpdateCollectItem()

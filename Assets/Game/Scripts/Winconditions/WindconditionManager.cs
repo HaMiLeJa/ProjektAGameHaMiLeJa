@@ -9,7 +9,8 @@ public class WindconditionManager : MonoBehaviour
 
     [HideInInspector] public int WinConPoints = 0;
     [SerializeField] CollectableHex CollectableHex;
-    
+    [SerializeField] AudioSource myAudioSource;
+
     void Awake()
     {
         WinConPoints = PlayerPrefs.GetInt("WinConPoints");
@@ -35,7 +36,7 @@ public class WindconditionManager : MonoBehaviour
 
         if (MissionManager.MissionRound == 1)
         {
-            Debug.Log("1");
+            
             if (MissionManager.CompletedMissions == MissionManager.MissionAmount) //Next Mission Round is initiaten in UI Coroutine
             {
                 //ALLE MISSIONEN GESCHAFFT!
@@ -44,19 +45,21 @@ public class WindconditionManager : MonoBehaviour
                 {
                     PlayerPrefs.SetInt("WinConMissions", 1);
                     StartCoroutine(ReferenceLibary.UIMng.UIHexUnlocked());
-                    Debug.Log("3");
+                    
+                    PlaySound();
                 }
                 else
                 {
                     StartCoroutine(ReferenceLibary.UIMng.UIHexAlreadyUnlocked());
-                    Debug.Log("4");
+                    
+                    PlaySound(); //evt hier weglassen
                 }
 
             }
             else
             {
                 StartCoroutine(ReferenceLibary.UIMng.UIHexUnlockedFailed());
-                Debug.Log("5");
+                
             }
         }
         else
@@ -66,7 +69,7 @@ public class WindconditionManager : MonoBehaviour
 
         }
 
-        Debug.Log("7: End");
+        
 
     }
 
@@ -81,6 +84,7 @@ public class WindconditionManager : MonoBehaviour
             PlayerPrefs.SetInt("WinConPoints", 1);
 
             StartCoroutine(ReferenceLibary.UIMng.WinConPointsCoroutine());
+            PlaySound();
             Debug.Log("Win Con Points fullfilled");
             
         }
@@ -92,6 +96,7 @@ public class WindconditionManager : MonoBehaviour
         PlayerPrefs.SetInt("WinConHex", 1);
 
         StartCoroutine(ReferenceLibary.UIMng.WinConHexCoroutine());
+        PlaySound();
         //Effect
 
         Destroy(CollectableHex.gameObject);
@@ -101,5 +106,12 @@ public class WindconditionManager : MonoBehaviour
     void InstantiateWindConHexItem()
     {
 
+    }
+
+
+    void PlaySound()
+    {
+        if (myAudioSource.isPlaying == false)
+            myAudioSource.Play();
     }
 }
