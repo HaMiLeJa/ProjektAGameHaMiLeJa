@@ -50,7 +50,7 @@ public class CollectableManager : MonoBehaviour
 
         //if (addAll == true)
         // {
-        OnRespawnCollectables = null;
+             OnRespawnCollectables = null;
              OnRespawnCollectables += StartCollectableSpawn;
             // evt noch ui benachrichtigung
 
