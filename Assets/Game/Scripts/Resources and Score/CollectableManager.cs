@@ -50,7 +50,7 @@ public class CollectableManager : MonoBehaviour
 
         //if (addAll == true)
         // {
-        OnRespawnCollectables = null;
+             OnRespawnCollectables = null;
              OnRespawnCollectables += StartCollectableSpawn;
             // evt noch ui benachrichtigung
 
@@ -120,7 +120,9 @@ public class CollectableManager : MonoBehaviour
         AllCollectables[hex].ActiveCollectable = false;
 
 
-        //Effekte, Sound
+        EnergyManager.energyGotHigher = true;
+        StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(5));
+        ReferenceLibary.AudMng.HexAudMng.PlayHex(HexType.DefaultCollectable);
 
         item.SetActive(false);
         //Destroy(item);

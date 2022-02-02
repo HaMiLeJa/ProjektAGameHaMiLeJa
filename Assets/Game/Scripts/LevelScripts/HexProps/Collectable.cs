@@ -35,14 +35,14 @@ public class Collectable : MonoBehaviour
         {
             ScoreManager.OnScoring?.Invoke(settings.value);
 
-            ReferenceLibary.ColMng.CollectableCollected(this.gameObject, ParentHex);
+
+            ReferenceLibary.ColMng.CollectableCollected(this.gameObject, ParentHex); //hier drin sind auch sounds;
+            
+
 
             //Debug.Log("Collectable Collected");
             
-            ReferenceLibary.AudMng.HexAudMng.PlayHex(HexType.DefaultCollectable);
             
-            
-
         }
     }
 }

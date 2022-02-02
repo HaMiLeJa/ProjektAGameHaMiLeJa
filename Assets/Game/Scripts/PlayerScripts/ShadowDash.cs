@@ -201,7 +201,7 @@ public class ShadowDash : MonoBehaviour
         audioSource.Play();
 
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.4f);
 
 
         rb.velocity = rb.velocity / 2;

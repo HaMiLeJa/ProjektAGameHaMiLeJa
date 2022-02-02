@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -4309823492789925926}
   - component: {fileID: -3909492745301158100}
   - component: {fileID: -3120303174012246138}
+  - component: {fileID: 7623703020205809624}
   m_Layer: 7
   m_Name: Zaun01
   m_TagString: Destroyable
@@ -211,3 +212,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.091846004, y: 1.6872199, z: 2.9505558}
   m_Center: {x: -0.004922999, y: 0.122159, z: -0.53921896}
+--- !u!114 &7623703020205809624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974754960111857972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee44655121081924ba7e44ee25369632, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasOwnGlow: 0
+  glowAmount: 0
+  CutoffEmissive: 0
