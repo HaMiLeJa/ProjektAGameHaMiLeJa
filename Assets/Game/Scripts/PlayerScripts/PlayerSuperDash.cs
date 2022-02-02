@@ -66,6 +66,8 @@ public class PlayerSuperDash : MonoBehaviour
 
         if (Input.GetButton("LeftBumper") && isSuperDashing == false || Input.GetButton("Y") && isSuperDashing == false)
         {
+            if (playerMov.MovementDirection.normalized == Vector3.zero) return;
+
             isSuperDashing = true;
             SuperDashStarter();
             if (dash.IsBoosting == true)
