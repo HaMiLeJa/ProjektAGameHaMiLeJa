@@ -6,6 +6,7 @@ using UnityEngine;
 public class UIEnergy : MonoBehaviour
 {
     private Material material;
+    public ParticleSystem _energyPartikel;
     void Start()
     {
         material = GetComponent<MeshRenderer>().sharedMaterial;
@@ -20,7 +21,29 @@ public class UIEnergy : MonoBehaviour
             0.45f,
             0,
             EnergyManager.CurrentEnergy));
+        playUIVFX();
     }
-    
 
+    void playUIVFX()
+    {
+        if (EnergyManager.energyGotHigher)
+        {
+            if (_energyPartikel.isPlaying)
+                return;
+            else
+            {
+               StopCoroutine(playUIVFX_Coroutine());
+               StartCoroutine(playUIVFX_Coroutine());
+               EnergyManager.energyGotHigher = false;
+            }
+        }
+
+    }
+
+    IEnumerator playUIVFX_Coroutine()
+    { 
+        _energyPartikel.Play(true);
+        yield return null;
+        
+    }
 }

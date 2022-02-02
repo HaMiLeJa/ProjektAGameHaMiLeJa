@@ -67,7 +67,7 @@ Material:
     - _Wind_Strength: 0
     - _emisiveCutoff: 0.2
     - _emissionIntensity: 0
-    - _emissiveCutoff: 0.2
+    - _emissiveCutoff: 0
     - _normalStrength: 1
     m_Colors:
     - Color_ca20a5cb7f2e4f5a9cd37d74b5f8bae1: {r: 1, g: 1, b: 1, a: 0}
