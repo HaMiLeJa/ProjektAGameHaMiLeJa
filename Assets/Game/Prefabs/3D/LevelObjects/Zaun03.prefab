@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 224233984671437713}
   - component: {fileID: -3879513491599011580}
   - component: {fileID: 2033532250155160810}
+  - component: {fileID: 7447379208024902498}
   m_Layer: 7
   m_Name: Zaun03
   m_TagString: Destroyable
@@ -214,3 +215,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7447379208024902498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3639251829226844840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee44655121081924ba7e44ee25369632, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasOwnGlow: 0
+  glowAmount: 0
+  CutoffEmissive: 0

@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1367822564870932678}
+  - component: {fileID: 7479556160811034838}
+  - component: {fileID: 2095456294504894367}
   m_Layer: 7
   m_Name: Haus 1x1x3
   m_TagString: Untagged
@@ -36,6 +38,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7479556160811034838
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1141943007588207691}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 13.445687, y: 25.939837, z: 13.570518}
+  m_Center: {x: 0.40077543, y: 12.469926, z: -6.2852573}
+--- !u!114 &2095456294504894367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1141943007588207691}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee44655121081924ba7e44ee25369632, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasOwnGlow: 0
+  glowAmount: 0
+  CutoffEmissive: 0
 --- !u!1001 &5891439978238688082
 PrefabInstance:
   m_ObjectHideFlags: 0
