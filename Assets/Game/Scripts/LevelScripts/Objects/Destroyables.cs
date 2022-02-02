@@ -55,8 +55,11 @@ public class Destroyables : MonoBehaviour
 
        if (settings.DestructionClip != null)
        {
-            if(AudioSource.isPlaying == false)
-                 AudioSource.PlayOneShot(settings.DestructionClip);
+            if (AudioSource.isPlaying == false)
+            {
+                AudioSource.clip = settings.DestructionClip;
+                AudioSource.Play();
+            }
        }
 
         GameObject brokenPrefabCopy = settings.BrokenPrefab;
