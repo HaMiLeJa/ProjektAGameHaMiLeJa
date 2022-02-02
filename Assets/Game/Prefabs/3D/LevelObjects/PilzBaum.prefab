@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3829536156556084523}
   - component: {fileID: -4687416929164521860}
   - component: {fileID: 8819055657735503959}
+  - component: {fileID: 1712357855688454496}
   m_Layer: 7
   m_Name: PilzBaum
   m_TagString: Wall
@@ -209,3 +210,18 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -2432090755550338912, guid: 8885f48870488904ca5a2192279b6cb1, type: 3}
+--- !u!114 &1712357855688454496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338952289351731444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee44655121081924ba7e44ee25369632, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasOwnGlow: 1
+  glowAmount: 3.9
+  CutoffEmissive: 0.68

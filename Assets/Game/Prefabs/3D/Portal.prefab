@@ -113,6 +113,9 @@ MonoBehaviour:
   StartPortal: 0
   GoalPortal: 0
   myAudioSource: {fileID: 1639044772}
+  zoomOutDuringTeleport: 18
+  forceWhenNothingIsPressed: 75
+  settings: {fileID: 11400000, guid: a25d68d63c1f2af45b9a2702d33ace2e, type: 2}
 --- !u!82 &1639044772
 AudioSource:
   m_ObjectHideFlags: 0

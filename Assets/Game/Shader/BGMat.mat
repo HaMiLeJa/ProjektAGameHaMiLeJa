@@ -56,7 +56,7 @@ Material:
     - _CircleMask: 0
     - _Contrast: 1
     - _Culling: 2
-    - _Cutoff: 0.432
+    - _Cutoff: 0.6
     - _CutoffSoftness: 1
     - _DisplacementAmount: 0
     - _InnerRadius: 0

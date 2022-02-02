@@ -23,7 +23,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMPro.TMP_Text PointsMessage;
     [SerializeField] GameObject NewHighscoreMessage;
     [SerializeField] TMPro.TMP_Text CurrentHighscoreMessage;
-
+    public TextMeshProUGUI Text;
+    [SerializeField] private int CounterFPS = 45;
+    [SerializeField] private float durationCount = 0.25f;
+    private float _CashedValue;
+    private Coroutine NumberCounter_Coroutine;
+    
     
 
     void Start()
@@ -72,7 +77,7 @@ public class UIManager : MonoBehaviour
         temporaryTxt.text = "";
         permanentTxt.gameObject.SetActive(true);
         permanentTxt.text = "";
-
+        score.text = ScoreManager.CurrentScore.ToString();
     }
 
     
@@ -440,12 +445,36 @@ public class UIManager : MonoBehaviour
 
 
     #region Update Score and Multiplicator
-    public void UpdateUIScore(float value)
+    public void UpdateUIScore(float newValue)
     {
-        score.text = ScoreManager.CurrentScore.ToString();
+        if (NumberCounter_Coroutine != null) StopCoroutine(NumberCounter_Coroutine);
+        NumberCounter_Coroutine = StartCoroutine(CountText(ScoreManager.CurrentScore));
+           _CashedValue = ScoreManager.CurrentScore;
+           //dein alter code
+        //score.text = ScoreManager.CurrentScore.ToString();
        // Debug.Log("Update Score UI");
     }
+    
+    private IEnumerator CountText(float newValue)
+    {
+        WaitForSeconds Wait = new WaitForSeconds(1f / CounterFPS);
+        float prevValue = _CashedValue;
+        float stepSpeed;
+        
+        if (newValue - prevValue < 0) stepSpeed = Mathf.FloorToInt((newValue - prevValue) / (CounterFPS * durationCount));
+        else stepSpeed = Mathf.CeilToInt((newValue - prevValue) / (CounterFPS * durationCount));
 
+        if (prevValue < newValue)
+        { 
+            while(prevValue < newValue)
+            {
+                prevValue += stepSpeed;
+                if (prevValue > newValue) prevValue = newValue;
+                score.SetText(prevValue.ToString());
+                yield return Wait;
+            }
+        }
+    }
     public void UpdateMultiplicatorUI(float value)
     {
         multiplicator.text = "x" + ScoreManager.CurrentMultiplicator.ToString();

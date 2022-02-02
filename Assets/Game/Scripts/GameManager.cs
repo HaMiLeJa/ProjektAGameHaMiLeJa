@@ -52,9 +52,12 @@ public class GameManager : MonoBehaviour
     public float lastDistanceSpeedIncreasePercentPerFrame = 1f;
     [Space]
     [Space] 
+    public static float GlowEnableDelayObjects = 0.1f;
+    public static  float GlowDisableDelayObjects = 4f;
     
     public static float GlowEnableDelay = 0.1f;
     public static  float GlowDisableDelay = 2.5f;
+    [Space] 
     public static GameObject CameraHelper;
     public static bool CameraTeleportActive = false;
     public static bool StopGiveVelocityBack = true;

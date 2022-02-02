@@ -4,14 +4,39 @@ using UnityEngine;
 
 public class Button : MonoBehaviour
 {
-        private GameSceneManager _gameSceneManager;
-        void Awake()
+    private GameSceneManager _gameSceneManager;
+    [SerializeField] AudioSource MenuBaseLineAudioSource;
+
+    void Awake()
+    {
+            _gameSceneManager = FindObjectOfType<GameSceneManager>();
+    }
+    public void ButtonLoadGame()
+    {
+        
+        //_gameSceneManager.LoadGame();
+        StartCoroutine(DecreaseMusicVolume());
+    
+    }
+
+    IEnumerator DecreaseMusicVolume()
+    {
+        float startVolume = MenuBaseLineAudioSource.volume;
+        float timer = 0;
+
+        while(timer <= 0.7f)
         {
-                _gameSceneManager = FindObjectOfType<GameSceneManager>();
+            timer += Time.deltaTime;
+           
+
+            MenuBaseLineAudioSource.volume = MenuBaseLineAudioSource.volume * 0.8f;
+            Debug.Log("Decreasing");
+            yield return new WaitForFixedUpdate();
+            
         }
-        public void ButtonLoadGame()
-        {
-                _gameSceneManager.LoadGame();
-        }
+
+        _gameSceneManager.LoadGame();
+        yield return null;
+    }
       
 }

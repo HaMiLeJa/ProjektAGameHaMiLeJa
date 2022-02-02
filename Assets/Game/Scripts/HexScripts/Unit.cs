@@ -27,12 +27,12 @@ public class Unit : MonoBehaviour
     #region Selection highlight
     public void Deselect()
     {
-        glowHighlight.ToggleGlow(false);
+        glowHighlight.ToggleGlow(false, false);
     }
 
     public void Select()
     {
-        glowHighlight.ToggleGlow();
+        glowHighlight.ToggleGlow(false);
     }
     #endregion  
     

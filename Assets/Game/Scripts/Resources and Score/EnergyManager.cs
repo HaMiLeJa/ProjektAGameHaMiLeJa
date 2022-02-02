@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,12 +15,17 @@ public class EnergyManager : MonoBehaviour //for points and energy
     [Tooltip("A limit of how many Energy the player can have")] 
     public float MaxEnergyAmount = 20f;
     [SerializeField] float currentEnergyForInspector;
-
     [SerializeField] float stepSize = 0.1f;
+    public static bool energyGotHigher = false;
 
+    private void Awake()
+    {
+        energyGotHigher = false;
+    }
 
     void Start()
     {
+   
         gameMng = ReferenceLibary.GameMng;
         CurrentEnergy = EnergyStartAmount;
        
@@ -71,7 +77,7 @@ public class EnergyManager : MonoBehaviour //for points and energy
 
     public IEnumerator ModifyEnergy(float value)
     {
-
+       
         float absValue = Mathf.Abs(value);
 
         float step = stepSize * Mathf.Sign(value);

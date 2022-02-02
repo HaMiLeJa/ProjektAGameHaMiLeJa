@@ -15,7 +15,7 @@ public class HexAutoTiling : MonoBehaviour
     #endregion
     
     #region PrivateVariables
-    private int startTilingTreshhold = 170;
+    private int startTilingTreshhold = 130;
     float moveBackToOriginTreshhold = 1600;
     GameObject playerLocation;
      
@@ -119,12 +119,8 @@ public class HexAutoTiling : MonoBehaviour
     {   
         if(tilingDistanceCheck)  //only one if is less heavy + make sure that everything gets checked once
         {
-            topMove = true;
-            bottomMove = true;
-            leftMove = true;
-            rightMove = true;
-            //wegen bug deaktiviert
-            /*if (playerLocation.transform.position.x > xPlusSnapShotPos)
+          
+            if (playerLocation.transform.position.x > xPlusSnapShotPos)
             {
                 rightMove = true; compareTopBottom();
             }
@@ -142,8 +138,8 @@ public class HexAutoTiling : MonoBehaviour
             if (playerLocation.transform.position.z < zMinusSnapShotPos)
             {
                 bottomMove = true; compareRightLeft();
-                topMove = true; //wegen bug wird das hier aktiviert
-            }*/
+             
+            }
         }
     }
     void compareTopBottom()
@@ -157,7 +153,6 @@ public class HexAutoTiling : MonoBehaviour
             topMove = true;
         if (noSide && zPlus > zMinus)
         {
-            topMove = true; //wegen bug wird das hier aktiviert
             bottomMove = true;
         }
           
