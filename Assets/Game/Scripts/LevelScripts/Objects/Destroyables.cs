@@ -47,6 +47,7 @@ public class Destroyables : MonoBehaviour
     {
       
     }
+
     public void Explode()
     {
         Destroy(Rigidbody);
@@ -64,7 +65,7 @@ public class Destroyables : MonoBehaviour
        }
 
         GameObject brokenPrefabCopy = settings.BrokenPrefab;
-        brokenInstance = Instantiate( brokenPrefabCopy, transform.position, transform.rotation);
+        brokenInstance = Instantiate(brokenPrefabCopy, transform.position, transform.rotation);
 
         Rigidbody[] rigidbodies = brokenInstance.GetComponentsInChildren<Rigidbody>();
 
@@ -170,7 +171,7 @@ public class Destroyables : MonoBehaviour
             if(DestroyCounter >= 15)
             {
                 ScoreManager.OnScoring?.Invoke(settings.DestroyValue/15);
-                //Debug.Log("Destroy 10 Approached");
+               
             }
 
             col.enabled = false;

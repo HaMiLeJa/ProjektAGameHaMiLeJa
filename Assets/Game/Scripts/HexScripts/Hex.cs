@@ -554,6 +554,7 @@ public class Hex : MonoBehaviour
 
     public void SpawnCollectable()
     {
+        //reset Scale
         MyCollectable.SetActive(true);
         
         /*

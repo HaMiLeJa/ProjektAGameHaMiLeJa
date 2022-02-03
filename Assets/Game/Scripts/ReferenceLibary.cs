@@ -13,6 +13,7 @@ public class ReferenceLibary : MonoBehaviour
     public static DownDash DownDashPl;
     public static PlayerMovement PlayerMov;
     public static HexMovements HexMov;
+    public static PlayerParticle ParticlesPlayer;
 
     // Hex
 
@@ -45,7 +46,7 @@ public class ReferenceLibary : MonoBehaviour
         DownDashPl = Player.GetComponent<DownDash>();
         PlayerMov = Player.GetComponent<PlayerMovement>();
         HexMov = Player.GetComponent<HexMovements>();
-
+        ParticlesPlayer = Player.GetComponentInChildren<PlayerParticle>();
 
         //Hex
         MissionMng = FindObjectOfType<MissionManager>();

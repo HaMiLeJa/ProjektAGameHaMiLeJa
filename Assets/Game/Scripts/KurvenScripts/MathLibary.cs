@@ -68,7 +68,6 @@ public static class MathLibary
 	{
 		string firstDigit = number.ToString().Remove(1, number.ToString().Length - 1);
 
-		Debug.Log(firstDigit);
 		return firstDigit;
 	}
 
