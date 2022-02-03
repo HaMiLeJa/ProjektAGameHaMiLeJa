@@ -116,6 +116,8 @@ MonoBehaviour:
   zoomOutDuringTeleport: 18
   forceWhenNothingIsPressed: 75
   settings: {fileID: 11400000, guid: a25d68d63c1f2af45b9a2702d33ace2e, type: 2}
+  StartClip: {fileID: 8300000, guid: 0e163b9fa0d7a204382aa411e0b70da0, type: 3}
+  EndClip: {fileID: 8300000, guid: 48b7f065733cb1b4b93b72abbbab8718, type: 3}
 --- !u!82 &1639044772
 AudioSource:
   m_ObjectHideFlags: 0

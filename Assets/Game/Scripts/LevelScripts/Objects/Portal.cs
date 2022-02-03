@@ -1,5 +1,7 @@
 using UnityEngine;
 using Cinemachine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinander verlinkbar
 {
@@ -28,6 +30,8 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
     [SerializeField] private float forceWhenNothingIsPressed = 75;
 
     [SerializeField] ScriptableLevelObject settings;
+
+
     void Start()
     {
         cam = CameraZoomOut.vcamera;
@@ -135,16 +139,19 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
                 GoalPortal = false;
                 
                 Goal.GetComponent<Portal>().GoalPortal = true;
-/*
-                if (!DelayActive)
-                {
-                    int numVcams = CinemachineCore.Instance.VirtualCameraCount;
-                    for (int i = 0; i < numVcams; ++i)
-                        CinemachineCore.Instance.GetVirtualCamera(i).OnTargetObjectWarped(
-                            player.transform, -Goal.transform.position);
-                      player.transform.position = Goal.transform.position;
-                }
-                */
+
+                myAudioSource.clip = settings.Clip;
+                myAudioSource.Play();
+                /*
+                                if (!DelayActive)
+                                {
+                                    int numVcams = CinemachineCore.Instance.VirtualCameraCount;
+                                    for (int i = 0; i < numVcams; ++i)
+                                        CinemachineCore.Instance.GetVirtualCamera(i).OnTargetObjectWarped(
+                                            player.transform, -Goal.transform.position);
+                                      player.transform.position = Goal.transform.position;
+                                }
+                                */
                 if (DelayActive && !GameManager.CameraTeleportActive)
                 {
                     cashedFovTemp = cam.m_Lens.FieldOfView;
@@ -164,8 +171,9 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
             {
                 StartPortal = false;
 
-                if (myAudioSource.isPlaying == false)
-                    myAudioSource.Play();
+                //if (myAudioSource.isPlaying == false)
+                myAudioSource.clip = settings.Clip2;
+                myAudioSource.PlayDelayed(1f);
             }
             
         }
@@ -181,4 +189,7 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
         }
     }
 
+
+
+   
 }

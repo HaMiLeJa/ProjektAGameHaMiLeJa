@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Portal
   m_EditorClassIdentifier: 
   value: 1
-  Clip: {fileID: 8300000, guid: 8610f0a273216a741853b882759f97db, type: 3}
+  Clip: {fileID: 8300000, guid: 847119f4852a08840a2c35e7bfbfafd1, type: 3}
+  Clip2: {fileID: 8300000, guid: d9bc46d3d1c4b5846bcd036fd234e631, type: 3}

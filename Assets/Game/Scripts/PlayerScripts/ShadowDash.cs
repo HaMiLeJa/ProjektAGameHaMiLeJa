@@ -38,8 +38,8 @@ public class ShadowDash : MonoBehaviour
 
     AudioManager audManager;
     [SerializeField] AudioSource audioSource;
-    [SerializeField] AudioClip StartClip;
-    [SerializeField] AudioClip EndClip;
+    [SerializeField] AudioClip clip;
+
     #endregion
 
     private void Awake()
@@ -62,6 +62,7 @@ public class ShadowDash : MonoBehaviour
         //myCollider = this.gameObject.GetComponent<SphereCollider>();
 
         audManager = ReferenceLibary.AudMng;
+        audioSource.clip = clip;
 
     }
 
@@ -161,7 +162,7 @@ public class ShadowDash : MonoBehaviour
         StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(-gameMng.ShadowDashCosts));
 
         // if (audioSource.isPlaying == false)
-        audioSource.clip = StartClip;
+        
             audioSource.Play();
 
         float t = 0;
@@ -196,9 +197,6 @@ public class ShadowDash : MonoBehaviour
         }
 
 
-
-        audioSource.clip = EndClip;
-        audioSource.Play();
 
 
         yield return new WaitForSeconds(0.4f);

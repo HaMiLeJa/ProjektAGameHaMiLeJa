@@ -411,7 +411,7 @@ MonoBehaviour:
   MovementDirection: {x: 0, y: 0, z: 0}
   SlowDownMultiplicator: 0.99
   constspeed: 55
-  constSpeedAllowed: 1
+  constSpeedAllowed: 0
   forceJump: 110
   OnGround: 0
   fallDownSpeed: 50
@@ -632,8 +632,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   audioSource: {fileID: 4260411287280632998}
-  StartClip: {fileID: 8300000, guid: 0e163b9fa0d7a204382aa411e0b70da0, type: 3}
-  EndClip: {fileID: 8300000, guid: 48b7f065733cb1b4b93b72abbbab8718, type: 3}
+  clip: {fileID: 0}
 --- !u!114 &4498330986242300597
 MonoBehaviour:
   m_ObjectHideFlags: 0
