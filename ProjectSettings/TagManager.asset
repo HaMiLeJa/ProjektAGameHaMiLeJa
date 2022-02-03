@@ -25,6 +25,7 @@ TagManager:
   - SpawnLocation
   - CameraHelper
   - Manager
+  - Emissve_baked
   layers:
   - Default
   - TransparentFX
