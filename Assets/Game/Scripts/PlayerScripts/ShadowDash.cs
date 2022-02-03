@@ -162,8 +162,9 @@ public class ShadowDash : MonoBehaviour
         StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(-gameMng.ShadowDashCosts));
 
         // if (audioSource.isPlaying == false)
-        
-            audioSource.Play();
+
+        audioSource.pitch = Random.Range(0.8f, 1.6f);
+        audioSource.PlayDelayed(0.1f);
 
         float t = 0;
 

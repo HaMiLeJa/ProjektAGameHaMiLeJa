@@ -104,8 +104,10 @@ public class DownDash : MonoBehaviour
                 smashParticle.Play();
 
                 if (audioSource.isPlaying == false)
+                {
+                    audioSource.pitch = Random.Range(0.8f, 1.6f);
                     audioSource.Play();
-
+                }
 
                 //touchedGround = true;
             }

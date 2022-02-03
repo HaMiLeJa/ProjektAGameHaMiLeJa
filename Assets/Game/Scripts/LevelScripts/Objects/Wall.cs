@@ -10,7 +10,8 @@ public class Wall : MonoBehaviour
 
     private void Start()
     {
-        myAudioSource.clip = settings.Clip;
+        //myAudioSource.pitch = 1;
+       myAudioSource.clip = settings.Clip;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -37,6 +38,7 @@ public class Wall : MonoBehaviour
 
             if(myAudioSource.isPlaying == false)
             {
+                myAudioSource.pitch = Random.Range(0.8f, 1.6f);
                 myAudioSource.Play();
             }
 

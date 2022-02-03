@@ -122,7 +122,7 @@ MonoBehaviour:
   hexEffectsSettings: {fileID: 11400000, guid: c664b87f68d9a8a44923cf97d225db1d, type: 2}
   forwardForce: 30
   IsHexForwardBoosting: 0
-  tramoplinForce: 13
+  tramoplinForce: 16
   XDirection: 1
   ZDirection: 1
   boostInDForce: 25

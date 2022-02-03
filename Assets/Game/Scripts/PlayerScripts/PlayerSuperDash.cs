@@ -118,7 +118,10 @@ public class PlayerSuperDash : MonoBehaviour
         StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(-gameMng.SuperDashCosts));
 
         if (audioSource.isPlaying == false)
+        {
+            audioSource.pitch = Random.Range(0.8f, 1.6f);
             audioSource.Play();
+        }
 
         float t = 0;
 

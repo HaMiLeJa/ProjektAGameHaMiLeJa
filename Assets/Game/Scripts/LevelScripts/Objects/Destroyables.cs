@@ -58,6 +58,7 @@ public class Destroyables : MonoBehaviour
             if (AudioSource.isPlaying == false)
             {
                 AudioSource.clip = settings.DestructionClip;
+                AudioSource.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
                 AudioSource.Play();
             }
        }
@@ -198,20 +199,17 @@ public class Destroyables : MonoBehaviour
             if (AudioSource.isPlaying == false)
             {
                 AudioSource.clip = settings.CollisionClip;
+                AudioSource.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
                 AudioSource.Play();
             }
 
             float scoreValue = ((hitCounter * 0.05f)) * settings.CollisionValue;
             hitCounter++;
-            //Debug.Log("Before On Scoring");
+            
 
 
             ScoreManager.OnScoring?.Invoke(settings.CollisionValue - scoreValue);
-            /*
-            ReferenceLibary.ScoreMng.UpdateScore(settings.CollisionValue - scoreValue);
-            ReferenceLibary.UIMng.UpdateUIScore(settings.CollisionValue - scoreValue);
-            ReferenceLibary.UIMng.PointsStarter(settings.CollisionValue - scoreValue);
-            */
+           
         }
 
 

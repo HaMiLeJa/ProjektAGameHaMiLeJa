@@ -88,6 +88,7 @@ public class HexMovements : MonoBehaviour
 
 
         // SLOW DOWN
+        /*
         if (OnSlowDownHex == true && SlowDownTimer < 0.4f)
         {
             SlowDownTimer += Time.fixedDeltaTime;
@@ -98,7 +99,7 @@ public class HexMovements : MonoBehaviour
             SlowDownTimer = 0;
             OnSlowDownHex = false;
         }
-
+        */
 
         /*  // Change Direction
          if(OnChangeDirectionHex == true)
