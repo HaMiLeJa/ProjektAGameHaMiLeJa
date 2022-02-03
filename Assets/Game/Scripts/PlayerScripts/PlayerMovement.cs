@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
 
     // void ControlVelocity
     public float SlowDownMultiplicator = 0.99f;
-    [SerializeField]  float constspeed = 60;
+    public float constspeed = 60;
 
     [SerializeField] private bool constSpeedAllowed = true;
 // void Basic Jump
@@ -111,19 +111,14 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
-     void InfluenceMovementDirection()
-     {
-        
-     }
-
-
+     
     void MinVelocity()
     {
         if (!gameMng.AllowMovement)
             return;
 
 
-        InfluenceMovementDirection();
+        
 
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
@@ -198,10 +193,7 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    void Bounce()
-    {
-
-    }
+  
 
     void ControlVelocity()
     {

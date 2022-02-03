@@ -174,6 +174,8 @@ public class Hex : MonoBehaviour
     {
         highlight.ToggleGlow(false, isProp);
     }
+
+
     #region HexEffects
 
     [SerializeField ]ScriptableHexEffects hexEffectsSettings;
@@ -251,20 +253,39 @@ public class Hex : MonoBehaviour
     public void SlowDownStarter()
     {
         if (gameMng.AllowHexEffects == false) return;
+        gameMng.AllowMovement = false;
 
         hexMov.SlowDownTimer = 0;
 
         hexMov.OnSlowDownHex = true;
 
+        StartCoroutine(Coroutine_ChangeConstSpeedOverTime());
+        playerRb.velocity = playerRb.velocity * 0.4f;
+        
         StartCoroutine(MultiplicatorModificationOverTime());
 
-        OnEffectHex?.Invoke();
+        OnEffectHex?.Invoke(); //Sound
 
         /*
         if (slowDownCoroutine != null)
             StopCoroutine(slowDownCoroutine);
         slowDownCoroutine = StartCoroutine(SlowDownCoroutine());
         */
+    }
+
+    IEnumerator Coroutine_ChangeConstSpeedOverTime()
+    {
+        float originalConSpeed = ReferenceLibary.PlayerMov.constspeed;
+        ReferenceLibary.PlayerMov.constspeed = 30;
+        yield return new WaitForSeconds(2f);
+        
+        while (ReferenceLibary.PlayerMov.constspeed != originalConSpeed)
+        {
+            ReferenceLibary.PlayerMov.constspeed += 1;
+            yield return new WaitForFixedUpdate();
+        }
+
+        yield return null;
     }
 
     #region NO use Old Coroutine
