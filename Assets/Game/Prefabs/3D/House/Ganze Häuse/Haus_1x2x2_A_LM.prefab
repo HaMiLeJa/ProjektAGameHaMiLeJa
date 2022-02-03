@@ -80,9 +80,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee44655121081924ba7e44ee25369632, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasOwnGlow: 0
-  glowAmount: 0
-  CutoffEmissive: 0
 --- !u!1001 &46191236839585441
 PrefabInstance:
   m_ObjectHideFlags: 0

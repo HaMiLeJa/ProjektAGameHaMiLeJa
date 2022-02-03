@@ -53,7 +53,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7087119927454587806, guid: 5fb7d4fa621c5a748b4e2afb582232bd, type: 3}
       propertyPath: m_Name
-      value: Wall01 rotated
+      value: Wall01 rotated_LM
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1079816865, guid: 5fb7d4fa621c5a748b4e2afb582232bd, type: 3}

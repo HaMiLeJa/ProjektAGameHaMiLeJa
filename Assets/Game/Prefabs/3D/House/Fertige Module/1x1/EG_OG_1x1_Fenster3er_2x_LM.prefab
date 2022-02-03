@@ -94,7 +94,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1865038059433704313, guid: 25fa6f50a725fd1418c28367262a1576, type: 3}
       propertyPath: m_Name
-      value: EG_OG_1x1_Fenster3er_2x
+      value: EG_OG_1x1_Fenster3er_2x_LM
       objectReference: {fileID: 0}
     - target: {fileID: 5703120097198921676, guid: 25fa6f50a725fd1418c28367262a1576, type: 3}
       propertyPath: m_LocalPosition.y

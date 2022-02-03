@@ -149,7 +149,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: e83436546b380e449a36617f057180a4, type: 2}
     - target: {fileID: 5678667232583957242, guid: d7caa0b4ca98dc348936aafa83fa9b06, type: 3}
       propertyPath: m_Name
-      value: Haus 1x4 Blau Variant
+      value: Haus 1x4 Blau Variant_LM
       objectReference: {fileID: 0}
     - target: {fileID: 5782633296354210833, guid: d7caa0b4ca98dc348936aafa83fa9b06, type: 3}
       propertyPath: m_Materials.Array.data[0]

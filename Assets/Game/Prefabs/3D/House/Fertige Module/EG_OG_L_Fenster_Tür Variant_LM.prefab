@@ -66,7 +66,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6661033034771585471, guid: 82966dadc92c45643852dd46614d0556, type: 3}
       propertyPath: m_Name
-      value: "EG_OG_L_Fenster_T\xFCr Variant"
+      value: "EG_OG_L_Fenster_T\xFCr Variant_LM"
       objectReference: {fileID: 0}
     - target: {fileID: 8127717224261173925, guid: 82966dadc92c45643852dd46614d0556, type: 3}
       propertyPath: m_RootOrder

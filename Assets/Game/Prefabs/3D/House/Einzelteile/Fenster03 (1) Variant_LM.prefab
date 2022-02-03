@@ -199,7 +199,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6203851738574538303, guid: e62c7c7615acb6f448eab71bd52608a1, type: 3}
       propertyPath: m_Name
-      value: Fenster03 (1) Variant
+      value: Fenster03 (1) Variant_LM
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e62c7c7615acb6f448eab71bd52608a1, type: 3}

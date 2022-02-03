@@ -171,7 +171,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4978971972540410528, guid: eb0a9fa2c7b18e74c9e6a1baa738f33c, type: 3}
       propertyPath: m_Name
-      value: "EG_OG_1x4 Fenster_T\xFCr"
+      value: "EG_OG_1x4 Fenster_T\xFCr_LM"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb0a9fa2c7b18e74c9e6a1baa738f33c, type: 3}

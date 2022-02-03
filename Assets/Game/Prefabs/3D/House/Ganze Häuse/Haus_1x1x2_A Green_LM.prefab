@@ -149,7 +149,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: d31c1a7c9d0e3e54e8f588a74d14f264, type: 2}
     - target: {fileID: 8724964734776579013, guid: 4f46a34411fa9d74398cfc43c168fe02, type: 3}
       propertyPath: m_Name
-      value: Hause_1x1x2_A Green
+      value: Haus_1x1x2_A Green_LM
       objectReference: {fileID: 0}
     - target: {fileID: 8814860588116476865, guid: 4f46a34411fa9d74398cfc43c168fe02, type: 3}
       propertyPath: m_Materials.Array.data[0]

@@ -153,7 +153,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 487c0cd8c98ac0a48a62f07492422ea9, type: 2}
     - target: {fileID: 4974021760301310210, guid: 51806b557ea08004ba8e66f096e9b4ee, type: 3}
       propertyPath: m_Name
-      value: Haus_L 2_Blau Variant
+      value: Haus_L 2_Blau Variant_LM
       objectReference: {fileID: 0}
     - target: {fileID: 4974021760301310213, guid: 51806b557ea08004ba8e66f096e9b4ee, type: 3}
       propertyPath: m_RootOrder

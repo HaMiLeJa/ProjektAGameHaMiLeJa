@@ -223,7 +223,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8318120011267240709, guid: 2e0e0a119a636e64c897c55129aedac0, type: 3}
       propertyPath: m_Name
-      value: EG_OG_L_FensterB Variant
+      value: EG_OG_L_FensterB Variant_LM
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e0e0a119a636e64c897c55129aedac0, type: 3}

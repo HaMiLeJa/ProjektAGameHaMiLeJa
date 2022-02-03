@@ -209,7 +209,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 9530c7eeb2c66d04dba6e0f2a9ccf87b, type: 2}
     - target: {fileID: 7079359308378767688, guid: afa6c30470e287c489c40e792d052d5f, type: 3}
       propertyPath: m_Name
-      value: Haus_L Green Variant
+      value: Haus_L Green Variant_LM
       objectReference: {fileID: 0}
     - target: {fileID: 7391290058721379998, guid: afa6c30470e287c489c40e792d052d5f, type: 3}
       propertyPath: m_Materials.Array.data[0]

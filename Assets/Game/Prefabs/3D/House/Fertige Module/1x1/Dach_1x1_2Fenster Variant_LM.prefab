@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3374946626232835609, guid: da7650529775b8c4a9a35f1f63a7cdf3, type: 3}
       propertyPath: m_Name
-      value: Dach_1x1_2Fenster Variant
+      value: Dach_1x1_2Fenster Variant_LM
       objectReference: {fileID: 0}
     - target: {fileID: 3608472033776683281, guid: da7650529775b8c4a9a35f1f63a7cdf3, type: 3}
       propertyPath: m_RootOrder

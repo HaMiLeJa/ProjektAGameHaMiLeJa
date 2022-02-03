@@ -252,6 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 524ba8a8ecdb1464cbe5eae7bc076286, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  t: 0
   mesh2D: {fileID: 11400000, guid: c7f145972bfc1cc44b6ac516778881d5, type: 2}
   closed: 0
   MeshDensity: 2

@@ -5,7 +5,7 @@ using UnityEditor;
 
 public class LightmapMenu : MonoBehaviour
 {
-    private static float boostEmissive = 40;
+    private static float boostEmissive = 35;
     
     [MenuItem ("HaMiLeJa/Bake")]
 

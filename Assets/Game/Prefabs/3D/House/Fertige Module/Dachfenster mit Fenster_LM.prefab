@@ -123,7 +123,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: a16ae6aad93c1e44e8113b0fba24c58f, type: 2}
     - target: {fileID: 6037215886343934670, guid: 6c6a9837843e98a45acdec11f8b13d2d, type: 3}
       propertyPath: m_Name
-      value: Dachfenster mit Fenster
+      value: Dachfenster mit Fenster_LM
       objectReference: {fileID: 0}
     - target: {fileID: 6037215886343934670, guid: 6c6a9837843e98a45acdec11f8b13d2d, type: 3}
       propertyPath: m_Layer

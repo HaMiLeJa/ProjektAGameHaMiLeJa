@@ -66,7 +66,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 222593592920120983, guid: a071b6c2b78807d49ab5df813ae5a78e, type: 3}
       propertyPath: m_Name
-      value: EG_OG_1x2_1KurzeWand
+      value: EG_OG_1x2_1KurzeWand Variant_LM
       objectReference: {fileID: 0}
     - target: {fileID: 4670479242439608157, guid: a071b6c2b78807d49ab5df813ae5a78e, type: 3}
       propertyPath: m_RootOrder

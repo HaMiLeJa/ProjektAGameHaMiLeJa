@@ -106,6 +106,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HexenkesselBubbles
       objectReference: {fileID: 0}
+    - target: {fileID: 311658010768674317, guid: 546d8f612a849af409f02e58f4b6fa77, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 311658010768674318, guid: 546d8f612a849af409f02e58f4b6fa77, type: 3}
       propertyPath: m_RootOrder
       value: 0

@@ -110,7 +110,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6090804186256163456, guid: 37052d4e45f3456419395beb10a4b793, type: 3}
       propertyPath: m_Name
-      value: Boden_1x1_Treppe
+      value: Boden_1x1_Treppe Variant_LM
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37052d4e45f3456419395beb10a4b793, type: 3}
