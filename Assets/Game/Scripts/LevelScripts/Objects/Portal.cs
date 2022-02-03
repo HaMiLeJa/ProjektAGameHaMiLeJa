@@ -106,6 +106,13 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
          
             if (distanceCamHelperPlayer < _gameManager.lastDistanceTreshhold && distanceCamHelperPlayer >= 5f)
             {
+                /*
+                if (myAudioSource.isPlaying == false)
+                {
+                    myAudioSource.clip = settings.Clip2;
+                    myAudioSource.Play();//Delayed(0.8f);
+                }*/
+
                 _gameManager.followRoughness = _gameManager.followRoughness * (_gameManager.lastDistanceSpeedIncreasePercentPerFrame/100+1);
            }
             if (distanceCamHelperPlayer < 10f)
@@ -171,9 +178,14 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
             {
                 StartPortal = false;
 
-                //if (myAudioSource.isPlaying == false)
-                myAudioSource.clip = settings.Clip2;
-                myAudioSource.PlayDelayed(1f);
+                if (myAudioSource.isPlaying == false)
+                {
+                    myAudioSource.clip = settings.Clip2;
+                    myAudioSource.PlayDelayed(0.8f);
+                }
+                
+
+
             }
             
         }
