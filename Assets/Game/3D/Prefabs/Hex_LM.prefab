@@ -252,7 +252,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2896588887716648027, guid: 232357c143d828349b834734be249923, type: 3}
       propertyPath: m_CastShadows
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2896588887716648027, guid: 232357c143d828349b834734be249923, type: 3}
       propertyPath: m_LightProbeUsage
