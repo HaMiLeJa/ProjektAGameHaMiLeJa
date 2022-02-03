@@ -5,7 +5,7 @@ using UnityEditor;
 
 public class LightmapMenu : MonoBehaviour
 {
-    private static float boostEmissive = 35;
+    private static float boostEmissive = 38;
     
     [MenuItem ("HaMiLeJa/Bake")]
 
@@ -33,7 +33,8 @@ public class LightmapMenu : MonoBehaviour
                     Debug.Log(originalEmissiveIntensity + "orginal");
                     hasAllTheOrginalEmmissiveIntensity.Add(tmpMaterial, originalEmissiveIntensity);
                     hasAlltheModifiedGameObjects.Add(tmpMaterial);
-                    tmpMaterial.SetFloat("_emssiveIntesnity", originalEmissiveIntensity+boostEmissive);
+                    //originalEmissiveIntensity + boostEmissive    ist optional
+                    tmpMaterial.SetFloat("_emssiveIntesnity", boostEmissive);
                 }
             }
             catch (NullReferenceException e)
