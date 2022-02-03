@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 701e127b25bdeda4aa6018a2f2842509, type: 3}
   m_Name: "GiantK\xFCrbisSettings"
   m_EditorClassIdentifier: 
-  BrokenPrefab: {fileID: 8694883880990774153, guid: 2d5cd2c5566693341a0799fbd85528a0, type: 3}
+  BrokenPrefab: {fileID: 8694883880990774153, guid: ad73a617b8af29648bc36764d31294f5, type: 3}
   CollisionClip: {fileID: 8300000, guid: 9eb5802e666bc5848a2f8e887d19001b, type: 3}
   DestructionClip: {fileID: 8300000, guid: 90338a0215e53de46bbdd56f80fcb6d0, type: 3}
-  ExplosiveForce: 2000
+  ExplosiveForce: 1000
   ExplosiveRadius: 4
   FadeSpeed: 3.1
   DestroyDelay: 5

@@ -47,6 +47,7 @@ public class Destroyables : MonoBehaviour
     {
       
     }
+
     public void Explode()
     {
         Destroy(Rigidbody);
@@ -58,12 +59,13 @@ public class Destroyables : MonoBehaviour
             if (AudioSource.isPlaying == false)
             {
                 AudioSource.clip = settings.DestructionClip;
+                AudioSource.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
                 AudioSource.Play();
             }
        }
 
         GameObject brokenPrefabCopy = settings.BrokenPrefab;
-        brokenInstance = Instantiate( brokenPrefabCopy, transform.position, transform.rotation);
+        brokenInstance = Instantiate(brokenPrefabCopy, transform.position, transform.rotation);
 
         Rigidbody[] rigidbodies = brokenInstance.GetComponentsInChildren<Rigidbody>();
 
@@ -169,7 +171,7 @@ public class Destroyables : MonoBehaviour
             if(DestroyCounter >= 15)
             {
                 ScoreManager.OnScoring?.Invoke(settings.DestroyValue/15);
-                //Debug.Log("Destroy 10 Approached");
+               
             }
 
             col.enabled = false;
@@ -198,20 +200,17 @@ public class Destroyables : MonoBehaviour
             if (AudioSource.isPlaying == false)
             {
                 AudioSource.clip = settings.CollisionClip;
+                AudioSource.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
                 AudioSource.Play();
             }
 
             float scoreValue = ((hitCounter * 0.05f)) * settings.CollisionValue;
             hitCounter++;
-            //Debug.Log("Before On Scoring");
+            
 
 
             ScoreManager.OnScoring?.Invoke(settings.CollisionValue - scoreValue);
-            /*
-            ReferenceLibary.ScoreMng.UpdateScore(settings.CollisionValue - scoreValue);
-            ReferenceLibary.UIMng.UpdateUIScore(settings.CollisionValue - scoreValue);
-            ReferenceLibary.UIMng.PointsStarter(settings.CollisionValue - scoreValue);
-            */
+           
         }
 
 

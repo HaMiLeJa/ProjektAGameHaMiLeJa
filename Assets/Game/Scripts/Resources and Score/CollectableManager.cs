@@ -38,7 +38,9 @@ public class CollectableManager : MonoBehaviour
 
     public CollectableReferences refff;
 
-   // private bool addAll = true;
+    // private bool addAll = true;
+
+    Vector3 collectalbeOriginalScale;
 
     private void Awake()
     {
@@ -47,7 +49,7 @@ public class CollectableManager : MonoBehaviour
     }
     void Start()
     {
-
+        collectalbeOriginalScale = GameObject.FindObjectOfType<Collectable>().transform.localScale;
         //if (addAll == true)
         // {
              OnRespawnCollectables = null;
@@ -126,6 +128,22 @@ public class CollectableManager : MonoBehaviour
 
         item.SetActive(false);
         //Destroy(item);
+    }
+
+    IEnumerator DecreaseItemSize(GameObject Item) // not testet yet
+    {
+        Vector3 scale = Item.transform.localScale;
+        float goal = 0.1f;
+        float t = 0.5f;
+        while (Item.transform.localScale.x >= goal)
+        {
+            Item.transform.localScale = new Vector3(Mathf.Lerp(Item.transform.localScale.x, goal, t),
+            Mathf.Lerp(Item.transform.localScale.y, goal, t),
+            Mathf.Lerp(Item.transform.localScale.z, goal, t));
+
+            yield return null;
+        }
+        yield return null;
     }
 
 }

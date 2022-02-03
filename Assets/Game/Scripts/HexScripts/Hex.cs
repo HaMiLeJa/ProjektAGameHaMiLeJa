@@ -395,7 +395,7 @@ public class Hex : MonoBehaviour
         OnEffectHex?.Invoke();
         
         hexMov.rebounded = true;
-
+       
        
 
         playerRb.velocity = new Vector3(playerRb.velocity.x * 0.1f, playerRb.velocity.y, playerRb.velocity.z * 0.1f);
@@ -554,6 +554,7 @@ public class Hex : MonoBehaviour
 
     public void SpawnCollectable()
     {
+        //reset Scale
         MyCollectable.SetActive(true);
         
         /*
