@@ -222,4 +222,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   glowAmount: 3.9
-  CutoffEmissive: 0.5
+  CutoffEmissive: 0.2

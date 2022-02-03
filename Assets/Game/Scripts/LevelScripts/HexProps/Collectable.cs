@@ -20,12 +20,9 @@ public class Collectable : MonoBehaviour
 
     void Update()
     {
-        #region forward mov + rotation
-
-       // transform.position   += transform.forward *Time.deltaTime * speed;
+        
         transform.Rotate(new Vector3(0, rotation * Time.deltaTime,0));
 
-        #endregion
         
     }
 
@@ -40,7 +37,8 @@ public class Collectable : MonoBehaviour
             
 
 
-            //Debug.Log("Collectable Collected");
+            
+
             
             
         }

@@ -71,7 +71,7 @@ Material:
     - _normalStrength: 1
     m_Colors:
     - Color_ca20a5cb7f2e4f5a9cd37d74b5f8bae1: {r: 1, g: 1, b: 1, a: 0}
-    - _Color: {r: 0.53333336, g: 0.8254787, b: 1, a: 0}
+    - _Color: {r: 0.078431375, g: 1, b: 0.78039217, a: 0}
     - _MainColor: {r: 1, g: 1, b: 1, a: 0}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 0}

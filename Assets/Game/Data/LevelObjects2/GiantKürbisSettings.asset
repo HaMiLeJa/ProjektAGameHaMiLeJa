@@ -17,7 +17,7 @@ MonoBehaviour:
   DestructionClip: {fileID: 8300000, guid: 90338a0215e53de46bbdd56f80fcb6d0, type: 3}
   ExplosiveForce: 1000
   ExplosiveRadius: 4
-  FadeSpeed: 3.1
+  FadeSpeed: 2
   DestroyDelay: 5
   SleepCheckDelay: 0.5
   Respawn: 1

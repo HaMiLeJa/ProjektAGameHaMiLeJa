@@ -140,7 +140,7 @@ Material:
     m_Colors:
     - Color_e49dda51c9dd45848cffa50efba8a0ca: {r: 0.9528302, g: 0.84385675, b: 0.25618547, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.08018869, g: 1, b: 0.88554025, a: 1}
+    - _Color: {r: 0.07843137, g: 1, b: 0.78138304, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

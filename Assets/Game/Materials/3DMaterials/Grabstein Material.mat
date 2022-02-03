@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_300EB541:
-        m_Texture: {fileID: 2800000, guid: a8f8b5e4c885a174ca087f19072b5e99, type: 3}
+        m_Texture: {fileID: 2800000, guid: 957ba59737434d04b86d2d4e0c16414c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -125,7 +125,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     - _emissionIntensity: 0
-    - _emissiveCutoff: 0.2
+    - _emissiveCutoff: 0.5
     - _normalStrength: 1.34
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
