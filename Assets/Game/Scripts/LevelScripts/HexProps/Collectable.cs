@@ -6,7 +6,7 @@ public class Collectable : MonoBehaviour
 {
     #region Inspector
     [SerializeField] float speed = 0;
-    [SerializeField] float rotation = 20;
+    [SerializeField] float rotation = 400;
 
     [HideInInspector] public GameObject ParentHex;
 
