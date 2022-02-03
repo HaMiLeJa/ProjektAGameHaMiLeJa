@@ -1380,7 +1380,7 @@
     },
     "m_Name": "Emissive Intensity",
     "m_DefaultReferenceName": "",
-    "m_OverrideReferenceName": "Vector1_a12fc69695a849fd913d349ece6709de",
+    "m_OverrideReferenceName": "_emssiveIntesnity",
     "m_GeneratePropertyBlock": true,
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
