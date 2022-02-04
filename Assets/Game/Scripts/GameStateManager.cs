@@ -56,6 +56,9 @@ public class GameStateManager : MonoBehaviour
                 loadMainScreen();
             }
         }
+
+        if(Input.GetKeyDown(KeyCode.I))
+            ReferenceLibary.AudMng.PlayGameStateSound(gameOverClip, gameOverGroup);
     }
 
     void loadMainScreen()
@@ -162,18 +165,13 @@ public class GameStateManager : MonoBehaviour
 
     Vector3 velocityLastFrame;
     Vector3 velocitySecondToLastFrame;
-    
+
+    [Space]
+    [SerializeField] AudioClip gameOverClip;
+    [SerializeField] UnityEngine.Audio.AudioMixerGroup gameOverGroup;
 
     public void CheckForEndOfGame()
     {
-
-        /*
-        if (ReferenceLibary.PlayerMov.TotalVelocity < 10 && EndGameSafetyStarted == false)
-        {
-            EndGameSafetyStarted = true;
-            EndGameSafetyCoroutine = StartCoroutine(EndGameSavety());
-        }*/
-
 
         if (Mathf.Approximately(playerRb.velocity.x, 0) && Mathf.Approximately(playerRb.velocity.y, 0) && Mathf.Approximately(playerRb.velocity.z, 0))
         {
@@ -206,12 +204,12 @@ public class GameStateManager : MonoBehaviour
             return;
         }
 
-
     }
 
     void CalculateEndOfGame()
     {
         Debug.Log("GameOver");
+        ReferenceLibary.AudMng.PlayGameStateSound(gameOverClip, gameOverGroup);
         GameOver = true;
 
         if (ReferenceLibary.ScoreMng.CheckForNewHighscore() == true)

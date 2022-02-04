@@ -53,4 +53,13 @@ public class AudioManager : MonoBehaviour
 
     }
 
+    [Space]
+    [SerializeField] AudioSource gameStateSource;
+    public void PlayGameStateSound(AudioClip clip, AudioMixerGroup group)
+    {
+        gameStateSource.outputAudioMixerGroup = group;
+        gameStateSource.clip = clip;
+        gameStateSource.Play();
+    }
+
 }

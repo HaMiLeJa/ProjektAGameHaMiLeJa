@@ -123,6 +123,7 @@ public class MissionManager : MonoBehaviour
                 break;
         }
 
+        /*
         if(Input.GetKeyDown(KeyCode.A))
             audioMng.PlayMissionSound(newMissionClip, newMissionGroup);
 
@@ -134,7 +135,7 @@ public class MissionManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.D))
             audioMng.PlayMissionSound(missionCollectalbeClip, missionCollectalbeGroup);
-
+        */
     }
 
 
