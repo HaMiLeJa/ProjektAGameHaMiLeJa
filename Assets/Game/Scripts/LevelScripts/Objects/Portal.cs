@@ -148,7 +148,9 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
                 Goal.GetComponent<Portal>().GoalPortal = true;
 
                 myAudioSource.clip = settings.Clip;
+                myAudioSource.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
                 myAudioSource.Play();
+
                 /*
                                 if (!DelayActive)
                                 {
@@ -181,6 +183,7 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
                 if (myAudioSource.isPlaying == false)
                 {
                     myAudioSource.clip = settings.Clip2;
+                    myAudioSource.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
                     myAudioSource.PlayDelayed(0.8f);
                 }
                 
