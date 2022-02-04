@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 [CreateAssetMenu]
 public class DestroyableScriptableObject : ScriptableObject
@@ -25,5 +26,8 @@ public class DestroyableScriptableObject : ScriptableObject
     public Material Material02;
     public Material Material03;
     public Material Material04;
+    [Space]
+    public AudioMixerGroup CollisionGroup;
+    public AudioMixerGroup DestroyGroup;
 
 }

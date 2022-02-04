@@ -195,7 +195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: bc0186b8df93c7d46bdbb4f9fe27d6e6, type: 2}
   player: {fileID: 0}
-  AudioSource: {fileID: 3829536156556084523}
+  myAudioSource: {fileID: 3829536156556084523}
 --- !u!64 &8819055657735503959
 MeshCollider:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class MissionManager : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class MissionManager : MonoBehaviour
     [HideInInspector]public MissionStateNoMissionsLeft NoMissionLeft;
 
     public static MissionInformation CurrentMission;
+
+    bool lastMissionSuccesfull = false;
     
     // For Active State
     public static float MissionTimeLeft;
@@ -34,7 +37,21 @@ public class MissionManager : MonoBehaviour
     //For NoMissionsLeft State
     public static bool StartNewMissionRoundAllowed = false;
 
-    
+    [Header("Audio")]
+    [SerializeField] AudioClip newMissionClip;
+    [SerializeField] AudioMixerGroup newMissionGroup;
+
+    [SerializeField] AudioClip successfullClip;
+    [SerializeField] AudioMixerGroup successfullGroup;
+
+    [SerializeField] AudioClip unsuccesfullClip;
+    [SerializeField] AudioMixerGroup unsuccessfullGroup;
+
+    public AudioClip missionCollectalbeClip;
+    public AudioMixerGroup missionCollectalbeGroup;
+
+    AudioManager audioMng;
+
     static MissionState missionState = MissionState.noMission;
     enum MissionState
     {
@@ -50,7 +67,7 @@ public class MissionManager : MonoBehaviour
 
     void Start()
     {
-        
+        audioMng = ReferenceLibary.AudMng;
 
         missionState = MissionState.noMission;
         NoMissionMissionState = GetComponentInChildren<MissionStateNoMission>();
@@ -84,13 +101,15 @@ public class MissionManager : MonoBehaviour
                 ActiveMissionState.UpdateActiveMission();
                 break;
             case MissionState.CompletedMission:
-                CompletedMissionState.UpdateCompletedMission(); //Hier
-                CheckForAllMissionsDone();
+                CompletedMissionState.UpdateCompletedMission();
+                lastMissionSuccesfull = true;
+                CheckForAllMissionsDone(); //Switch State, Play Sound
                 CollectableManager.OnRespawnCollectables?.Invoke();
                 break;
             case MissionState.UncompletedMission:
                 UncompletedMissionState.UpdateUncompletedMission();
-                CheckForAllMissionsDone();
+                lastMissionSuccesfull = false;
+                CheckForAllMissionsDone(); //Switch State, Play Sound
                 CollectableManager.OnRespawnCollectables?.Invoke();
                 break;
             case MissionState.noMissionsLeft:
@@ -104,6 +123,18 @@ public class MissionManager : MonoBehaviour
                 break;
         }
 
+        if(Input.GetKeyDown(KeyCode.A))
+            audioMng.PlayMissionSound(newMissionClip, newMissionGroup);
+
+        if (Input.GetKeyDown(KeyCode.B))
+            audioMng.PlayMissionSound(successfullClip, successfullGroup);
+
+        if (Input.GetKeyDown(KeyCode.C))
+            audioMng.PlayMissionSound(unsuccesfullClip, unsuccessfullGroup);
+
+        if (Input.GetKeyDown(KeyCode.D))
+            audioMng.PlayMissionSound(missionCollectalbeClip, missionCollectalbeGroup);
+
     }
 
 
@@ -112,6 +143,7 @@ public class MissionManager : MonoBehaviour
     #region Switch State
     void SwitchToActiveMissionState()
     {
+        audioMng.PlayMissionSound(newMissionClip, newMissionGroup);
         missionState = MissionState.activeMission;
     }
 
@@ -153,13 +185,22 @@ public class MissionManager : MonoBehaviour
     
     public void CheckForAllMissionsDone()
     {
-        if(ReferenceLibary.MissLib.Missions.Count == 0) // Alle Missionen in der Liste wurde erfüllt
+        if(ReferenceLibary.MissLib.Missions.Count == 0) // Alle Missionen wurden durchlaufen
         {
             SwitchToNoMissionLeftState();
         }
         else
         {
             SwitchToNoMissionState();
+
+            if(lastMissionSuccesfull == true)
+            {
+                 audioMng.PlayMissionSound(unsuccesfullClip, unsuccessfullGroup);
+            }
+            else
+            {
+                audioMng.PlayMissionSound(missionCollectalbeClip, missionCollectalbeGroup);
+            }
         }
     }
 

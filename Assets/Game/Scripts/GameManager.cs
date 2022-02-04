@@ -6,6 +6,7 @@ using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
+    
 
     #region Keys on Controller
 [Header("Keys on Controller")]

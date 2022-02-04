@@ -75,6 +75,9 @@ public class MissionStateCompletedMission : MonoBehaviour
 
 
     #region Collect Points
+
+    
+
     void UpdateCollectPoints()
     {
         ReferenceLibary.UIMng.DeactivateBasicMissionUI();

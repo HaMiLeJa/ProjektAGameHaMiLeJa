@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 7312863050662635947}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 11.697218, y: 0.3, z: 21.224436}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1.5000008, y: 1.5000002, z: 1.5000008}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -207,8 +207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: b5c9d14a6ad135a4da7a88cf392022bb, type: 2}
-  player: {fileID: 0}
-  AudioSource: {fileID: 340391618622784216}
+  myAudioSource: {fileID: 340391618622784216}
 --- !u!114 &-8071899758173360469
 MonoBehaviour:
   m_ObjectHideFlags: 0

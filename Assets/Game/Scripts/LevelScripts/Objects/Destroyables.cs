@@ -8,11 +8,11 @@ public class Destroyables : MonoBehaviour
     public DestroyableScriptableObject settings;
     [Space]
     PlayerSuperDash superDash;
-    [SerializeField] GameObject player;
+    GameObject player;
     Collider col;
 
     private Rigidbody Rigidbody;
-    public AudioSource AudioSource;
+    public AudioSource myAudioSource;
     private GameObject brokenInstance;
     bool TriggerResetted = false;
 
@@ -23,8 +23,9 @@ public class Destroyables : MonoBehaviour
 
     void Start()
     {
-        if(AudioSource == null)
-             AudioSource = this.GetComponent<AudioSource>();
+        if(myAudioSource == null)
+             myAudioSource = this.GetComponent<AudioSource>();
+
         col = this.GetComponent<Collider>();
 
         superDash = ReferenceLibary.SuperDash;
@@ -56,13 +57,14 @@ public class Destroyables : MonoBehaviour
 
        if (settings.DestructionClip != null)
        {
-            if (AudioSource.isPlaying == false)
+            if (myAudioSource.isPlaying == false)
             {
-                AudioSource.clip = settings.DestructionClip;
-                AudioSource.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
-                AudioSource.Play();
+                myAudioSource.clip = settings.DestructionClip;
+                myAudioSource.outputAudioMixerGroup = settings.DestroyGroup;
+                myAudioSource.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
+                myAudioSource.Play();
             }
-       }
+        }
 
         GameObject brokenPrefabCopy = settings.BrokenPrefab;
         brokenInstance = Instantiate(brokenPrefabCopy, transform.position, transform.rotation);
@@ -197,11 +199,12 @@ public class Destroyables : MonoBehaviour
 
           
 
-            if (AudioSource.isPlaying == false)
+           if (myAudioSource.isPlaying == false)
             {
-                AudioSource.clip = settings.CollisionClip;
-                AudioSource.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
-                AudioSource.Play();
+                myAudioSource.clip = settings.CollisionClip;
+                myAudioSource.outputAudioMixerGroup = settings.CollisionGroup;
+                myAudioSource.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
+                myAudioSource.Play();
             }
 
             float scoreValue = ((hitCounter * 0.05f)) * settings.CollisionValue;

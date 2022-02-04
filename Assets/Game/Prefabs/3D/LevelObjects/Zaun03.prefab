@@ -111,8 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: de7a34620930d244b83e9b351c9c6f64, type: 2}
-  player: {fileID: 0}
-  AudioSource: {fileID: 2033532250155160810}
+  myAudioSource: {fileID: 2033532250155160810}
 --- !u!82 &2033532250155160810
 AudioSource:
   m_ObjectHideFlags: 0
