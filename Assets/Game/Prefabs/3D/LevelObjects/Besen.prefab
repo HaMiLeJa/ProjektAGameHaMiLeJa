@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7236041273775282451}
   - component: {fileID: 5529499428883456089}
   - component: {fileID: 9050265261368788173}
-  - component: {fileID: 6307239868687352161}
   m_Layer: 0
   m_Name: Besen
   m_TagString: Untagged
@@ -82,17 +81,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &6307239868687352161
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1935908255296309800}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.81538403
-  m_Height: 9.946032
-  m_Direction: 1
-  m_Center: {x: 1.137292, y: 5.514016, z: -0.70514804}
