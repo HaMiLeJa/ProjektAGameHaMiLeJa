@@ -37,6 +37,8 @@ public class PlayerSuperDash : MonoBehaviour
 
     AudioManager audManager;
     [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip startClip;
+    [SerializeField] AudioClip endClip;
 
     #endregion
 
@@ -120,6 +122,7 @@ public class PlayerSuperDash : MonoBehaviour
         if (audioSource.isPlaying == false)
         {
             audioSource.pitch = Random.Range(0.8f, 1.6f);
+            audioSource.clip = startClip;
             audioSource.Play();
         }
 
@@ -152,6 +155,11 @@ public class PlayerSuperDash : MonoBehaviour
 
             yield return new WaitForFixedUpdate();
         }
+
+       // Debug.Log("PlayingSecond");
+        //audioSource.clip = endClip;
+        //audioSource.Play();
+
 
         yield return new WaitForSeconds(0.3f);
         isDestroying = false;
