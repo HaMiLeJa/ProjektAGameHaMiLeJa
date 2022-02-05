@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-
+#if UNITY_EDITOR
 public class LightmapMenu : MonoBehaviour
 {
     private static float boostEmissive = 35;
@@ -57,3 +57,4 @@ public class LightmapMenu : MonoBehaviour
     }
 
 }
+# endif

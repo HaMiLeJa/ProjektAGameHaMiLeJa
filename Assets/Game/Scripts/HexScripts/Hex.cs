@@ -51,10 +51,7 @@ public class Hex : MonoBehaviour
        // hexCoordinates = GetComponent<HexCoordinates>();
         highlight = GetComponent<GlowHighlight>();
 
-    }
 
-    private void Start()
-    {
         if (hexType == HexType.DefaultCollectable)
         {
 
@@ -62,28 +59,20 @@ public class Hex : MonoBehaviour
             // colRef.HexScript = this.gameObject.GetComponent<Hex>();
             CollectableManager.AllCollectables.Add(this.gameObject, colRef); //Nur adden, werte angepasst wird sp�ter
         }
+
+    }
+
+    private void Start()
+    {
         gameMng = ReferenceLibary.GameMng;
         Player = ReferenceLibary.Player;
         playerRb = ReferenceLibary.RigidbodyPl;
         hexMov = ReferenceLibary.HexMov;
-       // audManager = ReferenceLibary.AudMng;
-       // audioClipHexes = ReferenceLibary.AudMng.HexAudMng.gameObject.GetComponent<AudioClipsHexes>();
-        //myAudioSource = this.GetComponent<AudioSource>();
+
+      
         
         OnEffectHex += PlaySound;
-        /*
-        if (hexType != HexType.Default) // Delete
-        {
-            foreach(StringAudiofileClass file in audioClipHexes.AllHexClips)
-            {
-                if(file.type == hexType)
-                {
-                    
-                    clip = file.clip;
-                    myAudioSource.clip = clip;
-                }
-            }
-        }*/
+      
        
     }
 

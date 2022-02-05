@@ -32,7 +32,7 @@ public class CollectableManager : MonoBehaviour
     //du kannst ne boolean abfrage machen. sobald was eingesammelt wurde, triggert es einen timer der erst beim ablaufen  wieder das feld als "bespawnable" macht
 
     // Hex und References(Hex und bool)
-    public static Dictionary<GameObject, CollectableReferences> AllCollectables;
+    public static Dictionary<GameObject, CollectableReferences> AllCollectables = new Dictionary<GameObject, CollectableReferences>();
 
     public static bool StopEditorScript = false;
 
@@ -41,34 +41,39 @@ public class CollectableManager : MonoBehaviour
     // private bool addAll = true;
 
     Vector3 collectalbeOriginalScale;
+    bool addAll = true;
 
     private void Awake()
     {
         StopEditorScript = true;
-        AllCollectables =  new Dictionary<GameObject, CollectableReferences>();
     }
     void Start()
     {
-        collectalbeOriginalScale = GameObject.FindObjectOfType<Collectable>().transform.localScale;
-        //if (addAll == true)
-        // {
-             OnRespawnCollectables = null;
-             OnRespawnCollectables += StartCollectableSpawn;
+        // collectalbeOriginalScale = GameObject.FindObjectOfType<Collectable>().transform.localScale;
+        if (addAll == true)
+        {
+            OnRespawnCollectables = null;
+            OnRespawnCollectables += StartCollectableSpawn;
             // evt noch ui benachrichtigung
 
             if (AllCollectables != null)
             {
+                
                 foreach (KeyValuePair<GameObject, CollectableReferences> hex in AllCollectables)
                 {
                     hex.Value.HexScript = hex.Key.GetComponent<Hex>();
                     SetCollectableReferencesAtStart(hex.Value.HexScript);
+                    
                 }
-            }
 
-         //   addAll = false;
-        //}
+
+
+                addAll = false;
+            }
+        }
     }
 
+   
     void SetCollectableReferencesAtStart(Hex hex)
     {
         if(hex.myProps.GetComponentInChildren<Collectable>())
@@ -86,13 +91,15 @@ public class CollectableManager : MonoBehaviour
         
     }
 
-
+    
     
     void Update()
     {
 
         if (Input.GetKeyDown(KeyCode.J))
             OnRespawnCollectables?.Invoke();
+
+       
 
     }
 
@@ -119,8 +126,17 @@ public class CollectableManager : MonoBehaviour
 
     public void CollectableCollected(GameObject item, float energyValue ,GameObject hex)
     {
-        AllCollectables[hex].ActiveCollectable = false;
+        if (AllCollectables.ContainsKey(hex))
+            AllCollectables[hex].ActiveCollectable = false;
+        else 
+        {
+            Debug.Log("Meh");
+            CollectableReferences colref = new CollectableReferences();
+            colref.HexScript = hex.GetComponent<Hex>();
+            colref.ActiveCollectable = false;
+            AllCollectables.Add(hex, colref);
 
+        }
 
         EnergyManager.energyGotHigher = true;
         StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(energyValue));
