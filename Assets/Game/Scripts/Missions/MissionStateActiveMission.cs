@@ -63,6 +63,10 @@ public class MissionStateActiveMission : MonoBehaviour
         MissionManager.Progress++;
         MissionItemSpawner.CurrentMissionItems.Remove(item);
         Destroy(item);
+
+        if (MissionManager.Progress == MissionManager.CurrentMission.Amount) return;
+        ReferenceLibary.AudMng.PlayMissionSound(ReferenceLibary.MissionMng.missionCollectalbeClip, ReferenceLibary.MissionMng.missionCollectalbeGroup);
+
     }
     #endregion
 

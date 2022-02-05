@@ -43,7 +43,7 @@ public class MissionStateCompletedMission : MonoBehaviour
     private void UpdateEnergy()
     {
         EnergyManager.energyGotHigher = true;
-        StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(20));
+        StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(50));
     }
 
 
@@ -75,6 +75,9 @@ public class MissionStateCompletedMission : MonoBehaviour
 
 
     #region Collect Points
+
+    
+
     void UpdateCollectPoints()
     {
         ReferenceLibary.UIMng.DeactivateBasicMissionUI();

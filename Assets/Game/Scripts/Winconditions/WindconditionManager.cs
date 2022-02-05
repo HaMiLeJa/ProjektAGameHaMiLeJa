@@ -59,6 +59,7 @@ public class WindconditionManager : MonoBehaviour
             else
             {
                 StartCoroutine(ReferenceLibary.UIMng.UIHexUnlockedFailed());
+                //Sound für Hex Unlocked Failed
                 
             }
         }

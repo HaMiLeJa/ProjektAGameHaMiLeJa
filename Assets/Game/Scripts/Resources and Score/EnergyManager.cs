@@ -17,6 +17,8 @@ public class EnergyManager : MonoBehaviour //for points and energy
     [SerializeField] float currentEnergyForInspector;
     [SerializeField] float stepSize = 0.1f;
     public static bool energyGotHigher = false;
+    [Space]
+    public float ConstantEnergyDecrease = 0.005f;
 
     private void Awake()
     {
@@ -43,6 +45,15 @@ public class EnergyManager : MonoBehaviour //for points and energy
 
         if(GameStateManager.GameOver == false)
             CheckEnergyAmount();
+    }
+
+    private void FixedUpdate()
+    {
+
+        if(CurrentEnergy > 10)
+            CurrentEnergy -= ConstantEnergyDecrease;
+
+
     }
 
 

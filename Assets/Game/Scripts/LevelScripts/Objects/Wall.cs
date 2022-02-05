@@ -23,16 +23,26 @@ public class Wall : MonoBehaviour
 
             if (hitCounter >= 15)
             {
-                ScoreManager.OnScoring?.Invoke(settings.value/15);
-                return;
+                float points = settings.value / 15;
+                if (points < 1) points = 1;
+
+                ScoreManager.OnScoring?.Invoke(points);
+
+                
+            }
+            else
+            {
+                float scoreValue = ((hitCounter * 0.05f)) * settings.value; //bei 0.05 sind total 20 schritte möglich
+
+                float points = settings.value - scoreValue;
+                if (points < 1) points = 1;
+
+                ScoreManager.OnScoring?.Invoke(points);
             }
             
 
-            float scoreValue = ((hitCounter * 0.05f)) * settings.value; //bei 0.05 sind total 20 schritte möglich
+           
 
-            ScoreManager.OnScoring?.Invoke(settings.value - scoreValue);
-
-            //ScoreManager.OnScoring(settings.value - scoreValue);
 
             hitCounter++;
 

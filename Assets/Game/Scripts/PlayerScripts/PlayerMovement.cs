@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     public float constspeed = 60;
 
     [SerializeField] private bool constSpeedAllowed = true;
+    [HideInInspector] public float originalContspeed;
 // void Basic Jump
     bool jumping = false;
     [SerializeField] float forceJump = 3;
@@ -64,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] AudioSource jumpAudioSource;
    
     AudioManager audManager;
-    
+
 
     #endregion
 
@@ -74,6 +75,7 @@ public class PlayerMovement : MonoBehaviour
         gameMng = ReferenceLibary.GameMng;
         audManager = ReferenceLibary.AudMng;
         hexMov = ReferenceLibary.HexMov;
+        originalContspeed = constspeed;
     }
 
 

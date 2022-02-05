@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteAlways]
+[ExecuteInEditMode]
 public class SpawnHexObjectsInEditor : MonoBehaviour
 {
     public GameObject ObjectToSpawn;
@@ -53,6 +53,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
 
     void Update()
     {
+        if (SpawnHexPropsManager.AllowEditorHexObjSpawn == false) return;
         //if (ReferenceLibary.GameMng.DisableExecuteAlwaysScripts == true) return;
 
 

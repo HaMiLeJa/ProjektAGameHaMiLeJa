@@ -167,10 +167,12 @@ MonoBehaviour:
   tipsText: {fileID: 731217222}
   alphaCanvas: {fileID: 7764150345605088872}
   tips:
-  - Energy can be refilled by visiting the HexTower
+  - Energy can be refilled by visiting the Energy Tower
   - One of the three Hexpieces is hidden in the world
   - Portals can be used to speed up on travel time
   - Superboost can destroy some objects
+  - Hitting some objects three times destroys them
+  - Among others trees, gravestones and gences can be destroyed
   funnyMessagesText: {fileID: 964144265}
   funnyMessages:
   - 'Feeding the cats:'
@@ -246,7 +248,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7764150344380599346, guid: 4b5abf5146696c240b39ce4e8dc3aa9c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7764150344380599358, guid: 4b5abf5146696c240b39ce4e8dc3aa9c, type: 3}
       propertyPath: m_Pivot.x
@@ -335,6 +337,22 @@ PrefabInstance:
     - target: {fileID: 7764150344553736759, guid: 4b5abf5146696c240b39ce4e8dc3aa9c, type: 3}
       propertyPath: m_Name
       value: Loading Progress Fill
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764150345919337781, guid: 4b5abf5146696c240b39ce4e8dc3aa9c, type: 3}
+      propertyPath: m_fontSize
+      value: 47.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764150345919337781, guid: 4b5abf5146696c240b39ce4e8dc3aa9c, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764150345919337782, guid: 4b5abf5146696c240b39ce4e8dc3aa9c, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 123.003
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764150345919337782, guid: 4b5abf5146696c240b39ce4e8dc3aa9c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -178.5015
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b5abf5146696c240b39ce4e8dc3aa9c, type: 3}

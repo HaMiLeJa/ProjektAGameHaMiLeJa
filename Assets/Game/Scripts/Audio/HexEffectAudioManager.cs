@@ -1,16 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class HexEffectAudioManager : MonoBehaviour
 {
 
     public List<StringAudiofileClass> AllHexClips = new List<StringAudiofileClass>();
-   // List<AudioSource> allHexAudioSources = new List<AudioSource>();
-
     Dictionary<HexType, AudioClip> AllHexTypesAndClips = new Dictionary<HexType, AudioClip>();
-   // int freeAudioSources;
 
+
+    public List<HexTypeAndMixerGroup> AllOutputGroups = new List<HexTypeAndMixerGroup>();
+    Dictionary<HexType, AudioMixerGroup> AllOutputGroupsForHextypes = new Dictionary<HexType, AudioMixerGroup>();
+
+    //int freeAudioSources;
+
+    [System.Serializable]
+    public class HexTypeAndMixerGroup
+    {
+        public HexType type;
+        public AudioMixerGroup group;
+    }
 
 
     AudioSource[] AllHexAudioSources;
@@ -22,6 +32,10 @@ public class HexEffectAudioManager : MonoBehaviour
       
        // freeAudioSources = AllHexAudioSources.Length;
 
+        foreach(HexTypeAndMixerGroup file in AllOutputGroups)
+        {
+            AllOutputGroupsForHextypes.Add(file.type, file.group);
+        }
 
 
         foreach (StringAudiofileClass file in AllHexClips)
@@ -41,6 +55,9 @@ public class HexEffectAudioManager : MonoBehaviour
 
 
         if (mySource == null) return;
+
+        mySource.outputAudioMixerGroup = AllOutputGroupsForHextypes[type];
+        mySource.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
         mySource.clip = AllHexTypesAndClips[type];
         mySource.Play();
 

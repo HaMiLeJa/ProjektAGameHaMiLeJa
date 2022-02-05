@@ -8,11 +8,11 @@ public class Destroyables : MonoBehaviour
     public DestroyableScriptableObject settings;
     [Space]
     PlayerSuperDash superDash;
-    [SerializeField] GameObject player;
+    GameObject player;
     Collider col;
 
     private Rigidbody Rigidbody;
-    public AudioSource AudioSource;
+    public AudioSource myAudioSource;
     private GameObject brokenInstance;
     bool TriggerResetted = false;
 
@@ -20,11 +20,14 @@ public class Destroyables : MonoBehaviour
 
     List<Material> AllMaterials = new List<Material>();
 
+    int collisionCounter = 0;
+
 
     void Start()
     {
-        if(AudioSource == null)
-             AudioSource = this.GetComponent<AudioSource>();
+        if(myAudioSource == null)
+             myAudioSource = this.GetComponent<AudioSource>();
+
         col = this.GetComponent<Collider>();
 
         superDash = ReferenceLibary.SuperDash;
@@ -40,7 +43,7 @@ public class Destroyables : MonoBehaviour
             AllMaterials.Add(settings.Material04);
         }
 
-
+        collisionCounter = 0;
     }
     
     private void FixedUpdate()
@@ -56,13 +59,14 @@ public class Destroyables : MonoBehaviour
 
        if (settings.DestructionClip != null)
        {
-            if (AudioSource.isPlaying == false)
+            if (myAudioSource.isPlaying == false)
             {
-                AudioSource.clip = settings.DestructionClip;
-                AudioSource.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
-                AudioSource.Play();
+                myAudioSource.clip = settings.DestructionClip;
+                myAudioSource.outputAudioMixerGroup = settings.DestroyGroup;
+                myAudioSource.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
+                myAudioSource.Play();
             }
-       }
+        }
 
         GameObject brokenPrefabCopy = settings.BrokenPrefab;
         brokenInstance = Instantiate(brokenPrefabCopy, transform.position, transform.rotation);
@@ -164,15 +168,14 @@ public class Destroyables : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject != player) return;
-        //Debug.Log("Collision");
-        if (superDash.isDestroying == true || ReferenceLibary.DownDashPl.isDestroying == true)
+
+        if (settings.AllowAutomatedDestruction == true)
+            collisionCounter++;
+
+        if (superDash.isDestroying == true || ReferenceLibary.DownDashPl.isDestroying == true || collisionCounter >= settings.HitAmount)
         {
 
-            if(DestroyCounter >= 15)
-            {
-                ScoreManager.OnScoring?.Invoke(settings.DestroyValue/15);
-               
-            }
+            
 
             col.enabled = false;
             
@@ -180,9 +183,23 @@ public class Destroyables : MonoBehaviour
             Explode();
 
 
-            float scoreValue = ((DestroyCounter * 0.05f)) * settings.DestroyValue;
+            if (DestroyCounter >= 15)
+            {
+                float points15 = settings.DestroyValue / 15;
+                if (points15 < 1) points15 = 1;
+                ScoreManager.OnScoring?.Invoke(points15);
+                
+            }
+            else
+            {
+                float scoreValue = ((DestroyCounter * 0.05f)) * settings.DestroyValue;
+                float points = settings.DestroyValue - DestroyCounter;
+                if (points <= 1) points = 1;
+                ScoreManager.OnScoring?.Invoke(points);
+            }
+
             DestroyCounter++;
-            ScoreManager.OnScoring?.Invoke(settings.DestroyValue - DestroyCounter);
+            collisionCounter = 0;
 
         }
         else
@@ -190,27 +207,31 @@ public class Destroyables : MonoBehaviour
 
             if (hitCounter >= 15)
             {
-                ScoreManager.OnScoring?.Invoke(settings.CollisionValue / 15);
-                //Debug.Log("Hit 20 approached");
-                return;
+                float points = settings.CollisionValue / 15;
+                if (points < 1) points = 1;
+                ScoreManager.OnScoring?.Invoke(points);
+                
+                
             }
-
-          
-
-            if (AudioSource.isPlaying == false)
+            else
             {
-                AudioSource.clip = settings.CollisionClip;
-                AudioSource.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
-                AudioSource.Play();
+                float scoreValue = ((hitCounter * 0.05f)) * settings.CollisionValue;
+                float points = settings.CollisionValue - scoreValue;
+                if (points < 1) points = 1;
+
+                ScoreManager.OnScoring?.Invoke(points);
             }
 
-            float scoreValue = ((hitCounter * 0.05f)) * settings.CollisionValue;
+
             hitCounter++;
-            
 
-
-            ScoreManager.OnScoring?.Invoke(settings.CollisionValue - scoreValue);
-           
+            if (myAudioSource.isPlaying == false)
+            {
+                myAudioSource.clip = settings.CollisionClip;
+                myAudioSource.outputAudioMixerGroup = settings.CollisionGroup;
+                myAudioSource.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
+                myAudioSource.Play();
+            }
         }
 
     }
