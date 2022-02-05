@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: SciptableCollectable
   m_EditorClassIdentifier: 
   value: 50
-  secondValue: 5
+  secondValue: 3.5
   Clip: {fileID: 0}
   Clip2: {fileID: 0}
