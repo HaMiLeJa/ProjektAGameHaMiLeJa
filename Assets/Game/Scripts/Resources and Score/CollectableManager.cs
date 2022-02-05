@@ -117,13 +117,13 @@ public class CollectableManager : MonoBehaviour
     }
 
 
-    public void CollectableCollected(GameObject item, GameObject hex)
+    public void CollectableCollected(GameObject item, float energyValue ,GameObject hex)
     {
         AllCollectables[hex].ActiveCollectable = false;
 
 
         EnergyManager.energyGotHigher = true;
-        StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(1));
+        StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(energyValue));
         ReferenceLibary.AudMng.HexAudMng.PlayHex(HexType.DefaultCollectable);
 
         item.SetActive(false);

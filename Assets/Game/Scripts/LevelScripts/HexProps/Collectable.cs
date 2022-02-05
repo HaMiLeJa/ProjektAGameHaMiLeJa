@@ -33,13 +33,7 @@ public class Collectable : MonoBehaviour
             ScoreManager.OnScoring?.Invoke(settings.value);
 
 
-            ReferenceLibary.ColMng.CollectableCollected(this.gameObject, ParentHex); //hier drin sind auch sounds;
-            
-
-
-            
-
-            
+            ReferenceLibary.ColMng.CollectableCollected(this.gameObject,settings.secondValue ,ParentHex); //hier drin sind auch sounds;
             
         }
     }

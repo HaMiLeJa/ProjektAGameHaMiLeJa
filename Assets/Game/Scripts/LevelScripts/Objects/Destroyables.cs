@@ -20,6 +20,8 @@ public class Destroyables : MonoBehaviour
 
     List<Material> AllMaterials = new List<Material>();
 
+    int collisionCounter = 0;
+
 
     void Start()
     {
@@ -41,7 +43,7 @@ public class Destroyables : MonoBehaviour
             AllMaterials.Add(settings.Material04);
         }
 
-
+        collisionCounter = 0;
     }
     
     private void FixedUpdate()
@@ -166,15 +168,14 @@ public class Destroyables : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject != player) return;
-        //Debug.Log("Collision");
-        if (superDash.isDestroying == true || ReferenceLibary.DownDashPl.isDestroying == true)
+
+        if (settings.AllowAutomatedDestruction == true)
+            collisionCounter++;
+
+        if (superDash.isDestroying == true || ReferenceLibary.DownDashPl.isDestroying == true || collisionCounter >= settings.HitAmount)
         {
 
-            if(DestroyCounter >= 15)
-            {
-                ScoreManager.OnScoring?.Invoke(settings.DestroyValue/15);
-               
-            }
+            
 
             col.enabled = false;
             
@@ -182,9 +183,23 @@ public class Destroyables : MonoBehaviour
             Explode();
 
 
-            float scoreValue = ((DestroyCounter * 0.05f)) * settings.DestroyValue;
+            if (DestroyCounter >= 15)
+            {
+                float points15 = settings.DestroyValue / 15;
+                if (points15 < 1) points15 = 1;
+                ScoreManager.OnScoring?.Invoke(points15);
+                
+            }
+            else
+            {
+                float scoreValue = ((DestroyCounter * 0.05f)) * settings.DestroyValue;
+                float points = settings.DestroyValue - DestroyCounter;
+                if (points <= 1) points = 1;
+                ScoreManager.OnScoring?.Invoke(points);
+            }
+
             DestroyCounter++;
-            ScoreManager.OnScoring?.Invoke(settings.DestroyValue - DestroyCounter);
+            collisionCounter = 0;
 
         }
         else
@@ -192,28 +207,31 @@ public class Destroyables : MonoBehaviour
 
             if (hitCounter >= 15)
             {
-                ScoreManager.OnScoring?.Invoke(settings.CollisionValue / 15);
-                //Debug.Log("Hit 20 approached");
-                return;
+                float points = settings.CollisionValue / 15;
+                if (points < 1) points = 1;
+                ScoreManager.OnScoring?.Invoke(points);
+                
+                
+            }
+            else
+            {
+                float scoreValue = ((hitCounter * 0.05f)) * settings.CollisionValue;
+                float points = settings.CollisionValue - scoreValue;
+                if (points < 1) points = 1;
+
+                ScoreManager.OnScoring?.Invoke(points);
             }
 
-          
 
-           if (myAudioSource.isPlaying == false)
+            hitCounter++;
+
+            if (myAudioSource.isPlaying == false)
             {
                 myAudioSource.clip = settings.CollisionClip;
                 myAudioSource.outputAudioMixerGroup = settings.CollisionGroup;
                 myAudioSource.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
                 myAudioSource.Play();
             }
-
-            float scoreValue = ((hitCounter * 0.05f)) * settings.CollisionValue;
-            hitCounter++;
-            
-
-
-            ScoreManager.OnScoring?.Invoke(settings.CollisionValue - scoreValue);
-           
         }
 
     }
