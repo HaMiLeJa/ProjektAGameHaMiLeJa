@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 701e127b25bdeda4aa6018a2f2842509, type: 3}
-  m_Name: WallSettngs
+  m_Name: WallSettngs(notinUse)
   m_EditorClassIdentifier: 
   BrokenPrefab: {fileID: 8694883880990774153, guid: 3149ff660944b8440a3bc682cdd36e8b, type: 3}
   CollisionClip: {fileID: 8300000, guid: 9eb5802e666bc5848a2f8e887d19001b, type: 3}

@@ -90,7 +90,7 @@ public class CollectableManager : MonoBehaviour
     
     void Update()
     {
-       
+
         if (Input.GetKeyDown(KeyCode.J))
             OnRespawnCollectables?.Invoke();
 

@@ -275,15 +275,18 @@ public class Hex : MonoBehaviour
 
     IEnumerator Coroutine_ChangeConstSpeedOverTime()
     {
-        float originalConSpeed = ReferenceLibary.PlayerMov.constspeed;
+        
         ReferenceLibary.PlayerMov.constspeed = 30;
         yield return new WaitForSeconds(2f);
         
-        while (ReferenceLibary.PlayerMov.constspeed != originalConSpeed)
+        while (ReferenceLibary.PlayerMov.constspeed != ReferenceLibary.PlayerMov.originalContspeed)
         {
             ReferenceLibary.PlayerMov.constspeed += 1;
             yield return new WaitForFixedUpdate();
         }
+
+        if (ReferenceLibary.PlayerMov.constspeed > ReferenceLibary.PlayerMov.originalContspeed)
+            ReferenceLibary.PlayerMov.constspeed = ReferenceLibary.PlayerMov.originalContspeed;
 
         yield return null;
     }
