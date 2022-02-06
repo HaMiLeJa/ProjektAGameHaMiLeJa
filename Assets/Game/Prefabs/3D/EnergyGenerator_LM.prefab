@@ -218,6 +218,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 7858929990763069582}
     m_Modifications:
     - target: {fileID: 927856882972385758, guid: ad3cceb7648394c4386741180c65a497, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 927856882972385758, guid: ad3cceb7648394c4386741180c65a497, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -294,8 +298,16 @@ PrefabInstance:
       value: Ghosts (1)
       objectReference: {fileID: 0}
     - target: {fileID: 3197207908707546828, guid: ad3cceb7648394c4386741180c65a497, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3197207908707546828, guid: ad3cceb7648394c4386741180c65a497, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4882863331149499507, guid: ad3cceb7648394c4386741180c65a497, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4882863331149499507, guid: ad3cceb7648394c4386741180c65a497, type: 3}
       propertyPath: m_StaticEditorFlags

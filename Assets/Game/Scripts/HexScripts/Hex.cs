@@ -23,7 +23,7 @@ public class Hex : MonoBehaviour
     public CollectableType collectableType = CollectableType.Type1; //To Be Used :)
 
     AudioClip clip;
-
+    ParticleSystem EffectParticle;
     
     #endregion
     //public Vector3Int HexCoords => hexCoordinates.GetHexCoords();
@@ -47,8 +47,6 @@ public class Hex : MonoBehaviour
 
     private void Awake()
     {
-        
-       // hexCoordinates = GetComponent<HexCoordinates>();
         highlight = GetComponent<GlowHighlight>();
 
 
@@ -73,6 +71,10 @@ public class Hex : MonoBehaviour
         
         OnEffectHex += PlaySound;
       
+        if(hexType == HexType.SlowDown)
+        {
+            EffectParticle = GetComponentInChildren<ParticleSystem>();
+        }
        
     }
 
@@ -244,6 +246,11 @@ public class Hex : MonoBehaviour
         if (gameMng.AllowHexEffects == false) return;
         gameMng.AllowMovement = false;
 
+        if (EffectParticle != null)
+        {
+            EffectParticle.Play();
+            Debug.Log("No Particle in hex Obj, sorry");
+        }
         hexMov.SlowDownTimer = 0;
 
         hexMov.OnSlowDownHex = true;

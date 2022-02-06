@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3948008676557539919}
   - component: {fileID: 617904041}
   - component: {fileID: 1217477346}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Collectalbe01Prop
   m_TagString: HexEffectObj
   m_Icon: {fileID: 0}

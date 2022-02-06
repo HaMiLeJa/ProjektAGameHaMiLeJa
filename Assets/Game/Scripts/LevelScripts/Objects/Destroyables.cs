@@ -69,7 +69,7 @@ public class Destroyables : MonoBehaviour
         }
 
         GameObject brokenPrefabCopy = settings.BrokenPrefab;
-        brokenInstance = Instantiate(brokenPrefabCopy, transform.position, transform.rotation);
+        brokenInstance = Instantiate(brokenPrefabCopy, transform.position + settings.DestroyedCubeAdditionalDistance, transform.rotation);
 
         Rigidbody[] rigidbodies = brokenInstance.GetComponentsInChildren<Rigidbody>();
 
@@ -175,11 +175,9 @@ public class Destroyables : MonoBehaviour
         if (superDash.isDestroying == true || ReferenceLibary.DownDashPl.isDestroying == true || collisionCounter >= settings.HitAmount)
         {
 
-            
-
             col.enabled = false;
             
-            ReferenceLibary.RigidbodyPl.velocity *= -1;
+            ReferenceLibary.RigidbodyPl.velocity *= -1.2f;
             Explode();
 
 

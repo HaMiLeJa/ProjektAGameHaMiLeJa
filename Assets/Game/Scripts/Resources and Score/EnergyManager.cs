@@ -81,6 +81,7 @@ public class EnergyManager : MonoBehaviour //for points and energy
            
         }
         
+
         
         //CurrentEnergy += value;
 

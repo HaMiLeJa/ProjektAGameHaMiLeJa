@@ -26,10 +26,11 @@ MonoBehaviour:
   CollisionValue: 10
   AllowAutomatedDestruction: 0
   HitAmount: 5
-  ChangeMaterial: 1
+  ChangeMaterial: 0
   Material01: {fileID: 2100000, guid: a0b6e96244d2dea4aad1f0f805db5c35, type: 2}
   Material02: {fileID: 2100000, guid: ba8ee235965a8b84895c425982f872be, type: 2}
   Material03: {fileID: 2100000, guid: aac9e9267b05b1d4ea28e527149068a9, type: 2}
   Material04: {fileID: 2100000, guid: 23487fb0693adbb40b62e5e5851c439f, type: 2}
   CollisionGroup: {fileID: -1585942546712559585, guid: 369e9ea0dfb4b7d4c8794c09bbe4bc2f, type: 2}
   DestroyGroup: {fileID: 5112620251232374898, guid: 369e9ea0dfb4b7d4c8794c09bbe4bc2f, type: 2}
+  DestroyedCubeAdditionalDistance: {x: 0, y: 2, z: 0}

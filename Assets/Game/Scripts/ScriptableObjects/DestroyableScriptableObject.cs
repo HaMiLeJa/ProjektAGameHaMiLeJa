@@ -38,4 +38,7 @@ public class DestroyableScriptableObject : ScriptableObject
     public AudioMixerGroup CollisionGroup;
     public AudioMixerGroup DestroyGroup;
 
+    [Space]
+    [Tooltip("Better only use Y!")]
+    public Vector3 DestroyedCubeAdditionalDistance;
 }
