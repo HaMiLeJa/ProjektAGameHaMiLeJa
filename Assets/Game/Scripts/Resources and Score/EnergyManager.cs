@@ -19,6 +19,7 @@ public class EnergyManager : MonoBehaviour //for points and energy
     public static bool energyGotHigher = false;
     [Space]
     public float ConstantEnergyDecrease = 0.005f;
+    [SerializeField] AudioSource myAudioSource;
 
     private void Awake()
     {
@@ -120,13 +121,18 @@ public class EnergyManager : MonoBehaviour //for points and energy
         yield return null;
     }
 
+    bool EnergyEmptyPlayed = false;
+
     void CheckEnergyAmount()
     {
         if (CurrentEnergy <= 0)
         {
             //if (startDash.Boosting == true) return; OLD
-           
-            
+            if (EnergyEmptyPlayed == false)
+            {
+                EnergyEmptyPlayed = true;
+                myAudioSource.Play();
+            }
 
             gameMng.AllowMovement = false;
             
@@ -139,7 +145,7 @@ public class EnergyManager : MonoBehaviour //for points and energy
         else
         {
             gameMng.AllowMovement = true;
-            
+            EnergyEmptyPlayed = false;
         }
 
         if(CurrentEnergy >= MaxEnergyAmount)

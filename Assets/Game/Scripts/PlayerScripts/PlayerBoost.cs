@@ -27,7 +27,7 @@ public class PlayerBoost : MonoBehaviour
 
     Rigidbody rb;
 
-   
+    [SerializeField] ParticleSystem particle;
 
     #endregion
 
@@ -42,10 +42,13 @@ public class PlayerBoost : MonoBehaviour
         gameMng = ReferenceLibary.GameMng;
         audManager = ReferenceLibary.AudMng;
 
-        //audioSource = 
+/*
+        particle.Play();
+        var emission = particle.emission;
+        emission.enabled = false;*/
     }
 
-  
+
 
     void FixedUpdate()
     {
@@ -90,8 +93,7 @@ public class PlayerBoost : MonoBehaviour
 
     public void BoostStarter()
     {
-        if (audioSource.isPlaying == false)
-            audioSource.Play();
+        
 
         IsBoosting = true;
         boostTimer = 0;
@@ -107,6 +109,17 @@ public class PlayerBoost : MonoBehaviour
         if(gameMng.DashCosts != 0)
             StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(-gameMng.DashCosts));
 
+        //var emission = particle.emission;
+       // emission.enabled = true;
+
+
+        //Sound und trail particle auf world stellen? bzw trail world particle anstellen
+        if (audioSource.isPlaying == false)
+        { audioSource.pitch = Random.Range(0.8f, 1.6f);
+            audioSource.Play();
+        }
+
+
         float t = 0;
         while (t < boostDuration)
         {
@@ -120,13 +133,21 @@ public class PlayerBoost : MonoBehaviour
         }
 
 
-       // rb.velocity = rb.velocity / 2;
+
+        
+        //emission.enabled = false;
+
+
+        // rb.velocity = rb.velocity / 2;
 
         //rb.velocity = velocity;
 
         currentBoostforce = 0;
         //IsBoosting = false;
         
+
+
+
     }
 
     #endregion

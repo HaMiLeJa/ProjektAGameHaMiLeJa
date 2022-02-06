@@ -104,6 +104,7 @@ Material:
     - _AlphaClip: 0
     - _Banding: 1
     - _Bands: 3
+    - _BendingAmount: 0.00988
     - _Blend: 2
     - _BlendOp: 0
     - _BumpScale: 1
@@ -174,7 +175,7 @@ Material:
     - _BaseColorAddSubDiff: {r: 1, g: 0, b: 0, a: 0}
     - _BurnCol: {r: 0, g: 0.56861687, b: 1, a: 1}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
-    - _Color: {r: 0.14415035, g: 0.7402351, b: 0.8603976, a: 1}
+    - _Color: {r: 0.14509805, g: 0.85882354, b: 0.71472424, a: 1}
     - _ColorAddSubDiff: {r: 1, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 62.419827, b: 22.45576, a: 1}
     - _PanningSpeed: {r: 0, g: 0, b: 0, a: 0}
