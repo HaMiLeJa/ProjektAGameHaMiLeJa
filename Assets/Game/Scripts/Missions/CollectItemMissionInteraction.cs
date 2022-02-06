@@ -6,7 +6,7 @@ public class CollectItemMissionInteraction : MonoBehaviour
 {
 
     #region Inspector
-    [SerializeField] float rotation = 400;
+    [SerializeField] float rotation = 100;
     #endregion
 
 
