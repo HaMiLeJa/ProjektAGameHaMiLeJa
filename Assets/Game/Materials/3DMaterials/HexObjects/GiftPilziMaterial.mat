@@ -135,8 +135,8 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _emissionIntensity: 4.14
-    - _emissiveCutoff: 0.2
+    - _emissionIntensity: 3.59
+    - _emissiveCutoff: 0
     - _normalStrength: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
