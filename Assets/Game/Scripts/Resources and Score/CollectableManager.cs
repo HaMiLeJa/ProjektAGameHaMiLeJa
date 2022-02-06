@@ -96,10 +96,11 @@ public class CollectableManager : MonoBehaviour
     void Update()
     {
 
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.J))
             OnRespawnCollectables?.Invoke();
 
-       
+#endif
 
     }
 

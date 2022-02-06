@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: "GiantK\xFCrbisSettings"
   m_EditorClassIdentifier: 
   BrokenPrefab: {fileID: 8694883880990774153, guid: ad73a617b8af29648bc36764d31294f5, type: 3}
-  CollisionClip: {fileID: 8300000, guid: 9eb5802e666bc5848a2f8e887d19001b, type: 3}
-  DestructionClip: {fileID: 8300000, guid: d0a01bcf4f928424384169266b459302, type: 3}
+  CollisionClip: {fileID: 8300000, guid: e28896853e2102041951b8177ea68ee3, type: 3}
+  DestructionClip: {fileID: 8300000, guid: 5a0f2775ba270ab40a240c1740dc627c, type: 3}
   ExplosiveForce: 1000
   ExplosiveRadius: 4
   FadeSpeed: 2
@@ -32,4 +32,4 @@ MonoBehaviour:
   Material03: {fileID: 2100000, guid: 59bf428250c553b438c9dd97f54241ed, type: 2}
   Material04: {fileID: 2100000, guid: 5e0a09ce3094b61408a12eb2c0538221, type: 2}
   CollisionGroup: {fileID: -1585942546712559585, guid: 369e9ea0dfb4b7d4c8794c09bbe4bc2f, type: 2}
-  DestroyGroup: {fileID: -7098911600794797653, guid: 369e9ea0dfb4b7d4c8794c09bbe4bc2f, type: 2}
+  DestroyGroup: {fileID: -777458001681440320, guid: 369e9ea0dfb4b7d4c8794c09bbe4bc2f, type: 2}
