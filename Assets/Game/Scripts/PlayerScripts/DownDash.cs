@@ -54,6 +54,7 @@ public class DownDash : MonoBehaviour
             if (gameMng.AllowMovement == false) return;
             if (playerMov.OnGround == false && buttonPressedInLastFrame == false)
             {
+                ReferenceLibary.GameMng.InputMade();
                 boostingDown = true;
                 buttonPressedInLastFrame = true;
                 

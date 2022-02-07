@@ -66,7 +66,7 @@ public class Destroyables : MonoBehaviour
                 myAudioSource.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
                 myAudioSource.Play();
             }
-        }
+       }
 
         GameObject brokenPrefabCopy = settings.BrokenPrefab;
         brokenInstance = Instantiate(brokenPrefabCopy, transform.position + settings.DestroyedCubeAdditionalDistance, transform.rotation);

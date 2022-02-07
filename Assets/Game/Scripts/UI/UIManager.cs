@@ -78,6 +78,7 @@ public class UIManager : MonoBehaviour
         permanentTxt.gameObject.SetActive(true);
         permanentTxt.text = "";
         score.text = ScoreManager.CurrentScore.ToString();
+
     }
 
     void Update()
@@ -739,6 +740,8 @@ public class UIManager : MonoBehaviour
 
 
     #endregion
+
+  
 
 }
 

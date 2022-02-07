@@ -105,9 +105,10 @@ public class PlayerSuperDash : MonoBehaviour
         if (superDashCoroutine != null)
             StopCoroutine(superDashCoroutine);
 
+        ReferenceLibary.GameMng.InputMade();
 
-       // if (EnergyManager.Instance.CheckForRequiredEnergyAmount(gameMng.SuperDashCosts) == true) // Wenn genügend Energy zur verfügung steht
-            superDashCoroutine = StartCoroutine(SuperDashCoroutine());
+        // if (EnergyManager.Instance.CheckForRequiredEnergyAmount(gameMng.SuperDashCosts) == true) // Wenn genügend Energy zur verfügung steht
+        superDashCoroutine = StartCoroutine(SuperDashCoroutine());
        // else
         //    superDashNotPossible = true;
 
