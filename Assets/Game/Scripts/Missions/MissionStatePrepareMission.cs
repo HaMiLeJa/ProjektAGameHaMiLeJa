@@ -56,7 +56,7 @@ public class MissionStatePrepareMission : MonoBehaviour
         else if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.medium)
         {
             MissionManager.CurrentMission.Amount = RandomInt(5, 10);
-            MissionManager.CurrentMission.time = 60f + (MissionManager.CurrentMission.Amount * 25);
+            MissionManager.CurrentMission.time = 60f + (MissionManager.CurrentMission.Amount * 30);
             MissionManager.CurrentMission.multiplicator = MissionManager.CurrentMission.Amount * 0.05f;
         }
         else if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.hard)
