@@ -16,7 +16,7 @@ public class ShadowDash : MonoBehaviour
     [SerializeField] private float disappearingDuringShadowDashStart;
     [SerializeField] private float disappearingDuringShadowDashEnd;
     [SerializeField] private GameObject Flashlight;
-    public ParticleSystem dust;
+    public ParticleSystem particle;
 
     public MeshRenderer mr;
 
@@ -73,10 +73,10 @@ public class ShadowDash : MonoBehaviour
 
 
         if (mr.enabled == false)
-            dust.Play();
+            particle.Play();
         else
         {
-            dust.Stop();
+           // particle.Stop();
         }
 
 
