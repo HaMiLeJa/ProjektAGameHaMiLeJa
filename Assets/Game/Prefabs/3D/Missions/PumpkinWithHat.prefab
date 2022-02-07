@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 556463091983638801}
-  - component: {fileID: -3288709587980473103}
-  - component: {fileID: -2821256887251646886}
+  - component: {fileID: 3620928667607711671}
+  - component: {fileID: 1402445195089327041}
+  - component: {fileID: 5057325292797404005}
   m_Layer: 0
   m_Name: PumpkinWithHat
   m_TagString: Untagged
@@ -33,7 +34,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-3288709587980473103
+--- !u!114 &3620928667607711671
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,11 +43,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2372878947718448287}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87cd929f58e8fa0429b49451a81decb6, type: 3}
+  m_Script: {fileID: 11500000, guid: 6be94f09eb6ee1d44b777a7de075cf98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: 18
---- !u!135 &-2821256887251646886
+  RotationEnabled: 1
+--- !u!135 &1402445195089327041
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -59,6 +61,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4.5767965
   m_Center: {x: -0.039252758, y: 1.0825515, z: 0.038075447}
+--- !u!114 &5057325292797404005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2372878947718448287}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87cd929f58e8fa0429b49451a81decb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectParticle: {fileID: 7293014723529993334, guid: ee81a176d32c6ed4a975b220519bfa95, type: 3}
 --- !u!1 &4067090379234544151
 GameObject:
   m_ObjectHideFlags: 0
@@ -70,7 +85,6 @@ GameObject:
   - component: {fileID: 2245019991418154905}
   - component: {fileID: 7773696545942612783}
   - component: {fileID: 7033027009753434810}
-  - component: {fileID: 5387208951440695929}
   - component: {fileID: 4631948082732337362}
   m_Layer: 6
   m_Name: PumpkinWithHat
@@ -142,19 +156,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5387208951440695929
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4067090379234544151}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87cd929f58e8fa0429b49451a81decb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotation: 18
 --- !u!135 &4631948082732337362
 SphereCollider:
   m_ObjectHideFlags: 0

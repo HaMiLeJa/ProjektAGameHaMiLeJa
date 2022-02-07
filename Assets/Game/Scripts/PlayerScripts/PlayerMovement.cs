@@ -76,6 +76,7 @@ public class PlayerMovement : MonoBehaviour
         audManager = ReferenceLibary.AudMng;
         hexMov = ReferenceLibary.HexMov;
         originalContspeed = constspeed;
+        //Enable Conspeed!
     }
 
 

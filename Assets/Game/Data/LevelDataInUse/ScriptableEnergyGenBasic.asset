@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d932235402885ae4c847f361c6bd5b07, type: 3}
   m_Name: ScriptableEnergyGenBasic
   m_EditorClassIdentifier: 
-  maxEnergy: 20
-  energyGenerationAmount: 1
+  maxEnergy: 25
+  energyGenerationAmount: 1.5
   energyGenerationRate: 2
   clip: {fileID: 8300000, guid: 3de94f38964478f47b880098108216fe, type: 3}
