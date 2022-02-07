@@ -19,7 +19,7 @@ public class ShadowDash : MonoBehaviour
     public ParticleSystem particle;
 
     public MeshRenderer mr;
-
+    public MeshRenderer mr2;
     GameManager gameMng;
     PlayerBoost dash;
     PlayerSuperDash superDash;
@@ -72,7 +72,7 @@ public class ShadowDash : MonoBehaviour
         if (superDash.isSuperDashing == true) return;
 
         
-        if (mr.enabled == false && particle.isPlaying == false)
+        if (mr2.enabled == false && mr.enabled == false && particle.isPlaying == false)
         {
             particle.Play();
         }
@@ -177,6 +177,7 @@ public class ShadowDash : MonoBehaviour
         {
 
             mr.enabled = true;
+            mr2.enabled = true;
             t += Time.fixedDeltaTime;
             float curveValue = shadowDashcurve.Evaluate(t); // / ShadowDashDuration
 
@@ -190,6 +191,7 @@ public class ShadowDash : MonoBehaviour
                 
 
                 mr.enabled = false;
+                mr2.enabled = false;
                 gameMng.AllowHexEffects = false;
 
             }
@@ -214,10 +216,10 @@ public class ShadowDash : MonoBehaviour
 
 
         this.gameObject.layer = playerLayerInt;
-        
-       
+
         gameMng.AllowHexEffects = true;
         mr.enabled = true;
+        mr2.enabled = true;
 
     }
 

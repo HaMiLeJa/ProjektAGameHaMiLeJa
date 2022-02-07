@@ -644,8 +644,9 @@ MonoBehaviour:
   disappearingDuringShadowDashStart: 12
   disappearingDuringShadowDashEnd: 26
   Flashlight: {fileID: 0}
-  dust: {fileID: 7382486788070721510}
+  particle: {fileID: 0}
   mr: {fileID: 5422289937533297311}
+  mr2: {fileID: 9205765972863914364}
   worldMask:
     serializedVersion: 2
     m_Bits: 128
@@ -6396,6 +6397,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9178826969115793041, guid: 479ca233a1b472b4eb5edaa3241ffa4e, type: 3}
   m_PrefabInstance: {fileID: 1219316353129610370}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &9205765972863914364 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8010376118575295998, guid: 479ca233a1b472b4eb5edaa3241ffa4e, type: 3}
+  m_PrefabInstance: {fileID: 1219316353129610370}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1421867664659026144
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6994,11 +7000,6 @@ PrefabInstance:
 --- !u!4 &7382486788070721509 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6349675991529515086, guid: 510b830ba295f52438831c39312eb0d8, type: 3}
-  m_PrefabInstance: {fileID: 4498330985486167979}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &7382486788070721510 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 6349675991529515085, guid: 510b830ba295f52438831c39312eb0d8, type: 3}
   m_PrefabInstance: {fileID: 4498330985486167979}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5422289936955480251
