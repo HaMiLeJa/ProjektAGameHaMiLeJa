@@ -1,0 +1,156 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FlamenMaterial
+  m_Shader: {fileID: 4800000, guid: 7ab50bece23831a4a8be32c390715c5d, type: 3}
+  m_ShaderKeywords: _ALPHAMODULATE_ON _ALPHATEST_ON _EMISSION _FADING_ON _FLIPBOOKBLENDING_ON
+    _SOFTPARTICLES_ON
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 1
+  m_CustomRenderQueue: 3000
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses:
+  - SHADOWCASTER
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: b30f93b6d77381a4da2d204c638a90b9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DisplacementGuide:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GradientMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: b30f93b6d77381a4da2d204c638a90b9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: 0574bce61ae9f6a4699fe1690ea195d9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: 140c5b15ccac91a4fb58b5ea4666c02f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SecondaryTex:
+        m_Texture: {fileID: 2800000, guid: ae804fecca7d95d44a59b487cbb15575, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _tex3coord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _tex4coord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _tex4coord2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AdjustPower: 1
+    - _AlphaClip: 1
+    - _AlphaCutout: 0
+    - _Banding: 0
+    - _Bands: 3
+    - _BendingAmount: 0.00988
+    - _Blend: 3
+    - _BlendOp: 0
+    - _BurnSize: 0
+    - _CameraFadingEnabled: 0
+    - _CameraFarFadeDistance: 2
+    - _CameraNearFadeDistance: 1
+    - _CircleMask: 0
+    - _ColorMode: 0
+    - _Contrast: 1
+    - _Cull: 0
+    - _Culling: 2
+    - _Cutoff: 0.000001
+    - _CutoffSoftness: 0
+    - _DisplacementAmount: 0
+    - _DissolveEdgeWidth: 0
+    - _DistortionBlend: 0.5
+    - _DistortionEnabled: 0
+    - _DistortionStrength: 1
+    - _DistortionStrengthScaled: 0.1
+    - _DstBlend: 0
+    - _FlipbookBlending: 1
+    - _FlipbookMode: 0
+    - _InnerRadius: 0
+    - _IntersectionThresholdMax: 1
+    - _InvFade: 3
+    - _MaskClipValue: 0.5
+    - _Mode: 0
+    - _OuterRadius: 0.5
+    - _POW: 1
+    - _PolarCoords: 0
+    - _Power: 1
+    - _QueueOffset: 0
+    - _RectHeight: 0
+    - _RectMask: 0
+    - _RectMaskCutoff: 0
+    - _RectSmoothness: 0
+    - _RectWidth: 0
+    - _SecondTex: 1
+    - _Smoothness: 0.2
+    - _SoftBlend: 0
+    - _SoftParticlesEnabled: 1
+    - _SoftParticlesFarFadeDistance: 1
+    - _SoftParticlesNearFadeDistance: 0.53
+    - _SrcBlend: 2
+    - _Surface: 1
+    - _TexPower: 0.5
+    - _TexSoftFactor: 1
+    - _UseSoftParticles: 0
+    - _VertexOffset: 0
+    - _VertexOffsetAmount: 0
+    - _ZWrite: 0
+    - __dirty: 0
+    m_Colors:
+    - _BaseColor: {r: 0.8398519, g: 0, b: 0.9716981, a: 1}
+    - _BaseColorAddSubDiff: {r: 1, g: 0, b: 0, a: 0}
+    - _BurnCol: {r: 1, g: 1, b: 1, a: 1}
+    - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
+    - _Color: {r: 1.647059, g: 2.4795127, b: 8, a: 1}
+    - _DissolveColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0.3047169, g: 0, b: 0.4811321, a: 1}
+    - _MainTexSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _MainTilingOffset: {r: 1, g: 1, b: 0, a: 0}
+    - _NoiseSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _PanningSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _SecondaryPanningSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _SoftParticleFadeParams: {r: 0.53, g: 2.1276596, b: 0, a: 0}
+    - _Speed: {r: 0, g: 0, b: 0, a: 0}
+    - _TintColor: {r: 6.4222345, g: 6.4222345, b: 6.4222345, a: 1}
+  m_BuildTextureStacks: []
