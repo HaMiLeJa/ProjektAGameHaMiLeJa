@@ -71,15 +71,18 @@ public class ShadowDash : MonoBehaviour
         if (gameMng.AllowMovement == false) return;
         if (superDash.isSuperDashing == true) return;
 
-
-        if (mr.enabled == false)
+        
+        if (mr.enabled == false && particle.isPlaying == false)
+        {
             particle.Play();
+        }
         else
         {
-           // particle.Stop();
+            particle.Stop();
         }
 
-
+       
+        
         if (Input.GetButton("RightBumper") && isShadowDashing == false)
         {
             isShadowDashing = true;
