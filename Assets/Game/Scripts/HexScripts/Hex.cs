@@ -93,6 +93,7 @@ public class Hex : MonoBehaviour
 
 
     #endregion
+
     
     #region OnTriggerHexTypes
     private void OnTriggerEnter(Collider collision)
@@ -249,8 +250,8 @@ public class Hex : MonoBehaviour
         if (EffectParticle != null)
         {
             EffectParticle.Play();
-            Debug.Log("No Particle in hex Obj, sorry");
         }
+
         hexMov.SlowDownTimer = 0;
 
         hexMov.OnSlowDownHex = true;

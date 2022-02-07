@@ -41,13 +41,16 @@ public class GameManager : MonoBehaviour
     public bool AllowHexEffects = true;
     [Space] 
     [Space] 
+
     [Header("Teleport")]
     public float SpeedAfterTeleport = 70;
     public float ReduceSpeedInfluenceBeforeTeleport = 3;
     public float IncreaseSpeedInfluenceBeforeTeleport = 1;
+
     [Header("Teleport increase Cam speed")]
     [Range(0f,200f)]
     public float lastDistanceTreshhold = 60f;
+
     public float followRoughness = 0.01f;
     [Range(0f,10f)]
     public float lastDistanceSpeedIncreasePercentPerFrame = 1f;
@@ -63,8 +66,18 @@ public class GameManager : MonoBehaviour
     public static bool CameraTeleportActive = false;
     public static bool StopGiveVelocityBack = true;
     public static CinemachineVirtualCamera vcam;
-   
-   
+    [Space]
+    [Header("No Input Managemant")]
+    [Tooltip("How long no input is allowed before Energy decrease is activated")]
+    [SerializeField] float noInputDuration = 15;
+    public float NoInputInfluence = 0.06f;
+    [HideInInspector] public float CurrentNoInputInfluence = 0;
+    [Tooltip("Debug: is there currently a decrease?")]
+    public bool NoInputDecrease = false;
+    bool RecentInput = false;
+    float recentInputResetTimer;
+    float noInputTimer;
+
     Rigidbody playerRb;
     #endregion
 
@@ -127,8 +140,43 @@ public class GameManager : MonoBehaviour
        //     CheckForEndOfGame();
     }
 
+    private void FixedUpdate()
+    {
 
-   
+        if(RecentInput == true)
+        {
+            recentInputResetTimer += Time.fixedDeltaTime;
+            
+            if (recentInputResetTimer > 3)
+                RecentInput = false;
+        }
+        else
+        {
+            
+            if(noInputTimer < noInputDuration)
+            {
+                CurrentNoInputInfluence = 0;
+                noInputTimer += Time.fixedDeltaTime;
+            }
+            else
+            {
+                CurrentNoInputInfluence = NoInputInfluence;
+                NoInputDecrease = true;
+            }
+
+        }
+        
+    }
+
+    public void InputMade()
+    {
+        RecentInput = true;
+        NoInputDecrease = false;
+        CurrentNoInputInfluence = 0;
+        recentInputResetTimer = 0;
+        noInputTimer = 0;
+    }
+
 
     #region Control Hex Effect Amount
     [HideInInspector] public int ChangeDirectionCounter;

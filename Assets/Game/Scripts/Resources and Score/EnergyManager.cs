@@ -19,6 +19,7 @@ public class EnergyManager : MonoBehaviour //for points and energy
     public static bool energyGotHigher = false;
     [Space]
     public float ConstantEnergyDecrease = 0.005f;
+    [Space]
     [SerializeField] AudioSource myAudioSource;
 
     private void Awake()
@@ -37,6 +38,8 @@ public class EnergyManager : MonoBehaviour //for points and energy
     
     void Update()
     {
+
+
         if (DisableEnergyCosts == true)
         {
             CurrentEnergy = 25;
@@ -44,17 +47,28 @@ public class EnergyManager : MonoBehaviour //for points and energy
 
         currentEnergyForInspector = CurrentEnergy;
 
+
         if(GameStateManager.GameOver == false)
             CheckEnergyAmount();
     }
 
     private void FixedUpdate()
     {
-
+        /*
         if(CurrentEnergy > 10)
-            CurrentEnergy -= ConstantEnergyDecrease;
+            CurrentEnergy -= ConstantEnergyDecrease; */
 
-
+        
+        if (CurrentEnergy >= 80)
+            CurrentEnergy = CurrentEnergy - ConstantEnergyDecrease - ReferenceLibary.GameMng.CurrentNoInputInfluence;
+        else if (CurrentEnergy >= 60 && CurrentEnergy < 80)
+            CurrentEnergy = CurrentEnergy - ConstantEnergyDecrease - ReferenceLibary.GameMng.CurrentNoInputInfluence - 0.002f;
+        else if (CurrentEnergy >= 40 && CurrentEnergy < 60)
+            CurrentEnergy = CurrentEnergy - ConstantEnergyDecrease - ReferenceLibary.GameMng.CurrentNoInputInfluence - 0.005f;
+        else if(CurrentEnergy >= 20 && CurrentEnergy < 40)
+            CurrentEnergy = CurrentEnergy - ConstantEnergyDecrease - ReferenceLibary.GameMng.CurrentNoInputInfluence- 0.007f;
+        else if( CurrentEnergy >= -0.5 && CurrentEnergy <20)
+            CurrentEnergy = CurrentEnergy - ConstantEnergyDecrease - ReferenceLibary.GameMng.CurrentNoInputInfluence;
     }
 
 

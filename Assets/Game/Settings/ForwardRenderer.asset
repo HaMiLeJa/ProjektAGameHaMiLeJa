@@ -189,10 +189,10 @@ MonoBehaviour:
     materialErrorPS: {fileID: 4800000, guid: 5fd9a8feb75a4b5894c241777f519d4e, type: 3}
   m_OpaqueLayerMask:
     serializedVersion: 2
-    m_Bits: 212983
+    m_Bits: 999415
   m_TransparentLayerMask:
     serializedVersion: 2
-    m_Bits: 147447
+    m_Bits: 933879
   m_DefaultStencilState:
     overrideStencilState: 0
     stencilReference: 0

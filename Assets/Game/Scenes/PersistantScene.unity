@@ -172,7 +172,9 @@ MonoBehaviour:
   - Portals can be used to speed up on travel time
   - Superboost can destroy some objects
   - Hitting some objects three times destroys them
-  - Among others trees, gravestones and gences can be destroyed
+  - Among others trees, gravestones and fences can be destroyed
+  - Be aware that you constantly loose energy
+  - Completing a Mission gives a lot of Energy
   funnyMessagesText: {fileID: 964144265}
   funnyMessages:
   - 'Feeding the cats:'

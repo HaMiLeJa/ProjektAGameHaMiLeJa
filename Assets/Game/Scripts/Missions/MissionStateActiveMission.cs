@@ -66,7 +66,7 @@ public class MissionStateActiveMission : MonoBehaviour
 
         if (MissionManager.Progress == MissionManager.CurrentMission.Amount) return;
         ReferenceLibary.AudMng.PlayMissionSound(ReferenceLibary.MissionMng.missionCollectalbeClip, ReferenceLibary.MissionMng.missionCollectalbeGroup);
-
+        
     }
     #endregion
 

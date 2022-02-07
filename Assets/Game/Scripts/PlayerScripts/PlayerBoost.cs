@@ -101,6 +101,7 @@ public class PlayerBoost : MonoBehaviour
         if (boostCoroutine != null)
            StopCoroutine(boostCoroutine);
 
+        ReferenceLibary.GameMng.InputMade();
         boostCoroutine = StartCoroutine(BoostCoroutine());
     }
 

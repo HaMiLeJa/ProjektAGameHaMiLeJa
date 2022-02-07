@@ -144,8 +144,8 @@ public class ShadowDash : MonoBehaviour
     {
         if (shadowDashCoroutine != null)
              StopCoroutine(shadowDashCoroutine);
-       
 
+        ReferenceLibary.GameMng.InputMade();
         shadowDashCoroutine = StartCoroutine(ShadowDashCoroutine());
   
 

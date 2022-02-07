@@ -66,6 +66,7 @@ public class MissionItemSpawner : MonoBehaviour
         CurrentMissionItems.Add(item);
 
         PositionListInUse.RemoveAt(random);
+
     }
 
     #region Collect Item

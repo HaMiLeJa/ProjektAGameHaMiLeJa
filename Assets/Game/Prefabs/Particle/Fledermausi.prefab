@@ -4894,6 +4894,7 @@ GameObject:
   - component: {fileID: 7295251798580530836}
   - component: {fileID: 7490361500494829948}
   - component: {fileID: 7489536694630396974}
+  - component: {fileID: -3634427272445017289}
   m_Layer: 0
   m_Name: Fledermausi
   m_TagString: Untagged
@@ -9701,6 +9702,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &-3634427272445017289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7293014723529993334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fa0b325f6bbecd4b9eff067d766493c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7293275887267401548
 GameObject:
   m_ObjectHideFlags: 0

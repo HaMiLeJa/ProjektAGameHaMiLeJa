@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class CollectItemMissionInteraction : MonoBehaviour
 {
-
+    /*
     #region Inspector
-    [SerializeField] float rotation = 100;
+    [SerializeField] float rotation = 18;
     #endregion
 
 
@@ -18,16 +18,24 @@ public class CollectItemMissionInteraction : MonoBehaviour
        
 
     }
+    */
+
+    [SerializeField] GameObject effectParticle;
 
 
+
+     
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == ReferenceLibary.Player)
         {
+            ParticleSystem particle = Instantiate(effectParticle, this.transform.position, Quaternion.identity).GetComponent<ParticleSystem>();
+            particle.Play();
+
             ReferenceLibary.MissionMng.ActiveMissionState.ItemCollected(this.gameObject);
 
 
-
+            
 
         }
     }
