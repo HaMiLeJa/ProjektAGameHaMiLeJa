@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
+using Random = System.Random;
+
 public class HighlightObjects : MonoBehaviour
 
 {
@@ -25,7 +27,15 @@ public class HighlightObjects : MonoBehaviour
             hex.highlightProps();
             if(Lampe == null)
                 return;
-            StartCoroutine(Rotate(Lampe,headshakes,0.17f, 50, Vector3.up));
+            if (Mathf.Abs(ReferenceLibary.RigidbodyPl.velocity.x) + Mathf.Abs(ReferenceLibary.RigidbodyPl.velocity.z) > 70)
+            {
+                int randomDirection =UnityEngine.Random.Range(0, 1);
+                if (randomDirection == 0)
+                    StartCoroutine(Rotate(Lampe,headshakes,0.17f, 50, Vector3.up));
+                else if (randomDirection == 1)
+                    StartCoroutine(Rotate(Lampe,headshakes,0.17f, 50, Vector3.down));
+            }
+          
         }
     
     }
