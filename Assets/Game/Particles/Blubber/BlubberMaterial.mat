@@ -24,7 +24,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_300EB541:
-        m_Texture: {fileID: 2800000, guid: 22c799163afc9154f9c382e3343b9e83, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0d8d2795b2e41894e9104e28ade294b8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_341d1918e4c645f682dd3f887c5a68c9:
@@ -119,11 +119,11 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     - _emissionIntensity: 0.7
-    - _emissiveCutoff: 0
+    - _emissiveCutoff: 0.01
     - _normalStrength: 0
     m_Colors:
     - Color_e49dda51c9dd45848cffa50efba8a0ca: {r: 1, g: 1, b: 1, a: 0}
-    - _Color: {r: 0.9254902, g: 0.1163394, b: 0, a: 1}
+    - _Color: {r: 0.9254902, g: 0, b: 0.33468676, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _SpecularColor: {r: 0, g: 0.07107735, b: 1, a: 0}
