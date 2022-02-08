@@ -12,7 +12,7 @@ Material:
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
+  m_DoubleSidedGI: 1
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BackTex:
-        m_Texture: {fileID: 2800000, guid: 1695854da84165446b9d42638eea3470, type: 3}
+        m_Texture: {fileID: 2800000, guid: 011005ed2e7f1cb429fb10d9c1086e90, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -44,7 +44,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DownTex:
-        m_Texture: {fileID: 2800000, guid: ebc2d033174e4684aa20d56efaaf7a34, type: 3}
+        m_Texture: {fileID: 2800000, guid: f5e40856d55b5d742bcce340b854db4d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -52,11 +52,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FrontTex:
-        m_Texture: {fileID: 2800000, guid: e35a32aade913af4e8c3ec8b26c767dc, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9f55fb82177c2bf4687467ec67f9b999, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _LeftTex:
-        m_Texture: {fileID: 2800000, guid: 88fd7ffdbcf866f4e9fac1f37c5e7adf, type: 3}
+        m_Texture: {fileID: 2800000, guid: b380cb44d8a1a5940a8ddc6c66856d6f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -76,7 +76,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RightTex:
-        m_Texture: {fileID: 2800000, guid: cc58867d65e0bd544834c88af8fb0c6b, type: 3}
+        m_Texture: {fileID: 2800000, guid: bb148e57c1b3b4247adfec8408e966dc, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -84,7 +84,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _UpTex:
-        m_Texture: {fileID: 2800000, guid: 2c7e42eebc1d655458e05ed10bad7f47, type: 3}
+        m_Texture: {fileID: 2800000, guid: 011005ed2e7f1cb429fb10d9c1086e90, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -133,7 +133,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _Tint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
+    - _Tint: {r: 0.4245283, g: 0.41812032, b: 0.41812032, a: 0.5019608}
   m_BuildTextureStacks: []
 --- !u!114 &9063004036449606855
 MonoBehaviour:
