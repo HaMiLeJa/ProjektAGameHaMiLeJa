@@ -32,8 +32,8 @@ public class MissionStateNoMission : MonoBehaviour
 
     int GetRandomDuration()
     {
-        int i = Random.Range  (2,5);//(30, 60);
-       return i;
+        int i = Random.Range(30, 60);
+        return i;
     }
 
 
