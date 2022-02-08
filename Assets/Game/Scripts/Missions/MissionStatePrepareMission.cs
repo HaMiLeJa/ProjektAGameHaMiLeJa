@@ -63,7 +63,7 @@ public class MissionStatePrepareMission : MonoBehaviour
         {
             MissionManager.CurrentMission.Amount = RandomInt(10, 15);
             MissionManager.CurrentMission.time = 40f + (MissionManager.CurrentMission.Amount * 15);
-            MissionManager.CurrentMission.multiplicator = MissionManager.CurrentMission.Amount * 0.07f;
+            MissionManager.CurrentMission.multiplicator = MissionManager.CurrentMission.Amount * 0.08f;
         }
     }
 

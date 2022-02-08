@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 7033027009753434810}
   - component: {fileID: 4631948082732337362}
   m_Layer: 6
-  m_Name: PumpkinWithHat
+  m_Name: PumpkinWithHatMesh
   m_TagString: MissionItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

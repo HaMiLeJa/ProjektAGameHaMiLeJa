@@ -5,13 +5,16 @@ using UnityEngine;
 using NaughtyAttributes;
 public class HighlightObjects : MonoBehaviour
 
-{  
-    
+{
+    [SerializeField] private GameObject Lampe;
+    [SerializeField] private int headshakes = 4;
     private Hex hex;
     private void Awake()
     {
     
         hex = transform.parent.transform.parent.GetComponent<Hex>();
+        if(Lampe == null)
+        return;
     }
 
  
@@ -20,7 +23,11 @@ public class HighlightObjects : MonoBehaviour
         if (other.gameObject == ReferenceLibary.Player)
         {
             hex.highlightProps();
+            if(Lampe == null)
+                return;
+            StartCoroutine(Rotate(Lampe,headshakes,0.17f, 50, Vector3.up));
         }
+    
     }
 
 
@@ -32,6 +39,22 @@ public class HighlightObjects : MonoBehaviour
         }
         
        
+    }
+    public IEnumerator Rotate(GameObject rotateMe,int headshakes , float duration, float angle, Vector3 firstDirection)
+    { 
+        if (headshakes == 0)
+            yield break;
+        Quaternion startRot = rotateMe.transform.rotation;
+        float t = 0.0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            rotateMe.transform.rotation = startRot * Quaternion.AngleAxis(t / duration * angle, firstDirection);
+            yield return null;
+        }
+        headshakes--;
+        yield return Rotate(rotateMe,headshakes,UnityEngine.Random.Range(1.2f,1.4f)*duration,
+            UnityEngine.Random.Range(angle, angle + 5), -firstDirection);
     }
 
 }

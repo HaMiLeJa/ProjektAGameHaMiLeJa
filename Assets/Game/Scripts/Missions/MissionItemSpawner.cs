@@ -18,6 +18,8 @@ public class MissionItemSpawner : MonoBehaviour
     [SerializeField] List<GameObject> PositionListInUse;
     int spawnCounter = 0;
 
+    int spawnAmount = 0;
+
     public static List<GameObject> CurrentMissionItems = new List<GameObject>();
 
     private void Awake()
@@ -68,11 +70,23 @@ public class MissionItemSpawner : MonoBehaviour
         PositionListInUse.RemoveAt(random);
 
     }
+    void SpawnAmount()
+    {
+        spawnAmount = MissionManager.CurrentMission.Amount;
+
+        if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.easy)
+            spawnAmount = MissionManager.CurrentMission.Amount * 4;
+        else if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.medium)
+            spawnAmount = MissionManager.CurrentMission.Amount * 3;
+        else if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.hard)
+            spawnAmount = MissionManager.CurrentMission.Amount * 2;
+    }
 
     #region Collect Item
     public void SpawnCollectItem()
     {
         PrepareSpawn();
+        SpawnAmount();
 
         FindCollectItem();
 
@@ -98,11 +112,17 @@ public class MissionItemSpawner : MonoBehaviour
 
     void CollectItemSpawner()
     {
-        for (int i = 0; i < MissionManager.CurrentMission.Amount; i++) //i <= MissionManager.CurrentMission.Amount - 1 - spawnCounter;
+       
+
+        if (spawnAmount >= AllItemSpawnPositions.Count) 
+            spawnAmount = AllItemSpawnPositions.Count;
+
+        for (int i = 0; i < spawnAmount; i++) //i <= MissionManager.CurrentMission.Amount - 1 - spawnCounter;
         {
             Spawner(currentItem);
         }
     }
+
 
     #endregion
 
@@ -112,6 +132,7 @@ public class MissionItemSpawner : MonoBehaviour
     public void SpawnDestroyObj()
     {
         PrepareSpawn();
+        SpawnAmount();
         FindDestroyObj();
         DestroyObjSpawner();
     }
