@@ -49,14 +49,20 @@ public class Hex : MonoBehaviour
     {
         highlight = GetComponent<GlowHighlight>();
 
+       // CollectableManager.AllCollectables.Clear(); //Eben geadded
 
-        if (hexType == HexType.DefaultCollectable)
-        {
-
+        //if (hexType == HexType.DefaultCollectable)
+      //  {
             //colRef.HexScript = this;
-            // colRef.HexScript = this.gameObject.GetComponent<Hex>();
+            //colRef.HexScript = this.gameObject.GetComponent<Hex>();
+
+
+            /* ORIGNAL CODE
             CollectableManager.AllCollectables.Add(this.gameObject, colRef); //Nur adden, werte angepasst wird sp�ter
-        }
+            */
+            //Debug.Log("Hex Added to All Collectables");
+       // }
+        
 
     }
 
@@ -548,7 +554,7 @@ public class Hex : MonoBehaviour
     public GameObject myProps;
     [Space]
     public GameObject MyCollectable; //HIdeInInsp
-    [SerializeField] GameObject collectablePrefab;
+   // [SerializeField] GameObject collectablePrefab;
     [HideInInspector] public CollectableReferences colRef;
 
 

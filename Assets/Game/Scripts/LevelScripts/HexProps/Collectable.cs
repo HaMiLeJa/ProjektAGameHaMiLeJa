@@ -8,14 +8,47 @@ public class Collectable : MonoBehaviour
     [SerializeField] float speed = 0;
     [SerializeField] float rotation = 400;
 
-    [HideInInspector] public GameObject ParentHex;
+    public GameObject ParentHex; //Wird assigned in CollectalbeManager Start -> SetCollectableReferencesAtStart
 
     public ScriptableLevelObject settings;
+    public CollectableReferences colRef;
    #endregion
    
     void Start()
     {
-        //ParentHex = this.transform.parent.transform.parent.gameObject;
+        //new Code
+        // ParentHex = this.transform.parent.transform.parent.gameObject;
+        // colRef.HexScript = ParentHex.GetComponent<Hex>();
+        //colRef.HexScript = ParentHex.GetComponent<Hex>();
+
+
+
+        if (ParentHex == null)
+        {
+            Debug.Log("I have no parent Hex :(");
+            this.gameObject.SetActive(false);
+
+
+            if (this.GetComponentInParent<Hex>().gameObject != null)
+            {
+                ParentHex = this.GetComponentInParent<Hex>().gameObject;
+
+                colRef.HexScript = ParentHex.GetComponent<Hex>();
+                colRef.HexScript = ParentHex.GetComponent<Hex>();
+            }
+            else
+            {
+                Debug.Log("still no parent Hex");
+            }
+        }
+
+        if (ParentHex != null)
+        {
+            CollectableManager.AllCollectables.Add(ParentHex, colRef);
+            ParentHex.GetComponent<Hex>().MyCollectable = this.gameObject;
+        }
+        else
+            this.gameObject.SetActive(false);
     }
 
     void Update()

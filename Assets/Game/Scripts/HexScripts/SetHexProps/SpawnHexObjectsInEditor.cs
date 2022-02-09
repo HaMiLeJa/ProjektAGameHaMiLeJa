@@ -482,7 +482,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         if (CheckForSpawnAllowanceCollectable())
         {
             currentHexType = myHex.hexType;
-            SpawnObjectInEditMode(4.63f);
+            SpawnCollectableInEditMode(4.63f);
 
             //set collectable parent
         }
@@ -495,8 +495,10 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         if (MyProps.GetComponentInChildren<Collectable>() == true)
         {
             CurrentItem = MyProps.GetComponentInChildren<Collectable>().gameObject;
+            ///
 
         }
+
 
 
     }
@@ -532,6 +534,21 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
          return true; */
     }
 
+
+    void SpawnCollectableInEditMode(float y)
+    {
+        Vector3 position = new Vector3(this.transform.position.x, this.transform.position.y + y, this.transform.position.z);
+
+        CurrentItem = Instantiate(ObjectToSpawn, position, Quaternion.identity);
+        CurrentItem.transform.parent = MyProps.transform;
+
+        // NEW CODE
+        Collectable col = CurrentItem.GetComponent<Collectable>();
+        col.ParentHex = this.gameObject;
+        col.colRef.HexScript = this.GetComponent<Hex>();
+        col.colRef.ActiveCollectable = true;
+        this.gameObject.GetComponent<Hex>().MyCollectable = CurrentItem;
+    }
 
     #endregion
 

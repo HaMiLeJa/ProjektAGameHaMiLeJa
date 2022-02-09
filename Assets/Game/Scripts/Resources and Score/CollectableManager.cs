@@ -45,32 +45,14 @@ public class CollectableManager : MonoBehaviour
 
     private void Awake()
     {
+        AllCollectables.Clear();
         StopEditorScript = true;
+        addAll = true;
     }
     void Start()
     {
-        // collectalbeOriginalScale = GameObject.FindObjectOfType<Collectable>().transform.localScale;
-        if (addAll == true)
-        {
-            OnRespawnCollectables = null;
-            OnRespawnCollectables += StartCollectableSpawn;
-            // evt noch ui benachrichtigung
-
-            if (AllCollectables != null)
-            {
-                
-                foreach (KeyValuePair<GameObject, CollectableReferences> hex in AllCollectables)
-                {
-                    hex.Value.HexScript = hex.Key.GetComponent<Hex>();
-                    SetCollectableReferencesAtStart(hex.Value.HexScript);
-                    
-                }
-
-
-
-                addAll = false;
-            }
-        }
+        OnRespawnCollectables = null;
+        OnRespawnCollectables += StartCollectableSpawn;
     }
 
    
@@ -79,14 +61,16 @@ public class CollectableManager : MonoBehaviour
         if(hex.myProps.GetComponentInChildren<Collectable>())
         {
             Collectable colScript = hex.myProps.GetComponentInChildren<Collectable>();
+            if (colScript == null) Debug.Log("Null");
             hex.MyCollectable = colScript.gameObject;
             hex.colRef.ActiveCollectable = true;
-
-            colScript.ParentHex = hex.gameObject;
+            Debug.Log("G");
+            //colScript.ParentHex = hex.gameObject;// eben rausgemacht
         }
         else
         {
             hex.SpawnCollectable();
+            Debug.Log("GElse");
         }
         
     }
@@ -96,11 +80,40 @@ public class CollectableManager : MonoBehaviour
     void Update()
     {
 
-#if UNITY_EDITOR
+        /*/ ORIGINAL Code
+        if (addAll == true)
+        {
+            Debug.Log("AddAll");
+            Debug.Log(AllCollectables.Count.ToString());
+
+           
+            // evt noch ui benachrichtigung
+
+            if (AllCollectables != null)
+            {
+                Debug.Log("AddAll2");
+                foreach (KeyValuePair<GameObject, CollectableReferences> hex in AllCollectables)
+                {
+                    hex.Value.HexScript = hex.Key.GetComponent<Hex>();
+                    SetCollectableReferencesAtStart(hex.Value.HexScript);
+
+                }
+
+
+
+                addAll = false;
+           }
+        }
+        */
+
+       // Debug.Log(AllCollectables.Count.ToString());
+
+
+//#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.J))
             OnRespawnCollectables?.Invoke();
 
-#endif
+//#endif
 
     }
 
@@ -125,17 +138,17 @@ public class CollectableManager : MonoBehaviour
     }
 
 
-    public void CollectableCollected(GameObject item, float energyValue ,GameObject hex)
+    public void CollectableCollected(GameObject item, float energyValue ,GameObject parentHex)
     {
-        if (AllCollectables.ContainsKey(hex))
-            AllCollectables[hex].ActiveCollectable = false;
+        if (AllCollectables.ContainsKey(parentHex))
+            AllCollectables[parentHex].ActiveCollectable = false;
         else 
         {
             Debug.Log("Meh");
             CollectableReferences colref = new CollectableReferences();
-            colref.HexScript = hex.GetComponent<Hex>();
+            colref.HexScript = parentHex.GetComponent<Hex>();
             colref.ActiveCollectable = false;
-            AllCollectables.Add(hex, colref);
+            AllCollectables.Add(parentHex, colref);
 
         }
 
