@@ -22,8 +22,8 @@ MonoBehaviour:
   SleepCheckDelay: 0.5
   Respawn: 1
   resetTimer: 30
-  DestroyValue: 15
-  CollisionValue: 5
+  DestroyValue: 80
+  CollisionValue: 40
   AllowAutomatedDestruction: 1
   HitAmount: 3
   ChangeMaterial: 0
