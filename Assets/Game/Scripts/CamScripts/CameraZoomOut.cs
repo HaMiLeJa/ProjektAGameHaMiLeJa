@@ -15,7 +15,7 @@ public class CameraZoomOut : MonoBehaviour
     [SerializeField]private PlayerMovement _playerMovement;
     public CinemachineVirtualCamera vcam;
     public static CinemachineVirtualCamera vcamera;
-    
+    public CinemachineVirtualCamera vcamZoom;
     private Transform lookAtCashed;
     private Transform targetAtCashed;
     public GameObject Moon;
@@ -92,6 +92,7 @@ public class CameraZoomOut : MonoBehaviour
  {
    _cameraShakeCollision = FindObjectOfType<CameraShakeCollision>();
      vcamera = vcam;
+     GameManager.LerpCameraBack = false;
  }
  
  
@@ -136,17 +137,67 @@ public class CameraZoomOut : MonoBehaviour
                    Moon.transform.localScale.y ,
                    Mathf.Lerp(Moon.transform.localScale.z, lerpedValueMoonZ, moonZoomOutRoughness*Time.deltaTime)
                )  ;
-               
+
+           if ( GameManager.StartMovingGhostLayer && !GameManager.LerpCameraBack)
+           {
+              
                GhostLayer.transform.localScale = new Vector3(
-                                  Mathf.Lerp(GhostLayer.transform.localScale.x, lerpedValueGhostLayerX, ghostLayerZoomOutRoughness*Time.deltaTime),
-                                  GhostLayer.transform.localScale.y ,
-                                  Mathf.Lerp(GhostLayer.transform.localScale.z, lerpedValueGhostLayerZ, ghostLayerZoomOutRoughness*Time.deltaTime)
-                              );
+                   Mathf.Lerp(GhostLayer.transform.localScale.x, 4.3f, ghostLayerZoomOutRoughness*Time.deltaTime),
+                   Mathf.Lerp(GhostLayer.transform.localScale.y, 4.3f, ghostLayerZoomOutRoughness*Time.deltaTime),
+                   Mathf.Lerp(GhostLayer.transform.localScale.z, 4.3f, ghostLayerZoomOutRoughness*Time.deltaTime)
+               );
+               
+              Moon.transform.localScale = new Vector3(
+                  Moon.transform.localScale.x,
+                   Mathf.Lerp(Moon.transform.localScale.y, 0.1f, ghostLayerZoomOutRoughness*Time.deltaTime),
+                  Moon.transform.localScale.z
+               );
+               // Moon.transform.position = new Vector3(
+               //    Mathf.Lerp(Moon.transform.position.x, 150f, moonZoomOutRoughness * Time.deltaTime),
+               //     
+               //    Moon.transform.position.y,
+               //        
+               // Mathf.Lerp(Moon.transform.position.z, 220f,
+               //     moonZoomOutRoughness * Time.deltaTime)
+               // );
+           }
+
+           if (Mathf.Abs(GhostLayer.transform.localScale.x - 3) < 0.01f &&  (Mathf.Abs(Moon.transform.localScale.y -19.65329f) < 0.01f))
+               GameManager.LerpCameraBack = false;
+           
+           if (GameManager.LerpCameraBack && Mathf.Abs(GhostLayer.transform.localScale.x - 3) > 0.01f)
+           {
+               GhostLayer.transform.localScale = new Vector3(
+                   Mathf.Lerp(GhostLayer.transform.localScale.x, 3,
+                       ghostLayerZoomOutRoughness * Time.deltaTime),
+                   Mathf.Lerp(GhostLayer.transform.localScale.y, 3,
+                       ghostLayerZoomOutRoughness * Time.deltaTime),
+                   Mathf.Lerp(GhostLayer.transform.localScale.z, 3,
+                       ghostLayerZoomOutRoughness * Time.deltaTime)
+               );
+               Moon.transform.localScale = new Vector3(
+                   Moon.transform.localScale.x,
+                   Mathf.Lerp(Moon.transform.localScale.y, 19.65329f, ghostLayerZoomOutRoughness*Time.deltaTime),
+                   Moon.transform.localScale.z
+               );
+               // Moon.transform.position = new Vector3(
+               //     Mathf.Lerp(Moon.transform.position.x, 115.3f, moonZoomOutRoughness * Time.deltaTime),
+               //     
+               //     Moon.transform.position.y,
+               //        
+               //     Mathf.Lerp(Moon.transform.position.z, 204.8247f,
+               //         moonZoomOutRoughness * Time.deltaTime)
+               // );
+               
+           }
+
        }
      }
     }
     void Update() 
     {
+        
+       
         xVelocity = math.abs(_playerMovement.rb.velocity.x);
             zVelocity = math.abs(_playerMovement.rb.velocity.z);
             xzVelocity = xVelocity + zVelocity;
@@ -171,7 +222,7 @@ public class CameraZoomOut : MonoBehaviour
             shakeRotationPercent = MathLibary.RemapClamped(StartZoomingValue, SpeedInflunceDampeningForAll, minShakeRotation,
                 maxShakeRotation, xzVelocity);
             
-          if(_cameraShakeCollision.camShakeActivated && ! deactivateShaking && xzVelocity > StartShaking && nextShakeAllowed)
+          if(_cameraShakeCollision.camShakeActivated && ! deactivateShaking && xzVelocity > StartShaking && nextShakeAllowed && !GameManager.bridgePause)
             {
             _cameraShake.StartShake(new CameraShake.Einstellungen(shakeAngle, shakeStrength, shakeSpeed, 
                 shakeDuration, shakeNoisePercent, shakeDampingPercet, shakeRotationPercent));

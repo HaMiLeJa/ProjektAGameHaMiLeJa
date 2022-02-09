@@ -37,6 +37,7 @@ public class Pathfinder : MonoBehaviour
 	private bool startPathfindingDisable;
 	[SerializeField] private CinemachineVirtualCamera cam = default;
 	[SerializeField] private 	GameManager manager;
+	[SerializeField] [Tooltip("Funktioniert nur wenn gamemanager zugewiesen")]private float disableShakeSec = 1.1f;
 	private bool noCam;
 	private bool noManager;
 
@@ -152,7 +153,12 @@ public class Pathfinder : MonoBehaviour
 		}
 	}
 #endif
-
+	IEnumerator CamShakeDisableAterPush_Coroutine(float sec)
+	{
+		GameManager.bridgePause = true;
+		yield return new WaitForSeconds(sec);
+		GameManager.bridgePause = false;
+	}
 
 		
 	IEnumerator movePath(Collider other)
@@ -168,6 +174,11 @@ public class Pathfinder : MonoBehaviour
 				StartCoroutine(waitUntilNextTrigger());
 				MathLibary.boostDirection(waypointsForPlayer[waypointsForPlayer.Length - 2].position,
 					waypointsForPlayer[waypointsForPlayer.Length - 1].position, forceRedExit, other.attachedRigidbody);
+				if (manager != null)
+				{ 
+					StopCoroutine(CamShakeDisableAterPush_Coroutine(disableShakeSec));
+					StartCoroutine(CamShakeDisableAterPush_Coroutine(disableShakeSec));
+				}
 			}
 				
 			if (i < waypointsForPlayer.Length - 1 && i >1)
@@ -202,6 +213,12 @@ public class Pathfinder : MonoBehaviour
 				StartCoroutine(waitUntilNextTrigger());
 				MathLibary.boostDirection(waypointsForPlayer[2].position,
 					waypointsForPlayer[1].position, forceGreenExit, other.attachedRigidbody);
+				if (manager != null)
+				{
+					StopCoroutine(CamShakeDisableAterPush_Coroutine(disableShakeSec));
+					StartCoroutine(CamShakeDisableAterPush_Coroutine(disableShakeSec));
+				}
+					
 			}
 				
 			if (i < waypointsForPlayer.Length - 1 && i >2)
@@ -226,8 +243,9 @@ public class Pathfinder : MonoBehaviour
 	}
 	IEnumerator waitUntilNextTrigger()
 	{
+		GameManager.StartMovingGhostLayer = false;
 		ReferenceLibary.PlayerMov.DisableGravity = false;
-
+		GameManager.LerpCameraBack = true;
 		yield return new WaitForSeconds(secPathDisabled);
 	    pathfindingAllowed = true;
 	}
@@ -246,6 +264,7 @@ public class Pathfinder : MonoBehaviour
 
 			if (pathfindingAllowed)
 			{
+				GameManager.StartMovingGhostLayer = true;
 				pathfindingAllowed = false;
 				if(!noCam) cam.gameObject.SetActive(true);
 				if(!noManager)manager.AllowMovement = false;

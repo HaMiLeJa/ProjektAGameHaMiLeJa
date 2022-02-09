@@ -65,6 +65,9 @@ public class GameManager : MonoBehaviour
     public static GameObject CameraHelper;
     public static bool CameraTeleportActive = false;
     public static bool StopGiveVelocityBack = true;
+    public static bool bridgePause = false;
+    public static bool LerpCameraBack = false;
+    public static bool StartMovingGhostLayer = false;
     public static CinemachineVirtualCamera vcam;
     [Space]
     [Header("No Input Managemant")]
