@@ -115,7 +115,7 @@ public class MissionStatePrepareMission : MonoBehaviour
         MissionManager.Progress = 0;
 
 
-        ReferenceLibary.ItemSpawner.SpawnDestroyObj();
+        //ReferenceLibary.ItemSpawner.SpawnDestroyObj();
     }
 
     void ActivateDestoryObjUi()

@@ -128,6 +128,25 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!243 &-6487179460211855454
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Spinnennetz
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: e6fbbc78c93bfd54f9add12ead3b9e3f
+  m_Children: []
+  m_Volume: 07077b6854eacc1428bec09db5efa594
+  m_Pitch: 3cf07c1422804b241937b2fe72d30be4
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: 6272263080888283028}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
 --- !u!244 &-6089528683120753341
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -227,6 +246,7 @@ AudioMixerGroupController:
   - {fileID: 8633876113265969165}
   - {fileID: -5140547902340752598}
   - {fileID: -1585942546712559585}
+  - {fileID: -6487179460211855454}
   - {fileID: -7098911600794797653}
   m_Volume: 1453cec37d5c68d4f8452b5414eee949
   m_Pitch: 53fdfc6655674de4f87b904a13893355
@@ -509,6 +529,7 @@ AudioMixerController:
     - bfb32c515f4ae9d4eae18ce19d963ddc
     - cfb4e95a71b3f274ba980bf52ba0539b
     - c512a8557023af745aa430ab03de30ff
+    - e6fbbc78c93bfd54f9add12ead3b9e3f
     name: View - Copy
   m_CurrentViewIndex: 1
   m_TargetSnapshot: {fileID: 24500006}
@@ -780,6 +801,20 @@ AudioMixerGroupController:
   m_Mute: 1
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!244 &6272263080888283028
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: e9c00360994b3c74d9054db883c9ab10
+  m_EffectName: Attenuation
+  m_MixLevel: 643b2f8476700f44a96f0f7ca2eceba2
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!244 &6665536888251642779
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
