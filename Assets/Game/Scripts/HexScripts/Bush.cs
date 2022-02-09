@@ -75,7 +75,6 @@ public class Bush : MonoBehaviour
             float timer = 0;
             while (timer <= 0.3f)
             {
-                Debug.Log("Schubs");
                 rb.AddForce(movementDirection * force * Time.deltaTime, ForceMode.Force);
                 timer+= Time.deltaTime;
             }

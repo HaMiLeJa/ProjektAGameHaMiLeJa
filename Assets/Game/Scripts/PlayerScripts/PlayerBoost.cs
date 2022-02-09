@@ -52,6 +52,7 @@ public class PlayerBoost : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (GameStateManager.gameState == GameStateManager.GameState.Start) return;
         if (gameMng.AllowMovement == false) return;
         // if (shadowDash.isShadowDashing == true || superDash.isSuperDashing == true) return;
         // if (rb.velocity.x == 0 || rb.velocity.z == 0) return; //kein kleiner Boost am Anfang erlaubt!

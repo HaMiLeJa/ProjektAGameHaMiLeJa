@@ -5,11 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class GameStateManager : MonoBehaviour
 {
-    GameState gameState = GameState.Play;
+    public static GameState gameState = GameState.Start;
     Rigidbody playerRb;
     List<GameObject> hasAlltheManagers = new List<GameObject>();
-    enum GameState
+    public enum GameState
     {
+        Start,
         Play,
         Pause,
         End
@@ -19,8 +20,22 @@ public class GameStateManager : MonoBehaviour
     void Start()
     {
         GameOver = false;
-        gameState = GameState.Play;
+        gameState = GameState.Start;
         playerRb = ReferenceLibary.RigidbodyPl;
+        
+    }
+
+    void UpdateStartGame()
+    {
+        if(Input.GetButtonDown("X"))
+        {
+            gameState = GameState.Play;
+            ReferenceLibary.UIMng.DeactivateStartOfGameUI();
+
+            Vector3 random = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
+
+            ReferenceLibary.RigidbodyPl.AddForce(random * 5);
+        }
     }
 
     private void Update()
@@ -38,7 +53,11 @@ public class GameStateManager : MonoBehaviour
                 default:
                     break;
             }
-                
+        }
+
+        if(gameState == GameState.Start)
+        {
+            UpdateStartGame();
         }
 
         if(gameState == GameState.Pause )
@@ -57,8 +76,6 @@ public class GameStateManager : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.I))
-            ReferenceLibary.AudMng.PlayGameStateSound(gameOverClip, gameOverGroup);
     }
 
     void loadMainScreen()
