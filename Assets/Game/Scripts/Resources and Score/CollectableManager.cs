@@ -109,11 +109,11 @@ public class CollectableManager : MonoBehaviour
        // Debug.Log(AllCollectables.Count.ToString());
 
 
-//#if UNITY_EDITOR
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.J))
             OnRespawnCollectables?.Invoke();
 
-//#endif
+#endif
 
     }
 
