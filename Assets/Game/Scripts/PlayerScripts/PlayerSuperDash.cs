@@ -62,6 +62,7 @@ public class PlayerSuperDash : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (GameStateManager.gameState == GameStateManager.GameState.Start) return;
         if (gameMng.AllowMovement == false) return;
         if (shadowDash.isShadowDashing == true) return;   //dash.Boosting == true || 
 

@@ -77,11 +77,14 @@ public class PlayerMovement : MonoBehaviour
         hexMov = ReferenceLibary.HexMov;
         originalContspeed = constspeed;
         //Enable Conspeed!
+        
     }
 
 
     void FixedUpdate()
     {
+        if (GameStateManager.gameState == GameStateManager.GameState.Start) return;
+
         MinVelocity();
         MaxVelocity();
         Velocity = rb.velocity; //Debug

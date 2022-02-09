@@ -33,6 +33,7 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
+        StartOfGameUI.SetActive(true);
         //StopAllCoroutines();
 
         //gameMng.onUIEnergyChange += UpdateEnergyUI;
@@ -85,6 +86,14 @@ public class UIManager : MonoBehaviour
     {
         
 
+    }
+
+    [Header("Start of Game")]
+    [SerializeField] GameObject StartOfGameUI;
+
+    public void DeactivateStartOfGameUI()
+    {
+        StartOfGameUI.SetActive(false);
     }
 
     #region Missions

@@ -47,9 +47,10 @@ public class DownDash : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (GameStateManager.gameState == GameStateManager.GameState.Start) return;
         if (gameMng.AllowMovement == false) return;
 
-        if (Input.GetButton("A"))
+        if (Input.GetButtonDown("A"))
         {
             if (gameMng.AllowMovement == false) return;
             if (playerMov.OnGround == false && buttonPressedInLastFrame == false)

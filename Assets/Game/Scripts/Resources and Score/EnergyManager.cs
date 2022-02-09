@@ -38,7 +38,7 @@ public class EnergyManager : MonoBehaviour //for points and energy
     
     void Update()
     {
-
+        if (GameStateManager.gameState == GameStateManager.GameState.Start) return;
 
         if (DisableEnergyCosts == true)
         {
@@ -54,11 +54,13 @@ public class EnergyManager : MonoBehaviour //for points and energy
 
     private void FixedUpdate()
     {
+        if (GameStateManager.gameState == GameStateManager.GameState.Start) return;
+
         /*
         if(CurrentEnergy > 10)
             CurrentEnergy -= ConstantEnergyDecrease; */
 
-        
+
         if (CurrentEnergy >= 80)
             CurrentEnergy = CurrentEnergy - ConstantEnergyDecrease - ReferenceLibary.GameMng.CurrentNoInputInfluence;
         else if (CurrentEnergy >= 60 && CurrentEnergy < 80)
