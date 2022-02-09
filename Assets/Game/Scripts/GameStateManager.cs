@@ -27,7 +27,7 @@ public class GameStateManager : MonoBehaviour
 
     void UpdateStartGame()
     {
-        if(Input.GetButtonDown("X"))
+        if(Input.GetButtonDown("A"))
         {
             gameState = GameState.Play;
             ReferenceLibary.UIMng.DeactivateStartOfGameUI();
@@ -62,7 +62,7 @@ public class GameStateManager : MonoBehaviour
 
         if(gameState == GameState.Pause )
         {
-            if(Input.GetButtonDown("X"))
+            if(Input.GetButtonDown("B"))
             {
                 loadMainScreen();
             }
@@ -70,7 +70,7 @@ public class GameStateManager : MonoBehaviour
 
         if(gameState == GameState.End)
         {
-            if (Input.GetButtonDown("X"))
+            if (Input.GetButtonDown("B"))
             {
                 loadMainScreen();
             }
