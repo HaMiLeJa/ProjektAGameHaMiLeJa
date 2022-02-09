@@ -17,7 +17,7 @@ public class PlayerSuperDash : MonoBehaviour
     [SerializeField] public float currentSuperDashForce = 0.0f;
     [SerializeField] private float disappearingDuringSuperDashStart;
     [SerializeField] private float disappearingDuringSuperDashEnd; 
-    public ParticleSystem effect;
+    
 
     public bool isDestroying = false;
    [SerializeField] bool superDashNotPossible = false;
@@ -39,6 +39,8 @@ public class PlayerSuperDash : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip startClip;
     [SerializeField] AudioClip endClip;
+
+    public ParticleSystem particle;
 
     #endregion
 
@@ -163,8 +165,8 @@ public class PlayerSuperDash : MonoBehaviour
                 isDestroying = true;
 
                 //EFFEKT
-                if(effect.isPlaying == false)
-                     effect.Play();
+                if(particle.isPlaying == false)
+                    particle.Play();
 
                 //gameMng.AllowHexEffects = false;
 
@@ -184,7 +186,7 @@ public class PlayerSuperDash : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         isDestroying = false;
 
-        effect.Stop();
+        particle.Stop();
 
         rb.velocity = rb.velocity / 2;
 
