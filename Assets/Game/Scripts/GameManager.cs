@@ -85,10 +85,18 @@ public class GameManager : MonoBehaviour
     #endregion
 
 
+    
 
     private void Awake()
     {
-       
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+#if UNITY_EDITOR
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+#endif
+
         DisableSpawnHexObjectsInEditMode = true;
         
         CameraHelper = GameObject.FindGameObjectWithTag("CameraHelper");
