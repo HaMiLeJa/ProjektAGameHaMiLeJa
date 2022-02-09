@@ -71,6 +71,7 @@ public class Bush : MonoBehaviour
 
             Vector3 movementDirection = rb.velocity.normalized;
 
+
             float timer = 0;
             while (timer <= 0.3f)
             {
@@ -79,8 +80,11 @@ public class Bush : MonoBehaviour
                 timer+= Time.deltaTime;
             }
 
+
             rb.AddForce(movementDirection * force * 100 *Time.deltaTime, ForceMode.Force);
+
 
         }
     }
 }
+
