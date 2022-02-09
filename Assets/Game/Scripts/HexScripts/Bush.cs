@@ -10,6 +10,8 @@ public class Bush : MonoBehaviour
     private float rotationAngle = 80;
     private float angles;
     [SerializeField] private float rotDuration = 0.3f;
+    [Space]
+    [SerializeField] float force = 5;
     private void Awake()
     {
         maxHeadshakes = headshakes;
@@ -22,7 +24,7 @@ public class Bush : MonoBehaviour
 
             Vector3 posOther = other.transform.position;
             angles = Vector3.Angle(posOther, this.transform.position)*100;
-            Debug.Log(angles);
+            //Debug.Log(angles);
             this.gameObject.transform.Rotate(0,angles,0,Space.Self);
             float playerxzVelocity = Mathf.Abs(ReferenceLibary.RigidbodyPl.velocity.x) +
                                      Mathf.Abs(ReferenceLibary.RigidbodyPl.velocity.z);
@@ -57,5 +59,27 @@ public class Bush : MonoBehaviour
         headshakes--;
         yield return Rotate(rotateMe,headshakes,UnityEngine.Random.Range(1.2f,1.4f)*duration,
             UnityEngine.Random.Range(angle, angle + 5), -firstDirection);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject == ReferenceLibary.Player)
+        {
+
+            Rigidbody rb = ReferenceLibary.RigidbodyPl;
+
+            Vector3 movementDirection = rb.velocity.normalized;
+
+            float timer = 0;
+            while (timer <= 0.3f)
+            {
+                Debug.Log("Schubs");
+                rb.AddForce(movementDirection * force * Time.deltaTime, ForceMode.Force);
+                timer+= Time.deltaTime;
+            }
+
+            rb.AddForce(movementDirection * force * 100 *Time.deltaTime, ForceMode.Force);
+
+        }
     }
 }
