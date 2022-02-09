@@ -67,6 +67,7 @@ public class Bush : MonoBehaviour
         {
 
             Rigidbody rb = ReferenceLibary.RigidbodyPl;
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y / 2, rb.velocity.z);
 
             Vector3 movementDirection = rb.velocity.normalized;
 
