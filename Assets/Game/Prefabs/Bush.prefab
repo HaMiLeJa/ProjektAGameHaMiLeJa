@@ -242,7 +242,7 @@ MonoBehaviour:
   headshakes: 2
   rotationAngle: 40
   rotDuration: 0.15
-  force: 300
+  force: 200
 --- !u!114 &3896034498007234934
 MonoBehaviour:
   m_ObjectHideFlags: 0
