@@ -21,7 +21,7 @@ public class DestroyObjectMissionInteraction : MonoBehaviour
     List<Material> AllMaterials = new List<Material>();
 
     int collisionCounter = 0;
-
+    Rigidbody rbPlayer;
 
     void Start()
     {
@@ -32,6 +32,7 @@ public class DestroyObjectMissionInteraction : MonoBehaviour
 
         superDash = ReferenceLibary.SuperDash;
         player = ReferenceLibary.Player;
+        rbPlayer = ReferenceLibary.RigidbodyPl;
 
         if (settings.ChangeMaterial == true)
         {
@@ -171,6 +172,9 @@ public class DestroyObjectMissionInteraction : MonoBehaviour
 
         if (settings.AllowAutomatedDestruction == true)
             collisionCounter++;
+
+        
+        rbPlayer.velocity = new Vector3(rbPlayer.velocity.x, rbPlayer.velocity.y / 4, rbPlayer.velocity.z); //Damit der Player nicht so sehr hoch fliegt bei Collision
 
         if (superDash.isDestroying == true || ReferenceLibary.DownDashPl.isDestroying == true || collisionCounter >= settings.HitAmount)
         {
