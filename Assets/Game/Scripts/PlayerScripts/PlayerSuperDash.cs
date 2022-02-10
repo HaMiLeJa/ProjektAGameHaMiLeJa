@@ -39,8 +39,8 @@ public class PlayerSuperDash : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip startClip;
     [SerializeField] AudioClip endClip;
-
-    public ParticleSystem particle;
+    [Space]
+    [SerializeField] ParticleSystemTrails particleTrail;
 
     #endregion
 
@@ -128,14 +128,12 @@ public class PlayerSuperDash : MonoBehaviour
 
         ReferenceLibary.GameMng.InputMade();
 
-        // if (EnergyManager.Instance.CheckForRequiredEnergyAmount(gameMng.SuperDashCosts) == true) // Wenn genügend Energy zur verfügung steht
         superDashCoroutine = StartCoroutine(SuperDashCoroutine());
-       // else
-        //    superDashNotPossible = true;
+        particleTrail.StartSuperDashParticle();
 
     }
 
-     
+    
 
     private IEnumerator SuperDashCoroutine()
     {
@@ -165,8 +163,7 @@ public class PlayerSuperDash : MonoBehaviour
                 isDestroying = true;
 
                 //EFFEKT
-                if(particle.isPlaying == false)
-                    particle.Play();
+                
 
                 //gameMng.AllowHexEffects = false;
 
@@ -174,7 +171,7 @@ public class PlayerSuperDash : MonoBehaviour
 
             if (gameMng.AllowMovement == false)
                 break;
-
+            
             yield return new WaitForFixedUpdate();
         }
 
@@ -186,7 +183,7 @@ public class PlayerSuperDash : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         isDestroying = false;
 
-        particle.Stop();
+
 
         rb.velocity = rb.velocity / 2;
 
