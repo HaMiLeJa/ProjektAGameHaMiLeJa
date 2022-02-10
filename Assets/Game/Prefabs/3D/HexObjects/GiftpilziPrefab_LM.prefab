@@ -106,6 +106,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SmokeGiftPilzi
       objectReference: {fileID: 0}
+    - target: {fileID: 2916217506949831873, guid: de6ba27c22393ea4d8ee2483619d4d4a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4416179668674894417, guid: de6ba27c22393ea4d8ee2483619d4d4a, type: 3}
       propertyPath: m_RootOrder
       value: 0

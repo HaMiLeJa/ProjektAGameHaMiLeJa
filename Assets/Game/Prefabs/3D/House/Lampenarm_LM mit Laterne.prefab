@@ -90,7 +90,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4374978076239712318, guid: 98f922ef5fab36643b14165a233f8fd5, type: 3}
       propertyPath: m_Name
-      value: Lampenarm_LM
+      value: Lampenarm_LM mit Laterne
       objectReference: {fileID: 0}
     - target: {fileID: 6176357904092844622, guid: 98f922ef5fab36643b14165a233f8fd5, type: 3}
       propertyPath: m_RootOrder
