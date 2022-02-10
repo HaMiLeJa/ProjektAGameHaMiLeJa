@@ -1033,7 +1033,6 @@ MonoBehaviour:
   currentSuperDashForce: 0
   disappearingDuringSuperDashStart: 5
   disappearingDuringSuperDashEnd: 26
-  effect: {fileID: 5422289936547993637}
   isDestroying: 0
   superDashNotPossible: 0
   worldMask:
@@ -1042,6 +1041,7 @@ MonoBehaviour:
   audioSource: {fileID: 1886747422687906248}
   startClip: {fileID: 8300000, guid: e1acb1fea69a3fc418a666a4f090e4a3, type: 3}
   endClip: {fileID: 8300000, guid: 34c7d57c9c50e2b4589f4bf2d2f214f2, type: 3}
+  particle: {fileID: 0}
 --- !u!114 &4498330986242300555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1265,7 +1265,7 @@ MonoBehaviour:
   MeshInside: {fileID: 5422289937533297311}
   _trailRenderer: {fileID: 866115606}
   _trailRenderer2: {fileID: 267193584}
-  GlowingOrbs: {fileID: 0}
+  GlowingOrbs: {fileID: 8050207432595335458, guid: b863f1cb4c4043e409a8d9c1ce5b122e, type: 3}
 --- !u!1 &4562467312241182471
 GameObject:
   m_ObjectHideFlags: 0
