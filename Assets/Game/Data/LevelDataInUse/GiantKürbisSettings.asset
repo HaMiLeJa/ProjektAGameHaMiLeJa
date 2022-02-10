@@ -16,13 +16,13 @@ MonoBehaviour:
   CollisionClip: {fileID: 8300000, guid: e28896853e2102041951b8177ea68ee3, type: 3}
   DestructionClip: {fileID: 8300000, guid: 5a0f2775ba270ab40a240c1740dc627c, type: 3}
   ExplosiveForce: 1000
-  ExplosiveRadius: 4
-  FadeSpeed: 2
+  ExplosiveRadius: 5
+  FadeSpeed: 3.1
   DestroyDelay: 5
   SleepCheckDelay: 0.5
   Respawn: 1
-  resetTimer: 40
-  DestroyValue: 2000
+  resetTimer: 60
+  DestroyValue: 1000
   CollisionValue: 10
   AllowAutomatedDestruction: 0
   HitAmount: 5
@@ -33,3 +33,4 @@ MonoBehaviour:
   Material04: {fileID: 2100000, guid: 5e0a09ce3094b61408a12eb2c0538221, type: 2}
   CollisionGroup: {fileID: -1585942546712559585, guid: 369e9ea0dfb4b7d4c8794c09bbe4bc2f, type: 2}
   DestroyGroup: {fileID: -777458001681440320, guid: 369e9ea0dfb4b7d4c8794c09bbe4bc2f, type: 2}
+  DestroyedCubeAdditionalDistance: {x: 0, y: 0, z: 0}

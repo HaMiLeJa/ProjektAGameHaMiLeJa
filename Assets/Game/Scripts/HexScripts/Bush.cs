@@ -67,7 +67,7 @@ public class Bush : MonoBehaviour
         {
 
             Rigidbody rb = ReferenceLibary.RigidbodyPl;
-            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y / 2, rb.velocity.z);
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y / 4, rb.velocity.z);
 
             Vector3 movementDirection = rb.velocity.normalized;
 
@@ -75,7 +75,6 @@ public class Bush : MonoBehaviour
             float timer = 0;
             while (timer <= 0.3f)
             {
-                Debug.Log("Schubs");
                 rb.AddForce(movementDirection * force * Time.deltaTime, ForceMode.Force);
                 timer+= Time.deltaTime;
             }

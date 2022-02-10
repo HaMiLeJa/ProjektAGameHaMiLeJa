@@ -115,7 +115,7 @@ public class MissionStatePrepareMission : MonoBehaviour
         MissionManager.Progress = 0;
 
 
-        ReferenceLibary.ItemSpawner.SpawnDestroyObj();
+        //ReferenceLibary.ItemSpawner.SpawnDestroyObj();
     }
 
     void ActivateDestoryObjUi()
@@ -132,20 +132,20 @@ public class MissionStatePrepareMission : MonoBehaviour
     {
         if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.easy)
         {
-            MissionManager.CurrentMission.Amount = 2000;
-            MissionManager.CurrentMission.time = 100f;
+            MissionManager.CurrentMission.Amount = 2000; //* Mathf.RoundToInt(ScoreManager.CurrentMultiplicator)
+            MissionManager.CurrentMission.time = 80f;
             MissionManager.CurrentMission.multiplicator = 0.5f; //0.3f
         }
         else if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.medium)
         {
             MissionManager.CurrentMission.Amount = 5000;
-            MissionManager.CurrentMission.time = 200f;
+            MissionManager.CurrentMission.time = 170;
             MissionManager.CurrentMission.multiplicator = 1f; //0.5f
         }
         else if (MissionManager.CurrentMission.missionDificulty == MissionInformation.MissionDifficulty.hard)
         {
             MissionManager.CurrentMission.Amount = 9000; // NICHT HÖHER ALS 9999 GEHEN; SONST MACHT DAS UI NICHT MIT
-            MissionManager.CurrentMission.time = 250f;
+            MissionManager.CurrentMission.time = 200f;
             MissionManager.CurrentMission.multiplicator = 1.5f; //0.7f
         }
     }

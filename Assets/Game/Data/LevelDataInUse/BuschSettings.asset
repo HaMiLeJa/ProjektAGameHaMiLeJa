@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e128d89f80050e84ca72ec4aefef72b3, type: 3}
   m_Name: BuschSettings
   m_EditorClassIdentifier: 
-  value: 1
+  value: 20
   secondValue: 1
   Clip: {fileID: 8300000, guid: 9587fc0d870c7104bab16c1e98a9e717, type: 3}
   Clip2: {fileID: 0}

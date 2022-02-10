@@ -52,19 +52,29 @@ public class PlayerBoost : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (GameStateManager.gameState == GameStateManager.GameState.Start) return;
         if (gameMng.AllowMovement == false) return;
         // if (shadowDash.isShadowDashing == true || superDash.isSuperDashing == true) return;
         // if (rb.velocity.x == 0 || rb.velocity.z == 0) return; //kein kleiner Boost am Anfang erlaubt!
 
 
-        if (Input.GetAxisRaw("RightTrigger") != 0 && IsBoosting == false || Input.GetButtonDown("X") && IsBoosting == false)
+        if (Input.GetAxisRaw("RightTrigger") != 0 && IsBoosting == false)
         {
             IsBoosting = true;
             BoostStarter();
         }
 
+#if UNITY_EDITOR
 
-        
+        if (Input.GetButtonDown("X") && IsBoosting == false)
+        {
+            IsBoosting = true;
+            BoostStarter();
+        }
+#endif
+
+
+
         if (IsBoosting == true && boostTimer < boostDuration)
         {
             // playerBoost.CurveValue
@@ -89,7 +99,7 @@ public class PlayerBoost : MonoBehaviour
 
    
 
-    #region Dash Coroutine
+#region Dash Coroutine
 
     public void BoostStarter()
     {
@@ -151,9 +161,9 @@ public class PlayerBoost : MonoBehaviour
 
     }
 
-    #endregion
+#endregion
 
-    #region OldBoostCode
+#region OldBoostCode
     /*
     Rigidbody rb;
     PlayerMovement playerMov;
@@ -389,5 +399,5 @@ public class PlayerBoost : MonoBehaviour
 
     }
 */
-    #endregion
+#endregion
 }

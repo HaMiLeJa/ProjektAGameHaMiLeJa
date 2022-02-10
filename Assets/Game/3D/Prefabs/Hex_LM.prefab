@@ -128,7 +128,6 @@ MonoBehaviour:
   boostInDForce: 25
   myProps: {fileID: 5754651978763513671}
   MyCollectable: {fileID: 0}
-  collectablePrefab: {fileID: 3252091341079616284, guid: 529ec0dd2de732849bb475b44251d029, type: 3}
   colRef:
     HexScript: {fileID: 0}
     ActiveCollectable: 0

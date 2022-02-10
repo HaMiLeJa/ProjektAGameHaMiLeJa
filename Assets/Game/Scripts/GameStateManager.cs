@@ -5,11 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class GameStateManager : MonoBehaviour
 {
-    GameState gameState = GameState.Play;
+    public static GameState gameState = GameState.Start;
     Rigidbody playerRb;
     List<GameObject> hasAlltheManagers = new List<GameObject>();
-    enum GameState
+    [SerializeField] AudioSource myAudioSource;
+    bool MainSceneLoadActive = false;
+    public enum GameState
     {
+        Start,
         Play,
         Pause,
         End
@@ -18,47 +21,99 @@ public class GameStateManager : MonoBehaviour
 
     void Start()
     {
+        MainSceneLoadActive = false;
+        if (myAudioSource == null)
+        {
+            myAudioSource = this.GetComponent<AudioSource>();
+        }
         GameOver = false;
-        gameState = GameState.Play;
+        gameState = GameState.Start;
         playerRb = ReferenceLibary.RigidbodyPl;
+        
+    }
+
+    void UpdateStartGame()
+    {
+        if (Input.GetButtonDown("A"))
+        {
+            myAudioSource.Play();
+            gameState = GameState.Play;
+            ReferenceLibary.UIMng.DeactivateStartOfGameUI();
+
+            Vector3 random = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
+
+            ReferenceLibary.RigidbodyPl.AddForce(random * 5);
+        }
     }
 
     private void Update()
     {
         if (Input.GetButtonDown("Pause"))
         {
-            switch(gameState)
+            if (MainSceneLoadActive == true) return;
+
+            switch (gameState)
             {
                 case GameState.Play:
+                    myAudioSource.Play();
                     PauseGame();
                     break;
                 case GameState.Pause:
+                    myAudioSource.Play();
                     ResumeGame();
                     break;
                 default:
                     break;
             }
-                
+        }
+
+        if(gameState == GameState.Start)
+        {
+            UpdateStartGame();
         }
 
         if(gameState == GameState.Pause )
         {
-            if(Input.GetButtonDown("X"))
+            if (MainSceneLoadActive == true) return;
+
+            if (Input.GetButtonDown("B"))
             {
-                loadMainScreen();
+                myAudioSource.Play();
+                MainSceneLoadActive = true;
+                StartCoroutine(AdvancedDelayedSceneMenuSceneLoad());
+                
             }
         }
 
         if(gameState == GameState.End)
         {
-            if (Input.GetButtonDown("X"))
+            if (MainSceneLoadActive == true) return;
+
+            if (Input.GetButtonDown("B"))
             {
-                loadMainScreen();
+                MainSceneLoadActive = true;
+                myAudioSource.Play();
+                StartCoroutine(DelayedSceneMenuSceneLoad());
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.I))
-            ReferenceLibary.AudMng.PlayGameStateSound(gameOverClip, gameOverGroup);
+    }
+
+    IEnumerator AdvancedDelayedSceneMenuSceneLoad()
+    {
+        Debug.Log("DelayedLoad1");
+        Time.timeScale = 0.005f;
+        yield return new WaitForSeconds(0.001f);
+        
+        Debug.Log("DelayedLoad2");
+        loadMainScreen();
+    }
+
+    IEnumerator DelayedSceneMenuSceneLoad()
+    {
+        yield return new WaitForSeconds(0.3f);
+
+        loadMainScreen();
     }
 
     void loadMainScreen()
@@ -77,9 +132,10 @@ public class GameStateManager : MonoBehaviour
         //     
         // }
 
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
-
-       // UnsubscribeEvents();
+        // UnsubscribeEvents();
 
         SceneManager.UnloadSceneAsync((int)SceneIndexes.MAINGAME); 
       

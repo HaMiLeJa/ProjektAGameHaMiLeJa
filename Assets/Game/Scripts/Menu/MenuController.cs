@@ -45,7 +45,13 @@ public class MenuController : MonoBehaviour
         SettingsGraphic.SetActive(false);
         Credits.SetActive(false);
 
+        
         VolumeSlider.value = PlayerPrefs.GetFloat("masterVolume");
+        if(VolumeSlider.value == 0)
+        {
+            VolumeSlider.value = 1;
+            PlayerPrefs.SetFloat("masterVolume", 1);
+        }
         AudioListener.volume = VolumeSlider.value;
 
         amount = PlayerPrefs.GetInt("WinConPoints") + PlayerPrefs.GetInt("WinConHex") + PlayerPrefs.GetInt("WinConMissions");

@@ -7,6 +7,13 @@ public class MissionStateNoMission : MonoBehaviour
     bool randomDurationSet = false;
     public static float duration = 0;
 
+    private void Start()
+    {
+        randomDurationSet = true;
+        duration = 50;
+        ReferenceLibary.UIMng.TimerUntilNexMission();
+    }
+
     public void UpdateNoMission()
     {
         if(randomDurationSet == false)
@@ -32,9 +39,10 @@ public class MissionStateNoMission : MonoBehaviour
 
     int GetRandomDuration()
     {
-        int i = Random.Range(30, 60);
+        int i = Random.Range(40, 80);
         return i;
     }
+
 
 
 }

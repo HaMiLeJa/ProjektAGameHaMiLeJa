@@ -112,7 +112,7 @@ Material:
     - _GlossyReflections: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _OutlineDepthSensitivity: 0.07
+    - _OutlineDepthSensitivity: 0.451
     - _OutlineThickness: 2
     - _Parallax: 0.005
     - _QueueOffset: 0
@@ -126,7 +126,7 @@ Material:
     - _ZWrite: 1
     - _emissionIntensity: 0
     - _emissiveCutoff: 0
-    - _normalStrength: 2.44
+    - _normalStrength: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

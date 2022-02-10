@@ -82,6 +82,8 @@ public class MissionManager : MonoBehaviour
 
     void Update()
     {
+
+        if (GameStateManager.gameState == GameStateManager.GameState.Start) return;
         if (GameStateManager.GameOver == true) return;
 
         switch (missionState)

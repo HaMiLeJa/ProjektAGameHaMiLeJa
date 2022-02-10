@@ -122,6 +122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee44655121081924ba7e44ee25369632, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Lampe: {fileID: 0}
+  headshakes: 4
 --- !u!1001 &2501388117869008625
 PrefabInstance:
   m_ObjectHideFlags: 0
