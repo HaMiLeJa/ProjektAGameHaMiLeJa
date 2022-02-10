@@ -9,8 +9,8 @@ public class ParticleSystemTrails : MonoBehaviour
     [SerializeField] private GameObject Orb;
     [SerializeField] private Renderer MeshoutSide;
     [SerializeField] private Renderer MeshInside;
-    [SerializeField]    private TrailRenderer _trailRenderer;
-    [SerializeField]    private TrailRenderer _trailRenderer2;
+    [SerializeField] private TrailRenderer _trailRenderer;
+    [SerializeField] private TrailRenderer _trailRenderer2;
     [SerializeField] private ParticleSystem GlowingOrbs;
 
     private void Awake()
@@ -31,6 +31,14 @@ public class ParticleSystemTrails : MonoBehaviour
         
     }
     
+    public void StartSuperDashParticle()
+    {
+
+        StartCoroutine(PlayNonTrailParticle_Coroutine());
+        StartCoroutine(SuperBoost_Coroutine());
+    }
+    
+
     IEnumerator PlayNonTrailParticle_Coroutine()
     {
         var particleDirection = Quaternion.LookRotation(ReferenceLibary.RigidbodyPl.velocity.normalized, Vector3.up);
@@ -57,7 +65,7 @@ public class ParticleSystemTrails : MonoBehaviour
         _trailRenderer.emitting = true;
         _trailRenderer2.emitting = true;
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1.4f);
         _trailRenderer.emitting = false;
         _trailRenderer2.emitting = false;
         MeshoutSide.enabled = true;
