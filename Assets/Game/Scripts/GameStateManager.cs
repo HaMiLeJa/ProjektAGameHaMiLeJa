@@ -132,9 +132,10 @@ public class GameStateManager : MonoBehaviour
         //     
         // }
 
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
-
-       // UnsubscribeEvents();
+        // UnsubscribeEvents();
 
         SceneManager.UnloadSceneAsync((int)SceneIndexes.MAINGAME); 
       

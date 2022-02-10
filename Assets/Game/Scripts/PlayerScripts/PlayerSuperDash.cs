@@ -17,7 +17,7 @@ public class PlayerSuperDash : MonoBehaviour
     [SerializeField] public float currentSuperDashForce = 0.0f;
     [SerializeField] private float disappearingDuringSuperDashStart;
     [SerializeField] private float disappearingDuringSuperDashEnd; 
-    public ParticleSystem effect;
+    
 
     public bool isDestroying = false;
    [SerializeField] bool superDashNotPossible = false;
@@ -39,6 +39,8 @@ public class PlayerSuperDash : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip startClip;
     [SerializeField] AudioClip endClip;
+
+    public ParticleSystem particle;
 
     #endregion
 
@@ -67,7 +69,7 @@ public class PlayerSuperDash : MonoBehaviour
         if (shadowDash.isShadowDashing == true) return;   //dash.Boosting == true || 
 
 
-        if (Input.GetButton("LeftBumper") && isSuperDashing == false || Input.GetButton("Y") && isSuperDashing == false)
+        if (Input.GetButton("LeftBumper") && isSuperDashing == false)
         {
             if (playerMov.MovementDirection.normalized == Vector3.zero) return;
 
@@ -76,15 +78,33 @@ public class PlayerSuperDash : MonoBehaviour
             if (dash.IsBoosting == true)
                 dash.IsBoosting = false;
         }
-        else if (Input.GetButton("LeftBumper") == false && superDashNotPossible == true || Input.GetButton("Y") && superDashNotPossible == true)
+        else if (Input.GetButton("LeftBumper") == false && superDashNotPossible == true)
         {
             isSuperDashing = false;
             superDashNotPossible = false;
         }
-        
+
+#if UNITY_EDITOR
+
+        if (Input.GetButton("Y") && isSuperDashing == false)
+        {
+            if (playerMov.MovementDirection.normalized == Vector3.zero) return;
+
+            isSuperDashing = true;
+            SuperDashStarter();
+            if (dash.IsBoosting == true)
+                dash.IsBoosting = false;
+        }
+        else if ( Input.GetButton("Y") && superDashNotPossible == true)
+        {
+            isSuperDashing = false;
+            superDashNotPossible = false;
+        }
 
 
-           
+#endif
+
+
         if (currentSuperDashForce != 0)
         {
             rb.AddForce(playerMov.MovementDirection.normalized * currentSuperDashForce * 400 * Time.fixedDeltaTime);
@@ -145,8 +165,8 @@ public class PlayerSuperDash : MonoBehaviour
                 isDestroying = true;
 
                 //EFFEKT
-                if(effect.isPlaying == false)
-                     effect.Play();
+                if(particle.isPlaying == false)
+                    particle.Play();
 
                 //gameMng.AllowHexEffects = false;
 
@@ -166,7 +186,7 @@ public class PlayerSuperDash : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         isDestroying = false;
 
-        effect.Stop();
+        particle.Stop();
 
         rb.velocity = rb.velocity / 2;
 
