@@ -192,6 +192,12 @@ public class HexAutoTiling : MonoBehaviour
       
            foreach (HexPos hexPos in hasAllTheHexPosHelperCopy)
            {
+               if (rightMove && vectorIndex <= 4096 && playerLocation.transform.position.x - tilingTreshold > hexPos.xPos)
+               {
+                   hor2 = xTilingDistance;
+                   leftMove = false;
+                   markDirtyVector = true;
+               }
                if (bottomMove && playerLocation.transform.position.z + tilingTreshold < hexPos.zPos)
                {
                    vert = zTilingDistance;
@@ -213,12 +219,7 @@ public class HexAutoTiling : MonoBehaviour
                    markDirtyVector = true;
                }
 
-               if (rightMove && vectorIndex <= 4096 && playerLocation.transform.position.x - tilingTreshold > hexPos.xPos)
-               {
-                   hor2 = xTilingDistance;
-                   leftMove = false;
-                   markDirtyVector = true;
-               }
+              
 
                if (markDirtyVector)
                {

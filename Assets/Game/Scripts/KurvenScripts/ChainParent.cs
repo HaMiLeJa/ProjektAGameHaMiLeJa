@@ -22,7 +22,8 @@ public class ChainParent : MonoBehaviour
 #if UNITY_EDITOR
 	
 	// To do an Zukunfsperson:  mach das nur, wenn sich auch etwas ändert. 
-	void Update() => UpdateMeshes();
+	private void OnDrawGizmos() => UpdateMeshes();
+	
 #endif
 
 	// Iterriere durch alles Childs und update die Meshes

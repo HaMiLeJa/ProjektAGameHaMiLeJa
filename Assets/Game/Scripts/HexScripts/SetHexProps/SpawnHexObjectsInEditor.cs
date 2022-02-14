@@ -36,7 +36,6 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     private void Start()
     {
 
-
         /*
         HexEffectsAndProps.Add(BoostForwardObj);
         HexEffectsAndProps.Add(TrampolinObj);
@@ -51,20 +50,18 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
 
     }
 
-    void Update()
+    private void OnDrawGizmos() => UpdateMeshes();
+    
+    private void UpdateMeshes()
     {
         if (SpawnHexPropsManager.AllowEditorHexObjSpawn == false) return;
         //if (ReferenceLibary.GameMng.DisableExecuteAlwaysScripts == true) return;
-
 
         //propsChildrenLength = propsChildren.Length;
 
         if (GameManager.DisableSpawnHexObjectsInEditMode == true) return;
 
         EditModeSpawnAndDeletion();
-
-
-        
     }
 
     void EditModeSpawnAndDeletion()
@@ -140,7 +137,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
 
    
 
-    void ResetCurrentItemBoostFoward() //hier evt list einbauen und alles bis auf 1. löschen oder so
+    void ResetCurrentItemBoostFoward() //hier evt list einbauen und alles bis auf 1. lÃ¶schen oder so
     {
         
        if (MyProps.GetComponentInChildren<BoostForwardProp>() == true)
@@ -195,7 +192,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
           {
               if(obj.gameObject.GetComponent<BoostForwardProp>() == true)
               {
-                  //hier könnte ich auch current item setzen
+                  //hier kÃ¶nnte ich auch current item setzen
                   return false;
               }
           }
@@ -225,7 +222,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
 
 
 
-    void ResetCurrentItemChangeDirection() //hier evt list einbauen und alles bis auf 1. löschen oder so
+    void ResetCurrentItemChangeDirection() //hier evt list einbauen und alles bis auf 1. lÃ¶schen oder so
     {
 
         if (MyProps.GetComponentInChildren<ChangeDirectionProp>() == true)
@@ -263,7 +260,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         {
             if (obj.gameObject.GetComponent<BoostInDirectionProp>() == true)
             {
-                //hier könnte ich auch current item setzen
+                //hier kÃ¶nnte ich auch current item setzen
                 return false;
             }
         }
@@ -293,7 +290,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         }
     }
 
-    void ResetCurrentItemBoostInDirection() //hier evt list einbauen und alles bis auf 1. löschen oder so
+    void ResetCurrentItemBoostInDirection() //hier evt list einbauen und alles bis auf 1. lÃ¶schen oder so
     {
 
         if (MyProps.GetComponentInChildren<BoostInDirectionProp>() == true)
@@ -329,7 +326,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         {
             if (obj.gameObject.GetComponent<BoostInDirectionProp>() == true)
             {
-                //hier könnte ich auch current item setzen
+                //hier kÃ¶nnte ich auch current item setzen
                 return false;
             }
         }
@@ -361,7 +358,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
 
 
 
-    void ResetCurrentItemTrampolin() //hier evt list einbauen und alles bis auf 1. löschen oder so
+    void ResetCurrentItemTrampolin() //hier evt list einbauen und alles bis auf 1. lÃ¶schen oder so
     {
 
         if (MyProps.GetComponentInChildren<TrampolinProp>() == true)
@@ -395,7 +392,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         {
             if (obj.gameObject.GetComponent<TrampolinProp>() == true)
             {
-                //hier könnte ich auch current item setzen
+                //hier kÃ¶nnte ich auch current item setzen
                 return false;
             }
         }
@@ -425,7 +422,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
 
 
 
-    void ResetCurrentItemSlowDown() //hier evt list einbauen und alles bis auf 1. löschen oder so
+    void ResetCurrentItemSlowDown() //hier evt list einbauen und alles bis auf 1. lÃ¶schen oder so
     {
 
         if (MyProps.GetComponentInChildren<SlowDownProp>() == true)
@@ -489,7 +486,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     }
 
 
-    void ResetCurrentItemCollectable() //hier evt list einbauen und alles bis auf 1. löschen oder so
+    void ResetCurrentItemCollectable() //hier evt list einbauen und alles bis auf 1. lÃ¶schen oder so
     {
 
         if (MyProps.GetComponentInChildren<Collectable>() == true)
