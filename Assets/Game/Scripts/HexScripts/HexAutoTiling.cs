@@ -9,7 +9,7 @@ public class HexAutoTiling : MonoBehaviour
 {
     #region Arrays
     public HexPos[] hasAllTheHexPos= new HexPos[HEXCOUNT];
-    public GameObject[] hasAllTheHexesDic = new GameObject[HEXCOUNT];
+   [HideInInspector] public Transform[] hasAllTheHexesTransforms = new Transform[HEXCOUNT];
     #endregion
     
     #region PrivateVariables
@@ -27,7 +27,7 @@ public class HexAutoTiling : MonoBehaviour
     private bool leftMove = true, rightMove = true, topMove = true, bottomMove = true,
                  playerHasMoved = true, markSortList = true;
     
-    private byte    startTilingTreshhold = 150, //später im Inspector bei mehr Level: default 150
+    private byte    startTilingTreshhold = 130, //später im Inspector bei mehr Level: default 150
                     declineBothSidesTreshhold = 10, //später im Inspector bei mehr Level: default 10
                     shortCircutToOrginCounter = 0, 
                     shortCircutTreshhold = 8; //später im Inspector bei mehr Level: default 8
@@ -74,8 +74,8 @@ public class HexAutoTiling : MonoBehaviour
         if (returnToOriginDistanceCheck)
         { 
             moveEverythingBackToOrigin();
-            StartCoroutine(updateAllAfterOrigin(0.25f));
-            StartCoroutine(sortListCo(0.15f));
+            StartCoroutine(updateAllAfterOrigin(0.2f));
+            StartCoroutine(sortListCo(0.12f));
         }
     }
     #endregion
@@ -86,7 +86,7 @@ public class HexAutoTiling : MonoBehaviour
         ushort i = 0;
         foreach (GameObject hex in GameObject.FindGameObjectsWithTag("Hex"))
         {
-            hasAllTheHexesDic[i] = hex;
+            hasAllTheHexesTransforms[i] = hex.transform;
             i++;
         } 
     }
@@ -94,7 +94,7 @@ public class HexAutoTiling : MonoBehaviour
     {
         Array.Clear(hasAllTheHexPos,0,HEXCOUNT-1);
         ushort i = 0;
-        foreach (GameObject hex in hasAllTheHexesDic)
+        foreach (Transform hex in hasAllTheHexesTransforms)
         { 
             hasAllTheHexPos[i] = new HexPos(hex.transform.position.x, i, hex.transform.position.z);
                 i++;
@@ -198,8 +198,8 @@ public class HexAutoTiling : MonoBehaviour
                if (markDirtyVector)
                {
                    ushort dicKey = hexPos.dicKey; 
-                   hasAllTheHexesDic[dicKey].transform.position = new Vector3(hexPos.xPos - hor + hor2,//update dic
-                       hasAllTheHexesDic[dicKey].transform.position.y, hexPos.zPos - vert + vert2);
+                   hasAllTheHexesTransforms[dicKey].transform.position = new Vector3(hexPos.xPos - hor + hor2,//update dic
+                       hasAllTheHexesTransforms[dicKey].transform.position.y, hexPos.zPos - vert + vert2);
                  
                    hasAllTheHexPos[vectorIndex] = new HexPos(hexPos.xPos - hor + hor2,   //update Array v3
                        hexPos.dicKey, hexPos.zPos - vert + vert2);
