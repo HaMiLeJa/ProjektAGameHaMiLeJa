@@ -22,10 +22,8 @@ public class HexAutoTiling : MonoBehaviour
     private float xPlusSnapShotPos, xMinusSnapShotPos, 
                   zPlusSnapShotPos, zMinusSnapShotPos,
                   xOriginPosition, zOriginPosition;
-                  
-                
-    private bool leftMove = true, rightMove = true, topMove = true, bottomMove = true,
-                 playerHasMoved = true, markSortList = true;
+    
+    private bool leftMove = true, rightMove = true, topMove = true, bottomMove = true, playerHasMoved = true;
     
     private byte    startTilingTreshhold = 130, //später im Inspector bei mehr Level: default 150
                     declineBothSidesTreshhold = 10, //später im Inspector bei mehr Level: default 10
@@ -221,19 +219,17 @@ public class HexAutoTiling : MonoBehaviour
         hasAllTheHexPos.TimSort((pos1, pos2) => pos1.xPos.CompareTo(pos2.xPos));
     }
     void moveEverythingBackToOrigin()
-    {
+    { 
         //calculte Distances
         Vector3 moveEveryThingBack = new Vector3(
             playerLocation.transform.position.x - (xOriginPosition),
             0,
-            playerLocation.transform.position.z - (zOriginPosition)); 
-        
+            playerLocation.transform.position.z - (zOriginPosition));
         //Informs vcams
         int numVcams = CinemachineCore.Instance.VirtualCameraCount;
         for (byte i = 0; i < numVcams; ++i)
             CinemachineCore.Instance.GetVirtualCamera(i).OnTargetObjectWarped(
                 playerLocation.transform, -moveEveryThingBack);
-        
         //moves everything back
         for (ushort j = 0; j < UnityEngine.SceneManagement.SceneManager.sceneCount; j++)
         { 

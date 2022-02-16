@@ -18,7 +18,7 @@ public class LightmapMenu : MonoBehaviour
         hasAllTheEmmisiveObjects.Clear();
         hasAllTheOrginalEmmissiveIntensity.Clear();
         hasAllTheEmmisiveObjects.AddRange(GameObject.FindGameObjectsWithTag("Emissve_baked"));
-        
+       
         foreach (GameObject tmpObj in hasAllTheEmmisiveObjects)
         {
             Material tmpMaterial = tmpObj.GetComponent<Renderer> ().sharedMaterial;
@@ -37,8 +37,7 @@ public class LightmapMenu : MonoBehaviour
                 }
             }
             catch (NullReferenceException e)
-            {
-                
+            {    
             }
         }
         Lightmapping.Bake ();
@@ -51,10 +50,9 @@ public class LightmapMenu : MonoBehaviour
                 Debug.Log(value + "value");
             }
             Debug.Log("yay");
-
-        }
-        
+        }     
     }
-
 }
 # endif
+
+
