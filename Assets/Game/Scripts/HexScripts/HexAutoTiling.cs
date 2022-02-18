@@ -1,23 +1,26 @@
 #region Imports
-using System;
+
 using System.Collections;
+
 using UnityEngine;
 using Cinemachine;
-using System.Linq;
+
+using Unity.Burst;
+
+using UnityEngine.Jobs;
+
 #endregion
 public class HexAutoTiling : MonoBehaviour
 {
     #region Arrays
-    public HexPos[] hasAllTheHexPos= new HexPos[HEXCOUNT];
-   [HideInInspector] public Transform[] hasAllTheHexesTransforms = new Transform[HEXCOUNT];
+    private TransformAccessArray hasAllTheHexesTransformsNative;
     #endregion
     
     #region PrivateVariables
-    private const ushort HEXCOUNT = 16384, //später im Inspector bei mehr Level: default 16384
-                         FIRSTQUARTER = 4096, //später im Inspector bei mehr Level: default 4096
-                         LASTQUARTER = 12288; //später im Inspector bei mehr Level: default 12288
-    
-    GameObject playerLocation;
+
+    private const ushort HEXCOUNT = 16384; //später im Inspector bei mehr Level: default 16384
+
+        GameObject playerLocation;
     
     private float xPlusSnapShotPos, xMinusSnapShotPos, 
                   zPlusSnapShotPos, zMinusSnapShotPos,
@@ -53,7 +56,6 @@ public class HexAutoTiling : MonoBehaviour
     {
         playerLocation = GameObject.FindWithTag("Player");
         fillHexDic();
-        fillHexPosArray();
     }
     void Start()
     {
@@ -61,6 +63,7 @@ public class HexAutoTiling : MonoBehaviour
         zOriginPosition = playerLocation.transform.position.z;
     }
     void Update()
+    
     {
         setFlags();
         if (bottomMove || topMove || leftMove || rightMove)
@@ -73,7 +76,6 @@ public class HexAutoTiling : MonoBehaviour
         { 
             moveEverythingBackToOrigin();
             StartCoroutine(updateAllAfterOrigin(0.2f));
-            StartCoroutine(sortListCo(0.12f));
         }
     }
     #endregion
@@ -81,23 +83,13 @@ public class HexAutoTiling : MonoBehaviour
     #region StartMethods
     void fillHexDic() 
     {
-        ushort i = 0;
+        hasAllTheHexesTransformsNative  = new TransformAccessArray(HEXCOUNT);
         foreach (GameObject hex in GameObject.FindGameObjectsWithTag("Hex"))
         {
-            hasAllTheHexesTransforms[i] = hex.transform;
-            i++;
+            hasAllTheHexesTransformsNative.Add(hex.transform);
         } 
     }
-    void fillHexPosArray()
-    {
-        Array.Clear(hasAllTheHexPos,0,HEXCOUNT-1);
-        ushort i = 0;
-        foreach (Transform hex in hasAllTheHexesTransforms)
-        { 
-            hasAllTheHexPos[i] = new HexPos(hex.transform.position.x, i, hex.transform.position.z);
-                i++;
-        }
-    }
+  
     #endregion
     
     #region TilingRules
@@ -158,73 +150,40 @@ public class HexAutoTiling : MonoBehaviour
             xMinusSnapShotPos = playerLocation.transform.position.x - startTilingTreshhold;
             zPlusSnapShotPos = playerLocation.transform.position.z + startTilingTreshhold;
             zMinusSnapShotPos = playerLocation.transform.position.z - startTilingTreshhold;
-            StartCoroutine(sortListCo(0.15f));
             playerHasMoved = false;
             shortCircutToOrginCounter++;
         }
     }
     void moveHexes()
     {
-        ushort vectorIndex = 0, hor = 0, hor2 = 0, vert = 0, vert2 = 0;
-         bool markDirtyVector = false;
-         foreach (HexPos hexPos in hasAllTheHexPos)
-           {
-               if (rightMove && vectorIndex <= FIRSTQUARTER && playerLocation.transform.position.x - tilingTreshold > hexPos.xPos)
-               {
-                   hor2 = xTilingDistance;
-                   leftMove = false;
-                   markDirtyVector = true;
-               }
-               if (bottomMove && playerLocation.transform.position.z + tilingTreshold < hexPos.zPos)
-               {
-                   vert = zTilingDistance;
-                   topMove = false;
-                   markDirtyVector = true;
-               }
-               if (topMove && playerLocation.transform.position.z - tilingTreshold > hexPos.zPos)
-               {
-                   vert2 = zTilingDistance;
-                   bottomMove = false;
-                   markDirtyVector = true;
-               }
-               if (leftMove && vectorIndex >= LASTQUARTER && playerLocation.transform.position.x + tilingTreshold < hexPos.xPos)
-               {
-                   hor = xTilingDistance;
-                   rightMove = false;
-                   markDirtyVector = true;
-               }
-               if (markDirtyVector)
-               {
-                   ushort dicKey = hexPos.dicKey; 
-                   hasAllTheHexesTransforms[dicKey].transform.position = new Vector3(hexPos.xPos - hor + hor2,//update dic
-                       hasAllTheHexesTransforms[dicKey].transform.position.y, hexPos.zPos - vert + vert2);
-                 
-                   hasAllTheHexPos[vectorIndex] = new HexPos(hexPos.xPos - hor + hor2,   //update Array v3
-                       hexPos.dicKey, hexPos.zPos - vert + vert2);
-                   
-                   hor = 0; vert = 0; hor2 = 0; vert2 = 0;
-                   markDirtyVector = false;
-               }
-               vectorIndex++;
-           }
-           playerHasMoved = true;
+       // NativeArray<HexPos> hasAllTheHexPosNative = new NativeArray<HexPos>(HEXCOUNT, Allocator.TempJob);
+       HexPosJob hexTransformJob = new HexPosJob
+        {
+            xTilingDistanceJob =  xTilingDistance, 
+            zTilingDistanceJob = zTilingDistance, tilingTreshholdJob = tilingTreshold,
+            bottomMoveJob = bottomMove, rightMoveJob = rightMove, leftMoveJob = leftMove, topMoveJob = topMove,
+            playerLocationXJob = playerLocation.transform.position.x,
+            playerLocationZJob = playerLocation.transform.position.z,
+            
+        };
+
+       hexTransformJob.Schedule(hasAllTheHexesTransformsNative);
+         playerHasMoved = true;
            setAllFalse();
     }
     #endregion
     
     #region  OriginMethods
-    IEnumerator sortListCo(float sec)
-    {
-        yield return new WaitForSeconds(sec);
-        hasAllTheHexPos.TimSort((pos1, pos2) => pos1.xPos.CompareTo(pos2.xPos));
-    }
     void moveEverythingBackToOrigin()
     { 
         //calculte Distances
+        float xMoveBack =   playerLocation.transform.position.x - (xOriginPosition),
+              zMoveback = playerLocation.transform.position.z - (zOriginPosition);
+      
         Vector3 moveEveryThingBack = new Vector3(
-            playerLocation.transform.position.x - (xOriginPosition),
+            xMoveBack,
             0,
-            playerLocation.transform.position.z - (zOriginPosition));
+            zMoveback);
         //Informs vcams
         int numVcams = CinemachineCore.Instance.VirtualCameraCount;
         for (byte i = 0; i < numVcams; ++i)
@@ -238,10 +197,7 @@ public class HexAutoTiling : MonoBehaviour
         }
         //sets flags
         shortCircutToOrginCounter = 0;
-        Debug.Log("Sir, I Moved everything back to Origin");
-        fillHexPosArray();
     }
-   
     IEnumerator updateAllAfterOrigin(float sec)
     { 
         yield return new WaitForSeconds(sec);
@@ -256,99 +212,39 @@ public class HexAutoTiling : MonoBehaviour
     }
     #endregion
 }
-
-#region HexPosStruct
-public struct HexPos 
+[BurstCompile]
+public struct HexPosJob : IJobParallelForTransform
 {
-    public float xPos;
-    public ushort dicKey;
-    public float zPos;
-    public HexPos(float xPos, ushort dicKey, float zPos)
+    [Unity.Collections.ReadOnly] public ushort xTilingDistanceJob, zTilingDistanceJob ;
+  [Unity.Collections.ReadOnly] public float tilingTreshholdJob;
+  [Unity.Collections.ReadOnly]  public bool bottomMoveJob, rightMoveJob, leftMoveJob, topMoveJob;
+  [Unity.Collections.ReadOnly]  public float playerLocationXJob, playerLocationZJob;
+    public void Execute(int index, TransformAccess hasAllTheHexPosTransform)
     {
-        this.xPos = xPos;
-        this.dicKey = dicKey;
-        this.zPos = zPos;
+        ushort vectorindex = 0, hor = 0, hor2 = 0, vert = 0, vert2 = 0;
+        bool markDirtyVector = false;
+        if (rightMoveJob  && playerLocationXJob - tilingTreshholdJob > hasAllTheHexPosTransform.position.x)
+            {
+                hor2 = xTilingDistanceJob;
+                markDirtyVector = true;
+            }
+            if (bottomMoveJob && playerLocationZJob + tilingTreshholdJob < hasAllTheHexPosTransform.position.z)
+            {
+                vert = zTilingDistanceJob;
+                markDirtyVector = true;
+            }
+            if (topMoveJob && playerLocationZJob - tilingTreshholdJob > hasAllTheHexPosTransform.position.z)
+            {
+                vert2 = zTilingDistanceJob;
+                markDirtyVector = true;
+            }
+            if (leftMoveJob  && playerLocationXJob + tilingTreshholdJob < hasAllTheHexPosTransform.position.x)
+            {
+                hor = xTilingDistanceJob;
+                markDirtyVector = true;
+            }
+            if (markDirtyVector)
+                hasAllTheHexPosTransform.position = new Vector3(hasAllTheHexPosTransform.position.x - hor + hor2,hasAllTheHexPosTransform.position.y, hasAllTheHexPosTransform.position.z - vert + vert2);
     }
 }
-#endregion
-
-  
-     /*public const int RUN = 32;
-     public static void insertionSort(Vector3[] arr, int left, int right)  
-    {  
-        for (int i = left + 1; i <= right; i++)  
-        {  
-            float temp = arr[i].x;  
-            int j = i - 1;  
-            while (arr[j+1].x > temp && j >= left)  
-            {  
-                arr[j+1].x = arr[j].x;  
-                j--;  
-            }  
-            arr[j+1].x = temp;  
-        }  
-    }  
-     
-    public static void merge(Vector3[] arr, int l, int m, int r)  
-    {
-        int len1 = m - l + 1, len2 = r - m;  
-        Vector3[] left = new Vector3[len1]; 
-        Vector3[] right = new Vector3[len2];  
-        for (int x = 0; x < len1; x++) 
-            left[x] = arr[l + x];  
-        for (int x = 0; x < len2; x++)  
-            right[x] = arr[m + 1 + x];  
-        
-        int i = 0;  
-        int j = 0;  
-        int k = l;  
-        
-        while (i < len1 && j < len2)  
-        {  
-            if (left[i].x <= right[j].x)  
-            {  
-                arr[k].x = left[i].x;  
-                i++;  
-            }  
-            else
-            {  
-                arr[k].x = right[j].x;  
-                j++;  
-            }  
-            k++;  
-        }     
-        while (i < len1)  
-        {  
-            arr[k].x = left[i].x;  
-            k++;  
-            i++;  
-        }  
-        
-        while (j < len2)  
-        {  
-            arr[k].x = right[j].x;  
-            k++;  
-            j++;  
-        }  
-    }  
-    public static void timSort(Vector3[] arr, int n)  
-    {  
-        for (int i = 0; i < n; i+=RUN)  
-            insertionSort(arr, i, Math.Min((i+31), (n-1)));  
-        
-        for (int size = RUN; size < n; size = 2*size)  
-        {  
-            for (int left = 0; left < n; left += 2*size)  
-            {  
-                // find ending point of left sub array  
-                // mid+1 is starting point of right sub array  
-                int mid = left + size - 1;  
-                int right = Math.Min((left + 2*size - 1), (n-1));  
-        
-                // merge sub array arr[left.....mid] &  
-                // arr[mid+1....right]  
-                merge(arr, left, mid, right);  
-            }  
-        }  
-    }  */
       
