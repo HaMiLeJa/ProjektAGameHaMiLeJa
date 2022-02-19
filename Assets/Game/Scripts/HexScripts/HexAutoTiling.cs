@@ -156,8 +156,7 @@ public class HexAutoTiling : MonoBehaviour
     }
     void moveHexes()
     {
-       // NativeArray<HexPos> hasAllTheHexPosNative = new NativeArray<HexPos>(HEXCOUNT, Allocator.TempJob);
-       HexPosJob hexTransformJob = new HexPosJob
+        HexPosJob hexTransformJob = new HexPosJob
         {
             xTilingDistanceJob =  xTilingDistance, 
             zTilingDistanceJob = zTilingDistance, tilingTreshholdJob = tilingTreshold,
@@ -166,8 +165,7 @@ public class HexAutoTiling : MonoBehaviour
             playerLocationZJob = playerLocation.transform.position.z,
             
         };
-
-       hexTransformJob.Schedule(hasAllTheHexesTransformsNative);
+        hexTransformJob.Schedule(hasAllTheHexesTransformsNative);
          playerHasMoved = true;
            setAllFalse();
     }
@@ -214,7 +212,7 @@ public class HexAutoTiling : MonoBehaviour
 }
 [BurstCompile]
 public struct HexPosJob : IJobParallelForTransform
-{
+{ 
     [Unity.Collections.ReadOnly] public ushort xTilingDistanceJob, zTilingDistanceJob ;
   [Unity.Collections.ReadOnly] public float tilingTreshholdJob;
   [Unity.Collections.ReadOnly]  public bool bottomMoveJob, rightMoveJob, leftMoveJob, topMoveJob;
@@ -244,7 +242,10 @@ public struct HexPosJob : IJobParallelForTransform
                 markDirtyVector = true;
             }
             if (markDirtyVector)
-                hasAllTheHexPosTransform.position = new Vector3(hasAllTheHexPosTransform.position.x - hor + hor2,hasAllTheHexPosTransform.position.y, hasAllTheHexPosTransform.position.z - vert + vert2);
+                hasAllTheHexPosTransform.position = new Vector3(
+                    hasAllTheHexPosTransform.position.x - hor + hor2,
+                    hasAllTheHexPosTransform.position.y,
+                    hasAllTheHexPosTransform.position.z - vert + vert2);
     }
 }
       
