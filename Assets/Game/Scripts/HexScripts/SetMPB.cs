@@ -5,13 +5,11 @@ using UnityEngine;
 public class SetMPB : MonoBehaviour
 {
     private MaterialPropertyBlock mpb;
-    
     private MaterialPropertyBlock MPB
     {
         get
         {
-            if (mpb == null)
-                mpb = new MaterialPropertyBlock();
+            if (mpb == null) mpb = new MaterialPropertyBlock();
             return mpb;
         }
     }
@@ -20,20 +18,12 @@ public class SetMPB : MonoBehaviour
     public int ArrayIndex;
     public void ApplyIndex()
     {
-        
         GameObject childWithMeshFilter = this.transform.GetChild(0).GetChild(0).gameObject;
-
         MeshRenderer rnd = childWithMeshFilter.GetComponent<MeshRenderer>();
         MPB.SetInt(shPropArrayIndex, ArrayIndex);
         rnd.SetPropertyBlock(MPB);
     }
-
-    private void OnValidate()
-    {
-        ApplyIndex();
-    
-    }
-
+    private void OnValidate()=> ApplyIndex();
 #endif
 }
 */

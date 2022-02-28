@@ -1,9 +1,7 @@
 ﻿// Einfache ease Funktion.  Wird für die Rotation genutzt und um die Segmente zu "easen"
 public enum Ease { Linear, In, Out, InOut }
-
 public static class EaseExtensions 
 {
-
 	public static float GetEased( this Ease ease, float t ) 
 	{
 		switch( ease ) 
@@ -14,5 +12,4 @@ public static class EaseExtensions
 			default:	     return t;
 		}
 	}
-
 }

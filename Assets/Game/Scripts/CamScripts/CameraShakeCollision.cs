@@ -29,6 +29,7 @@ public class CameraShakeCollision : MonoBehaviour
     //[SerializeField] private bool Camerahelper;
     private void OnCollisionEnter(Collision collision)
     {
+        if (Destroyable && collision.gameObject.CompareTag("Hex")) return;
         if (ActivateOnEverything && collision.gameObject.layer == 7)
             camShakeActivated = true;
         if (!ActivateOnEverything)

@@ -14,13 +14,10 @@ public class AudioSlots : MonoBehaviour
         { Instance = this; }
     }
     #endregion
-    
     public static bool slotA = true, slotB = true , slotC = true, slotD = true, needSlot = true;
-    
     public void playSoundSlots(AudioSource audioSource, AudioClip audioClip, float volume)
     {
-        if (!slotA || !slotB || !slotC || !slotD)
-            return;
+        if (!slotA && !slotB && !slotC && !slotD) return;
         needSlot = true;
         if (slotA && needSlot)
             StartCoroutine(Coroutine_slotA(audioClip.length, audioSource,audioClip, volume));
@@ -34,12 +31,8 @@ public class AudioSlots : MonoBehaviour
     
     IEnumerator Coroutine_slotA(float sec, AudioSource audioSource, AudioClip audioClip, float volume)
     {
-        needSlot = false;
-        slotA = false;
-        if(audioSource.isPlaying == false)
-        {
-            audioSource.PlayOneShot(audioClip, volume);
-        }
+        needSlot = false; slotA = false;
+        if(!audioSource.isPlaying) audioSource.PlayOneShot(audioClip, volume);
         yield return new WaitForSeconds(sec);
         slotA = true;
     }

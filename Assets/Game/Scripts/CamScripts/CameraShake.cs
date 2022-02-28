@@ -12,7 +12,7 @@ public class CameraShake : MonoBehaviour
 		[Range(0,1)] public float rotation;
 		public Einstellungen (float angle, float strength, float speed, float duration, float noise, float damping, float rotation)
 		{
-			this.angle = angle; this.strength = strength; this.maxSpeed = speed; this.duration = duration; this.noise = Mathf.Clamp01(noise);
+			this.angle = angle; this.strength = strength; maxSpeed = speed; this.duration = duration; this.noise = Mathf.Clamp01(noise);
 			this.damping = Mathf.Clamp01(damping); this.rotation = Mathf.Clamp01(rotation);
 		}
 	}

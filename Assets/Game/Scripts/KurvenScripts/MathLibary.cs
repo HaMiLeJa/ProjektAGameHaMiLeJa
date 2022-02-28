@@ -21,19 +21,14 @@ public static class MathLibary
 	// Gebe a und b rein und du kriegst die Prozente eines lerps
 	// (t value)
 	// v ist in dieser range
-	static float InverseLerp( float a, float b, float v ) 
-	{
-		return (v - a) / (b - a);
-	}
-
-	// Remaps eine komplette Value range zu einer anderen. Wie beim shader. Inverslep und lerp
+	static float InverseLerp( float a, float b, float v ) => (v - a) / (b - a);
 	public static float Remap( float iMin, float iMax, float oMin, float oMax, float v ) 
-	{
+	{ // Remaps eine komplette Value range zu einer anderen. Wie beim shader. Inverslep und lerp
 		float t = InverseLerp(iMin, iMax, v);
 		return Mathf.LerpUnclamped( oMin, oMax, t );
 	}
 	public static float RemapClamped( float iMin, float iMax, float oMin, float oMax, float v ) 
-	{
+	{ // positive only
 		float t = InverseLerp(iMin, iMax, v);
 		return Mathf.Lerp( oMin, oMax, t );
 	}

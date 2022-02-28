@@ -481,16 +481,13 @@ public class UIManager : MonoBehaviour
         if (NumberCounter_Coroutine != null) StopCoroutine(NumberCounter_Coroutine);
         NumberCounter_Coroutine = StartCoroutine(CountText(ScoreManager.CurrentScore));
            _CashedValue = ScoreManager.CurrentScore;
-           //dein alter code
-        //score.text = ScoreManager.CurrentScore.ToString();
-       // Debug.Log("Update Score UI");
     }
     
     private IEnumerator CountText(float newValue)
     {
         WaitForSeconds Wait = new WaitForSeconds(1f / CounterFPS);
-        float prevValue = _CashedValue;
-        float stepSpeed;
+        float prevValue = _CashedValue,
+              stepSpeed;
         
         if (newValue - prevValue < 0) stepSpeed = Mathf.FloorToInt((newValue - prevValue) / (CounterFPS * durationCount));
         else stepSpeed = Mathf.CeilToInt((newValue - prevValue) / (CounterFPS * durationCount));

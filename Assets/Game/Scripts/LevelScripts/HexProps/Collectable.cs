@@ -16,12 +16,6 @@ public class Collectable : MonoBehaviour
    
     void Start()
     {
-        //new Code
-        // ParentHex = this.transform.parent.transform.parent.gameObject;
-        // colRef.HexScript = ParentHex.GetComponent<Hex>();
-        //colRef.HexScript = ParentHex.GetComponent<Hex>();
-
-
 
         if (ParentHex == null)
         {

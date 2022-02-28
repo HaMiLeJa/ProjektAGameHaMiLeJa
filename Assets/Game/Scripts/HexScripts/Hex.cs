@@ -1,34 +1,26 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-
 public class Hex : MonoBehaviour
 {
    #region Inspector
+   // AudioManager audManager;
+   //AudioClipsHexes audioClipHexes;
+   //private HexCoordinates hexCoordinates;
+   //[SerializeField] AudioSource myAudioSource;
+   //public Vector3Int HexCoords => hexCoordinates.GetHexCoords();
     GameObject Player;
     private Rigidbody playerRb;
     HexMovements hexMov;
     GameManager gameMng;
-   // AudioManager audManager;
-    //AudioClipsHexes audioClipHexes;
-    
-
-    //[SerializeField] AudioSource myAudioSource;
-
     private GlowHighlight highlight;
-    //private HexCoordinates hexCoordinates;
     public HexType hexType;
     public CollectableType collectableType = CollectableType.Type1; //To Be Used :)
-
     AudioClip clip;
     ParticleSystem EffectParticle;
-    
     #endregion
-    //public Vector3Int HexCoords => hexCoordinates.GetHexCoords();
-
-    System.Action OnEffectHex;
+   
+    Action OnEffectHex;
     // wie weit kann die Unit laufen
     /*
     public int GetCost()
@@ -44,12 +36,8 @@ public class Hex : MonoBehaviour
     {
         return this.hexType == HexType.Obstacle;
     }*/
-
-    private void Awake()
-    {
-        highlight = GetComponent<GlowHighlight>();
-
-       // CollectableManager.AllCollectables.Clear(); //Eben geadded
+    private void Awake() => highlight = GetComponent<GlowHighlight>();
+        // CollectableManager.AllCollectables.Clear(); //Eben geadded
 
         //if (hexType == HexType.DefaultCollectable)
       //  {
@@ -62,118 +50,47 @@ public class Hex : MonoBehaviour
             */
             //Debug.Log("Hex Added to All Collectables");
        // }
-        
-
-    }
-
-    private void Start()
+       private void Start()
     {
         gameMng = ReferenceLibary.GameMng;
         Player = ReferenceLibary.Player;
         playerRb = ReferenceLibary.RigidbodyPl;
         hexMov = ReferenceLibary.HexMov;
-
-      
-        
         OnEffectHex += PlaySound;
-      
-        if(hexType == HexType.SlowDown)
-        {
-            EffectParticle = GetComponentInChildren<ParticleSystem>();
-        }
-       
+        if(hexType == HexType.SlowDown) EffectParticle = GetComponentInChildren<ParticleSystem>();
     }
-
-    #region  HighlightHexs
- 
-
-    internal void ResetHighlight()
-    {
-        highlight.ResetGlowHighlight(false);
-    }
-
-    internal void HighlightPath()
-    {
-        highlight.HighlightValidPath(false );
-    }
-
-
-    #endregion
-
-    
     #region OnTriggerHexTypes
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject == Player)
         {
-            if ((hexType == HexType.SlowDown))
-            {
-                SlowDownStarter();
-            }
-            
-            if ((hexType == HexType.Trampolin))
-            {
-                TrampolinStarter();
-            }
-            
-            if ((hexType == HexType.ChangeDirection))
-            {
-                ChangeDirectionStarter();
-            }
-            
-            if ((hexType == HexType.BoostForward))
-            {
-                BoostForwardStarter();
-            }
-
-            if ((hexType == HexType.BoostInDirection))
-            {
-                BoostInDirectionStarter();
-            }
-
-            StartCoroutine(EnableHighlightDelayed(false));
-            StartCoroutine(DisableHighlightDelayed(false));
+            if ((hexType == HexType.SlowDown)) SlowDownStarter();
+            if ((hexType == HexType.Trampolin)) TrampolinStarter();
+            if ((hexType == HexType.ChangeDirection)) ChangeDirectionStarter();
+            if ((hexType == HexType.BoostForward)) BoostForwardStarter();
+            if ((hexType == HexType.BoostInDirection)) BoostInDirectionStarter();
+            startHighlight(false);
         }
-
     }
-
-    public void highlightProps()
-    {
-        StartCoroutine(EnableHighlightDelayed(true));
-        StartCoroutine(DisableHighlightDelayed(true));
-       // Collider[] colliders = gameObject.transform.GetChild(1).GetComponentsInChildren<Collider>();
-    }
-
-      
-        
-
-                                                      
     #endregion
     
+    #region  HighlightHexs
+    public void startHighlight(bool isProp)
+    {
+        StartCoroutine(EnableHighlightDelayed(isProp));
+        StartCoroutine(DisableHighlightDelayed(isProp));
+    }
     IEnumerator EnableHighlightDelayed(bool isProp)
     {
-    
         yield return new WaitForSeconds(GameManager.GlowEnableDelay);
-        EnableHighlight(isProp);
+        highlight.ToggleGlow(false, isProp);
     }
-
-   
     IEnumerator DisableHighlightDelayed(bool isProp)
     {
         yield return new WaitForSeconds(GameManager.GlowDisableDelay);
-        DisableHighlight(isProp);
-    }
-    public void EnableHighlight(bool isProp)
-    {
         highlight.ToggleGlow(true, isProp);
     }
-
-    public void DisableHighlight(bool isProp)
-    {
-        highlight.ToggleGlow(false, isProp);
-    }
-
-
+    #endregion
     #region HexEffects
 
     [SerializeField ]ScriptableHexEffects hexEffectsSettings;
@@ -196,13 +113,10 @@ public class Hex : MonoBehaviour
 
         //  if (allowStartChangeDirection == false) return;
         //allowStartChangeDirection = false;
-
         playerRb.velocity = playerRb.velocity * -1;
         //  playerMov.OnChangeDirectionHex = true;
-
         StartCoroutine(MultiplicatorModificationOverTime());
         OnEffectHex?.Invoke();
-
         //  if (changeDirectionCoroutine != null)
         //     StopCoroutine(changeDirectionCoroutine);
         // isChangingDirection = true;
@@ -231,9 +145,7 @@ public class Hex : MonoBehaviour
         if(other.gameObject == Player)
         {
             allowStartChangeDirection = true;
-        }
-
-       
+        }    
     }
     */
     #endregion
@@ -328,20 +240,15 @@ public class Hex : MonoBehaviour
     public bool IsHexForwardBoosting = false; //used to lock other boosts
     private Coroutine hexBoostForwardCoroutine;
    // [SerializeField] private AnimationCurve boostCurve;
-
-    public void BoostForwardStarter()
+   public void BoostForwardStarter()
     {
         if (gameMng.AllowHexEffects == false) return;
-
         gameMng.BoostForwardCounter++;
         if (gameMng.AllowBoostForward == false) return;
-
-
+        
         hexMov.BoostForwardTimer = 0;
         hexMov.CurrentHexFowardForce = forwardForce;
-
         hexMov.OnBoostForwardHex = true;
-
         StartCoroutine(MultiplicatorModificationOverTime());
         OnEffectHex?.Invoke();
 
@@ -399,11 +306,7 @@ public class Hex : MonoBehaviour
 
         StartCoroutine(MultiplicatorModificationOverTime());
         OnEffectHex?.Invoke();
-        
         hexMov.rebounded = true;
-       
-       
-
         playerRb.velocity = new Vector3(playerRb.velocity.x * 0.1f, playerRb.velocity.y, playerRb.velocity.z * 0.1f);
 
         hexMov.OnTrampolinHex = true;
@@ -474,14 +377,9 @@ public class Hex : MonoBehaviour
 
         hexMov.BoostInDirectionTimer = 0;
         playerRb.velocity = Vector3.zero;
-
-       
-
         hexMov.CurrentHexInDirectionForce = boostInDForce;
         BoostInDirectionDirection = new Vector3(XDirection, YDirection, ZDirection);
         hexMov.HexInDirectionDirection = BoostInDirectionDirection.normalized;
-       
-        
         
         hexMov.OnBoostInDirectionHex = true;
         StartCoroutine(MultiplicatorModificationOverTime());
@@ -491,10 +389,7 @@ public class Hex : MonoBehaviour
         //      StopCoroutine(hexBoostInDirectionCoroutine);
         //  hexBoostInDirectionCoroutine = StartCoroutine(HexBoostInDirectionCoroutine());
     }
-
     #region NoUse: coroutine
-
-
     /*
     private IEnumerator HexBoostInDirectionCoroutine()
     {
@@ -531,19 +426,12 @@ public class Hex : MonoBehaviour
     #endregion
 
     #endregion
-
     IEnumerator MultiplicatorModificationOverTime()
     {
         ScoreManager.OnTemporaryMultiplicatorUpdate(hexEffectsSettings.value);
-        
-
-
-
         yield return new WaitForSeconds(hexEffectsSettings.ModificationDuration);
         ScoreManager.OnTemporaryMultiplicatorUpdate(-hexEffectsSettings.value);
-        
-
-      yield return null;
+        yield return null;
     }
     #endregion
 
@@ -556,13 +444,10 @@ public class Hex : MonoBehaviour
     public GameObject MyCollectable; //HIdeInInsp
    // [SerializeField] GameObject collectablePrefab;
     [HideInInspector] public CollectableReferences colRef;
-
-
     public void SpawnCollectable()
     {
         //reset Scale
         MyCollectable.SetActive(true);
-        
         /*
         Vector3 position = new Vector3(this.transform.position.x, this.transform.position.y + 4, this.transform.position.z);
 
@@ -573,16 +458,9 @@ public class Hex : MonoBehaviour
         //Add to List
         //colRef.activeCollectable = true;
         */
-
         CollectableManager.AllCollectables[this.gameObject].ActiveCollectable = true;
-
     }
-
-
     #endregion
-    
-    
-    
     private void OnDrawGizmosSelected()
     {
         if (hexType != HexType.BoostInDirection) return;
@@ -604,22 +482,8 @@ public class Hex : MonoBehaviour
         Gizmos.DrawLine(arrowTip + new Vector3(0, 2, 0), arrowLeft + new Vector3(0, 2, 0));
         Gizmos.DrawLine(arrowTip + new Vector3(0, 2, 0), arrowRight + new Vector3(0, 2, 0));
     }
-
-    void PlaySound()
-    {
-        ReferenceLibary.AudMng.HexAudMng.PlayHex(hexType);
-        
-    }
-
-
-
-    
+    void PlaySound() => ReferenceLibary.AudMng.HexAudMng.PlayHex(hexType);
 }
-
-
-   
-
-
 public enum HexType
 {
     None,
@@ -630,14 +494,9 @@ public enum HexType
     BoostForward,
     BoostInDirection,
     DefaultCollectable,
-    Water,
-    Building,
-    Obstacle
 }
-
 public enum CollectableType
 {
     Type1,
     Type2,
 }
-

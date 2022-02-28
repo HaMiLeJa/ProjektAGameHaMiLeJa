@@ -17,11 +17,8 @@ Shader "HaMiLeJa/SuperBoostCustomShader"
 		_Size("Size", Float) = 1
 		_NoisePower("Noise Power", Float) = 1
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
- //Bending
-         _BendingAmount("BendingAmount", Float) = 0.00988 
+		_BendingAmount("BendingAmount", Float) = 0.00988  //Bending
 	}
-
-
 	Category 
 	{
 		SubShader
@@ -39,7 +36,6 @@ Shader "HaMiLeJa/SuperBoostCustomShader"
 			Pass {
 			
 				CGPROGRAM
-				
 				#pragma vertex vert
 				#pragma fragment frag
 				#pragma target 2.0
@@ -61,7 +57,6 @@ Shader "HaMiLeJa/SuperBoostCustomShader"
 					UNITY_VERTEX_INPUT_INSTANCE_ID
 					
 				};
-
 				struct v2f 
 				{
 					float4 vertex : SV_POSITION;
@@ -77,17 +72,11 @@ Shader "HaMiLeJa/SuperBoostCustomShader"
 					UNITY_VERTEX_OUTPUT_STEREO
 					
 				};
-				
-				
 				#if UNITY_VERSION >= 560
 				UNITY_DECLARE_DEPTH_TEXTURE( _CameraDepthTexture );
 				#else
 				uniform sampler2D_float _CameraDepthTexture;
 				#endif
-
-				//Don't delete this comment
-				// uniform sampler2D_float _CameraDepthTexture;
-
 				uniform sampler2D _MainTex;
 				uniform fixed4 _TintColor;
 				uniform float4 _MainTex_ST;
@@ -119,8 +108,6 @@ Shader "HaMiLeJa/SuperBoostCustomShader"
 					UNITY_SETUP_INSTANCE_ID(v);
 					UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 					UNITY_TRANSFER_INSTANCE_ID(v, o);
-					
-
 					v.vertex.xyz +=  float3( 0, 0, 0 ) ;
 					o.vertex = UnityObjectToClipPos(v.vertex);
 					
@@ -151,23 +138,21 @@ Shader "HaMiLeJa/SuperBoostCustomShader"
 					float2 uv_MainTex = i.texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw;
 					float4 temp_cast_0 = (_TexPower).xxxx;
 					float2 uv0_NoiseTex = i.texcoord.xy * _NoiseTex_ST.xy + _NoiseTex_ST.zw;
-					float2 panner62 = ( _Time.y * _NoiseSpeed + uv0_NoiseTex);
-					float2 uv078 = i.texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+					float2 panner = ( _Time.y * _NoiseSpeed + uv0_NoiseTex);
+					float2 uv = i.texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 					#if defined(_ALIGNMENT_X)
-					float staticSwitch96 = uv078.x;
+					float staticSwitch = uv.x;
 					#elif defined(_ALIGNMENT_Y)
-					float staticSwitch96 = uv078.y;
+					float staticSwitch = uv.y;
 					#else
-					float staticSwitch96 = uv078.x;
+					float staticSwitch = uv.x;
 					#endif
-					float3 uv046 = i.texcoord.xyz;
-					uv046.xy = i.texcoord.xyz.xy * float2( 1,1 ) + float2( 0,0 );
-					float temp_output_128_0 = ( abs( ( staticSwitch96 + ( _AlphaCutout + uv046.z ) ) ) - _Size );
-					float smoothstepResult81 = smoothstep( _NoiseMin , _NoiseMax , temp_output_128_0);
-					float OpacityMask27 = ( ( ( tex2D( _NoiseTex, panner62 ).r * _NoisePower ) - smoothstepResult81 ) * saturate( ( 1.0 - temp_output_128_0 ) ) );
-					clip( saturate( OpacityMask27 ) - _MaskClipValue);
-					
-
+					float3 uv04 = i.texcoord.xyz;
+					uv04.xy = i.texcoord.xyz.xy * float2( 1,1 ) + float2( 0,0 );
+					float temp_output_128_0 = ( abs( ( staticSwitch + ( _AlphaCutout + uv04.z ) ) ) - _Size );
+					float smoothstepResult = smoothstep( _NoiseMin , _NoiseMax , temp_output_128_0);
+					float OpacityMask = ( ( ( tex2D( _NoiseTex, panner ).r * _NoisePower ) - smoothstepResult ) * saturate( ( 1.0 - temp_output_128_0 ) ) );
+					clip( saturate( OpacityMask ) - _MaskClipValue);
 					fixed4 col = ( pow( tex2D( _MainTex, uv_MainTex ) , temp_cast_0 ) * _TintColor * i.color );
 					UNITY_APPLY_FOG(i.fogCoord, col);
 					return col;
@@ -176,7 +161,4 @@ Shader "HaMiLeJa/SuperBoostCustomShader"
 			}
 		}	
 	}
-	CustomEditor "ASEMaterialInspector"
-	
-	
 }

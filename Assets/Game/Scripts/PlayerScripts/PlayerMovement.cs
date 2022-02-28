@@ -109,55 +109,39 @@ public class PlayerMovement : MonoBehaviour
         if ((math.abs(rb.velocity.x) + math.abs(rb.velocity.z)) > maxSpeedLimitStartClamping)
         {
             Debug.Log("Enter limit velocity");
-            float xVelocityMax = Mathf.Min(Mathf.Abs(rb.velocity.x), maxSpeed) * Mathf.Sign(rb.velocity.x);
-            float zVelocityMax = Mathf.Min(Mathf.Abs(rb.velocity.z), maxSpeed) * Mathf.Sign(rb.velocity.z);
-
+            float xVelocityMax = Mathf.Min(Mathf.Abs(rb.velocity.x), maxSpeed) * Mathf.Sign(rb.velocity.x),
+                   zVelocityMax = Mathf.Min(Mathf.Abs(rb.velocity.z), maxSpeed) * Mathf.Sign(rb.velocity.z);
             rb.velocity = new Vector3(xVelocityMax, rb.velocity.y, zVelocityMax);
         }
-        
     }
 
      
     void MinVelocity()
     {
-        if (!gameMng.AllowMovement)
-            return;
-
-
-        
-
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-
-
+        if (!gameMng.AllowMovement) return;
+        float horizontalInput = Input.GetAxis("Horizontal"), 
+               verticalInput = Input.GetAxis("Vertical");
         if (math.abs(horizontalInput) > 0.3f || math.abs(verticalInput) > 0.3f)
-        {
             rb.AddForce(MovementDirection.normalized * 30f);
-            
-        }
-
-
-        if (ReferenceLibary.Dash.IsBoosting == true || ReferenceLibary.SuperDash.isSuperDashing || ReferenceLibary.ShadowDashPl.isShadowDashing) return;
-
+        if (ReferenceLibary.Dash.IsBoosting|| ReferenceLibary.SuperDash.isSuperDashing || ReferenceLibary.ShadowDashPl.isShadowDashing) return;
         if (constSpeedAllowed && Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z) < constspeed)
-        { 
-           
-           
-
+        {
             var normalizeSpeed  = (rb.velocity.normalized);
             rb.velocity = new Vector3(normalizeSpeed.x * constspeed , rb.velocity.y, normalizeSpeed.z * constspeed);
         }
     }
-
-    Vector3 strafeMovement;
-    Vector3 forwardMovement;
+    
+    
+    
+    
+    
+    Vector3 strafeMovement, forwardMovement;
     void CalculateMovementDirection()
     {
         //Bewegung
          strafeMovement = transform.right * Input.GetAxis("Horizontal");
          forwardMovement = transform.forward * Input.GetAxis("Vertical");
-
-        MovementDirection = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
+         MovementDirection = forwardMovement + strafeMovement; //Richtung, die gerade durch Controller angegeben wird inkl "Eigenen Geschwindigkeit" abhängig von der Stärke der Neigung der Joysticks
         //Vector3 movement = MovementDirection * Time.deltaTime * StandardMovementSpeed;
 
 

@@ -1,16 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
-
 public class Bootstrapper
 {
     /*
    private const string SceneName = "PersistantScene";
-
    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
    public static void Execute()
    {
@@ -23,21 +21,18 @@ public class Bootstrapper
       }
       //add bootstrapscene
       SceneManager.LoadScene(SceneName, LoadSceneMode.Additive);
-   }
-    */
+   } */
 }
 
 public class GameSceneManager : MonoBehaviour
 {
-   public static GameSceneManager instance;
+   public static GameSceneManager instance; 
+   private List<AsyncOperation>  hasAllTheScenesLoading = new List<AsyncOperation>();
    [SerializeField] private GameObject loadingScreen;
-   public TextMeshProUGUI tipsText;
- public CanvasGroup alphaCanvas;
- public string[] tips;
- public TextMeshProUGUI funnyMessagesText;
- public string[] funnyMessages;
+   public string[] tips, funnyMessages;
+ public TextMeshProUGUI tipsText,funnyMessagesText, loadingText;
  public Image progressbar;
- public TextMeshProUGUI loadingText;
+ [HideInInspector]public int tipCount, funnyMessagesCount;
  private float target;
    private void Awake()
    {
@@ -50,38 +45,28 @@ public class GameSceneManager : MonoBehaviour
       {
          Destroy(gameObject);
       }
-        
-      
-      UnityEngine.SceneManagement.SceneManager.LoadSceneAsync((int)SceneIndexes.TITLE_SCREEN, LoadSceneMode.Additive);
+      SceneManager.LoadSceneAsync((int)SceneIndexes.TITLE_SCREEN, LoadSceneMode.Additive);
    }
-   
-   private List<AsyncOperation> hasAllTheScenesLoading = new List<AsyncOperation>();
    public void LoadGame()
    {
-      target = 0;
-      progressbar.fillAmount = 0;
+      target = 0; progressbar.fillAmount = 0;
       loadingScreen.gameObject.SetActive(true);
       StartCoroutine(GenerateTips());
-      hasAllTheScenesLoading.Add(UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync((int)SceneIndexes.TITLE_SCREEN));
-      hasAllTheScenesLoading.Add(UnityEngine.SceneManagement.SceneManager.LoadSceneAsync((int) SceneIndexes.MAINGAME, LoadSceneMode.Additive));
+      hasAllTheScenesLoading.Add(SceneManager.UnloadSceneAsync((int)SceneIndexes.TITLE_SCREEN));
+      hasAllTheScenesLoading.Add(SceneManager.LoadSceneAsync((int) SceneIndexes.MAINGAME, LoadSceneMode.Additive));
       
       StartCoroutine(GetSceneLoadProgress());
       StartCoroutine (WaitForSceneLoad (SceneManager.GetSceneByBuildIndex((int)SceneIndexes.MAINGAME )));
    }
-
    public IEnumerator WaitForSceneLoad(Scene scene)
 {
-   while(!scene.isLoaded)
-   {
-      yield return null;  
-   }
+   while(!scene.isLoaded) yield return null;
    Debug.Log("Setting active scene..");
    SceneManager.SetActiveScene (scene);
    //unloads the persistant scene
-   hasAllTheScenesLoading.Add(UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync((int)SceneIndexes.MANAGER));
+   hasAllTheScenesLoading.Add(SceneManager.UnloadSceneAsync((int)SceneIndexes.MANAGER));
 }
-
-private float totalSceneProgress;
+   private float totalSceneProgress;
    public IEnumerator GetSceneLoadProgress()
    {
       for (int i = 0; i < hasAllTheScenesLoading.Count; i++)
@@ -90,9 +75,7 @@ private float totalSceneProgress;
          {
             totalSceneProgress = 0;
             foreach (AsyncOperation operation in hasAllTheScenesLoading)
-            {
                totalSceneProgress += operation.progress;
-            }
             // *99 instead of *100  because a loading bar at 99% looks better 
             totalSceneProgress = Mathf.Clamp01((totalSceneProgress / hasAllTheScenesLoading.Count) / 0.9f) * 99f;
           target = Mathf.RoundToInt(totalSceneProgress);
@@ -100,40 +83,22 @@ private float totalSceneProgress;
             yield return null;
          }
       }
-      
       loadingScreen.gameObject.SetActive(false);
    }
-
-   void Update()
-   {
-      progressbar.fillAmount = Mathf.MoveTowards(progressbar.fillAmount, target, 10 * Time.deltaTime);
-   }
-   [HideInInspector]public int tipCount;
-  [HideInInspector] public int funnyMessagesCount;
+   void Update() => progressbar.fillAmount = Mathf.MoveTowards(
+      progressbar.fillAmount, target, 10 * Time.deltaTime);
    public IEnumerator GenerateTips()
    {
       tipCount = Random.Range(0, tips.Length);
       tipsText.text = tips[tipCount];
       funnyMessagesCount = Random.Range(0, funnyMessages.Length);
       funnyMessagesText.text = funnyMessages[funnyMessagesCount];
-      
       while (loadingScreen.activeInHierarchy)
       {
          yield return new WaitForSeconds(2f);
-         
-         tipCount++;
-         funnyMessagesCount++;
-         
-         if (funnyMessagesCount >= funnyMessages.Length)
-         {
-            funnyMessagesCount = 0;
-         }
-         
-         if (tipCount >= tips.Length)
-         {
-            tipCount = 0;
-         }
-
+         tipCount++; funnyMessagesCount++;
+         if (funnyMessagesCount >= funnyMessages.Length) funnyMessagesCount = 0;
+         if (tipCount >= tips.Length) tipCount = 0;
          tipsText.text = tips[tipCount];
          funnyMessagesText.text = funnyMessages[funnyMessagesCount];
       }

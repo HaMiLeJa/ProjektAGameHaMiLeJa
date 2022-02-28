@@ -168,18 +168,14 @@ Shader "HaMiLeJa/VFXShaderTransparent"
             {
                 #ifdef ENABLE_BENDING
             float4 distance = mul(unity_ObjectToWorld, v.vertex);
-
             distance.xyz -= _WorldSpaceCameraPos.xyz;
             distance = float4(0.0f, ((distance.x*distance.x + distance.z*distance.z)*-_BendingAmount),0.0f, 0.0f);
-
             v.vertex += mul(unity_WorldToObject, distance);
                 #endif
-                 
                 
                 v2f o;
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 o.secondaryUV = TRANSFORM_TEX(v.uv, _SecondaryTex);
- 
                 #ifdef VERTEX_OFFSET
                 float vertOffset = tex2Dlod(_MainTex, float4(o.uv + _Time.y * _PanningSpeed.xy, 1, 1)).x;
                 #ifdef SECONDARY_TEX

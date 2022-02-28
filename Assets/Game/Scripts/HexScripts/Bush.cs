@@ -21,17 +21,10 @@ public class Bush : MonoBehaviour
     {
         if (other.gameObject == ReferenceLibary.Player)
         {
-
             Vector3 posOther = other.transform.position;
             angles = Vector3.Angle(posOther, this.transform.position)*100;
-            //Debug.Log(angles);
             this.gameObject.transform.Rotate(0,angles,0,Space.Self);
-            float playerxzVelocity = Mathf.Abs(ReferenceLibary.RigidbodyPl.velocity.x) +
-                                     Mathf.Abs(ReferenceLibary.RigidbodyPl.velocity.z);
-            if (rotationAllowed)
-            {
-                StartCoroutine(Rotate(this.gameObject,headshakes,rotDuration, rotationAngle , Vector3.down));
-            }
+            if (rotationAllowed) StartCoroutine(Rotate(this.gameObject,headshakes,rotDuration, rotationAngle , Vector3.down));
         }
     }
     
@@ -44,7 +37,6 @@ public class Bush : MonoBehaviour
             rotationAllowed = true;
             yield break;
         }
-
         if (headshakes == maxHeadshakes)
             startRot = Quaternion.Euler(rotateMe.transform.rotation.x,angles,
                 rotateMe.transform.rotation.z);
@@ -78,11 +70,7 @@ public class Bush : MonoBehaviour
                 rb.AddForce(movementDirection * force * Time.deltaTime, ForceMode.Force);
                 timer+= Time.deltaTime;
             }
-
-
             rb.AddForce(movementDirection * force * 100 *Time.deltaTime, ForceMode.Force);
-
-
         }
     }
 }

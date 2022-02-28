@@ -1,18 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.UIElements;
 using UnityEngine;
-
 public class UIEnergy : MonoBehaviour
 {
     private Material material;
     public ParticleSystem _energyPartikel;
-    void Start()
-    {
-        material = GetComponent<MeshRenderer>().sharedMaterial;
-    }
-
-    // Update is called once per frame
+    void Start() => material = GetComponent<MeshRenderer>().sharedMaterial;
     void Update()
     {
         material.SetFloat("_control",  MathLibary.Remap(
@@ -23,27 +15,20 @@ public class UIEnergy : MonoBehaviour
             EnergyManager.CurrentEnergy));
         playUIVFX();
     }
-
     void playUIVFX()
     {
-        if (EnergyManager.energyGotHigher)
+        if (EnergyManager.energyGotHigher && !_energyPartikel.isPlaying)
         {
-            if (_energyPartikel.isPlaying)
-                return;
-            else
             {
                StopCoroutine(playUIVFX_Coroutine());
                StartCoroutine(playUIVFX_Coroutine());
                EnergyManager.energyGotHigher = false;
             }
         }
-
     }
-
     IEnumerator playUIVFX_Coroutine()
     { 
         _energyPartikel.Play(true);
-        yield return null;
-        
+        yield return null;  
     }
 }

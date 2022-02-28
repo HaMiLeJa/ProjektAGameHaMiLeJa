@@ -1,20 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 public class MagnifyingObject : MonoBehaviour
 {
-    Renderer renderer;
-    Camera cam;
+    Renderer renderer; Camera cam;
     void Start()
     {
         renderer = GetComponent<Renderer>();
         cam = Camera.main;
     }
-
-    // Update is called once per frame
     void Update()
     {
+        transform.forward = cam.transform.position - transform.position; //lookat
         Vector3 screenPoint = cam.WorldToScreenPoint(transform.position);
         screenPoint.x = screenPoint.x / Screen.width;
         screenPoint.y = screenPoint.y / Screen.height;
