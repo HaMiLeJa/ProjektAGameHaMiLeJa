@@ -1,12 +1,9 @@
 ﻿using UnityEngine;
-// Dise Klasse fixed die Uvs. Das ist der UVFixed Mode
-
 public class LengthTable 
-{
+{// Dise Klasse fixed die Uvs. Das ist der UVFixed Mode
 	public float[] distances; 
 	int SmpCount => distances.Length;
 	float TotalLength => distances[SmpCount - 1];
-
 	public LengthTable(OrientedCubicBezier3D bezier, int precision = 16) 
 	{
 		// Längentabelle generieren
@@ -22,10 +19,8 @@ public class LengthTable
 			prevPoint = currentPoint;
 		}
 	}
-
-	// Umrechnung des t-Werts in Prozent des Abstands entlang der Kurve
 	public float ToPercentage( float t ) 
-	{
+	{ 	// Umrechnung des t-Werts in Prozent des Abstands entlang der Kurve
 		float iFloat = t * (SmpCount-1);
 		int idLower = Mathf.FloorToInt(iFloat);
 		int idUpper = Mathf.FloorToInt(iFloat + 1);

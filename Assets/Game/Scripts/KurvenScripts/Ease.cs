@@ -1,7 +1,6 @@
-﻿// Einfache ease Funktion.  Wird für die Rotation genutzt und um die Segmente zu "easen"
-public enum Ease { Linear, In, Out, InOut }
+﻿public enum Ease { Linear, In, Out, InOut }
 public static class EaseExtensions 
-{
+{// Einfache ease Funktion.  Wird für die Rotation genutzt und um die Segmente zu "easen"
 	public static float GetEased( this Ease ease, float t ) 
 	{
 		switch( ease ) 

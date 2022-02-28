@@ -1,17 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class UpdateColliderIngame : MonoBehaviour
 {
-    [HideInInspector] public static List<GameObject> SegmentsThatNeedRefresh = new List<GameObject>();
+   public static List<GameObject> SegmentsThatNeedRefresh = new List<GameObject>();
     void Awake()
     {
         SegmentsThatNeedRefresh.Clear();
         SegmentsThatNeedRefresh.AddRange(GameObject.FindGameObjectsWithTag("Curve"));
-        
     }
-
     void Start()
     {
         foreach (GameObject Seg in SegmentsThatNeedRefresh)
@@ -20,6 +16,4 @@ public class UpdateColliderIngame : MonoBehaviour
             Seg.GetComponent<MeshCollider>().enabled = true;
         }
     }
-  
-    }
-
+}

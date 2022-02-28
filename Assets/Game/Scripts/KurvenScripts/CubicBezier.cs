@@ -1,47 +1,30 @@
 ﻿using UnityEngine;
-
 // Diese Klasse enthält die Bezier-Auswertungsmathematik
 [System.Serializable]
 public class OrientedCubicBezier3D 
 {
-
-	// Kontrollpunkte der Kurve
-	public Vector3[] points = new Vector3[4];
-
+	public Vector3[] points = new Vector3[4]; // Kontrollpunkte der Kurve
 	// Aufwärtsvektor für den Anfangs- bzw. Endpunkt.
 	// Dies ist für eine korrekte und konsistente Ausrichtung in der Kurve erforderlich.
-	public Vector3 upStart;
-	public Vector3 upEnd;
-
-	// Abkürzung für den Zugriff auf die Kontrollpunkte mit bezier[i]
-	public Vector3 this[int i] => points[i];
-
-	// Konstruktor
+	public Vector3 upStart, upEnd;
 	public OrientedCubicBezier3D( Vector3 upStart, Vector3 upEnd, params Vector3[] points ) 
-	{
+	{   // Konstruktor
 		this.points = points;
 		this.upStart = upStart;
 		this.upEnd = upEnd;
 	}
-	
 	// Ermittelt den OrientedPoint anhand eines t-Werts, optional mit einer festgelegten Orientierungserleichterungskurve
-	public OrientedPoint GetOrientedPoint( float t, Ease orientationEase = Ease.Linear ) {
-		
-		return new OrientedPoint( GetPoint(t), GetOrientation( orientationEase.GetEased( t ) ) );
-	}
-
-	// Gibt die Orientierung bei einem bestimmten t-Wert entlang der Kurve zurück
+	public OrientedPoint GetOrientedPoint( float t, Ease orientationEase = Ease.Linear )
+	=>new OrientedPoint( GetPoint(t), GetOrientation( orientationEase.GetEased( t ) ) );
 	Quaternion GetOrientation( float t ) 
-	{
+	{   // Gibt die Orientierung bei einem bestimmten t-Wert entlang der Kurve zurück
 		Vector3 forward = GetTangent( t );
 		Vector3 up = Vector3.Slerp( upStart, upEnd, t ).normalized;
 		return Quaternion.LookRotation( forward, up );
 	}
-	
-	// unterteilen wir die Kurve stattdessen in lineare Segmente,
-	// und addieren Sie die Länge der einzelnen Segmente
 	public float GetArcLength( int precision = 16 ) 
-	{
+	{   // unterteiltdie Kurve stattdessen in lineare Segmente,
+		// und addieren Sie die Länge der einzelnen Segmente
 		Vector3[] points = new Vector3[precision];
 		for( int i = 0; i < precision; i++ ) 
 		{
@@ -57,10 +40,8 @@ public class OrientedCubicBezier3D
 		}
 		return dist;
 	}
-	
-	//  Schnelle Auswertung des Punktes bei einem beliebigen t-Wert
 	public Vector3 GetPoint( float t ) 
-	{
+	{//  Schnelle Auswertung des Punktes bei einem beliebigen t-Wert
 		float omt = 1 - t;
 		float omt2 = omt * omt;
 		float t2 = t * t;
@@ -70,11 +51,8 @@ public class OrientedCubicBezier3D
 			points[2] * (3 * omt * t2) +
 			points[3] * (t2 * t);
 	}
-
-
-	//Tangent evaluaten anstelle der Position, was viel schneller ist als die Lerp-Methode.
 	public Vector3 GetTangent( float t ) 
-	{
+	{//Tangent evaluaten anstelle der Position, was viel schneller ist als die Lerp-Methode.
 		float omt = 1f-t;
 		float omt2 = omt * omt;
 		float t2 = t * t;

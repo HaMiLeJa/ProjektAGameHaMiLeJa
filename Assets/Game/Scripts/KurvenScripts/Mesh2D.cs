@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-
 [CreateAssetMenu]
 public class Mesh2D : ScriptableObject 
 {
@@ -13,20 +12,15 @@ public class Mesh2D : ScriptableObject
 		// vertex colors
 		// tangents
 	}
-
-	// Genauso wie 3D-Meshes die Konnektivität mit Dreiecken durch Dreiergruppen von Indizes definieren,
-	// wird unser 2D-Meshes die Konnektivität mit Linien durch Paare von Indizes definieren
-	
-	public int[] lineIndices;
-	public Vertex[] vertices;
-
+	public int[] lineIndices;// Genauso wie 3D-Meshes die Konnektivität mit Dreiecken durch Dreiergruppen von Indizes definieren,
+	public Vertex[] vertices;// wird das 2D-Meshes die Konnektivität mit Linien durch Paare von Indizes definieren
 	public int VertexCount => vertices.Length;
 	public int LineCount => lineIndices.Length; // Äquivalent der Dreiecksanzahl eines 2D-Meshes
 
-	// Gesamtlänge, die von den U-Koordinaten im worldspace abgedeckt wird
-	// Wird verwendet, um sicherzustellen, dass die Textur das richtige Seitenverhältnis hat
+	
 	public float CalcUspan() 
-	{
+	{   // Gesamtlänge, die von den U-Koordinaten im worldspace abgedeckt wird
+		// Wird verwendet, um sicherzustellen, dass die Textur das richtige Seitenverhältnis hat
 		float dist = 0;
 		for( int i = 0; i < LineCount; i+=2 ) 
 		{
@@ -36,5 +30,4 @@ public class Mesh2D : ScriptableObject
 		}
 		return dist;
 	}
-
 }

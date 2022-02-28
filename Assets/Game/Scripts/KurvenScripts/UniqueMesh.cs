@@ -1,16 +1,13 @@
 ﻿using UnityEngine;
-// In dieser Klasse stellen wir sicher, dass wir der owner vom Mesh sind. 
-// Damit wir verhindert das wir:
+// In dieser Klasse stelle ich sicher, dass das Segmnet immer der owner vom Mesh sind. 
+// Damit wird verhindert, dass
 // 1. Ein existierendes Objekt duplizieren,
 // 2. das neue Mesh zum alten asset referenziert
 // 3. Wenn beide Meshes editieren werden, dass nicht beide das source Mesh nutzen.
-// Wir nutzen eine Track Id, die hier erstellt wird für jedes object. Damit wird ein neues Mesh erstellt
 
 public class UniqueMesh : MonoBehaviour 
 {
-
-	[HideInInspector][SerializeField] int ownerID;
-
+	[HideInInspector][SerializeField] private int ownerID;
 	protected Mesh meshCached; // Das mesh assets das erstellt wird
 	protected Mesh Mesh 
 	{
@@ -37,8 +34,6 @@ public class UniqueMesh : MonoBehaviour
 			return meshCached;
 		}
 	}
-
 	MeshFilter MeshFilter => GetComponent<MeshFilter>();
 	MeshCollider MeshCollider => GetComponent<MeshCollider>();
-
 }
