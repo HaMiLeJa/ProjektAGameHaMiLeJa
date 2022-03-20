@@ -13,7 +13,7 @@ using UnityEngine.Jobs;
 public class HexAutoTiling : MonoBehaviour
 {
     #region Arrays
-    private TransformAccessArray hasAllTheHexesTransformsNative;
+    public static TransformAccessArray hasAllTheHexesTransformsNative;
     #endregion
     
     #region PrivateVariables
@@ -85,9 +85,7 @@ public class HexAutoTiling : MonoBehaviour
     {
         hasAllTheHexesTransformsNative  = new TransformAccessArray(HEXCOUNT);
         foreach (GameObject hex in GameObject.FindGameObjectsWithTag("Hex"))
-        {
             hasAllTheHexesTransformsNative.Add(hex.transform);
-        } 
     }
   
     #endregion

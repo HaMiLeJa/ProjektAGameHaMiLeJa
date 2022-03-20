@@ -1,103 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 [ExecuteInEditMode]
 public class SpawnHexObjectsInEditor : MonoBehaviour
 {
-    public GameObject ObjectToSpawn;
-
-    public GameObject CurrentItem;
-
+    public GameObject ObjectToSpawn, CurrentItem;
     [SerializeField] Hex myHex;
     [SerializeField] GameObject MyProps;
-
-    public bool DebugActiveObj = false;
-    public bool DebugIsRunning = false;
-
-    //Transform[] propsChildren;
+    public bool DebugActiveObj, DebugIsRunning;
     ChangeDirectionProp[] propsCDChildren;
     BoostForwardProp[] propsBFChildren;
     BoostInDirectionProp[] propsBIDChildren;
     TrampolinProp[] propsTChildren;
     SlowDownProp[] propsSDChildren;
-
     Collectable[] propsCChildren;
-
     HexType currentHexType;
-
-    [SerializeField] GameObject BoostForwardObj;
-    [SerializeField] GameObject TrampolinObj;
-    [SerializeField] GameObject BoostInDirectionObj;
-    [SerializeField] GameObject SlowDownObj;
-    [SerializeField] GameObject ChangeDirectionObj;
-    [SerializeField] GameObject CollectableObj;
-
-    private void Start()
-    {
-
-        /*
-        HexEffectsAndProps.Add(BoostForwardObj);
-        HexEffectsAndProps.Add(TrampolinObj);
-        HexEffectsAndProps.Add(BoostInDirectionObj);
-        HexEffectsAndProps.Add(SlowDownObj);
-        HexEffectsAndProps.Add(ChangeDirectionObj);
-        */
-
-        // if(GameManager.Instance.DisableExecuteAlwaysScripts != true)
-         //ResetCurrentItem(); //searchs for current Item (eg after change to edit mode)
-         currentHexType = myHex.hexType;
-
-    }
+    [SerializeField] GameObject BoostForwardObj, TrampolinObj, BoostInDirectionObj, SlowDownObj, ChangeDirectionObj, CollectableObj;
+    private void Start() => currentHexType = myHex.hexType;
 
     private void OnDrawGizmos() => UpdateMeshes();
-    
     private void UpdateMeshes()
     {
-        if (SpawnHexPropsManager.AllowEditorHexObjSpawn == false) return;
-        //if (ReferenceLibary.GameMng.DisableExecuteAlwaysScripts == true) return;
-
-        //propsChildrenLength = propsChildren.Length;
-
-        if (GameManager.DisableSpawnHexObjectsInEditMode == true) return;
-
+        if (!SpawnHexPropsManager.AllowEditorHexObjSpawn) return;
+        if (GameManager.DisableSpawnHexObjectsInEditMode) return;
         EditModeSpawnAndDeletion();
     }
-
     void EditModeSpawnAndDeletion()
     {
         switch (myHex.hexType)
         {
-            case HexType.BoostForward:
-                BoostForward();
-                break;
-            case HexType.ChangeDirection:
-                ChangeDirection();
-                break;
-            case HexType.BoostInDirection:
-                BoostInDirection();
-                break;
-            case HexType.Trampolin:
-                Trampolin();
-                break;
-            case HexType.SlowDown:
-                SlowDown();
-                break;
-            case HexType.DefaultCollectable:
-                CollectableCase();
-                break;
-            default: //delete obj of all Types!
-                Default();
-                break;
+            case HexType.BoostForward: BoostForward(); break;
+            case HexType.ChangeDirection: ChangeDirection(); break;
+            case HexType.BoostInDirection: BoostInDirection(); break;
+            case HexType.Trampolin: Trampolin(); break;
+            case HexType.SlowDown: SlowDown(); break;
+            case HexType.DefaultCollectable: CollectableCase(); break;
+            default: Default(); break; //delete obj of all Types!
         }
     }
-
-    void SetNewValues(GameObject obj)
-    {
-        ObjectToSpawn = obj;
-    }
-
-
+    void SetNewValues(GameObject obj) => ObjectToSpawn = obj;
     void ClearFalseObj()
     {
         if (currentHexType != myHex.hexType)
@@ -106,457 +47,148 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
             currentHexType = myHex.hexType;
         }
     }
-
     void Default()
     {
-        //if (CurrentItem = null) return;
-        ObjectToSpawn = null;
-        ClearFalseObj();
+        ObjectToSpawn = null; ClearFalseObj();
         currentHexType = myHex.hexType;
     }
-
     #region boostForward
     void BoostForward()
     {
-       
-
-        
-        SetNewValues(BoostForwardObj);
-
-        ClearFalseObj(); //ToTest
-
-        ResetCurrentItemBoostFoward();
-
-
+        SetNewValues(BoostForwardObj); ClearFalseObj(); CurrentItem = ResetCurrentItem(MyProps,SpawnComponentTypes.BoostForward);
         if(CheckForSpawnAllowanceBoostForward())
         {
             currentHexType = myHex.hexType;
             SpawnObjectInEditMode(0.26f);
         }
     }
-
-   
-
-    void ResetCurrentItemBoostFoward() //hier evt list einbauen und alles bis auf 1. löschen oder so
-    {
-        
-       if (MyProps.GetComponentInChildren<BoostForwardProp>() == true)
-       {
-           CurrentItem = MyProps.GetComponentInChildren<BoostForwardProp>().gameObject;
-
-       }
-       
-        /*
-        for (int i = 0; i < propsChildren.Length; i++)
-        {
-            if (propsChildren[i].tag == "HexEffectObj")
-            {
-                if(propsChildren[i].GetComponentInChildren<BoostForwardProp>() && CurrentItem == null)
-                {
-                    CurrentItem = propsChildren[i].GetComponentInChildren<BoostForwardProp>().gameObject;
-                    
-                }
-                else
-                {
-                    DestroyImmediate(propsChildren[i].gameObject);
-                    i--;
-                }
-
-            }
-        }
-        */
-
-    }
-
-    
-
     bool CheckForSpawnAllowanceBoostForward()
     {
         propsBFChildren = MyProps.GetComponentsInChildren<BoostForwardProp>();
-
-        if (propsBFChildren.Length == 0)
-        {
-            return true;
-        }
-        else
-            return false;
-
-        /*  propsChildren = MyProps.GetComponentsInChildren<Transform>();
-
-          if (propsChildren.Length == 0)
-          {
-              return true;
-          }
-
-          foreach (Transform obj in propsChildren)
-          {
-              if(obj.gameObject.GetComponent<BoostForwardProp>() == true)
-              {
-                  //hier könnte ich auch current item setzen
-                  return false;
-              }
-          }
-
-          return true; */
+        if (propsBFChildren.Length == 0) return true;
+        return false;
     }
-
     #endregion
-
     #region ChangeDirection
-
     void ChangeDirection()
     {
-        SetNewValues(ChangeDirectionObj);
-
-        ClearFalseObj(); //ToTest
-
-        ResetCurrentItemChangeDirection();
-
-
+        SetNewValues(ChangeDirectionObj); ClearFalseObj(); CurrentItem = ResetCurrentItem(MyProps, SpawnComponentTypes.ChangeDirection);
         if (CheckForSpawnAllowanceChangeDirection())
         {
             currentHexType = myHex.hexType;
             SpawnObjectInEditMode(0.24f);
         }
     }
-
-
-
-    void ResetCurrentItemChangeDirection() //hier evt list einbauen und alles bis auf 1. löschen oder so
-    {
-
-        if (MyProps.GetComponentInChildren<ChangeDirectionProp>() == true)
-        {
-            CurrentItem = MyProps.GetComponentInChildren<ChangeDirectionProp>().gameObject;
-
-        }
-
-        
-
-    }
-
     bool CheckForSpawnAllowanceChangeDirection()
     {
-
         propsCDChildren = MyProps.GetComponentsInChildren<ChangeDirectionProp>();
-
-        if (propsCDChildren.Length == 0)
-        {
-            return true;
-        }
-        else
-            return false;
-
-        /*
-
-        propsChildren = MyProps.GetComponentsInChildren<Transform>();
-
-        if (propsChildren.Length == 0)
-        {
-            return true;
-        }
-
-        foreach (Transform obj in propsChildren)
-        {
-            if (obj.gameObject.GetComponent<BoostInDirectionProp>() == true)
-            {
-                //hier könnte ich auch current item setzen
-                return false;
-            }
-        }
-
-        return true;*/
+        if (propsCDChildren.Length == 0) return true; return false;
     }
-
     #endregion
-
-
     #region BoostInDirection
     void BoostInDirection()
     {
-        SetNewValues(BoostInDirectionObj);
-
-        ClearFalseObj(); //ToTest
-
-        ResetCurrentItemBoostInDirection();
-
-
+        SetNewValues(BoostInDirectionObj); ClearFalseObj(); CurrentItem =  ResetCurrentItem(MyProps,SpawnComponentTypes.BoostInDirection);
         if (CheckForSpawnAllowanceBoostInDirection())
         {
             currentHexType = myHex.hexType;
             SpawnObjectInEditMode(0.24f);
-
             CurrentItem.GetComponent<BoostInDirectionProp>().MyHex = myHex;
         }
     }
-
-    void ResetCurrentItemBoostInDirection() //hier evt list einbauen und alles bis auf 1. löschen oder so
-    {
-
-        if (MyProps.GetComponentInChildren<BoostInDirectionProp>() == true)
-        {
-            CurrentItem = MyProps.GetComponentInChildren<BoostInDirectionProp>().gameObject;
-
-        }
-
-    }
-
-   
-
     bool CheckForSpawnAllowanceBoostInDirection()
     {
-
         propsBIDChildren = MyProps.GetComponentsInChildren<BoostInDirectionProp>();
-
-        if (propsBIDChildren.Length == 0)
-        {
-            return true;
-        }
-        else
-            return false;
-
-        /*propsChildren = MyProps.GetComponentsInChildren<Transform>();
-
-        if (propsChildren.Length == 0)
-        {
-            return true;
-        }
-
-        foreach (Transform obj in propsChildren)
-        {
-            if (obj.gameObject.GetComponent<BoostInDirectionProp>() == true)
-            {
-                //hier könnte ich auch current item setzen
-                return false;
-            }
-        }
-
-        return true;*/
+        if (propsBIDChildren.Length == 0) return true; return false;
     }
-
-    
-
     #endregion
-
     #region Trampolin
     void Trampolin()
     {
-
-        SetNewValues(TrampolinObj);
-
-        ClearFalseObj(); //ToTest
-
-        ResetCurrentItemTrampolin();
-
-
+        SetNewValues(TrampolinObj); ClearFalseObj(); CurrentItem = ResetCurrentItem(MyProps,SpawnComponentTypes.Trampolin);
         if (CheckForSpawnAllowanceTrampolin())
         {
             currentHexType = myHex.hexType;
-            SpawnObjectInEditMode(0.87f);
+            SpawnObjectInEditMode(0.78f);
         }
     }
-
-
-
-    void ResetCurrentItemTrampolin() //hier evt list einbauen und alles bis auf 1. löschen oder so
-    {
-
-        if (MyProps.GetComponentInChildren<TrampolinProp>() == true)
-        {
-            CurrentItem = MyProps.GetComponentInChildren<TrampolinProp>().gameObject;
-
-        }
-
-    }
-
     bool CheckForSpawnAllowanceTrampolin()
     {
-
         propsTChildren = MyProps.GetComponentsInChildren<TrampolinProp>();
-
-        if (propsTChildren.Length == 0)
-        {
-            return true;
-        }
-        else
-            return false;
-
-        /*propsChildren = MyProps.GetComponentsInChildren<Transform>();
-
-        if (propsChildren.Length == 0)
-        {
-            return true;
-        }
-
-        foreach (Transform obj in propsChildren)
-        {
-            if (obj.gameObject.GetComponent<TrampolinProp>() == true)
-            {
-                //hier könnte ich auch current item setzen
-                return false;
-            }
-        }
-
-        return true;*/
+        if (propsTChildren.Length == 0) return true; return false;
     }
-
     #endregion
-
     #region SlowDown
-
     void SlowDown()
     {
-        SetNewValues(SlowDownObj);
-
-        ClearFalseObj(); //ToTest
-
-        ResetCurrentItemSlowDown();
-
-
+        SetNewValues(SlowDownObj); ClearFalseObj(); CurrentItem = ResetCurrentItem(MyProps, SpawnComponentTypes.SlowDown);
         if (CheckForSpawnAllowanceSlowDown())
         {
             currentHexType = myHex.hexType;
             SpawnObjectInEditMode(0.25f);
         }
     }
-
-
-
-    void ResetCurrentItemSlowDown() //hier evt list einbauen und alles bis auf 1. löschen oder so
-    {
-
-        if (MyProps.GetComponentInChildren<SlowDownProp>() == true)
-        {
-            CurrentItem = MyProps.GetComponentInChildren<SlowDownProp>().gameObject;
-
-        }
-
-
-    }
-
     bool CheckForSpawnAllowanceSlowDown()
     {
         propsSDChildren = MyProps.GetComponentsInChildren<SlowDownProp>();
-
-        if (propsSDChildren.Length == 0)
-        {
-            return true;
-        }
-        else
-            return false;
-
-        /*propsChildren = MyProps.GetComponentsInChildren<Transform>();
-
-        if (propsChildren.Length == 0)
-        {
-            return true;
-        }
-
-        foreach (Transform obj in propsChildren)
-        {
-            if (obj.gameObject.GetComponent<SlowDownProp>() == true)
-            {
-                return false;
-            }
-        }
-
-        return true;*/
+        if (propsSDChildren.Length == 0) return true; return false;
     }
-
     #endregion
-
     #region Collectable
-
     void CollectableCase()
     {
-        SetNewValues(CollectableObj);
-
-        ClearFalseObj(); //ToTest
-
-        ResetCurrentItemCollectable();
-
-
+        SetNewValues(CollectableObj); ClearFalseObj(); CurrentItem = ResetCurrentItem(MyProps, SpawnComponentTypes.Collectable);
         if (CheckForSpawnAllowanceCollectable())
         {
             currentHexType = myHex.hexType;
             SpawnCollectableInEditMode(4.63f);
-
-            //set collectable parent
         }
     }
-
-
-    void ResetCurrentItemCollectable() //hier evt list einbauen und alles bis auf 1. löschen oder so
-    {
-
-        if (MyProps.GetComponentInChildren<Collectable>() == true)
-        {
-            CurrentItem = MyProps.GetComponentInChildren<Collectable>().gameObject;
-            ///
-
-        }
-
-
-
-    }
-
     bool CheckForSpawnAllowanceCollectable()
     {
         propsCChildren = MyProps.GetComponentsInChildren<Collectable>();
-
-        if (propsCChildren.Length == 0)
-        {
-            return true;
-        }
-        else
-            return false;
-
-        
-
-        /* propsChildren = MyProps.GetComponentsInChildren<Transform>();
-
-         if (propsChildren.Length == 0)
-         {
-             return true;
-         }
-
-         foreach (Transform obj in propsChildren)
-         {
-             if (obj.gameObject.GetComponent<Collectable>() == true)
-             {
-                 return false;
-             }
-         }
-
-         return true; */
+        if (propsCChildren.Length == 0) return true; return false;
     }
-
-
     void SpawnCollectableInEditMode(float y)
     {
-        Vector3 position = new Vector3(this.transform.position.x, this.transform.position.y + y, this.transform.position.z);
-
-        CurrentItem = Instantiate(ObjectToSpawn, position, Quaternion.identity);
-        CurrentItem.transform.parent = MyProps.transform;
-
-        // NEW CODE
-        Collectable col = CurrentItem.GetComponent<Collectable>();
-        col.ParentHex = this.gameObject;
-        col.colRef.HexScript = this.GetComponent<Hex>();
+        Collectable col = null;
+        CurrentItem = spawnObjectWithPrefabConnection(y,CurrentItem,gameObject, ObjectToSpawn, MyProps);
+        col = CurrentItem.GetComponent<Collectable>();
+        col.ParentHex = gameObject;
+        col.colRef.HexScript = GetComponent<Hex>();
         col.colRef.ActiveCollectable = true;
-        this.gameObject.GetComponent<Hex>().MyCollectable = CurrentItem;
+        gameObject.GetComponent<Hex>().MyCollectable = CurrentItem;
     }
-
     #endregion
-
-
-    void SpawnObjectInEditMode(float y)
+    void SpawnObjectInEditMode(float y) =>  spawnObjectWithPrefabConnection(y, CurrentItem, gameObject, ObjectToSpawn, MyProps);
+    public static GameObject spawnObjectWithPrefabConnection(float y, GameObject Item, GameObject hex, GameObject ObjectToSpawn, GameObject MyProps)
     {
-        Vector3 position = new Vector3(this.transform.position.x, this.transform.position.y + y, this.transform.position.z);
-
-        CurrentItem = Instantiate(ObjectToSpawn, position, Quaternion.identity);
-        CurrentItem.transform.parent = MyProps.transform;
+        Vector3 position = new Vector3(hex.transform.position.x, hex.transform.position.y + y, hex.transform.position.z);
+#if UNITY_EDITOR
+        Item = (GameObject)PrefabUtility.InstantiatePrefab(ObjectToSpawn);
+#endif
+        Item.transform.position = position;
+        Item.transform.rotation = Quaternion.identity;
+        Item.transform.parent = MyProps.transform;
+        return Item;
     }
-
-
+    public static GameObject ResetCurrentItem(GameObject MyProps, SpawnComponentTypes spawnComponentType)
+    {
+        if (spawnComponentType == SpawnComponentTypes.Collectable && MyProps.GetComponentInChildren<Collectable>()) return MyProps.GetComponentInChildren<Collectable>().gameObject;
+        if (spawnComponentType == SpawnComponentTypes.SlowDown && MyProps.GetComponentInChildren<SlowDownProp>()) return MyProps.GetComponentInChildren<SlowDownProp>().gameObject;
+        if (spawnComponentType == SpawnComponentTypes.Trampolin &&MyProps.GetComponentInChildren<TrampolinProp>()) return MyProps.GetComponentInChildren<TrampolinProp>().gameObject;
+        if (spawnComponentType == SpawnComponentTypes.ChangeDirection && MyProps.GetComponentInChildren<ChangeDirectionProp>()) return MyProps.GetComponentInChildren<ChangeDirectionProp>().gameObject;
+        if (spawnComponentType == SpawnComponentTypes.BoostForward && MyProps.GetComponentInChildren<BoostForwardProp>()) return MyProps.GetComponentInChildren<BoostForwardProp>().gameObject;
+        if (spawnComponentType == SpawnComponentTypes.BoostInDirection && MyProps.GetComponentInChildren<BoostInDirectionProp>()) return MyProps.GetComponentInChildren<BoostInDirectionProp>().gameObject;
+        return MyProps;
+    }
+}
+public enum SpawnComponentTypes
+{
+    Collectable,
+    SlowDown,
+    Trampolin,
+    BoostForward,
+    BoostInDirection,
+    ChangeDirection
 }

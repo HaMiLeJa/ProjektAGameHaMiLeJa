@@ -1,7 +1,18 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 public class Hex : MonoBehaviour
 {
+    #region Dictonarys
+    Dictionary<Renderer, Material[]> originalMaterialDictionaryHexes = new Dictionary<Renderer, Material[]>();
+    Dictionary<Renderer, Material[]> originalMaterialDictionaryProps = new Dictionary<Renderer, Material[]>();
+    #endregion
+    
+    #region InspectorGlow
+    private bool isGlowing;
+    private Color originalGlowColor;
+    #endregion
+    
    #region Inspector
     GameObject Player;
     private Rigidbody playerRb;
@@ -10,10 +21,10 @@ public class Hex : MonoBehaviour
    // AudioManager audManager;
     //AudioClipsHexes audioClipHexes;
     //[SerializeField] AudioSource myAudioSource;
-    private GlowHighlight highlight;
     //private HexCoordinates hexCoordinates;
     public HexType hexType;
     public CollectableType collectableType = CollectableType.Type1; //To Be Used :)
+    public HighlightType highlightType = HighlightType.PinkHighlight;
     AudioClip clip;
     ParticleSystem EffectParticle;
     #endregion
@@ -34,9 +45,9 @@ public class Hex : MonoBehaviour
     {
         return this.hexType == HexType.Obstacle;
     }*/
-    private void Awake()
-    {
-        highlight = GetComponent<GlowHighlight>();
+   // private void Awake()
+  //  {
+
         // CollectableManager.AllCollectables.Clear(); //Eben geadded
 
         //if (hexType == HexType.DefaultCollectable)
@@ -50,7 +61,7 @@ public class Hex : MonoBehaviour
             */
             //Debug.Log("Hex Added to All Collectables");
        // }
-    }
+  //  }
     private void Start()
     {
         gameMng = ReferenceLibary.GameMng;
@@ -59,6 +70,7 @@ public class Hex : MonoBehaviour
         hexMov = ReferenceLibary.HexMov;
         OnEffectHex += PlaySound;
         if(hexType == HexType.SlowDown) EffectParticle = GetComponentInChildren<ParticleSystem>();
+        PrepareMaterialDictionaries();
     }
     #region  HighlightHexs
     #endregion
@@ -75,6 +87,15 @@ public class Hex : MonoBehaviour
             highlightObjects(false);
         }
     }
+    
+    #region MaterialSwap
+    private void PrepareMaterialDictionaries()
+    {
+        if (transform.childCount > 0) foreach (Renderer renderer in transform.GetChild(0).GetComponentsInChildren<Renderer>()) originalMaterialDictionaryHexes.Add(renderer, renderer.materials);
+        foreach (Renderer renderer in transform.GetChild(1).GetComponentsInChildren<Renderer>()) originalMaterialDictionaryProps.Add(renderer, renderer.materials);
+    }
+    #endregion
+ 
     public void highlightObjects(bool isProp)
     {
         StartCoroutine(EnableHighlightDelayed(isProp));
@@ -84,14 +105,66 @@ public class Hex : MonoBehaviour
     IEnumerator EnableHighlightDelayed(bool isProp)
     {
         yield return new WaitForSeconds(GameManager.GlowEnableDelay);
-        highlight.ToggleGlow(true, isProp);
+        ToggleGlow(true, isProp, (int)highlightType);
     }
     
     IEnumerator DisableHighlightDelayed(bool isProp)
     {
         yield return new WaitForSeconds(GameManager.GlowDisableDelay);
-        highlight.ToggleGlow(false, isProp);
+        ToggleGlow(false, isProp, (int)highlightType);
     }
+    
+    #region PathHighlight
+    public void ToggleGlow(bool isProp, int HighlightType)
+    {
+        if (!isProp)
+        {
+            if (isGlowing == false)
+            {
+                foreach (Renderer renderer in originalMaterialDictionaryHexes.Keys)
+                {
+                    if (renderer == null) continue;
+                    for (int i = 0; i < renderer.materials.Length; i++) renderer.material = Highlightmanager.GlowMaterials[HighlightType];
+                }
+            }
+        else
+        {
+            foreach (Renderer renderer in originalMaterialDictionaryHexes.Keys)
+            {
+                if (renderer == null) continue; 
+                renderer.materials = originalMaterialDictionaryHexes[renderer];
+            }
+        }
+        isGlowing = !isGlowing;
+        }
+        if (isProp)
+        {
+            if (isGlowing == false)
+            {
+                foreach (Renderer renderer in originalMaterialDictionaryProps.Keys)
+                {
+                    if (renderer == null) continue;
+                    for (int i = 0; i < renderer.materials.Length; i++) renderer.material = Highlightmanager.GlowMaterials[HighlightType];
+                }
+            }
+            else
+            {
+                foreach (Renderer renderer in originalMaterialDictionaryProps.Keys)
+                {
+                    if (renderer == null) continue;
+                    renderer.materials = originalMaterialDictionaryProps[renderer];
+                }
+            }
+            isGlowing = !isGlowing;
+        }
+    }
+    public void ToggleGlow(bool state, bool isProp, int HighlightType)
+    {
+        if (isGlowing == state) return;
+        isGlowing = !state;
+        ToggleGlow(isProp, HighlightType);
+    }
+    #endregion
     #region HexEffects
     [SerializeField ]ScriptableHexEffects hexEffectsSettings;
     #region ChangeDirection
@@ -420,4 +493,9 @@ public enum CollectableType
 {
     Type1,
     Type2,
+}
+
+public enum HighlightType
+{
+    PinkHighlight
 }

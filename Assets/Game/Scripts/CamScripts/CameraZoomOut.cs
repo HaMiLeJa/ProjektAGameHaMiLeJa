@@ -3,7 +3,6 @@ using UnityEngine;
 using Cinemachine;
 using Unity.Mathematics;
 using Random = UnityEngine.Random;
-
 public class CameraZoomOut : MonoBehaviour
 {
     [Header("GameObjects")]
@@ -26,8 +25,7 @@ public class CameraZoomOut : MonoBehaviour
 
     [Header("Camera Zoomout")]
     [Space]
-    
-   [Tooltip("Wie weit soll es rauszoomen")] [SerializeField] private float maxFov = 110;
+    [Tooltip("Wie weit soll es rauszoomen")] [SerializeField] private float maxFov = 110;
    [Tooltip("Ab wann wird gezoomed abhängig vom movement")] [SerializeField] private float  StartZoomingValue = 0.01f;
    [Tooltip("Bis wann wird gezoomed abhängig vom movement")] [SerializeField] private float StopZoomingValue = 100;
    [Range(0.01f, 20)]
@@ -105,10 +103,8 @@ public class CameraZoomOut : MonoBehaviour
         xVelocity = math.abs(_playerMovement.rb.velocity.x);
         zVelocity = math.abs(_playerMovement.rb.velocity.z);
         xzVelocity = xVelocity + zVelocity;
-        if (xzVelocity < zVelocity + HorizontalVerticalStartZoom)
-            xzVelocity = zVelocity*2;
-        if (xzVelocity < xVelocity + HorizontalVerticalStartZoom)
-            xzVelocity = xVelocity*2;
+        if (xzVelocity < zVelocity + HorizontalVerticalStartZoom) xzVelocity = zVelocity*2;
+        if (xzVelocity < xVelocity + HorizontalVerticalStartZoom) xzVelocity = xVelocity*2;
         lerpedValue = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, cashedFov, maxFov, xzVelocity);
         lerpedValueMoonX = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, cashedXScaleMoon, cashedXScaleMoon+ addXScaleMoon, xzVelocity);
             lerpedValueMoonZ = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, cashedZScaleMoon, cashedZScaleMoon+ addZScaleMoon, xzVelocity);
@@ -117,7 +113,6 @@ public class CameraZoomOut : MonoBehaviour
             if (cashedFov + ZoomOutDelay < lerpedValue)
        {
            vcam.m_Lens.FieldOfView = Mathf.Lerp(vcam.m_Lens.FieldOfView, lerpedValue, zoomOutRoughness*Time.deltaTime);
-           
            Moon.transform.localScale = new Vector3(
                    Mathf.Lerp(Moon.transform.localScale.x, lerpedValueMoonX, moonZoomOutRoughness*Time.deltaTime),
                    Moon.transform.localScale.y ,
@@ -136,8 +131,7 @@ public class CameraZoomOut : MonoBehaviour
                   Moon.transform.localScale.z
                );
            }
-           if (Mathf.Abs(GhostLayer.transform.localScale.x - 3) < 0.01f &&  (Mathf.Abs(Moon.transform.localScale.y -19.65329f) < 0.01f))
-               GameManager.LerpCameraBack = false;
+           if (Mathf.Abs(GhostLayer.transform.localScale.x - 3) < 0.01f &&  (Mathf.Abs(Moon.transform.localScale.y -19.65329f) < 0.01f)) GameManager.LerpCameraBack = false;
            if (GameManager.LerpCameraBack && Mathf.Abs(GhostLayer.transform.localScale.x - 3) > 0.01f)
            {
                GhostLayer.transform.localScale = new Vector3(
@@ -154,7 +148,6 @@ public class CameraZoomOut : MonoBehaviour
                    Moon.transform.localScale.z
                );
            }
-
        }
      }
     }
@@ -194,5 +187,3 @@ public class CameraZoomOut : MonoBehaviour
         nextShakeAllowed = true;
     }
 }
-    
-

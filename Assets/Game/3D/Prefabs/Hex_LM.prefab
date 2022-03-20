@@ -39,8 +39,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2845948622894205850}
-  - component: {fileID: 6604176501229558660}
-  - component: {fileID: 6283924566819129580}
   - component: {fileID: 2985820778343212737}
   - component: {fileID: 9002549393317884401}
   - component: {fileID: 6241288760297446380}
@@ -67,31 +65,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6604176501229558660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6510926736812468260}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc3bbb5d2bb77d243ac4f8e3592f348f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6283924566819129580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6510926736812468260}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bd5af11d972e2d418f1ccd17180d643, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  glowMaterial: {fileID: 2100000, guid: 4c52d0d4517b91546b35fb29cd81f517, type: 2}
 --- !u!65 &2985820778343212737
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -119,6 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hexType: 1
   collectableType: 0
+  highlightType: 0
   hexEffectsSettings: {fileID: 11400000, guid: c664b87f68d9a8a44923cf97d225db1d, type: 2}
   forwardForce: 30
   IsHexForwardBoosting: 0
