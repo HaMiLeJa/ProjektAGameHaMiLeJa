@@ -15,7 +15,7 @@ public class HighlightObjects : MonoBehaviour
     {
         if (other.gameObject == ReferenceLibary.Player)
         {
-            hex.startHighlight(true);
+            hex.highlightObjects(true);
             if(Lampe == null) return;
             float playerxzVelocity = Mathf.Abs(ReferenceLibary.RigidbodyPl.velocity.x) +
                                      Mathf.Abs(ReferenceLibary.RigidbodyPl.velocity.z);
@@ -29,7 +29,7 @@ public class HighlightObjects : MonoBehaviour
     }
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject == ReferenceLibary.Player) hex.startHighlight(true);
+        if (other.gameObject == ReferenceLibary.Player)  hex.highlightObjects(true);
     }
     public IEnumerator Rotate(GameObject rotateMe,int headshakes , float duration, float angle, Vector3 firstDirection)
     {

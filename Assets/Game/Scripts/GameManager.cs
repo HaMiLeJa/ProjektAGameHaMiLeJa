@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     public static float GlowEnableDelayObjects = 0.1f;
     public static  float GlowDisableDelayObjects = 4f;
     
-    public static float GlowEnableDelay = 0.1f;
+    public static float GlowEnableDelay = 0.05f;
     public static  float GlowDisableDelay = 2.5f;
     [Space] 
     public static GameObject CameraHelper;

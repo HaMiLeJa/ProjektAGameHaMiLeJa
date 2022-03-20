@@ -39,7 +39,7 @@ public class BenderManager : MonoBehaviour
   }
   private static void OnBeginCameraRendering (ScriptableRenderContext ctx, Camera cam)
   {
-    cam.cullingMatrix = Matrix4x4.Ortho(-999, 999, -999, 999, 0.0001f, 999) *
+    cam.cullingMatrix = Matrix4x4.Ortho(-96, 96, -96, 96, 0.0001f, 96) *
                         cam.worldToCameraMatrix;
   }
   private static void OnEndCameraRendering (ScriptableRenderContext ctx, Camera cam)

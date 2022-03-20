@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using NaughtyAttributes;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
@@ -23,7 +22,6 @@ public class Bootstrapper
       SceneManager.LoadScene(SceneName, LoadSceneMode.Additive);
    } */
 }
-
 public class GameSceneManager : MonoBehaviour
 {
    public static GameSceneManager instance; 
@@ -41,10 +39,7 @@ public class GameSceneManager : MonoBehaviour
          instance = this;
          DontDestroyOnLoad(gameObject);
       }
-      else if (instance !=null)
-      {
-         Destroy(gameObject);
-      }
+      else if (instance !=null) Destroy(gameObject);
       SceneManager.LoadSceneAsync((int)SceneIndexes.TITLE_SCREEN, LoadSceneMode.Additive);
    }
    public void LoadGame()
@@ -104,4 +99,3 @@ public class GameSceneManager : MonoBehaviour
       }
    }
 }
-
