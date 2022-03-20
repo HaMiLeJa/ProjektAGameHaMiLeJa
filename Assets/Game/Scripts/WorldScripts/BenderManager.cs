@@ -40,12 +40,12 @@ public class BenderManager : MonoBehaviour
     Shader.SetGlobalFloat(BENDINGAMOUNT, bendingAmount);
   }
   private static void OnBeginCameraRendering(ScriptableRenderContext ctx, Camera cam) =>
-    cam.cullingMatrix = Matrix4x4.Ortho(-cullingmatrix, cullingmatrix, -cullingmatrix, cullingmatrix, 0.0001f, 100+cullingmatrix) *
+    cam.cullingMatrix = Matrix4x4.Ortho(-cullingmatrix, cullingmatrix, -cullingmatrix, cullingmatrix, 0.0001f, 150+cullingmatrix) *
                         cam.worldToCameraMatrix;
   private void UpdateCullingMatrix()
   {
     if (CameraZoomOut.vcamera.m_Lens.FieldOfView < 110)
-      cullingmatrix = 15 + CameraZoomOut.vcamera.m_Lens.FieldOfView;
+      cullingmatrix = 20 + CameraZoomOut.vcamera.m_Lens.FieldOfView;
     else if (CameraZoomOut.vcamera.m_Lens.FieldOfView >= 110)
       cullingmatrix = DynamiclyScaleCulling(CameraZoomOut.vcamera);
   }
