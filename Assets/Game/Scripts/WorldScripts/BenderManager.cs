@@ -9,6 +9,7 @@ public class BenderManager : MonoBehaviour
   private bool enablePlanet = true;
   [SerializeField] [Range(-0.1f, 0.1f)] private float bendingAmount = 0.01f;
   private float _prevAmount;
+  private static float cullingmatrix;
   private void Awake ()
   {
     if ( Application.isPlaying ) Shader.EnableKeyword(BENDER);
@@ -26,9 +27,10 @@ public class BenderManager : MonoBehaviour
   private void Update ()
   {
     if ( Math.Abs(_prevAmount - bendingAmount) > Mathf.Epsilon ) UpdateBendingAmount();
+    if (Application.isPlaying) UpdateCullingMatrix();
   }
   private void OnDisable ()  //SceneView
-  { 
+  {
     RenderPipelineManager.beginCameraRendering -= OnBeginCameraRendering;
     RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
   }
@@ -37,13 +39,17 @@ public class BenderManager : MonoBehaviour
     _prevAmount = bendingAmount;
     Shader.SetGlobalFloat(BENDINGAMOUNT, bendingAmount);
   }
-  private static void OnBeginCameraRendering (ScriptableRenderContext ctx, Camera cam)
-  {
-    cam.cullingMatrix = Matrix4x4.Ortho(-96, 96, -96, 96, 0.0001f, 96) *
+  private static void OnBeginCameraRendering(ScriptableRenderContext ctx, Camera cam) =>
+    cam.cullingMatrix = Matrix4x4.Ortho(-cullingmatrix, cullingmatrix, -cullingmatrix, cullingmatrix, 0.0001f, 100+cullingmatrix) *
                         cam.worldToCameraMatrix;
-  }
-  private static void OnEndCameraRendering (ScriptableRenderContext ctx, Camera cam)
+  private void UpdateCullingMatrix()
   {
-    cam.ResetCullingMatrix();
+    if (CameraZoomOut.vcamera.m_Lens.FieldOfView < 110)
+      cullingmatrix = 15 + CameraZoomOut.vcamera.m_Lens.FieldOfView;
+    else if (CameraZoomOut.vcamera.m_Lens.FieldOfView >= 110)
+      cullingmatrix = DynamiclyScaleCulling(CameraZoomOut.vcamera);
   }
+  private static float DynamiclyScaleCulling(Cinemachine.CinemachineVirtualCamera vcam) =>
+    MathLibary.RemapClamped(110, 180, 140, 260, vcam.m_Lens.FieldOfView);
+  private static void OnEndCameraRendering (ScriptableRenderContext ctx, Camera cam)=> cam.ResetCullingMatrix();
 }

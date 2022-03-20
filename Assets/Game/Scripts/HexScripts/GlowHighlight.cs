@@ -156,8 +156,7 @@ public class GlowHighlight : MonoBehaviour
                 ResetGlowHighlight(isProp);
                 foreach (Renderer renderer in originalMaterialDictionaryProps.Keys)
                 {
-                    if (renderer == null)
-                        continue;
+                    if (renderer == null) continue;
                     renderer.materials = glowMaterialDictionaryProps[renderer];
                 }
             }
@@ -165,8 +164,7 @@ public class GlowHighlight : MonoBehaviour
             {
                 foreach (Renderer renderer in originalMaterialDictionaryProps.Keys)
                 {
-                    if (renderer == null)
-                        continue;
+                    if (renderer == null) continue;
                     renderer.materials = originalMaterialDictionaryProps[renderer];
                 }
             }
