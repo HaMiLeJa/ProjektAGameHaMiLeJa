@@ -813,9 +813,7 @@ GameObject:
   - component: {fileID: 4498330986242300552}
   - component: {fileID: 6941852179748509576}
   - component: {fileID: 4498330986242300555}
-  - component: {fileID: 4498330986242300597}
   - component: {fileID: 4498330986242300554}
-  - component: {fileID: 7113652212557213417}
   - component: {fileID: 8453995144285553314}
   - component: {fileID: 6524010263172098936}
   - component: {fileID: 5484961869664340384}
@@ -1041,7 +1039,7 @@ MonoBehaviour:
   audioSource: {fileID: 1886747422687906248}
   startClip: {fileID: 8300000, guid: e1acb1fea69a3fc418a666a4f090e4a3, type: 3}
   endClip: {fileID: 8300000, guid: 34c7d57c9c50e2b4589f4bf2d2f214f2, type: 3}
-  particle: {fileID: 0}
+  particleTrail: {fileID: 0}
 --- !u!114 &4498330986242300555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1054,8 +1052,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b297dbe61a5dbb4aa6be732ae9b002b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShadowDashForce: 52
-  ShadowDashDuration: 0.8
   shadowDashcurve:
     serializedVersion: 2
     m_Curve:
@@ -1108,34 +1104,16 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   isShadowDashing: 0
+  ShadowDashForce: 52
+  ShadowDashDuration: 0.8
   currentShadowDashForce: 0
   disappearingDuringShadowDashStart: 12
   disappearingDuringShadowDashEnd: 26
-  Flashlight: {fileID: 0}
+  audioSource: {fileID: 4260411287280632998}
+  clip: {fileID: 8300000, guid: 8610f0a273216a741853b882759f97db, type: 3}
   particle: {fileID: 6015402458251309807}
   mr: {fileID: 5422289937533297311}
   mr2: {fileID: 9205765972863914364}
-  worldMask:
-    serializedVersion: 2
-    m_Bits: 128
-  audioSource: {fileID: 4260411287280632998}
-  clip: {fileID: 8300000, guid: 8610f0a273216a741853b882759f97db, type: 3}
---- !u!114 &4498330986242300597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4498330986242300544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03871d1b9d6b089458c0537218d34ab4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementPoints: 20
-  Speedreduction: 0
-  movementDuration: 20
-  rotationDuration: 0.3
 --- !u!114 &4498330986242300554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1157,28 +1135,6 @@ MonoBehaviour:
   PlayerParticleParent: {fileID: 6967255096388331669}
   smashParticle: {fileID: 925468344595267504}
   audioSource: {fileID: 257232503196308956}
---- !u!114 &7113652212557213417
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4498330986242300544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 684186514e11db54d8c2c49027bf049e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnCurve: 0
-  StartZoneFound: 0
-  StartZone: {fileID: 0}
-  EndZone: {fileID: 0}
-  listForward: 1
-  distanceToCurve: 0
-  distance: 3
-  speed: 80
-  lastWaypointReached: 0
-  myCollider: {fileID: 4498330986242300557}
 --- !u!114 &8453995144285553314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1437,7 +1393,6 @@ GameObject:
   - component: {fileID: 5422289937533297309}
   - component: {fileID: 5422289937533297310}
   - component: {fileID: 5422289937533297311}
-  - component: {fileID: 1169366914}
   m_Layer: 11
   m_Name: MeshInside
   m_TagString: Untagged
@@ -1508,18 +1463,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1169366914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5422289937533297306}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfa615d6ded9adb4abc92622f198b9db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!198 &5422289936547993637
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -6855,7 +6798,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 9.26
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8713065609354456782, guid: 479ca233a1b472b4eb5edaa3241ffa4e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 479ca233a1b472b4eb5edaa3241ffa4e, type: 3}
 --- !u!23 &9205765972863914364 stripped
 MeshRenderer:
@@ -6969,14 +6913,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5446406c38697dd4a846cb6f8366e664, type: 3}
---- !u!198 &925468344595267504 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 2264344785418825552, guid: 5446406c38697dd4a846cb6f8366e664, type: 3}
-  m_PrefabInstance: {fileID: 1421867664659026144}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &925468344595267518 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2264344785418825566, guid: 5446406c38697dd4a846cb6f8366e664, type: 3}
+  m_PrefabInstance: {fileID: 1421867664659026144}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &925468344595267504 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2264344785418825552, guid: 5446406c38697dd4a846cb6f8366e664, type: 3}
   m_PrefabInstance: {fileID: 1421867664659026144}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2006421498371993348
@@ -7619,7 +7563,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 9.26
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8713065609354456782, guid: 479ca233a1b472b4eb5edaa3241ffa4e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 479ca233a1b472b4eb5edaa3241ffa4e, type: 3}
 --- !u!4 &3773569567088184874 stripped
 Transform:

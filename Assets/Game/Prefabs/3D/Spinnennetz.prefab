@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 768300640}
   - component: {fileID: 768300641}
   - component: {fileID: 768300642}
-  - component: {fileID: 7503744560019432652}
+  - component: {fileID: 949233295542304428}
   m_Layer: 7
   m_Name: Spinnennetz
   m_TagString: Destroyable
@@ -209,8 +209,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   glowAmount: 3.9
   CutoffEmissive: 0.5
---- !u!64 &7503744560019432652
-MeshCollider:
+--- !u!65 &949233295542304428
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -219,7 +219,6 @@ MeshCollider:
   m_Material: {fileID: 13400000, guid: 42352e1e017dce74c9f804cc74022fff, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2432090755550338912, guid: a72a7e26f226d62448b2219265ce0791, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 11.353799, y: 11.498172, z: 1.2898569}
+  m_Center: {x: 0.7259797, y: -0.38738203, z: -0.2675131}
