@@ -89,6 +89,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        Resources.UnloadUnusedAssets();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 

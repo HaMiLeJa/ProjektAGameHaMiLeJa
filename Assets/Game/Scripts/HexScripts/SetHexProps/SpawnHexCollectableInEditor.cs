@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEngine;
-
 [ExecuteAlways]
 public class SpawnHexCollectableInEditor : MonoBehaviour
 {
@@ -8,7 +7,6 @@ public class SpawnHexCollectableInEditor : MonoBehaviour
     [SerializeField] Hex myHex;
     [SerializeField] GameObject MyProps;
     public bool DebugActiveObj, DebugIsRunning;
-
     void Update()
     {
         if (CollectableManager.StopEditorScript) return;
@@ -47,5 +45,4 @@ public class SpawnHexCollectableInEditor : MonoBehaviour
         Item.transform.rotation = Quaternion.identity;
         Item.transform.parent = MyProps.transform;
     }
-
 }
