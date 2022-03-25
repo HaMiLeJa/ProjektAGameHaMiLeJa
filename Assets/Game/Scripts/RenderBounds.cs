@@ -8,7 +8,7 @@ public class RenderBounds : EditorWindow
     public static HashSet<MeshFilter> hasAllBoundsToModify = new HashSet<MeshFilter>();
     private static byte propsChildIndex = 1;
     private static float leftBoundMult = 0, rightBoundMult = 11, multiplicationValue = 1;
-    private static String ignoreLayer = "Hex";
+    private static readonly String ignoreLayer = "Hex";
     [MenuItem("HaMiLeJa/ RenderBounds")]
     public static void ShowWindow() =>GetWindow(typeof(RenderBounds));
     private void OnGUI()

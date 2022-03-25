@@ -1,8 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
 using UnityEngine;
 public class Hex : MonoBehaviour
 {
@@ -18,9 +15,8 @@ public class Hex : MonoBehaviour
     static readonly int hexIDEnableGlow = Shader.PropertyToID("_enableGlow");
 
     #region InspectorGlow
-    Dictionary<Renderer, List<Material>> originalMaterialDictionaryProps = new Dictionary<Renderer, List<Material>>();
+    private readonly Dictionary<Renderer,Material[]> originalMaterialDictionaryProps = new Dictionary<Renderer, Material[]>();
     private bool isGlowing;
-    private Color originalGlowColor;
     #endregion
     
    #region Inspector
@@ -106,7 +102,7 @@ public class Hex : MonoBehaviour
     private void PrepareMaterialDictionaries()
     {
         foreach (Renderer renderer in transform.GetChild(1).GetComponentsInChildren<Renderer>()) 
-            originalMaterialDictionaryProps.Add(renderer, renderer.materials.ToList());
+            originalMaterialDictionaryProps.Add(renderer, renderer.materials);
     }
     #endregion
  
@@ -165,7 +161,7 @@ public class Hex : MonoBehaviour
                 {
                     if (renderer == null) continue;
                     Destroy(renderer.material);
-                    renderer.GetMaterials(originalMaterialDictionaryProps[renderer]);
+                    renderer.materials = originalMaterialDictionaryProps[renderer];
                 }
             }
             isGlowing = !isGlowing;
