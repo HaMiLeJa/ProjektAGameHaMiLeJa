@@ -40,7 +40,7 @@ public class ChainParent : MonoBehaviour
 		Segment[] allSegments = GetComponentsInChildren<Segment>();
 		Segment[] segmentsWithMesh = allSegments.Where( s => s.HasValidNextPoint ).ToArray();
 		Segment[] segmentsWithoutMesh = allSegments.Where( s => s.HasValidNextPoint == false ).ToArray();
-		foreach( Segment seg in segmentsWithMesh  ) Gizmos.DrawSphere(seg.transform.position, 2);
-		foreach( Segment seg in segmentsWithoutMesh  ) Gizmos.DrawSphere(seg.transform.position, 1);
+		foreach( Segment seg in segmentsWithMesh  ) Gizmos.DrawSphere(seg.transform.position, 1);
+		foreach( Segment seg in segmentsWithoutMesh  ) Gizmos.DrawSphere(seg.transform.position, 0.5f);
 	}
 }

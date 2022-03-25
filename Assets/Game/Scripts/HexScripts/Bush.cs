@@ -4,30 +4,26 @@ public class Bush : MonoBehaviour
 
 {
     [SerializeField] private int headshakes = 4;
+    [SerializeField] private float rotationAngle = 80, rotDuration = 0.3f, force = 5;
+    private float angles;
     private bool rotationAllowed = true;
     private int maxHeadshakes;
-    [SerializeField]
-    private float rotationAngle = 80;
-    private float angles;
-    [SerializeField] private float rotDuration = 0.3f;
-    [Space]
-    [SerializeField] float force = 5;
+    private Transform thisGameObject;
     private void Awake()
     {
         maxHeadshakes = headshakes;
+        thisGameObject = gameObject.transform;
     }
-    
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == ReferenceLibary.Player)
         {
             Vector3 posOther = other.transform.position;
-            angles = Vector3.Angle(posOther, this.transform.position)*100;
-            this.gameObject.transform.Rotate(0,angles,0,Space.Self);
-            if (rotationAllowed) StartCoroutine(Rotate(this.gameObject,headshakes,rotDuration, rotationAngle , Vector3.down));
+            angles = Vector3.Angle(posOther, thisGameObject.transform.position)*100;
+            thisGameObject.gameObject.transform.Rotate(0,angles,0,Space.Self);
+            if (rotationAllowed) StartCoroutine(Rotate(thisGameObject.gameObject,headshakes,rotDuration, rotationAngle , Vector3.down));
         }
     }
-    
     public IEnumerator Rotate(GameObject rotateMe,int headshakes , float duration, float angle, Vector3 firstDirection)
     {
         Quaternion startRot = rotateMe.transform.rotation;
@@ -49,21 +45,16 @@ public class Bush : MonoBehaviour
             yield return null;
         }
         headshakes--;
-        yield return Rotate(rotateMe,headshakes,UnityEngine.Random.Range(1.2f,1.4f)*duration,
-            UnityEngine.Random.Range(angle, angle + 5), -firstDirection);
+        yield return Rotate(rotateMe,headshakes,Random.Range(1.2f,1.4f)*duration,
+            Random.Range(angle, angle + 5), -firstDirection);
     }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject == ReferenceLibary.Player)
         {
-
             Rigidbody rb = ReferenceLibary.RigidbodyPl;
             rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y / 4, rb.velocity.z);
-
             Vector3 movementDirection = rb.velocity.normalized;
-
-
             float timer = 0;
             while (timer <= 0.3f)
             {
@@ -74,4 +65,3 @@ public class Bush : MonoBehaviour
         }
     }
 }
-

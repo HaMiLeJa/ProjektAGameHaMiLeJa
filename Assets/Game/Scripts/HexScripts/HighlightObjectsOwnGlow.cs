@@ -3,18 +3,24 @@ using UnityEngine;
 using NaughtyAttributes;
 public class HighlightObjectsOwnGlow : MonoBehaviour
 {
-    [BoxGroup("Glow Einstellungen")][SerializeField]  private float glowAmount ;
-    [BoxGroup("Glow Einstellungen")]  [SerializeField] private float CutoffEmissive;
-    private int propIDEmissiveIntensity, propIDEmissiveCutoff;
+    [BoxGroup("Glow Einstellungen")][SerializeField]  private float glowAmount, CutoffEmissive;
     private float cashedEmissiveIntensity, cashedEmissiveCutoff; 
     private Material material;
     private Hex hex;
-    private void Awake()
+    private MaterialPropertyBlock mpb;
+    
+    private MaterialPropertyBlock MPB
     {
-        material = gameObject.GetComponent<Renderer>().material;
-         propIDEmissiveIntensity =  Shader.PropertyToID("_emissionIntensity");
-        propIDEmissiveCutoff = Shader.PropertyToID("_emissiveCutoff");
+        get
+        {
+            if (mpb == null) mpb = new MaterialPropertyBlock();
+            return mpb;
+        }
     }
+    static readonly int propIDEmissiveCutoff = Shader.PropertyToID("_emissiveCutoff");
+    static readonly int propIDEmissiveIntensity =  Shader.PropertyToID("_emissionIntensity");
+    private void Awake() => material = gameObject.GetComponent<Renderer>().sharedMaterial;
+    
     private void Start()
     {  
       cashedEmissiveIntensity = material.GetFloat(propIDEmissiveIntensity );
@@ -31,13 +37,15 @@ public class HighlightObjectsOwnGlow : MonoBehaviour
     IEnumerator EnableHighlightDelayed()
     {
         yield return new WaitForSeconds(GameManager.GlowEnableDelayObjects);
-        material.SetFloat(propIDEmissiveIntensity, glowAmount );
-        material.SetFloat(propIDEmissiveCutoff, CutoffEmissive );
+        MPB.SetFloat(propIDEmissiveIntensity, glowAmount );
+        MPB.SetFloat(propIDEmissiveCutoff, CutoffEmissive );
+        this.gameObject.GetComponent<MeshRenderer>().SetPropertyBlock(MPB);
     }
     IEnumerator DisableHighlightDelayed()
     {
         yield return new WaitForSeconds(GameManager.GlowDisableDelayObjects);
-        material.SetFloat(propIDEmissiveIntensity, cashedEmissiveIntensity );
-        material.SetFloat(propIDEmissiveCutoff, cashedEmissiveCutoff );
+        MPB.SetFloat(propIDEmissiveIntensity, cashedEmissiveIntensity );
+        MPB.SetFloat(propIDEmissiveCutoff, cashedEmissiveCutoff );
+        this.gameObject.GetComponent<MeshRenderer>().SetPropertyBlock(MPB);
     }
 }

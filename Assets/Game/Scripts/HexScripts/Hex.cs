@@ -1,14 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 using UnityEngine;
 public class Hex : MonoBehaviour
 {
-    #region Dictonarys
-    Dictionary<Renderer, Material[]> originalMaterialDictionaryHexes = new Dictionary<Renderer, Material[]>();
-    Dictionary<Renderer, Material[]> originalMaterialDictionaryProps = new Dictionary<Renderer, Material[]>();
-    #endregion
-    
+    private MaterialPropertyBlock mpb;
+    private MaterialPropertyBlock MPB
+    {
+        get
+        {
+            if (mpb == null) mpb = new MaterialPropertyBlock();
+            return mpb;
+        }
+    }
+    static readonly int hexIDEnableGlow = Shader.PropertyToID("_enableGlow");
+
     #region InspectorGlow
+    Dictionary<Renderer, List<Material>> originalMaterialDictionaryProps = new Dictionary<Renderer, List<Material>>();
     private bool isGlowing;
     private Color originalGlowColor;
     #endregion
@@ -18,7 +28,8 @@ public class Hex : MonoBehaviour
     private Rigidbody playerRb;
     HexMovements hexMov;
     GameManager gameMng;
-   // AudioManager audManager;
+    private Renderer hexRendererer;
+    // AudioManager audManager;
     //AudioClipsHexes audioClipHexes;
     //[SerializeField] AudioSource myAudioSource;
     //private HexCoordinates hexCoordinates;
@@ -62,9 +73,10 @@ public class Hex : MonoBehaviour
             //Debug.Log("Hex Added to All Collectables");
        // }
   //  }
-    private void Start()
-    {
-        gameMng = ReferenceLibary.GameMng;
+  private void Awake() => hexRendererer = gameObject.transform.GetChild(0).GetChild(0).GetComponent<Renderer>();
+  private void Start()
+  {
+      gameMng = ReferenceLibary.GameMng;
         Player = ReferenceLibary.Player;
         playerRb = ReferenceLibary.RigidbodyPl;
         hexMov = ReferenceLibary.HexMov;
@@ -89,10 +101,12 @@ public class Hex : MonoBehaviour
     }
     
     #region MaterialSwap
+
+    private int arrayIndex;
     private void PrepareMaterialDictionaries()
     {
-        if (transform.childCount > 0) foreach (Renderer renderer in transform.GetChild(0).GetComponentsInChildren<Renderer>()) originalMaterialDictionaryHexes.Add(renderer, renderer.materials);
-        foreach (Renderer renderer in transform.GetChild(1).GetComponentsInChildren<Renderer>()) originalMaterialDictionaryProps.Add(renderer, renderer.materials);
+        foreach (Renderer renderer in transform.GetChild(1).GetComponentsInChildren<Renderer>()) 
+            originalMaterialDictionaryProps.Add(renderer, renderer.materials.ToList());
     }
     #endregion
  
@@ -107,13 +121,11 @@ public class Hex : MonoBehaviour
         yield return new WaitForSeconds(GameManager.GlowEnableDelay);
         ToggleGlow(true, isProp, (int)highlightType);
     }
-    
     IEnumerator DisableHighlightDelayed(bool isProp)
     {
         yield return new WaitForSeconds(GameManager.GlowDisableDelay);
         ToggleGlow(false, isProp, (int)highlightType);
     }
-    
     #region PathHighlight
     public void ToggleGlow(bool isProp, int HighlightType)
     {
@@ -121,21 +133,16 @@ public class Hex : MonoBehaviour
         {
             if (isGlowing == false)
             {
-                foreach (Renderer renderer in originalMaterialDictionaryHexes.Keys)
-                {
-                    if (renderer == null) continue;
-                    for (int i = 0; i < renderer.materials.Length; i++) renderer.material = Highlightmanager.GlowMaterials[HighlightType];
-                }
+                MPB.SetInt(hexIDEnableGlow, 1);
+                hexRendererer.SetPropertyBlock(MPB);
             }
-        else
-        {
-            foreach (Renderer renderer in originalMaterialDictionaryHexes.Keys)
+            else
             {
-                if (renderer == null) continue; 
-                renderer.materials = originalMaterialDictionaryHexes[renderer];
+                MPB.SetInt(hexIDEnableGlow, 0);
+                hexRendererer.SetPropertyBlock(MPB);
             }
-        }
-        isGlowing = !isGlowing;
+               
+            isGlowing = !isGlowing;
         }
         if (isProp)
         {
@@ -144,7 +151,12 @@ public class Hex : MonoBehaviour
                 foreach (Renderer renderer in originalMaterialDictionaryProps.Keys)
                 {
                     if (renderer == null) continue;
-                    for (int i = 0; i < renderer.materials.Length; i++) renderer.material = Highlightmanager.GlowMaterials[HighlightType];
+                    for (int i = 0; i < renderer.materials.Length; i++)
+                    {
+                       
+                        Destroy(renderer.material );
+                         renderer.material = Highlightmanager.GlowMaterials[HighlightType];
+                    }
                 }
             }
             else
@@ -152,7 +164,8 @@ public class Hex : MonoBehaviour
                 foreach (Renderer renderer in originalMaterialDictionaryProps.Keys)
                 {
                     if (renderer == null) continue;
-                    renderer.materials = originalMaterialDictionaryProps[renderer];
+                    Destroy(renderer.material);
+                    renderer.GetMaterials(originalMaterialDictionaryProps[renderer]);
                 }
             }
             isGlowing = !isGlowing;
@@ -168,7 +181,6 @@ public class Hex : MonoBehaviour
     #region HexEffects
     [SerializeField ]ScriptableHexEffects hexEffectsSettings;
     #region ChangeDirection
-
     //[SerializeField] private float ChangeDirectionBoostForce = 200f;
     //private float ChangeDirectionBoostDuration = 0.8f;
     [Header ("ChangeDirection")] 
@@ -476,26 +488,4 @@ public class Hex : MonoBehaviour
         Gizmos.DrawLine(arrowTip + new Vector3(0, 2, 0), arrowRight + new Vector3(0, 2, 0));
     }
     void PlaySound()=> ReferenceLibary.AudMng.HexAudMng.PlayHex(hexType);
-}
-public enum HexType
-{
-    None,
-    Default,
-    SlowDown,
-    Trampolin,
-    ChangeDirection,
-    BoostForward,
-    BoostInDirection,
-    DefaultCollectable,
-}
-
-public enum CollectableType
-{
-    Type1,
-    Type2,
-}
-
-public enum HighlightType
-{
-    PinkHighlight
 }
