@@ -9,14 +9,8 @@ public enum HexType
     BoostInDirection,
     DefaultCollectable,
 }
-
 public enum CollectableType
 {
     Type1,
     Type2,
-}
-
-public enum HighlightType
-{
-    PinkHighlight
 }

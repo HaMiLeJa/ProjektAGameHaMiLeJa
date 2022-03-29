@@ -98,7 +98,7 @@ public class Pathfinder : MonoBehaviour
 			if (drawTangent) spline.DrawTangents(tangentLength, Color.green); 
 			waypointsForPlayer = spline.GetPoints();
 		}
-		else if(this.transform.childCount >2 && controlPoints.Length > 2)
+		else if(transform.childCount >2 && controlPoints.Length > 2)
 			spline = new CatmullRom(controlPoints, Resolution, ClosedLoop);
 	}
 #endif
@@ -220,7 +220,3 @@ public class Pathfinder : MonoBehaviour
 	int playerLayerInt;
 	int playerNoCollisionLayerInt;
 }
-
-	
-	
-

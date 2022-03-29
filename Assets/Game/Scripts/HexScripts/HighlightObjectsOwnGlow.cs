@@ -36,14 +36,14 @@ public class HighlightObjectsOwnGlow : MonoBehaviour
     }
     IEnumerator EnableHighlightDelayed()
     {
-        yield return new WaitForSeconds(GameManager.GlowEnableDelayObjects);
+        yield return new WaitForSeconds(Highlightmanager.GlowEnableDelayObjects);
         MPB.SetFloat(propIDEmissiveIntensity, glowAmount );
         MPB.SetFloat(propIDEmissiveCutoff, CutoffEmissive );
         this.gameObject.GetComponent<MeshRenderer>().SetPropertyBlock(MPB);
     }
     IEnumerator DisableHighlightDelayed()
     {
-        yield return new WaitForSeconds(GameManager.GlowDisableDelayObjects);
+        yield return new WaitForSeconds(Highlightmanager.GlowDisableDelayObjects);
         MPB.SetFloat(propIDEmissiveIntensity, cashedEmissiveIntensity );
         MPB.SetFloat(propIDEmissiveCutoff, cashedEmissiveCutoff );
         this.gameObject.GetComponent<MeshRenderer>().SetPropertyBlock(MPB);

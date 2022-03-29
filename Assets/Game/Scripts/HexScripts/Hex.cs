@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 public class Hex : MonoBehaviour
 {
@@ -13,9 +12,7 @@ public class Hex : MonoBehaviour
         }
     }
     static readonly int hexIDEnableGlow = Shader.PropertyToID("_enableGlow");
-
     #region InspectorGlow
-    private readonly Dictionary<Renderer,Material[]> originalMaterialDictionaryProps = new Dictionary<Renderer, Material[]>();
     private bool isGlowing;
     #endregion
     
@@ -24,14 +21,14 @@ public class Hex : MonoBehaviour
     private Rigidbody playerRb;
     HexMovements hexMov;
     GameManager gameMng;
-    private Renderer hexRendererer;
+    private Renderer hexRenderer;
     // AudioManager audManager;
     //AudioClipsHexes audioClipHexes;
     //[SerializeField] AudioSource myAudioSource;
     //private HexCoordinates hexCoordinates;
     public HexType hexType;
     public CollectableType collectableType = CollectableType.Type1; //To Be Used :)
-    public HighlightType highlightType = HighlightType.PinkHighlight;
+   
     AudioClip clip;
     ParticleSystem EffectParticle;
     #endregion
@@ -69,7 +66,7 @@ public class Hex : MonoBehaviour
             //Debug.Log("Hex Added to All Collectables");
        // }
   //  }
-  private void Awake() => hexRendererer = gameObject.transform.GetChild(0).GetChild(0).GetComponent<Renderer>();
+  private void Awake() => hexRenderer = gameObject.transform.GetChild(0).GetChild(0).GetComponent<Renderer>();
   private void Start()
   {
       gameMng = ReferenceLibary.GameMng;
@@ -78,8 +75,7 @@ public class Hex : MonoBehaviour
         hexMov = ReferenceLibary.HexMov;
         OnEffectHex += PlaySound;
         if(hexType == HexType.SlowDown) EffectParticle = GetComponentInChildren<ParticleSystem>();
-        PrepareMaterialDictionaries();
-    }
+  }
     #region  HighlightHexs
     #endregion
     #region OnTriggerHexTypes
@@ -92,86 +88,57 @@ public class Hex : MonoBehaviour
             if (hexType == HexType.ChangeDirection) ChangeDirectionStarter();
             if ((hexType == HexType.BoostForward)) BoostForwardStarter();
             if ((hexType == HexType.BoostInDirection)) BoostInDirectionStarter();
-            highlightObjects(false);
+            highlightObjects(false, 0, 0);
         }
     }
-    
     #region MaterialSwap
-
-    private int arrayIndex;
-    private void PrepareMaterialDictionaries()
-    {
-        foreach (Renderer renderer in transform.GetChild(1).GetComponentsInChildren<Renderer>()) 
-            originalMaterialDictionaryProps.Add(renderer, renderer.materials);
-    }
     #endregion
  
-    public void highlightObjects(bool isProp)
+    public void highlightObjects(bool isProp, byte HighlightType, ushort matSwapIndex)
     {
-        StartCoroutine(EnableHighlightDelayed(isProp));
-        StartCoroutine(DisableHighlightDelayed(isProp));
+        StartCoroutine(EnableHighlightDelayed(isProp, HighlightType, matSwapIndex));
+        StartCoroutine(DisableHighlightDelayed(isProp, HighlightType, matSwapIndex));
     }
     #endregion
-    IEnumerator EnableHighlightDelayed(bool isProp)
+    IEnumerator EnableHighlightDelayed(bool isProp, byte HighlightType, ushort matSwapIndex)
     {
-        yield return new WaitForSeconds(GameManager.GlowEnableDelay);
-        ToggleGlow(true, isProp, (int)highlightType);
+        yield return new WaitForSeconds(Highlightmanager.GlowEnableDelayHex);
+        ToggleGlow(true, isProp, HighlightType, matSwapIndex);
     }
-    IEnumerator DisableHighlightDelayed(bool isProp)
+    IEnumerator DisableHighlightDelayed(bool isProp, byte HighlightType, ushort matSwapIndex)
     {
-        yield return new WaitForSeconds(GameManager.GlowDisableDelay);
-        ToggleGlow(false, isProp, (int)highlightType);
+        yield return new WaitForSeconds(Highlightmanager.GlowDisableDelayHex);
+        ToggleGlow(false, isProp, HighlightType, matSwapIndex);
     }
     #region PathHighlight
-    public void ToggleGlow(bool isProp, int HighlightType)
+    public void ToggleGlow(bool isProp, byte HighlightType, ushort matSwapIndex)
     {
         if (!isProp)
         {
             if (isGlowing == false)
             {
                 MPB.SetInt(hexIDEnableGlow, 1);
-                hexRendererer.SetPropertyBlock(MPB);
+                hexRenderer.SetPropertyBlock(MPB);
             }
             else
             {
                 MPB.SetInt(hexIDEnableGlow, 0);
-                hexRendererer.SetPropertyBlock(MPB);
+                hexRenderer.SetPropertyBlock(MPB);
             }
-               
             isGlowing = !isGlowing;
         }
         if (isProp)
         {
-            if (isGlowing == false)
-            {
-                foreach (Renderer renderer in originalMaterialDictionaryProps.Keys)
-                {
-                    if (renderer == null) continue;
-                    for (int i = 0; i < renderer.materials.Length; i++)
-                    {
-                       
-                        Destroy(renderer.material );
-                         renderer.material = Highlightmanager.GlowMaterials[HighlightType];
-                    }
-                }
-            }
-            else
-            {
-                foreach (Renderer renderer in originalMaterialDictionaryProps.Keys)
-                {
-                    if (renderer == null) continue;
-                    Destroy(renderer.material);
-                    renderer.materials = originalMaterialDictionaryProps[renderer];
-                }
-            }
+            if (isGlowing == false)  Highlightmanager.GlowHighlight(matSwapIndex, HighlightType);
+            else Highlightmanager.DisableGlowHighlight(matSwapIndex);
             isGlowing = !isGlowing;
         }
     }
-    public void ToggleGlow(bool state, bool isProp, int HighlightType)
+    public void ToggleGlow(bool state, bool isProp, byte HighlightType, ushort matSwapIndex)
     {
         if (isGlowing == state) return;
         isGlowing = !state;
-        ToggleGlow(isProp, HighlightType);
+        ToggleGlow(isProp, HighlightType, matSwapIndex);
     }
     #endregion
     #region HexEffects

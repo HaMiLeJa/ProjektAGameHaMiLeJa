@@ -13,7 +13,7 @@ public class HexAutoTiling : MonoBehaviour
     
     #region PrivateVariables
 
-    private const ushort HEXCOUNT = 16384; //später im Inspector bei mehr Level: default 16384
+    public const ushort HEXCOUNT = 16384; //später im Inspector bei mehr Level: default 16384
 
     private float xPlusSnapShotPos, xMinusSnapShotPos, 
                   zPlusSnapShotPos, zMinusSnapShotPos,
@@ -203,7 +203,7 @@ public struct HexPosJob : IJobParallelForTransform
   [Unity.Collections.ReadOnly]  public float playerLocationXJob, playerLocationZJob;
     public void Execute(int index, TransformAccess hasAllTheHexPosTransform)
     {
-        ushort vectorindex = 0, hor = 0, hor2 = 0, vert = 0, vert2 = 0;
+        ushort hor = 0, hor2 = 0, vert = 0, vert2 = 0;
         bool markDirtyVector = false;
         if (rightMoveJob  && playerLocationXJob - tilingTreshholdJob > hasAllTheHexPosTransform.position.x)
             {
