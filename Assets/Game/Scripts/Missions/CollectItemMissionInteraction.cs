@@ -27,12 +27,12 @@ public class CollectItemMissionInteraction : MonoBehaviour
      
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == ReferenceLibary.Player)
+        if (other.gameObject == ReferenceLibrary.Player)
         {
             ParticleSystem particle = Instantiate(effectParticle, this.transform.position, Quaternion.identity).GetComponent<ParticleSystem>();
             particle.Play();
 
-            ReferenceLibary.MissionMng.ActiveMissionState.ItemCollected(this.gameObject);
+            ReferenceLibrary.MissionMng.ActiveMissionState.ItemCollected(this.gameObject);
 
 
             

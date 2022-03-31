@@ -11,7 +11,7 @@ public class MissionStateNoMission : MonoBehaviour
     {
         randomDurationSet = true;
         duration = 50;
-        ReferenceLibary.UIMng.TimerUntilNexMission();
+        ReferenceLibrary.UIMng.TimerUntilNexMission();
     }
 
     public void UpdateNoMission()
@@ -28,12 +28,12 @@ public class MissionStateNoMission : MonoBehaviour
         if(duration <= 0)
         {
             randomDurationSet = false;
-            ReferenceLibary.MissionMng.SwitchToFindMissionState();
+            ReferenceLibrary.MissionMng.SwitchToFindMissionState();
             duration = 0;
-            ReferenceLibary.UIMng.DeactivateNoMissionUI();
+            ReferenceLibrary.UIMng.DeactivateNoMissionUI();
         }
         else
-            ReferenceLibary.UIMng.TimerUntilNexMission();
+            ReferenceLibrary.UIMng.TimerUntilNexMission();
     }
 
 

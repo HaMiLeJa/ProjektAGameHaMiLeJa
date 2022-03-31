@@ -21,10 +21,10 @@ public class ParticleSystemTrails : MonoBehaviour
     }
     IEnumerator PlayNonTrailParticle_Coroutine()
     {
-        Quaternion particleDirection = Quaternion.LookRotation(ReferenceLibary.RigidbodyPl.velocity.normalized, Vector3.up);
-        ParticleSystem go = Instantiate(superboostWirbel, ReferenceLibary.Player.transform.position, particleDirection);
+        Quaternion particleDirection = Quaternion.LookRotation(ReferenceLibrary.PlayerRb.velocity.normalized, Vector3.up);
+        ParticleSystem go = Instantiate(superboostWirbel, ReferenceLibrary.Player.transform.position, particleDirection);
         go.Play();
-        ParticleSystem go2 = Instantiate(GlowingOrbs, ReferenceLibary.Player.transform.position, particleDirection);
+        ParticleSystem go2 = Instantiate(GlowingOrbs, ReferenceLibrary.Player.transform.position, particleDirection);
         go2.Play();
         go2.transform.parent = transform;
         yield return new WaitForSeconds(10);

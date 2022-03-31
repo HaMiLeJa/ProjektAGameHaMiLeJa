@@ -1,22 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Wall : MonoBehaviour
 {
     public ScriptableLevelObject settings;
     int hitCounter;
-    [SerializeField] AudioSource myAudioSource;
-
-    private void Start()
-    {
-        //myAudioSource.pitch = 1;
-       myAudioSource.clip = settings.Clip;
-    }
+    [SerializeField] public AudioSource myAudioSource;
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject == ReferenceLibary.Player)
+        if (collision.gameObject == ReferenceLibrary.Player)
         {
 
             //Debug.Log("Collision");
@@ -25,10 +17,7 @@ public class Wall : MonoBehaviour
             {
                 float points = settings.value / 15;
                 if (points < 1) points = 1;
-
                 ScoreManager.OnScoring?.Invoke(points);
-
-                
             }
             else
             {

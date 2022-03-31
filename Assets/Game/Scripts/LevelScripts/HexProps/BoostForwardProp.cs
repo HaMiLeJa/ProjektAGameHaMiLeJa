@@ -22,7 +22,7 @@ public class BoostForwardProp : MonoBehaviour
 
     void SetDesiredRotation(int sign)
     {
-        Direction = new Vector3(ReferenceLibary.PlayerMov.Velocity.normalized.x, 0, ReferenceLibary.PlayerMov.Velocity.normalized.z);
+        Direction = new Vector3(ReferenceLibrary.PlayerMov.Velocity.normalized.x, 0, ReferenceLibrary.PlayerMov.Velocity.normalized.z);
         if (Direction == Vector3.zero) return;
         desiredRot = Quaternion.LookRotation(Direction * sign, Vector3.up);
     }

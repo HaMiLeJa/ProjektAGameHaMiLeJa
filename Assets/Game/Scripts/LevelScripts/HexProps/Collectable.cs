@@ -11,12 +11,11 @@ public class Collectable : MonoBehaviour
     {
         if (ParentHex == null)
         {
-            Debug.Log("I have no parent Hex :(" + gameObject);
+            Debug.Log("I have no parent Hex :(" + gameObject+ " My Parent is: " + gameObject.transform.parent.parent);
             gameObject.SetActive(false);
             if (GetComponentInParent<Hex>().gameObject != null)
             {
                 ParentHex = this.GetComponentInParent<Hex>().gameObject;
-                colRef.HexScript = ParentHex.GetComponent<Hex>();
                 colRef.HexScript = ParentHex.GetComponent<Hex>();
             }
             else Debug.Log("still no parent Hex");
@@ -31,10 +30,10 @@ public class Collectable : MonoBehaviour
     void Update() => transform.Rotate(new Vector3(0, rotation * Time.deltaTime,0));
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject == ReferenceLibary.Player)
+        if (collision.gameObject == ReferenceLibrary.Player)
         {
             ScoreManager.OnScoring?.Invoke(settings.value);
-            ReferenceLibary.ColMng.CollectableCollected(this.gameObject, settings.secondValue ,ParentHex); //hier drin sind auch sounds;
+            ReferenceLibrary.ColMng.CollectableCollected(this.gameObject, settings.secondValue ,ParentHex); //hier drin sind auch sounds;
         }
     }
 }

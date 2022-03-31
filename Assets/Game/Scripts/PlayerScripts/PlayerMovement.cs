@@ -41,9 +41,9 @@ public class PlayerMovement : MonoBehaviour
     #endregion
     void Start()
     {
-        rb = ReferenceLibary.RigidbodyPl;
-        gameMng = ReferenceLibary.GameMng;
-        hexMov = ReferenceLibary.HexMov;
+        rb = ReferenceLibrary.PlayerRb;
+        gameMng = ReferenceLibrary.GameMng;
+        hexMov = ReferenceLibrary.HexMov;
         originalContspeed = constspeed;
     }
     void FixedUpdate()
@@ -75,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
                verticalInput = Input.GetAxis("Vertical");
         if (math.abs(horizontalInput) > 0.3f || math.abs(verticalInput) > 0.3f)
             rb.AddForce(MovementDirection.normalized * 30f);
-        if (ReferenceLibary.Dash.IsBoosting|| ReferenceLibary.SuperDash.isSuperDashing || ReferenceLibary.ShadowDashPl.isShadowDashing) return;
+        if (ReferenceLibrary.Dash.IsBoosting|| ReferenceLibrary.SuperDash.isSuperDashing || ReferenceLibrary.ShadowDashPl.isShadowDashing) return;
         if (constSpeedAllowed && Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z) < constspeed)
         {
             var normalizeSpeed  = (rb.velocity.normalized);

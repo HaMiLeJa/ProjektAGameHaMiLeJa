@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 public class GameManager : MonoBehaviour
 {
@@ -17,17 +18,8 @@ public class GameManager : MonoBehaviour
     #region Inspector
     [Space]
     public bool AllowMovement = true, AllowHexEffects = true;
-    [Space] [Space][Header("Teleport")]
-    public float SpeedAfterTeleport = 70, ReduceSpeedInfluenceBeforeTeleport = 3, IncreaseSpeedInfluenceBeforeTeleport = 1;
-    [Header("Teleport increase Cam speed")]
-    [Range(0f,200f)] public float lastDistanceTreshhold = 60f;
-    public float followRoughness = 0.01f;
-    [Range(0f,10f)]
-    public float lastDistanceSpeedIncreasePercentPerFrame = 1f;
-    [Space]
-    public static GameObject CameraHelper;
-    public static bool CameraTeleportActive = false, StopGiveVelocityBack = true,
-        bridgePause = false, LerpCameraBack = false, StartMovingGhostLayer = false;
+ 
+    public static bool bridgePause = false, LerpCameraBack = false, StartMovingGhostLayer = false;
     [Space] [Header("No Input Managemant")]
     [Tooltip("How long no input is allowed before Energy decrease is activated")]
     [SerializeField] float noInputDuration = 15;
@@ -36,11 +28,9 @@ public class GameManager : MonoBehaviour
     [Tooltip("Debug: is there currently a decrease?")] public bool NoInputDecrease = false;
     bool RecentInput = false;
     float recentInputResetTimer, noInputTimer;
-    Rigidbody playerRb;
     #endregion
     private void Awake()
     {
-        Resources.UnloadUnusedAssets();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 #if UNITY_EDITOR
@@ -48,16 +38,15 @@ public class GameManager : MonoBehaviour
         Cursor.visible = true;
 #endif
         DisableSpawnHexObjectsInEditMode = true;
-        CameraHelper = GameObject.FindGameObjectWithTag("CameraHelper");
     }
     private void Start()
     {
-        //player = ReferenceLibary.Player;
-        playerRb = ReferenceLibary.RigidbodyPl;
+        //player = ReferenceLibrary.Player;
         // if (PlayerPrefs.HasKey("Highscore") == false)
         //   PlayerPrefs.SetFloat("Highscore", 0);
         AllowMovement = true;
         AllowHexEffects = true;
+        Resources.UnloadUnusedAssets();
     }
     void Update()
     {

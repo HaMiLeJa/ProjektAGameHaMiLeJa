@@ -6,11 +6,11 @@ public class BringItemGoalMissionInteraction : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == ReferenceLibary.Player)
+        if (other.gameObject == ReferenceLibrary.Player)
         {
 
             Debug.Log("1");
-            ReferenceLibary.MissionMng.ActiveMissionState.BringItemDelivered(this.gameObject);
+            ReferenceLibrary.MissionMng.ActiveMissionState.BringItemDelivered(this.gameObject);
 
         }
     }
@@ -18,11 +18,11 @@ public class BringItemGoalMissionInteraction : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
 
-        if (collision.gameObject == ReferenceLibary.Player)
+        if (collision.gameObject == ReferenceLibrary.Player)
         {
 
             Debug.Log("1");
-            ReferenceLibary.MissionMng.ActiveMissionState.BringItemDelivered(this.gameObject);
+            ReferenceLibrary.MissionMng.ActiveMissionState.BringItemDelivered(this.gameObject);
 
         }
     }

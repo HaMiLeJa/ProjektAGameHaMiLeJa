@@ -8,9 +8,6 @@ public class Segment : UniqueMesh
    //Was serialized wird
 	public float tangentLength = 3; // Tangenten Größe. Das ist nur die Tangente vom ersten Punkt. Das nächste Segment kontrolliert den Endpunkt von dieser Tangentenlänge
 	public Ease rotationEasing = Ease.InOut;
-	
-	
-	
 	// Das wird nicht serialized
 	MeshExtruder meshExtruder = new MeshExtruder();
 
@@ -51,7 +48,6 @@ public class Segment : UniqueMesh
 		Texture texture = GetComponent<MeshRenderer>().sharedMaterial.Ref()?.mainTexture;
 		return texture != null ? texture.AspectRatio() : 1f;
 	}
-
 	// Erhält einen von den 4 Bezier Kontrollpunkten
 	// Das verhindern Doppelttransformation von Spaces
 	public Vector3 GetControlPoint( int i, Space space ) 
@@ -109,7 +105,6 @@ public class Segment : UniqueMesh
 			GetControlPoint( 3, space )
 		);
 	}
-
 	// Gibt den Vector up vom ersten oder letzten Kontrollpunkt im jetzigen space
 	Vector3 GetUpVector( int i, Space space ) 
 	{
@@ -121,6 +116,4 @@ public class Segment : UniqueMesh
 		}
 		return default;
 	}
-
-	
 }

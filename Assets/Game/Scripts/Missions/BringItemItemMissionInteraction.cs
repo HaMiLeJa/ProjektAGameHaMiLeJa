@@ -8,7 +8,7 @@ public class BringItemItemMissionInteraction : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            ReferenceLibary.MissionMng.ActiveMissionState.BringItemCollected(this.gameObject);
+            ReferenceLibrary.MissionMng.ActiveMissionState.BringItemCollected(this.gameObject);
 
         }
     }

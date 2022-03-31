@@ -20,8 +20,8 @@ public class DestroyObjectMissionInteraction1 : MonoBehaviour
         myAudioSource = this.GetComponent<AudioSource>();
         col = this.GetComponent<Collider>();
 
-        superDash = ReferenceLibary.SuperDash;
-        player = ReferenceLibary.Player;
+        superDash = ReferenceLibrary.SuperDash;
+        player = ReferenceLibrary.Player;
     }
 
 
@@ -53,7 +53,7 @@ public class DestroyObjectMissionInteraction1 : MonoBehaviour
 
             col.enabled = false;
 
-            ReferenceLibary.RigidbodyPl.velocity *= -1;
+            ReferenceLibrary.PlayerRb.velocity *= -1;
 
 
             if (MissionManager.CurrentMission.missionType == MissionInformation.MissionType.DestroyObjs)

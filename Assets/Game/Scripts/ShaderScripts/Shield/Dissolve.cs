@@ -2,18 +2,17 @@ using System.Collections;
 using UnityEngine;
 public class Dissolve : MonoBehaviour
 {
-    Renderer renderer; 
-    [SerializeField] float DisolveSpeed = 0.8f;
-    void Start() => renderer = GetComponent<Renderer>();
-    
+    [SerializeField] private Renderer rend; 
+    [SerializeField] private float DisolveSpeed = 0.8f;
+    private string dissolve = "_Disolve";
     public IEnumerator Coroutine_DisolveShield(float target)
     {
         Debug.Log("Dissolving");
-        float start = renderer.material.GetFloat("_Disolve");
+        float start = rend.material.GetFloat(dissolve);
         float lerp = 0;
         while (lerp < 1)
         {
-            renderer.material.SetFloat("_Disolve", Mathf.Lerp(start, target, lerp));
+            rend.material.SetFloat(dissolve, Mathf.Lerp(start, target, lerp));
             lerp += Time.deltaTime * DisolveSpeed;
             yield return null;
         }

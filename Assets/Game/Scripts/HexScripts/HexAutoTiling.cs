@@ -1,5 +1,6 @@
 #region Imports
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using Unity.Burst;
@@ -9,7 +10,9 @@ public class HexAutoTiling : MonoBehaviour
 {
     #region Arrays
     public static TransformAccessArray hasAllTheHexesTransformsNative;
-    #endregion
+    [NaughtyAttributes.InfoBox("To avoid thousands of >> FindGameObjectsWithTag <<, we just have the list ready, copy to native and then null the list")]
+    [SerializeField] private List<Transform> hasAllTheHexGameObjectsTransformsBeforeStart;
+   #endregion
     
     #region PrivateVariables
 
@@ -21,7 +24,7 @@ public class HexAutoTiling : MonoBehaviour
                   zPlus, zMinus, xPlus, xMinus,
                   xMoveBack, zMoveback;
     
-    private bool leftMove = true, rightMove = true, topMove = true, bottomMove = true, playerHasMoved = true, noSide;
+    private bool leftMove, rightMove, topMove, bottomMove, playerHasMoved, noSide;
     
     private byte    startTilingTreshhold = 130, //später im Inspector bei mehr Level: default 150
                     declineBothSidesTreshhold = 10, //später im Inspector bei mehr Level: default 10
@@ -36,22 +39,32 @@ public class HexAutoTiling : MonoBehaviour
     #endregion
     
     #region Expressionbodys
-    private bool tilingDistanceCheck => ReferenceLibary.Player.transform.position.x > xPlusSnapShotPos
-                                        || ReferenceLibary.Player.transform.position.x < xMinusSnapShotPos
-                                        || ReferenceLibary.Player.transform.position.z > zPlusSnapShotPos
-                                        || ReferenceLibary.Player.transform.position.z < zMinusSnapShotPos;
+    private bool tilingDistanceCheck => ReferenceLibrary.PlayerPosition.x > xPlusSnapShotPos
+                                        || ReferenceLibrary.PlayerPosition.x < xMinusSnapShotPos
+                                        || ReferenceLibrary.PlayerPosition.z > zPlusSnapShotPos
+                                        || ReferenceLibrary.PlayerPosition.z < zMinusSnapShotPos;
     private bool returnToOriginDistanceCheck => shortCircutToOrginCounter > shortCircutTreshhold &&
-                                        ReferenceLibary.Player.transform.position.x > moveBackToOriginTreshhold
-                                        || ReferenceLibary.Player.transform.position.x < -moveBackToOriginTreshhold
-                                        || ReferenceLibary.Player.transform.position.z > moveBackToOriginTreshhold
-                                        || ReferenceLibary.Player.transform.position.z < -moveBackToOriginTreshhold;
+                                        ReferenceLibrary.PlayerPosition.x > moveBackToOriginTreshhold
+                                        || ReferenceLibrary.PlayerPosition.x < -moveBackToOriginTreshhold
+                                        || ReferenceLibrary.PlayerPosition.z > moveBackToOriginTreshhold
+                                        || ReferenceLibrary.PlayerPosition.z < -moveBackToOriginTreshhold;
     #endregion
-    #region UnityUpdates                                  
+    #region UnityUpdates
+
+    #if UNITY_EDITOR
+    [NaughtyAttributes.Button()] public void FindAllTheHexesTransform()
+    {
+        if (Application.isPlaying) return;
+        hasAllTheHexGameObjectsTransformsBeforeStart.Clear();
+        foreach (GameObject hex in GameObject.FindGameObjectsWithTag("Hex")) hasAllTheHexGameObjectsTransformsBeforeStart.Add(hex.transform);
+    }
+#endif
     void Awake() => fillHexDic();
     void Start()
-    {
-        xOriginPosition = ReferenceLibary.Player.transform.position.x;
-        zOriginPosition = ReferenceLibary.Player.transform.position.z;
+    { 
+        xOriginPosition = ReferenceLibrary.PlayerPosition.x;
+        zOriginPosition = ReferenceLibrary.PlayerPosition.z;
+        playerHasMoved = true; limitTiling();
     }
     void Update()
     {
@@ -69,10 +82,11 @@ public class HexAutoTiling : MonoBehaviour
     }
     #endregion
     #region StartMethods
-    void fillHexDic() 
+    void fillHexDic()
     {
         hasAllTheHexesTransformsNative  = new TransformAccessArray(HEXCOUNT);
-        foreach (GameObject hex in GameObject.FindGameObjectsWithTag("Hex")) hasAllTheHexesTransformsNative.Add(hex.transform);
+        foreach (Transform hexTransform in hasAllTheHexGameObjectsTransformsBeforeStart) hasAllTheHexesTransformsNative.Add(hexTransform);
+        hasAllTheHexGameObjectsTransformsBeforeStart = null;
     }
     #endregion
     
@@ -81,23 +95,22 @@ public class HexAutoTiling : MonoBehaviour
     {   
         if(tilingDistanceCheck)  //only one if is less heavy + make sure that everything gets checked once
         {
-          
-            if (ReferenceLibary.Player.transform.position.x > xPlusSnapShotPos)
+            if (ReferenceLibrary.PlayerPosition.x > xPlusSnapShotPos)
             {
                 rightMove = true; compareTopBottom();
             }
             
-            if (ReferenceLibary.Player.transform.position.x < xMinusSnapShotPos)
+            if (ReferenceLibrary.PlayerPosition.x < xMinusSnapShotPos)
             {
                 leftMove = true; compareTopBottom();
             }
 
-            if (ReferenceLibary.Player.transform.position.z > zPlusSnapShotPos)
+            if (ReferenceLibrary.PlayerPosition.z > zPlusSnapShotPos)
             { 
                 topMove = true; compareRightLeft(); 
             }
             
-            if (ReferenceLibary.Player.transform.position.z < zMinusSnapShotPos)
+            if (ReferenceLibrary.PlayerPosition.z < zMinusSnapShotPos)
             {
                 bottomMove = true; compareRightLeft();
             }
@@ -105,8 +118,8 @@ public class HexAutoTiling : MonoBehaviour
     }
     void compareTopBottom()
     {
-         zPlus = Mathf.Abs(zPlusSnapShotPos - ReferenceLibary.Player.transform.position.z);
-         zMinus = Mathf.Abs(zMinusSnapShotPos - ReferenceLibary.Player.transform.position.z);
+         zPlus = Mathf.Abs(zPlusSnapShotPos - ReferenceLibrary.PlayerPosition.z);
+         zMinus = Mathf.Abs(zMinusSnapShotPos - ReferenceLibrary.PlayerPosition.z);
          noSide = zPlus > declineBothSidesTreshhold;
         
         if ( noSide && zPlus < zMinus ) topMove = true;
@@ -114,8 +127,8 @@ public class HexAutoTiling : MonoBehaviour
     }
     void compareRightLeft()
     {
-        xPlus = Mathf.Abs(xPlusSnapShotPos - ReferenceLibary.Player.transform.position.x);
-        xMinus = Mathf.Abs(xMinusSnapShotPos - ReferenceLibary.Player.transform.position.x);
+        xPlus = Mathf.Abs(xPlusSnapShotPos - ReferenceLibrary.PlayerPosition.x);
+        xMinus = Mathf.Abs(xMinusSnapShotPos - ReferenceLibrary.PlayerPosition.x);
        noSide = xPlus > declineBothSidesTreshhold;
         
         if ( noSide && xPlus < xMinus) rightMove = true;
@@ -130,10 +143,10 @@ public class HexAutoTiling : MonoBehaviour
     {
         if (playerHasMoved)
         {
-            xPlusSnapShotPos = ReferenceLibary.Player.transform.position.x + startTilingTreshhold;
-            xMinusSnapShotPos = ReferenceLibary.Player.transform.position.x - startTilingTreshhold;
-            zPlusSnapShotPos = ReferenceLibary.Player.transform.position.z + startTilingTreshhold;
-            zMinusSnapShotPos = ReferenceLibary.Player.transform.position.z - startTilingTreshhold;
+            xPlusSnapShotPos = ReferenceLibrary.PlayerPosition.x + startTilingTreshhold;
+            xMinusSnapShotPos = ReferenceLibrary.PlayerPosition.x - startTilingTreshhold;
+            zPlusSnapShotPos = ReferenceLibrary.PlayerPosition.z + startTilingTreshhold;
+            zMinusSnapShotPos = ReferenceLibrary.PlayerPosition.z - startTilingTreshhold;
             playerHasMoved = false;
             shortCircutToOrginCounter++;
         }
@@ -145,8 +158,8 @@ public class HexAutoTiling : MonoBehaviour
             xTilingDistanceJob =  xTilingDistance, 
             zTilingDistanceJob = zTilingDistance, tilingTreshholdJob = tilingTreshold,
             bottomMoveJob = bottomMove, rightMoveJob = rightMove, leftMoveJob = leftMove, topMoveJob = topMove,
-            playerLocationXJob = ReferenceLibary.Player.transform.position.x,
-            playerLocationZJob = ReferenceLibary.Player.transform.position.z,
+            playerLocationXJob = ReferenceLibrary.PlayerPosition.x,
+            playerLocationZJob = ReferenceLibrary.PlayerPosition.z,
             
         };
         hexTransformJob.Schedule(hasAllTheHexesTransformsNative);
@@ -157,20 +170,16 @@ public class HexAutoTiling : MonoBehaviour
     
     #region  OriginMethods
     void moveEverythingBackToOrigin()
-    { 
-        //calculte Distances
-        xMoveBack = ReferenceLibary.Player.transform.position.x - (xOriginPosition);
-         zMoveback = ReferenceLibary.Player.transform.position.z - (zOriginPosition);
-      
+    {
         Vector3 moveEveryThingBack = new Vector3(
-            xMoveBack,
+            ReferenceLibrary.PlayerPosition.x - xOriginPosition,
             0,
-            zMoveback);
+            ReferenceLibrary.PlayerPosition.z - zOriginPosition);
         //Informs vcams
         int numVcams = CinemachineCore.Instance.VirtualCameraCount;
         for (byte i = 0; i < numVcams; ++i)
             CinemachineCore.Instance.GetVirtualCamera(i).OnTargetObjectWarped(
-                ReferenceLibary.Player.transform, -moveEveryThingBack);
+                ReferenceLibrary.PlayerTransform, -moveEveryThingBack);
         //moves everything back
         for (ushort j = 0; j < UnityEngine.SceneManagement.SceneManager.sceneCount; j++)
         { 
@@ -201,10 +210,12 @@ public struct HexPosJob : IJobParallelForTransform
   [Unity.Collections.ReadOnly] public float tilingTreshholdJob;
   [Unity.Collections.ReadOnly]  public bool bottomMoveJob, rightMoveJob, leftMoveJob, topMoveJob;
   [Unity.Collections.ReadOnly]  public float playerLocationXJob, playerLocationZJob;
+  private ushort hor, hor2, vert, vert2;
+  private bool markDirtyVector;
     public void Execute(int index, TransformAccess hasAllTheHexPosTransform)
     {
-        ushort hor = 0, hor2 = 0, vert = 0, vert2 = 0;
-        bool markDirtyVector = false;
+        hor = 0; hor2 = 0; vert = 0; vert2 = 0;
+         markDirtyVector = false;
         if (rightMoveJob  && playerLocationXJob - tilingTreshholdJob > hasAllTheHexPosTransform.position.x)
             {
                 hor2 = xTilingDistanceJob;

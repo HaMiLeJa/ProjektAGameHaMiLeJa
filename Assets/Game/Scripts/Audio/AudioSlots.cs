@@ -19,14 +19,10 @@ public class AudioSlots : MonoBehaviour
     {
         if (!slotA && !slotB && !slotC && !slotD) return;
         needSlot = true;
-        if (slotA && needSlot)
-            StartCoroutine(Coroutine_slotA(audioClip.length, audioSource,audioClip, volume));
-        if (slotB && needSlot)
-            StartCoroutine(Coroutine_slotB(audioClip.length, audioSource,audioClip, volume));
-        if (slotC && needSlot)
-            StartCoroutine(Coroutine_slotC(audioClip.length, audioSource,audioClip, volume));
-        if (slotD && needSlot)
-            StartCoroutine(Coroutine_slotD(audioClip.length, audioSource,audioClip, volume));
+        if (slotA && needSlot) StartCoroutine(Coroutine_slotA(audioClip.length, audioSource,audioClip, volume));
+        if (slotB && needSlot) StartCoroutine(Coroutine_slotB(audioClip.length, audioSource,audioClip, volume));
+        if (slotC && needSlot) StartCoroutine(Coroutine_slotC(audioClip.length, audioSource,audioClip, volume));
+        if (slotD && needSlot) StartCoroutine(Coroutine_slotD(audioClip.length, audioSource,audioClip, volume));
     }
     
     IEnumerator Coroutine_slotA(float sec, AudioSource audioSource, AudioClip audioClip, float volume)

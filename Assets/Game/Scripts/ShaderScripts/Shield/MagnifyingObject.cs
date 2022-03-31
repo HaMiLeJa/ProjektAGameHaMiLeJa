@@ -1,18 +1,15 @@
 using UnityEngine;
 public class MagnifyingObject : MonoBehaviour
 {
-    Renderer renderer; Camera cam;
-    void Start()
-    {
-        renderer = GetComponent<Renderer>();
-        cam = Camera.main;
-    }
+    [SerializeField]Renderer renderer; [SerializeField]Camera cam;
+    private Vector3 screenPoint;
+    private string objScreenPos = "_ObjScreenPos";
     void Update()
     {
         transform.forward = cam.transform.position - transform.position; //lookat
-        Vector3 screenPoint = cam.WorldToScreenPoint(transform.position);
+        screenPoint = cam.WorldToScreenPoint(transform.position);
         screenPoint.x = screenPoint.x / Screen.width;
         screenPoint.y = screenPoint.y / Screen.height;
-        renderer.material.SetVector("_ObjScreenPos", screenPoint);
+        renderer.material.SetVector(objScreenPos, screenPoint);
     }
 }

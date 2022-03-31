@@ -16,7 +16,7 @@ public class Bush : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == ReferenceLibary.Player)
+        if (other.gameObject == ReferenceLibrary.Player)
         {
             Vector3 posOther = other.transform.position;
             angles = Vector3.Angle(posOther, thisGameObject.transform.position)*100;
@@ -50,9 +50,9 @@ public class Bush : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject == ReferenceLibary.Player)
+        if (collision.gameObject == ReferenceLibrary.Player)
         {
-            Rigidbody rb = ReferenceLibary.RigidbodyPl;
+            Rigidbody rb = ReferenceLibrary.PlayerRb;
             rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y / 4, rb.velocity.z);
             Vector3 movementDirection = rb.velocity.normalized;
             float timer = 0;

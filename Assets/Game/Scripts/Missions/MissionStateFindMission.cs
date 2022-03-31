@@ -1,17 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 public class MissionStateFindMission : MonoBehaviour
 {
     public void FindMission()
     {
         int missionIndex = 0;
-        int maxRange = ReferenceLibary.MissLib.Missions.Count;
-
-        missionIndex = Random.Range(0, maxRange);
-
-        MissionManager.CurrentMission = ReferenceLibary.MissLib.Missions[missionIndex];
-        ReferenceLibary.MissLib.Missions.RemoveAt(missionIndex);
+        missionIndex = Random.Range(0, ReferenceLibrary.MissLib.Missions.Count);
+        MissionManager.CurrentMission = ReferenceLibrary.MissLib.Missions[missionIndex];
+        ReferenceLibrary.MissLib.Missions.RemoveAt(missionIndex);
     }
 }

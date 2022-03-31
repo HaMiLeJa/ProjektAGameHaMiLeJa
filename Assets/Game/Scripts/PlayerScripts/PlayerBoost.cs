@@ -33,14 +33,14 @@ public class PlayerBoost : MonoBehaviour
 
     private void Start()
     {
-        rb = ReferenceLibary.RigidbodyPl;
+        rb = ReferenceLibrary.PlayerRb;
 
-        superDash = ReferenceLibary.SuperDash;
-        shadowDash = ReferenceLibary.ShadowDashPl;
-        playerMov = ReferenceLibary.PlayerMov;
+        superDash = ReferenceLibrary.SuperDash;
+        shadowDash = ReferenceLibrary.ShadowDashPl;
+        playerMov = ReferenceLibrary.PlayerMov;
 
-        gameMng = ReferenceLibary.GameMng;
-        audManager = ReferenceLibary.AudMng;
+        gameMng = ReferenceLibrary.GameMng;
+        audManager = ReferenceLibrary.AudMng;
 
 /*
         particle.Play();
@@ -111,14 +111,14 @@ public class PlayerBoost : MonoBehaviour
         if (boostCoroutine != null)
            StopCoroutine(boostCoroutine);
 
-        ReferenceLibary.GameMng.InputMade();
+        ReferenceLibrary.GameMng.InputMade();
         boostCoroutine = StartCoroutine(BoostCoroutine());
     }
 
     private IEnumerator BoostCoroutine()
     {
         if(gameMng.DashCosts != 0)
-            StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(-gameMng.DashCosts));
+            StartCoroutine(ReferenceLibrary.EnergyMng.ModifyEnergy(-gameMng.DashCosts));
 
         //var emission = particle.emission;
        // emission.enabled = true;

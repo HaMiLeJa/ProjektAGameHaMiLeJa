@@ -1,4 +1,4 @@
-public enum HexType
+public enum HexType : byte
 {
     None,
     Default,
@@ -9,7 +9,7 @@ public enum HexType
     BoostInDirection,
     DefaultCollectable,
 }
-public enum CollectableType
+public enum CollectableType : byte
 {
     Type1,
     Type2,

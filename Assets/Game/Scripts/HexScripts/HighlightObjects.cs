@@ -23,6 +23,7 @@ public class HighlightObjects : MonoBehaviour
    private void OnValidate() => changeNamePreview();
     private void OnDrawGizmosSelected()
     {
+        if (Application.isPlaying) return;
         if (previewHighlightinEditor)
         {
             previewHighlightinEditor = false;
@@ -44,6 +45,7 @@ public class HighlightObjects : MonoBehaviour
     }
     void changeNamePreview()
     {
+        if (Application.isPlaying) return;
         Highlightmanager hmanger = FindObjectOfType<Highlightmanager>();
         if (highlightType >= hmanger.GlowMaterialList.Length)
             HighlightName = "No Material Setup on this Slot!!!";
@@ -95,12 +97,12 @@ public class HighlightObjects : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == ReferenceLibary.Player)
+        if (other.gameObject == ReferenceLibrary.Player)
         {
             hex.highlightObjects(true,highlightType, matSwapIndex);
             if(Lampe == null) return;
-            float playerxzVelocity = Mathf.Abs(ReferenceLibary.RigidbodyPl.velocity.x) +
-                                     Mathf.Abs(ReferenceLibary.RigidbodyPl.velocity.z);
+            float playerxzVelocity = Mathf.Abs(ReferenceLibrary.PlayerRb.velocity.x) +
+                                     Mathf.Abs(ReferenceLibrary.PlayerRb.velocity.z);
             if (playerxzVelocity > 73 && rotationAllowed)
             {
                 int randomDirection = Random.Range(0, 1);
@@ -111,7 +113,7 @@ public class HighlightObjects : MonoBehaviour
     }
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject == ReferenceLibary.Player)  hex.highlightObjects(true,highlightType,matSwapIndex);
+        if (other.gameObject == ReferenceLibrary.Player)  hex.highlightObjects(true,highlightType,matSwapIndex);
     }
     public IEnumerator Rotate(GameObject rotateMe,int headshakes , float duration, float angle, Vector3 firstDirection)
     {

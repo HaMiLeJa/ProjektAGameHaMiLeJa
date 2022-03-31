@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 public class Testaudio : MonoBehaviour
 {
     private AudioSlots _audioSlots;
@@ -11,11 +7,6 @@ public class Testaudio : MonoBehaviour
     void Awake() => _audioSlots = GetComponent<AudioSlots>();
     void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            _audioSlots.playSoundSlots(audioSource, audioclip, 50);
-        }
-        
+        if (Input.GetKeyDown(KeyCode.Space)) _audioSlots.playSoundSlots(audioSource, audioclip, 50);
     }
 }

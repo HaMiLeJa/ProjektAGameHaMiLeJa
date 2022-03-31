@@ -29,24 +29,21 @@ public class Pathfinder : MonoBehaviour
 	[BoxGroup("Debug")][Range(0, 20)] public float normalLength;
 	[BoxGroup("Debug")][Range(0, 20)] public float tangentLength;
 	[BoxGroup("Debug")][Range(1, 20)] [SerializeField] private float colliderSize = 3;
+	
+	private int playerLayerInt = 11, playerNoCollisionLayerInt = 12;
 	private void Awake()
 	{
 		if (manager == null) noManager = true;
-		if (cam != null) noCam = false;
-		if (cam == null)
+		if (cam != null)
+		{
+			noCam = false;
+			cam.gameObject.SetActive(false);
+		}
+		else if (cam == null)
 		{
 			cam = GetComponent<CinemachineVirtualCamera>();
 			noCam = true;
 		}
-	}
-	void Start()
-	{
-		if(cam != null) cam.gameObject.SetActive(false);
-		if (spline == null && controlPoints.Length > 2) spline = new CatmullRom(controlPoints, Resolution, ClosedLoop);
-		if (spline != null) waypointsForPlayer = spline.GetPoints();
-		else if (controlPoints.Length > 2) spline = new CatmullRom(controlPoints, Resolution, ClosedLoop);
-		playerLayerInt = LayerMask.NameToLayer("Player");
-		playerNoCollisionLayerInt = LayerMask.NameToLayer("PlayerNoCollision");
 	}
 	[Button("Fill List with Controlpoints")]
 	public void AllChildsToList()
@@ -140,7 +137,7 @@ public class Pathfinder : MonoBehaviour
 				if (speedLevel==3) yield return new WaitForFixedUpdate();
 			}
 		}
-		ReferenceLibary.Player.layer = playerLayerInt;
+		ReferenceLibrary.Player.layer = playerLayerInt;
 	}
 	IEnumerator movePathReverse(Collider other)
 	{
@@ -175,19 +172,19 @@ public class Pathfinder : MonoBehaviour
 				if (speedLevel==3) yield return new WaitForFixedUpdate();
 			}
 		}
-			ReferenceLibary.Player.layer = playerLayerInt;
+			ReferenceLibrary.Player.layer = playerLayerInt;
 	}
 	IEnumerator waitUntilNextTrigger()
 	{
 		GameManager.StartMovingGhostLayer = false;
-		ReferenceLibary.PlayerMov.DisableGravity = false;
+		ReferenceLibrary.PlayerMov.DisableGravity = false;
 		GameManager.LerpCameraBack = true;
 		yield return new WaitForSeconds(secPathDisabled);
 	    pathfindingAllowed = true;
 	}
 	private void OnTriggerEnter(Collider other)
 	{
-		spline = new CatmullRom(controlPoints, Resolution, ClosedLoop);
+        spline = new CatmullRom(controlPoints, Resolution, ClosedLoop);
 		if (other.CompareTag("Player"))
 		{
 			float distanceStart, distanceEnd;
@@ -202,8 +199,8 @@ public class Pathfinder : MonoBehaviour
 				pathfindingAllowed = false;
 				if(!noCam) cam.gameObject.SetActive(true);
 				if(!noManager)manager.AllowMovement = false;
-				ReferenceLibary.PlayerMov.DisableGravity = true;
-				ReferenceLibary.Player.layer = playerNoCollisionLayerInt;
+				ReferenceLibrary.PlayerMov.DisableGravity = true;
+				ReferenceLibrary.Player.layer = playerNoCollisionLayerInt;
 				if (distanceStart > distanceEnd)
 				{
 					StopCoroutine(movePathReverse(other)); 
@@ -217,6 +214,4 @@ public class Pathfinder : MonoBehaviour
 			}
 		}
 	}
-	int playerLayerInt;
-	int playerNoCollisionLayerInt;
 }

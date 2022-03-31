@@ -28,7 +28,7 @@ public class HighlightObjectsOwnGlow : MonoBehaviour
     }
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject == ReferenceLibary.Player)
+        if (other.gameObject == ReferenceLibrary.Player)
         {
             StartCoroutine(EnableHighlightDelayed());
             StartCoroutine(DisableHighlightDelayed());

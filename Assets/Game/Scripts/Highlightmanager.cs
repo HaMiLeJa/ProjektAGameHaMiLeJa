@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using NaughtyAttributes;
-using Unity.Mathematics;
 using UnityEditor;
 [CanEditMultipleObjects]
 public class Highlightmanager : MonoBehaviour
@@ -46,13 +45,15 @@ public class Highlightmanager : MonoBehaviour
         hasAllTheUniqueMaterials = MaterialsUsed;
         rendMatIndexStatic = RendMatIndex;
         MaterialsUsed = null; RendMatIndex = null; 
-        GlowEnableDelayObjects = (float)(half)SetGlowEnableDelayObjects;
-        GlowDisableDelayObjects = (float)(half)SetGlowDisableDelayObjects;
-        GlowEnableDelayHex = (float)(half)SetGlowEnableDelayHex;
-        GlowDisableDelayHex = (float)(half)SetGlowDisableDelayHex;
+        GlowEnableDelayObjects = SetGlowEnableDelayObjects;
+        GlowDisableDelayObjects = SetGlowDisableDelayObjects;
+        GlowEnableDelayHex = SetGlowEnableDelayHex;
+        GlowDisableDelayHex = SetGlowDisableDelayHex;
     }
-    [Button] private void UpdateAllMaterialIndexies()
+#if UNITY_EDITOR
+    [Button] public void UpdateAllMaterialIndexies()
     {
+        if (Application.isPlaying) return;
         clearAllContainer();
         populateHexObjectLists();
         pupulateUniqueMaterials();
@@ -140,7 +141,9 @@ public class Highlightmanager : MonoBehaviour
         }
         SerializedObject.ApplyModifiedPropertiesWithoutUndo();
     }
+    
 }
+#endif
 [Serializable] public struct RendererMatIndex
 {
    [SerializeField] public Renderer[] rendererList;

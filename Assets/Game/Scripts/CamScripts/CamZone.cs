@@ -10,25 +10,16 @@ public class CamZone : MonoBehaviour
 
   #endregion
 
-
   #region MonoBehaviour
 
-  private void Start ()
-  {
-    cam.gameObject.SetActive(false);
-  }
-
+  private void Start () =>cam.gameObject.SetActive(false);
   private void OnTriggerEnter (Collider other)
   {
-    if ( other.CompareTag("Player") )
-      cam.gameObject.SetActive(true);
+    if ( other.CompareTag(ReferenceLibrary.PlayerTag) ) cam.gameObject.SetActive(true);
   }
-
   private void OnTriggerExit (Collider other)
   {
-    if ( other.CompareTag("Player") )
-      cam.gameObject.SetActive(false);
+    if ( other.CompareTag(ReferenceLibrary.PlayerTag) ) cam.gameObject.SetActive(false);
   }
-
   #endregion
 }

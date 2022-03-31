@@ -1,18 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 public class TriggerZones : MonoBehaviour
 {
     public GameObject PartnerZone;
-
     [Tooltip ("0: Zone at beginning, 1: Zone at End")] 
     public int ZoneNumber;
     /*
     [SerializeField] GameObject player;
     MovementCurves curvesMov;
-    
-    
     void Start()
     {
         if (player == null)
@@ -28,7 +22,6 @@ public class TriggerZones : MonoBehaviour
         curvesMov.StartZoneFound = true;
         curvesMov.StartZone = this.gameObject;
         curvesMov.EndZone = partnerZone;
-       
     }
     */
 }

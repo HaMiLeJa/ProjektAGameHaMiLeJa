@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-
 public class CameraShake : MonoBehaviour 
 { 
 	[System.Serializable] public class Einstellungen 

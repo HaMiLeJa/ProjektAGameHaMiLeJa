@@ -39,10 +39,10 @@ public class DownDash : MonoBehaviour
 
     void Start()
     {
-        rb = ReferenceLibary.RigidbodyPl;
-        gameMng = ReferenceLibary.GameMng;
-        playerMov = ReferenceLibary.PlayerMov;
-        audManager = ReferenceLibary.AudMng;
+        rb = ReferenceLibrary.PlayerRb;
+        gameMng = ReferenceLibrary.GameMng;
+        playerMov = ReferenceLibrary.PlayerMov;
+        audManager = ReferenceLibrary.AudMng;
     }
 
     void FixedUpdate()
@@ -55,13 +55,13 @@ public class DownDash : MonoBehaviour
             if (gameMng.AllowMovement == false) return;
             if (playerMov.OnGround == false && buttonPressedInLastFrame == false)
             {
-                ReferenceLibary.GameMng.InputMade();
+                ReferenceLibrary.GameMng.InputMade();
                 boostingDown = true;
                 buttonPressedInLastFrame = true;
                 
                 direction = rb.velocity.normalized;
 
-                StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(-gameMng.DownDashCosts));
+                StartCoroutine(ReferenceLibrary.EnergyMng.ModifyEnergy(-gameMng.DownDashCosts));
 
             }
         }
@@ -85,7 +85,7 @@ public class DownDash : MonoBehaviour
                     StartCoroutine(PlayParticle());
                 }
                 */
-                ReferenceLibary.GameMng.AllowMovement = false;
+                ReferenceLibrary.GameMng.AllowMovement = false;
                 rb.AddForce((rb.velocity.normalized/2 + Vector3.down) * speed * 100  *Time.deltaTime, ForceMode.Impulse);
                 isDestroying = true;
             }

@@ -47,18 +47,18 @@ public class PlayerSuperDash : MonoBehaviour
 
     private void Start()
     {
-        rb = ReferenceLibary.RigidbodyPl;
+        rb = ReferenceLibrary.PlayerRb;
 
-        dash = ReferenceLibary.Dash;
-        playerMov = ReferenceLibary.PlayerMov;
-        gameMng = ReferenceLibary.GameMng;
-        shadowDash = ReferenceLibary.ShadowDashPl;
+        dash = ReferenceLibrary.Dash;
+        playerMov = ReferenceLibrary.PlayerMov;
+        gameMng = ReferenceLibrary.GameMng;
+        shadowDash = ReferenceLibrary.ShadowDashPl;
 
         //playerLayerInt = LayerMask.NameToLayer("Player");
         //  playerNoCollisionLayerInt = LayerMask.NameToLayer("PlayerNoCollision");
 
 
-        audManager = ReferenceLibary.AudMng;
+        audManager = ReferenceLibrary.AudMng;
 
     }
 
@@ -126,7 +126,7 @@ public class PlayerSuperDash : MonoBehaviour
         if (superDashCoroutine != null)
             StopCoroutine(superDashCoroutine);
 
-        ReferenceLibary.GameMng.InputMade();
+        ReferenceLibrary.GameMng.InputMade();
 
         superDashCoroutine = StartCoroutine(SuperDashCoroutine());
         particleTrail.StartSuperDashParticle();
@@ -137,7 +137,7 @@ public class PlayerSuperDash : MonoBehaviour
 
     private IEnumerator SuperDashCoroutine()
     {
-        StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(-gameMng.SuperDashCosts));
+        StartCoroutine(ReferenceLibrary.EnergyMng.ModifyEnergy(-gameMng.SuperDashCosts));
 
         if (audioSource.isPlaying == false)
         {

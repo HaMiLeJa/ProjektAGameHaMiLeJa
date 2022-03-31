@@ -1,6 +1,8 @@
 ﻿
 // das sind einfach kleine Mathematische berechnungen die ich nicht stöndig in allen klassen haben möchte
 // Tau ist z.B. pi*2,    inverslerp ändert die t value des lerps
+
+using Unity.Mathematics;
 using UnityEngine;
 
 public static class MathLibary 
@@ -24,6 +26,7 @@ public static class MathLibary
 		Vector3 Verbindungsvector = Player.transform.position - OtherObject.transform.position;
 		return Mathf.Sqrt(Mathf.Pow(Verbindungsvector.x, 2) + Mathf.Pow(Verbindungsvector.y, 2) + Mathf.Pow(Verbindungsvector.z, 2));
 	}
+	
 	public static float CalculateDistanceTansforms(Transform Player, Transform OtherObject)
 	{
 		Vector3 Verbindungsvector = Player.transform.position - OtherObject.transform.position;

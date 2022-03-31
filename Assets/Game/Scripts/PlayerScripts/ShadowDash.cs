@@ -23,11 +23,11 @@ public class ShadowDash : MonoBehaviour
     private void Awake()=>  mr = GetComponentInChildren<MeshRenderer>();
     private void Start()
     {
-        rb = ReferenceLibary.RigidbodyPl;
-        dash = ReferenceLibary.Dash;
-        superDash = ReferenceLibary.SuperDash;
-        playerMov = ReferenceLibary.PlayerMov;
-        gameMng = ReferenceLibary.GameMng;
+        rb = ReferenceLibrary.PlayerRb;
+        dash = ReferenceLibrary.Dash;
+        superDash = ReferenceLibrary.SuperDash;
+        playerMov = ReferenceLibrary.PlayerMov;
+        gameMng = ReferenceLibrary.GameMng;
 
         playerLayerInt = LayerMask.NameToLayer("Player");
         playerNoCollisionLayerInt = LayerMask.NameToLayer("PlayerNoCollision");
@@ -50,12 +50,12 @@ public class ShadowDash : MonoBehaviour
     public void ShadowDashStarter()
     {
         if (shadowDashCoroutine != null) StopCoroutine(shadowDashCoroutine);
-        ReferenceLibary.GameMng.InputMade();
+        ReferenceLibrary.GameMng.InputMade();
         shadowDashCoroutine = StartCoroutine(ShadowDashCoroutine());
     }
     private IEnumerator ShadowDashCoroutine()
     {
-        StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(-gameMng.ShadowDashCosts));
+        StartCoroutine(ReferenceLibrary.EnergyMng.ModifyEnergy(-gameMng.ShadowDashCosts));
         audioSource.pitch = Random.Range(0.8f, 1.6f);
         audioSource.PlayDelayed(0.1f);
         float t = 0;

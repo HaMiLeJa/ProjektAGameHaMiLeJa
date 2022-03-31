@@ -17,11 +17,7 @@ public class Hex : MonoBehaviour
     #endregion
     
    #region Inspector
-    GameObject Player;
-    private Rigidbody playerRb;
-    HexMovements hexMov;
-    GameManager gameMng;
-    private Renderer hexRenderer;
+   [SerializeField] public Renderer hexRenderer;
     // AudioManager audManager;
     //AudioClipsHexes audioClipHexes;
     //[SerializeField] AudioSource myAudioSource;
@@ -30,7 +26,7 @@ public class Hex : MonoBehaviour
     public CollectableType collectableType = CollectableType.Type1; //To Be Used :)
    
     AudioClip clip;
-    ParticleSystem EffectParticle;
+    [SerializeField] public ParticleSystem EffectParticle;
     #endregion
     //public Vector3Int HexCoords => hexCoordinates.GetHexCoords();
     System.Action OnEffectHex;
@@ -66,22 +62,12 @@ public class Hex : MonoBehaviour
             //Debug.Log("Hex Added to All Collectables");
        // }
   //  }
-  private void Awake() => hexRenderer = gameObject.transform.GetChild(0).GetChild(0).GetComponent<Renderer>();
-  private void Start()
-  {
-      gameMng = ReferenceLibary.GameMng;
-        Player = ReferenceLibary.Player;
-        playerRb = ReferenceLibary.RigidbodyPl;
-        hexMov = ReferenceLibary.HexMov;
-        OnEffectHex += PlaySound;
-        if(hexType == HexType.SlowDown) EffectParticle = GetComponentInChildren<ParticleSystem>();
-  }
-    #region  HighlightHexs
-    #endregion
+  private void Start() =>OnEffectHex += PlaySound;
+  
     #region OnTriggerHexTypes
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject == Player)
+        if (collision.gameObject.CompareTag(ReferenceLibrary.PlayerTag))
         {
             if (hexType == HexType.SlowDown) SlowDownStarter();
             if (hexType == HexType.Trampolin) TrampolinStarter();
@@ -152,12 +138,12 @@ public class Hex : MonoBehaviour
     private bool allowStartChangeDirection = true;
     public void ChangeDirectionStarter()
     {
-        if (gameMng.AllowHexEffects == false) return;
-        gameMng.ChangeDirectionCounter++;
-        if (gameMng.AllowChangeDirection == false) return;
+        if (ReferenceLibrary.GameMng.AllowHexEffects == false) return;
+        ReferenceLibrary.GameMng.ChangeDirectionCounter++;
+        if (ReferenceLibrary.GameMng.AllowChangeDirection == false) return;
         //  if (allowStartChangeDirection == false) return;
         //allowStartChangeDirection = false;
-        playerRb.velocity = playerRb.velocity * -1;
+        ReferenceLibrary.PlayerRb.velocity = ReferenceLibrary.PlayerRb.velocity * -1;
         //  playerMov.OnChangeDirectionHex = true;
         StartCoroutine(MultiplicatorModificationOverTime());
         OnEffectHex?.Invoke();
@@ -201,13 +187,13 @@ public class Hex : MonoBehaviour
     //[SerializeField] float SlowDownValue = 0.99f;
     public void SlowDownStarter()
     {
-        if (gameMng.AllowHexEffects == false) return;
-        gameMng.AllowMovement = false;
+        if (ReferenceLibrary.GameMng.AllowHexEffects == false) return;
+        ReferenceLibrary.GameMng.AllowMovement = false;
         if (EffectParticle != null) EffectParticle.Play();
-        hexMov.SlowDownTimer = 0;
-        hexMov.OnSlowDownHex = true;
+        ReferenceLibrary.HexMov.SlowDownTimer = 0;
+        ReferenceLibrary.HexMov.OnSlowDownHex = true;
         StartCoroutine(Coroutine_ChangeConstSpeedOverTime());
-        playerRb.velocity = playerRb.velocity * 0.4f;
+        ReferenceLibrary.PlayerRb.velocity = ReferenceLibrary.PlayerRb.velocity * 0.4f;
         StartCoroutine(MultiplicatorModificationOverTime());
         OnEffectHex?.Invoke(); //Sound
         /*
@@ -218,15 +204,15 @@ public class Hex : MonoBehaviour
     }
     IEnumerator Coroutine_ChangeConstSpeedOverTime()
     {
-        ReferenceLibary.PlayerMov.constspeed = 30;
+        ReferenceLibrary.PlayerMov.constspeed = 30;
         yield return new WaitForSeconds(2f);
-        while (ReferenceLibary.PlayerMov.constspeed != ReferenceLibary.PlayerMov.originalContspeed)
+        while (ReferenceLibrary.PlayerMov.constspeed != ReferenceLibrary.PlayerMov.originalContspeed)
         {
-            ReferenceLibary.PlayerMov.constspeed += 1;
+            ReferenceLibrary.PlayerMov.constspeed += 1;
             yield return new WaitForFixedUpdate();
         }
-        if (ReferenceLibary.PlayerMov.constspeed > ReferenceLibary.PlayerMov.originalContspeed)
-            ReferenceLibary.PlayerMov.constspeed = ReferenceLibary.PlayerMov.originalContspeed;
+        if (ReferenceLibrary.PlayerMov.constspeed > ReferenceLibrary.PlayerMov.originalContspeed)
+            ReferenceLibrary.PlayerMov.constspeed = ReferenceLibrary.PlayerMov.originalContspeed;
         yield return null;
     }
     #region NO use Old Coroutine
@@ -259,12 +245,12 @@ public class Hex : MonoBehaviour
    // [SerializeField] private AnimationCurve boostCurve;
    public void BoostForwardStarter()
     {
-        if (gameMng.AllowHexEffects == false) return;
-        gameMng.BoostForwardCounter++;
-        if (gameMng.AllowBoostForward == false) return;
-        hexMov.BoostForwardTimer = 0;
-        hexMov.CurrentHexFowardForce = forwardForce;
-        hexMov.OnBoostForwardHex = true;
+        if (ReferenceLibrary.GameMng.AllowHexEffects == false) return;
+        ReferenceLibrary.GameMng.BoostForwardCounter++;
+        if (ReferenceLibrary.GameMng.AllowBoostForward == false) return;
+        ReferenceLibrary.HexMov.BoostForwardTimer = 0;
+        ReferenceLibrary.HexMov.CurrentHexFowardForce = forwardForce;
+        ReferenceLibrary.HexMov.OnBoostForwardHex = true;
         StartCoroutine(MultiplicatorModificationOverTime());
         OnEffectHex?.Invoke();
         // if (hexBoostForwardCoroutine != null)
@@ -305,13 +291,13 @@ public class Hex : MonoBehaviour
     //private Coroutine trampolinCoroutine;
     public void TrampolinStarter()
     {
-        if (gameMng.AllowHexEffects == false) return;
+        if (ReferenceLibrary.GameMng.AllowHexEffects == false) return;
         StartCoroutine(MultiplicatorModificationOverTime());
         OnEffectHex?.Invoke();
-        hexMov.rebounded = true;
-        playerRb.velocity = new Vector3(playerRb.velocity.x * 0.1f, playerRb.velocity.y, playerRb.velocity.z * 0.1f);
-        hexMov.OnTrampolinHex = true;
-        hexMov.CurrentTrampolinForce = tramoplinForce;
+        ReferenceLibrary.HexMov.rebounded = true;
+        ReferenceLibrary.PlayerRb.velocity = new Vector3(ReferenceLibrary.PlayerRb.velocity.x * 0.1f, ReferenceLibrary.PlayerRb.velocity.y, ReferenceLibrary.PlayerRb.velocity.z * 0.1f);
+        ReferenceLibrary.HexMov.OnTrampolinHex = true;
+        ReferenceLibrary.HexMov.CurrentTrampolinForce = tramoplinForce;
         //if (trampolinCoroutine != null)
         //  StopCoroutine(trampolinCoroutine);
         //trampolinCoroutine = StartCoroutine(TrampolinCoroutine());
@@ -360,13 +346,13 @@ public class Hex : MonoBehaviour
     //  bool IsBoostingInDirection = false;
     void BoostInDirectionStarter()
     {
-        if (gameMng.AllowHexEffects == false) return;
-        hexMov.BoostInDirectionTimer = 0;
-        playerRb.velocity = Vector3.zero;
-        hexMov.CurrentHexInDirectionForce = boostInDForce;
+        if (ReferenceLibrary.GameMng.AllowHexEffects == false) return;
+        ReferenceLibrary.HexMov.BoostInDirectionTimer = 0;
+        ReferenceLibrary.PlayerRb.velocity = Vector3.zero;
+        ReferenceLibrary.HexMov.CurrentHexInDirectionForce = boostInDForce;
         BoostInDirectionDirection = new Vector3(XDirection, YDirection, ZDirection);
-        hexMov.HexInDirectionDirection = BoostInDirectionDirection.normalized;
-        hexMov.OnBoostInDirectionHex = true;
+        ReferenceLibrary.HexMov.HexInDirectionDirection = BoostInDirectionDirection.normalized;
+        ReferenceLibrary.HexMov.OnBoostInDirectionHex = true;
         StartCoroutine(MultiplicatorModificationOverTime());
         OnEffectHex?.Invoke();
         //   if (hexBoostInDirectionCoroutine != null)
@@ -450,5 +436,5 @@ public class Hex : MonoBehaviour
         Gizmos.DrawLine(arrowTip + new Vector3(0, 2, 0), arrowLeft + new Vector3(0, 2, 0));
         Gizmos.DrawLine(arrowTip + new Vector3(0, 2, 0), arrowRight + new Vector3(0, 2, 0));
     }
-    void PlaySound()=> ReferenceLibary.AudMng.HexAudMng.PlayHex(hexType);
+    void PlaySound()=> ReferenceLibrary.AudMng.HexAudMng.PlayHex(hexType);
 }

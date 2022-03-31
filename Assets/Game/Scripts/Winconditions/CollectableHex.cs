@@ -1,36 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 public class CollectableHex : MonoBehaviour
 {
     [SerializeField] float rotation = 20;
-
     [HideInInspector] public GameObject ParentHex;
-
-
-    void Update()
-    {
-        #region forward mov + rotation
-
-       
-        transform.Rotate(new Vector3(0, rotation * Time.deltaTime, 0));
-
-        #endregion
-
-    }
-
-
-
+    void Update() => transform.Rotate(new Vector3(0, rotation * Time.deltaTime, 0));
     private void OnTriggerEnter(Collider collision)
     {
         Debug.Log("2");
-        if (collision.gameObject == ReferenceLibary.Player)
+        if (collision.gameObject.CompareTag(ReferenceLibrary.PlayerTag))
         {
-            ReferenceLibary.WinconMng.CheckForWinConHex();
-            Debug.Log("1");
-
+            ReferenceLibrary.WinconMng.CheckForWinConHex(); Debug.Log("1");
         }
     }
 }
-

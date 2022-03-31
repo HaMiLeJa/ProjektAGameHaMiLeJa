@@ -43,15 +43,15 @@ public class MissionStateCompletedMission : MonoBehaviour
     private void UpdateEnergy()
     {
         EnergyManager.energyGotHigher = true;
-        StartCoroutine(ReferenceLibary.EnergyMng.ModifyEnergy(50));
+        StartCoroutine(ReferenceLibrary.EnergyMng.ModifyEnergy(50));
     }
 
 
     #region Collect Item
     void UpdateCollectItem()
     {
-        ReferenceLibary.UIMng.DeactivateCollectItemUI();
-        ReferenceLibary.UIMng.DeactivateBasicMissionUI();
+        ReferenceLibrary.UIMng.DeactivateCollectItemUI();
+        ReferenceLibrary.UIMng.DeactivateBasicMissionUI();
         UpdateMultiplicator();
         RemoveRemainingCollectables();
     }
@@ -66,8 +66,8 @@ public class MissionStateCompletedMission : MonoBehaviour
 
     void UpdateDestroyObj()
     {
-        ReferenceLibary.UIMng.DeactivateBasicMissionUI();
-        ReferenceLibary.UIMng.DeactivateDestroyObjUI();
+        ReferenceLibrary.UIMng.DeactivateBasicMissionUI();
+        ReferenceLibrary.UIMng.DeactivateDestroyObjUI();
         UpdateMultiplicator();
     }
 
@@ -80,8 +80,8 @@ public class MissionStateCompletedMission : MonoBehaviour
 
     void UpdateCollectPoints()
     {
-        ReferenceLibary.UIMng.DeactivateBasicMissionUI();
-        ReferenceLibary.UIMng.DeactivateCollectPointsUI();
+        ReferenceLibrary.UIMng.DeactivateBasicMissionUI();
+        ReferenceLibrary.UIMng.DeactivateCollectPointsUI();
         UpdateMultiplicator();
     }
     #endregion
@@ -90,8 +90,8 @@ public class MissionStateCompletedMission : MonoBehaviour
 
     void UpdateBringItem()
     {
-        ReferenceLibary.UIMng.DeactivateBasicMissionUI();
-        ReferenceLibary.UIMng.DeactivateBringItemUI();
+        ReferenceLibrary.UIMng.DeactivateBasicMissionUI();
+        ReferenceLibrary.UIMng.DeactivateBringItemUI();
 
         UpdateMultiplicator();
     }

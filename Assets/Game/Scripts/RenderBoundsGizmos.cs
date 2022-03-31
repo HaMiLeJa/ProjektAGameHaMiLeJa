@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEngine;
-
 public class RenderBoundsGizmos
 {
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected | GizmoType.Pickable)]
@@ -15,6 +14,5 @@ public class RenderBoundsGizmos
             Gizmos.DrawWireCube(m.bounds.center, m.bounds.size);
         }
     }
-    
-    }
+}
 

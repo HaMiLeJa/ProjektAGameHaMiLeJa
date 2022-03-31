@@ -13,7 +13,7 @@ public class PlayOnCollision : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject == ReferenceLibary.Player)
+        if(collision.gameObject == ReferenceLibrary.Player)
         {
             if (myAudioSource.isPlaying == false)
                 myAudioSource.Play();

@@ -38,6 +38,9 @@ public class BenderManager : MonoBehaviour
   private void Update ()
   {
     if ( Math.Abs(_prevAmount - bendingAmount) > Mathf.Epsilon ) UpdateBendingAmount();
+  }
+  private void FixedUpdate()
+  {
     if (Application.isPlaying) UpdateCullingMatrix();
   }
   private void OnDisable ()  //SceneView

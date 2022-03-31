@@ -30,9 +30,9 @@ public class DestroyObjectMissionInteraction : MonoBehaviour
 
         col = this.GetComponent<Collider>();
 
-        superDash = ReferenceLibary.SuperDash;
-        player = ReferenceLibary.Player;
-        rbPlayer = ReferenceLibary.RigidbodyPl;
+        superDash = ReferenceLibrary.SuperDash;
+        player = ReferenceLibrary.Player;
+        rbPlayer = ReferenceLibrary.PlayerRb;
 
         if (settings.ChangeMaterial == true)
         {
@@ -176,7 +176,7 @@ public class DestroyObjectMissionInteraction : MonoBehaviour
         
         rbPlayer.velocity = new Vector3(rbPlayer.velocity.x, rbPlayer.velocity.y / 4, rbPlayer.velocity.z); //Damit der Player nicht so sehr hoch fliegt bei Collision
 
-        if (superDash.isDestroying == true || ReferenceLibary.DownDashPl.isDestroying == true || collisionCounter >= settings.HitAmount)
+        if (superDash.isDestroying == true || ReferenceLibrary.DownDashPl.isDestroying == true || collisionCounter >= settings.HitAmount)
         {
             float missionscoreMultiplicator = 1;
 
@@ -195,7 +195,7 @@ public class DestroyObjectMissionInteraction : MonoBehaviour
 
             col.enabled = false;
 
-            ReferenceLibary.RigidbodyPl.velocity *= -1.2f;
+            ReferenceLibrary.PlayerRb.velocity *= -1.2f;
             Explode();
 
 

@@ -90,9 +90,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b60e3edc1808cb74d88cf96ddb35b34f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hexRenderer: {fileID: 3897934348324686561}
   hexType: 1
   collectableType: 0
-  highlightType: 0
   hexEffectsSettings: {fileID: 11400000, guid: c664b87f68d9a8a44923cf97d225db1d, type: 2}
   forwardForce: 30
   IsHexForwardBoosting: 0
@@ -265,5 +265,10 @@ PrefabInstance:
 --- !u!4 &4130972584189695264 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2845948622894205850, guid: 232357c143d828349b834734be249923, type: 3}
+  m_PrefabInstance: {fileID: 2173829716616552122}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &3897934348324686561 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2896588887716648027, guid: 232357c143d828349b834734be249923, type: 3}
   m_PrefabInstance: {fileID: 2173829716616552122}
   m_PrefabAsset: {fileID: 0}

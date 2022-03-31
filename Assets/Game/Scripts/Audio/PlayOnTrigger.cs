@@ -8,7 +8,7 @@ public class PlayOnTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == ReferenceLibary.Player)
+        if (other.gameObject == ReferenceLibrary.Player)
         {
             if (myAudioSource.isPlaying == false)
                 myAudioSource.Play();

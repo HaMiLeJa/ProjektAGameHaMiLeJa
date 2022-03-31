@@ -24,8 +24,8 @@ public class Destroyables : MonoBehaviour
              myAudioSource = this.GetComponent<AudioSource>();
 
         col = this.GetComponent<Collider>();
-        superDash = ReferenceLibary.SuperDash;
-        player = ReferenceLibary.Player;
+        superDash = ReferenceLibrary.SuperDash;
+        player = ReferenceLibrary.Player;
 
         if (settings.ChangeMaterial == true)
         {
@@ -119,10 +119,10 @@ public class Destroyables : MonoBehaviour
     {
         if (collision.gameObject != player) return;
         if (settings.AllowAutomatedDestruction) collisionCounter++;
-        if (superDash.isDestroying || ReferenceLibary.DownDashPl.isDestroying || collisionCounter >= settings.HitAmount)
+        if (superDash.isDestroying || ReferenceLibrary.DownDashPl.isDestroying || collisionCounter >= settings.HitAmount)
         {
             col.enabled = false;
-            ReferenceLibary.RigidbodyPl.velocity *= -1.2f;
+            ReferenceLibrary.PlayerRb.velocity *= -1.2f;
             Explode();
             if (DestroyCounter >= 15)
             {
