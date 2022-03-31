@@ -1,14 +1,13 @@
+using System;
 using UnityEngine;
 
-public struct RenderIndex
+[Serializable] public struct RendererMatIndex
 {
-    public int index;
-    public Renderer renderer;
-
-   public RenderIndex(int index, Renderer renderer)
+    [SerializeField] public Renderer[] rendererList;
+    [SerializeField] public ushort[] materialIndexNumber;
+    public RendererMatIndex(Renderer[] rendererList, ushort[] materialIndexNumber)
     {
-        this.index = index;
-        this.renderer = renderer;
+        this.rendererList = rendererList;
+        this.materialIndexNumber = materialIndexNumber;
     }
-   
 }

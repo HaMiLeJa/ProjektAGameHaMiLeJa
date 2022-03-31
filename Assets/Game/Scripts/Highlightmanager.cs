@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using NaughtyAttributes;
 using UnityEditor;
-[CanEditMultipleObjects]
 public class Highlightmanager : MonoBehaviour
 { 
     [BoxGroup("Delay Settings")]  [SerializeField][Range(0, 1)] float SetGlowEnableDelayHex =   0.05f ;
@@ -39,7 +38,7 @@ public class Highlightmanager : MonoBehaviour
         for (int i = 0; i < rendMatIndexStatic[matSwapIndex].rendererList.Length; i++)
             rendMatIndexStatic[matSwapIndex].rendererList[i].material = hasAllTheUniqueMaterials[rendMatIndexStatic[matSwapIndex].materialIndexNumber[i]];
     }
-
+    
     void updateStaticValues()
     {
         hasAllTheUniqueMaterials = MaterialsUsed;
@@ -141,16 +140,5 @@ public class Highlightmanager : MonoBehaviour
         }
         SerializedObject.ApplyModifiedPropertiesWithoutUndo();
     }
-    
-}
 #endif
-[Serializable] public struct RendererMatIndex
-{
-   [SerializeField] public Renderer[] rendererList;
-   [SerializeField] public ushort[] materialIndexNumber;
-   public RendererMatIndex(Renderer[] rendererList, ushort[] materialIndexNumber)
-    {
-        this.rendererList = rendererList;
-        this.materialIndexNumber = materialIndexNumber;
-    }
 }

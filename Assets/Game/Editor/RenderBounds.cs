@@ -10,7 +10,11 @@ public class RenderBounds : EditorWindow
     private static float leftBoundMult = 0, rightBoundMult = 11, multiplicationValue = 1;
     private static readonly String ignoreLayer = "Hex";
     [MenuItem("HaMiLeJa/ RenderBounds")]
-    public static void ShowWindow() =>GetWindow(typeof(RenderBounds));
+    public static void ShowWindow()
+    {
+        GetWindow(typeof(RenderBounds));
+    }
+
     private void OnGUI()
     {
         GUILayout.Space(10);
