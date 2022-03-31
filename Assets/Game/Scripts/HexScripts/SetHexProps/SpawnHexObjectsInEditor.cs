@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEngine;
-
 [ExecuteInEditMode]
 public class SpawnHexObjectsInEditor : MonoBehaviour
 {
@@ -157,7 +156,8 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         col.ParentHex = gameObject;
         col.colRef.HexScript = GetComponent<Hex>();
         col.colRef.ActiveCollectable = true;
-        gameObject.GetComponent<Hex>().MyCollectable = CurrentItem;
+        var Hexcomponent = gameObject.GetComponent<Hex>();
+       if(Hexcomponent.MyCollectable == null || Hexcomponent.MyCollectable.CompareTag("NullOBJ")) gameObject.GetComponent<Hex>().MyCollectable = CurrentItem;
     }
     #endregion
     void SpawnObjectInEditMode(float y) =>  spawnObjectWithPrefabConnection(y, CurrentItem, gameObject, ObjectToSpawn, MyProps);

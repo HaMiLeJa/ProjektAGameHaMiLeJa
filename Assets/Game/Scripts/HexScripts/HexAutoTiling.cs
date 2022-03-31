@@ -10,11 +10,11 @@ public class HexAutoTiling : MonoBehaviour
 {
     #region Arrays
     private TransformAccessArray hasAllTheHexesTransformsNative;
-    [NaughtyAttributes.InfoBox("To avoid thousands of >> FindGameObjectsWithTag <<, we just have the list ready, copy to native and then null the list")]
+    [NaughtyAttributes.InfoBox("To avoid thousands of || FindGameObjectsWithTag ||, we just have the list ready, copy to native and then null the list")]
     [SerializeField] private Transform[] hasAllTheHexGameObjectsTransformsBeforeStart;
    #endregion
-    
-    #region PrivateVariables
+   
+   #region PrivateVariables
     
     private float xPlusSnapShotPos, xMinusSnapShotPos, 
                   zPlusSnapShotPos, zMinusSnapShotPos,
@@ -90,7 +90,6 @@ public class HexAutoTiling : MonoBehaviour
         }
     }
     #endregion
-
     
     #region TilingRules
     void setFlags()
@@ -169,7 +168,6 @@ public class HexAutoTiling : MonoBehaviour
            setAllFalse();
     }
     #endregion
-    
     #region  OriginMethods
     void moveEverythingBackToOrigin()
     {

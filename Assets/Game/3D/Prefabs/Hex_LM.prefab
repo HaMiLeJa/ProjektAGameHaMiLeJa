@@ -93,6 +93,7 @@ MonoBehaviour:
   hexRenderer: {fileID: 3897934348324686561}
   hexType: 1
   collectableType: 0
+  EffectParticle: {fileID: 0}
   hexEffectsSettings: {fileID: 11400000, guid: c664b87f68d9a8a44923cf97d225db1d, type: 2}
   forwardForce: 30
   IsHexForwardBoosting: 0
@@ -101,7 +102,7 @@ MonoBehaviour:
   ZDirection: 1
   boostInDForce: 25
   myProps: {fileID: 5754651978763513671}
-  MyCollectable: {fileID: 0}
+  MyCollectable: {fileID: 6853658588554495650, guid: 164b828ac5f7c184db73023284fd77f6, type: 3}
   colRef:
     HexScript: {fileID: 0}
     ActiveCollectable: 0
@@ -117,8 +118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fc0ba5f77a35854e888ff55f2c4ec4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectToSpawn: {fileID: 0}
-  CurrentItem: {fileID: 0}
+  ObjectToSpawn: {fileID: 6853658588554495650, guid: 164b828ac5f7c184db73023284fd77f6, type: 3}
+  CurrentItem: {fileID: 6853658588554495650, guid: 164b828ac5f7c184db73023284fd77f6, type: 3}
   myHex: {fileID: 9002549393317884401}
   MyProps: {fileID: 5754651978763513671}
   DebugActiveObj: 0

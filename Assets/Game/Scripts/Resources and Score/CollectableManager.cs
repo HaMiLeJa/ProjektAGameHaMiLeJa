@@ -48,7 +48,7 @@ public class CollectableManager : MonoBehaviour
         {
             Collectable colScript = hex.myProps.GetComponentInChildren<Collectable>();
             if (colScript == null) Debug.Log("Null");
-            hex.MyCollectable = colScript.gameObject;
+            if(hex.MyCollectable == null || hex.MyCollectable.CompareTag("NullOBJ"))hex.MyCollectable = colScript.gameObject;
             hex.colRef.ActiveCollectable = true;
             Debug.Log("G");
             //colScript.ParentHex = hex.gameObject;// eben rausgemacht

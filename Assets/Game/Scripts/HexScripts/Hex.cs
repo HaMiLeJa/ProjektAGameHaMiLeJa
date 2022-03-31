@@ -360,8 +360,7 @@ public class Hex : MonoBehaviour
         //  hexBoostInDirectionCoroutine = StartCoroutine(HexBoostInDirectionCoroutine());
     }
     #region NoUse: coroutine
-    /*
-    private IEnumerator HexBoostInDirectionCoroutine()
+    /*private IEnumerator HexBoostInDirectionCoroutine()
     {
         OnEffectHex?.Invoke();
         float t = 0;
@@ -404,7 +403,7 @@ public class Hex : MonoBehaviour
     public void SpawnCollectable()
     {
         //reset Scale
-        MyCollectable.SetActive(true);
+        if(MyCollectable != null || !MyCollectable.CompareTag("NullOBJ"))MyCollectable.SetActive(true);
         /*
         Vector3 position = new Vector3(this.transform.position.x, this.transform.position.y + 4, this.transform.position.z);
         MyCollectable = Instantiate(collectablePrefab, position, Quaternion.identity);
@@ -429,7 +428,7 @@ public class Hex : MonoBehaviour
         Vector3 arrowTip = forwardVector * arrowLength;
         arrowLeft += forwardVector * arrowLength * .7f;
         arrowRight += forwardVector * arrowLength * .7f;
-
+        
         Gizmos.color = Color.red;
         Gizmos.matrix = transform.localToWorldMatrix;
         Gizmos.DrawLine(arrowTip + new Vector3(0, 2, 0), this.transform.forward + new Vector3(0,2,0));
