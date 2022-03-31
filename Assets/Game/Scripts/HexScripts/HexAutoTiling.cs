@@ -11,7 +11,7 @@ public class HexAutoTiling : MonoBehaviour
     #region Arrays
     private TransformAccessArray hasAllTheHexesTransformsNative;
     [NaughtyAttributes.InfoBox("To avoid thousands of || FindGameObjectsWithTag ||, we just have the list ready, copy to native and then null the list")]
-    [SerializeField] private Transform[] hasAllTheHexGameObjectsTransformsBeforeStart;
+    [SerializeField] public Transform[] hasAllTheHexGameObjectsTransformsBeforeStart;
    #endregion
    
    #region PrivateVariables

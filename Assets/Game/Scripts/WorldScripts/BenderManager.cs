@@ -16,11 +16,11 @@ public class BenderManager : MonoBehaviour
   [InfoBox("You can change the Frustum Culling Settings here. Do this if you experience Object popping. \n " +
                "It affects performance greatly by keeping the Frustum Cull tight. Default is 8 | 2 | 4")]
   [BoxGroup("Frustum Culling")] [Tooltip("Frustum Culls less (higher number) or more (lower number) dependend on the FoV as basenumber")]
-  [Range(-127, 128)] [SerializeField] private float DrawDistance = 8;
+  [Range(-67, 127)] [SerializeField] private float DrawDistance = 8;
   [BoxGroup("Frustum Culling")] [Tooltip("Adds or substracts a certain amount in the Horizontal Axis compared to the Vertical Axis")]
-  [Range(-63, 64)] [SerializeField] private float HorizontalMod = 2;
+  [Range(-32, 31)] [SerializeField] private float HorizontalMod = 2;
   [BoxGroup("Frustum Culling")] [Tooltip("Takes the distance to the ground and multiplys it by this number. Higher number means less culling when in air")]
-  [Range(0, 15)] [SerializeField] private float HeightMod = 4;
+  [Range(0, 10)] [SerializeField] private float HeightMod = 4;
   private void Awake ()
   {
     if ( Application.isPlaying ) Shader.EnableKeyword(BENDER);
