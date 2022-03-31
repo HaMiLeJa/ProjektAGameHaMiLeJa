@@ -1,6 +1,6 @@
 #region Imports
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using Unity.Burst;
@@ -9,15 +9,13 @@ using UnityEngine.Jobs;
 public class HexAutoTiling : MonoBehaviour
 {
     #region Arrays
-    public static TransformAccessArray hasAllTheHexesTransformsNative;
+    private TransformAccessArray hasAllTheHexesTransformsNative;
     [NaughtyAttributes.InfoBox("To avoid thousands of >> FindGameObjectsWithTag <<, we just have the list ready, copy to native and then null the list")]
-    [SerializeField] private List<Transform> hasAllTheHexGameObjectsTransformsBeforeStart;
+    [SerializeField] private Transform[] hasAllTheHexGameObjectsTransformsBeforeStart;
    #endregion
     
     #region PrivateVariables
-
-    public const ushort HEXCOUNT = 16384; //später im Inspector bei mehr Level: default 16384
-
+    
     private float xPlusSnapShotPos, xMinusSnapShotPos, 
                   zPlusSnapShotPos, zMinusSnapShotPos,
                   xOriginPosition, zOriginPosition,
@@ -55,13 +53,24 @@ public class HexAutoTiling : MonoBehaviour
     [NaughtyAttributes.Button()] public void FindAllTheHexesTransform()
     {
         if (Application.isPlaying) return;
-        hasAllTheHexGameObjectsTransformsBeforeStart.Clear();
-        foreach (GameObject hex in GameObject.FindGameObjectsWithTag("Hex")) hasAllTheHexGameObjectsTransformsBeforeStart.Add(hex.transform);
+        if(hasAllTheHexGameObjectsTransformsBeforeStart !=null)
+        Array.Clear(hasAllTheHexGameObjectsTransformsBeforeStart, 0,
+            hasAllTheHexGameObjectsTransformsBeforeStart.Length);
+        int counter = 0;
+        foreach (GameObject hex in GameObject.FindGameObjectsWithTag("Hex"))
+        {
+            hasAllTheHexGameObjectsTransformsBeforeStart[counter] = hex.transform;
+            counter++;
+        }
     }
 #endif
-    void Awake() => fillHexDic();
+    private void Awake()
+    {
+        hasAllTheHexesTransformsNative  = new TransformAccessArray(hasAllTheHexGameObjectsTransformsBeforeStart);  //copy over all data from existing array
+        hasAllTheHexGameObjectsTransformsBeforeStart = null; //null the existing array since it is no longer needed
+    }
     void Start()
-    { 
+    {
         xOriginPosition = ReferenceLibrary.PlayerPosition.x;
         zOriginPosition = ReferenceLibrary.PlayerPosition.z;
         playerHasMoved = true; limitTiling();
@@ -81,14 +90,7 @@ public class HexAutoTiling : MonoBehaviour
         }
     }
     #endregion
-    #region StartMethods
-    void fillHexDic()
-    {
-        hasAllTheHexesTransformsNative  = new TransformAccessArray(HEXCOUNT);
-        foreach (Transform hexTransform in hasAllTheHexGameObjectsTransformsBeforeStart) hasAllTheHexesTransformsNative.Add(hexTransform);
-        hasAllTheHexGameObjectsTransformsBeforeStart = null;
-    }
-    #endregion
+
     
     #region TilingRules
     void setFlags()
