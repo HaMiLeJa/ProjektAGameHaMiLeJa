@@ -26,7 +26,7 @@ TagManager:
   - CameraHelper
   - Manager
   - Emissve_baked
-  - WayPoint
+  - BrueckeParent
   layers:
   - Default
   - TransparentFX
