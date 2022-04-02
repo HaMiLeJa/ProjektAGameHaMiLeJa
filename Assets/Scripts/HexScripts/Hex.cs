@@ -137,6 +137,7 @@ public class Hex : MonoBehaviour
    // private bool allowStartChangeDirection = true;
     public void ChangeDirectionStarter()
     {
+        
         if (ReferenceLibrary.GameMng.AllowHexEffects == false) return;
         ReferenceLibrary.GameMng.ChangeDirectionCounter++;
         if (ReferenceLibrary.GameMng.AllowChangeDirection == false) return;
@@ -180,7 +181,6 @@ public class Hex : MonoBehaviour
     //[SerializeField] private AnimationCurve slowDownCurve;
     //[SerializeField] private float SlowDownForce = 400f;
    // private float SlowDownDuration = 0.4f;
-    
    // private bool IsSlowingDown = false; //used to lock other boosts
     //private Coroutine slowDownCoroutine;
     //[SerializeField] float SlowDownValue = 0.99f;
@@ -394,14 +394,13 @@ public class Hex : MonoBehaviour
     [Header("Collectables")]
     //[SerializeField] SpawnHexCollectableInEditor spawnHexEditor;
     public GameObject myProps;
-    [Space]
-    public GameObject MyCollectable; //HIdeInInsp
+    [Space] public GameObject MyCollectable; //HIdeInInsp
    // [SerializeField] GameObject collectablePrefab;
     [HideInInspector] public CollectableReferences colRef;
     public void SpawnCollectable()
     {
         //reset Scale
-        if(MyCollectable != null || !MyCollectable.CompareTag("NullOBJ"))MyCollectable.SetActive(true);
+        if(MyCollectable != null)MyCollectable.SetActive(true);
         /*
         Vector3 position = new Vector3(this.transform.position.x, this.transform.position.y + 4, this.transform.position.z);
         MyCollectable = Instantiate(collectablePrefab, position, Quaternion.identity);
