@@ -202,6 +202,10 @@ public class HexAutoTiling : MonoBehaviour
         leftMove = true; rightMove = true;
     }
     #endregion
+    private void OnApplicationQuit()
+    {
+        hasAllTheHexesTransformsNative.Dispose();
+    }
 }
 [BurstCompile]
 public struct HexPosJob : IJobParallelForTransform
