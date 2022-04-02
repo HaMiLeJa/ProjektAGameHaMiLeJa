@@ -5,10 +5,12 @@ using System.Collections.Generic;
 public class RenderBounds : EditorWindow
 { 
     public static readonly HashSet<MeshFilter> RenderBoundsList = new HashSet<MeshFilter>();
-    private  static readonly HashSet<MeshFilter> hasAllBoundsToModify = new HashSet<MeshFilter>();
-    private static byte propsChildIndex = 1;
-    private static float leftBoundMult = 0, rightBoundMult = 11, multiplicationValue = 1;
-    private static readonly string ignoreLayer = "Hex";
+    private  static readonly HashSet<MeshFilter> HasAllBoundsToModify = new HashSet<MeshFilter>();
+    private const float LeftBoundMult = 0;
+    private const float RightBoundMult = 11;
+    private static float _multiplicationValue = 1;
+    private const string IgnoreLayer = "Hex";
+
     [MenuItem("HaMiLeJa/ RenderBounds")]
     public static void ShowWindow()
     {
@@ -19,16 +21,16 @@ public class RenderBounds : EditorWindow
         GUILayout.Space(10);
         if (GUILayout.Button("Draw Bounds on Selected")) AddSelectedToList();
         GUILayout.Space(4);
-        if (GUILayout.Button("Draw Bounds Ignore " + ignoreLayer + " Selected")) AddSelectedToListIgnoreHex();
+        if (GUILayout.Button("Draw Bounds Ignore " + IgnoreLayer + " Selected")) AddSelectedToListIgnoreHex();
         GUILayout.Space(4);
         if (GUILayout.Button("Clear Bounds")) {RenderBoundsList.Clear(); Debug.Log("Everything cleared!!");}
         GUILayout.Space(4);
         if (GUILayout.Button("Change Bounds Size")) changeBoundsSize();
-        multiplicationValue = EditorGUILayout.Slider("Multiplicationvalue", multiplicationValue, leftBoundMult, rightBoundMult);
+        _multiplicationValue = EditorGUILayout.Slider("Multiplicationvalue", _multiplicationValue, LeftBoundMult, RightBoundMult);
         GUILayout.Space(4);
         if (GUILayout.Button("Recalculate Bounds")) recalculateBoundsSize();
         GUILayout.Space(18);
-        if (GUILayout.Button("Draw All Ignore " + ignoreLayer + " Selected")) AddAllGameObjects();
+        if (GUILayout.Button("Draw All Ignore " + IgnoreLayer + " Selected")) AddAllGameObjects();
         GUILayout.Space(4);
     }
     void AddSelectedToList()
@@ -74,21 +76,18 @@ public class RenderBounds : EditorWindow
     {
         foreach (GameObject showMe in Selection.gameObjects)
         {
-            if (showMe.CompareTag("Hex"))
-            
-                foreach (MeshFilter mf in showMe.transform.GetChild(1).GetComponentsInChildren<MeshFilter>()) hasAllBoundsToModify.Add(mf);
-            
+            if (showMe.CompareTag("Hex")) foreach (MeshFilter mf in showMe.transform.GetChild(1).GetComponentsInChildren<MeshFilter>()) HasAllBoundsToModify.Add(mf);
             if (!showMe.CompareTag("Hex"))
             {
                 if (showMe.transform.GetComponent<MeshFilter>() != null) RenderBoundsList.Add(showMe.transform.GetComponent<MeshFilter>());
-                if (showMe.transform.childCount > 0) foreach (MeshFilter mf in showMe.transform.GetComponentsInChildren<MeshFilter>()) hasAllBoundsToModify.Add(mf);
+                if (showMe.transform.childCount > 0) foreach (MeshFilter mf in showMe.transform.GetComponentsInChildren<MeshFilter>()) HasAllBoundsToModify.Add(mf);
             }
         }
-        Debug.Log("You see the Render bounds of : " + hasAllBoundsToModify.Count + " Meshfilters");
-        foreach (MeshFilter mf in hasAllBoundsToModify)
+        Debug.Log("You see the Render bounds of : " + HasAllBoundsToModify.Count + " Meshfilters");
+        foreach (MeshFilter mf in HasAllBoundsToModify)
         {
             mf.sharedMesh.RecalculateBounds();
-            mf.sharedMesh.bounds = new Bounds(mf.sharedMesh.bounds.center, mf.sharedMesh.bounds.size * multiplicationValue);
+            mf.sharedMesh.bounds = new Bounds(mf.sharedMesh.bounds.center, mf.sharedMesh.bounds.size * _multiplicationValue);
         }
     }
     void recalculateBoundsSize()
@@ -96,15 +95,15 @@ public class RenderBounds : EditorWindow
         foreach (GameObject showMe in Selection.gameObjects)
         {
             if (showMe.CompareTag("Hex")) 
-                foreach (MeshFilter mf in showMe.transform.GetChild(1).GetComponentsInChildren<MeshFilter>()) hasAllBoundsToModify.Add(mf);
+                foreach (MeshFilter mf in showMe.transform.GetChild(1).GetComponentsInChildren<MeshFilter>()) HasAllBoundsToModify.Add(mf);
             if (!showMe.CompareTag("Hex"))
             {
                 if (showMe.transform.GetComponent<MeshFilter>() != null) RenderBoundsList.Add(showMe.transform.GetComponent<MeshFilter>());
-                if (showMe.transform.childCount > 0) foreach (MeshFilter mf in showMe.transform.GetComponentsInChildren<MeshFilter>()) hasAllBoundsToModify.Add(mf);
+                if (showMe.transform.childCount > 0) foreach (MeshFilter mf in showMe.transform.GetComponentsInChildren<MeshFilter>()) HasAllBoundsToModify.Add(mf);
             }
         }
         Debug.Log("Recalculating the Render bounds of : " + RenderBoundsList.Count + " Meshfilters");
-        foreach (MeshFilter mf in hasAllBoundsToModify) mf.sharedMesh.RecalculateBounds();
+        foreach (MeshFilter mf in HasAllBoundsToModify) mf.sharedMesh.RecalculateBounds();
     }
 }
 #endif
