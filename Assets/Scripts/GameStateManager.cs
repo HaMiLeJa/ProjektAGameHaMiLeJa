@@ -1,12 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class GameStateManager : MonoBehaviour
 {
     public static GameState gameState = GameState.Start;
-    Rigidbody playerRb;
-    List<GameObject> hasAlltheManagers = new List<GameObject>();
     [SerializeField] AudioSource myAudioSource;
     bool MainSceneLoadActive = false;
     public enum GameState
@@ -19,10 +16,9 @@ public class GameStateManager : MonoBehaviour
     void Start()
     {
         MainSceneLoadActive = false;
-        if (myAudioSource == null) myAudioSource = this.GetComponent<AudioSource>();
+        if (myAudioSource == null) myAudioSource = GetComponent<AudioSource>();
         GameOver = false;
         gameState = GameState.Start;
-        playerRb = ReferenceLibrary.PlayerRb;
     }
     void UpdateStartGame()
     {
@@ -123,15 +119,7 @@ public class GameStateManager : MonoBehaviour
 
         CollectableManager.OnRespawnCollectables -= ReferenceLibrary.ColMng.StartCollectableSpawn;
     }
-
-    void AddAllManagers()
-    {
-        foreach (GameObject manager in GameObject.FindGameObjectsWithTag("Manager")) hasAlltheManagers.Add(manager);
-    }
-    void DestroyAllTheManagers()
-    {
-        foreach (GameObject hex in hasAlltheManagers) Destroy(hex);
-    }
+    
     void PauseGame()
    {
         ReferenceLibrary.UIMng.IngameCanvas.SetActive(false);
@@ -148,17 +136,14 @@ public class GameStateManager : MonoBehaviour
     }
     #region EndOfGame
     Coroutine GameOverCoroutine;
-    [SerializeField] Dissolve playerDissolve;
-    public Coroutine EndGameSafetyCoroutine;
-   // public bool EndGameSafetyStarted = false;
+    [SerializeField] private Dissolve playerDissolve;
     public static bool GameOver = false;
-    float velocityX = 0,velocityZ = 0, velocityY = 0;
     Vector3 velocityLastFrame, velocitySecondToLastFrame;
-    [Space] [SerializeField] AudioClip gameOverClip;
-    [SerializeField] UnityEngine.Audio.AudioMixerGroup gameOverGroup;
+    [Space] [SerializeField] private AudioClip gameOverClip;
+    [SerializeField] private UnityEngine.Audio.AudioMixerGroup gameOverGroup;
     public void CheckForEndOfGame()
     {
-        if (Mathf.Approximately(playerRb.velocity.x, 0) && Mathf.Approximately(playerRb.velocity.y, 0) && Mathf.Approximately(playerRb.velocity.z, 0))
+        if (Mathf.Approximately(ReferenceLibrary.PlayerRb.velocity.x, 0) && Mathf.Approximately(ReferenceLibrary.PlayerRb.velocity.y, 0) && Mathf.Approximately(ReferenceLibrary.PlayerRb.velocity.z, 0))
         {
             if (GameOver) return;
             StopAllCoroutines();
@@ -167,14 +152,14 @@ public class GameStateManager : MonoBehaviour
         }
         else // vergleichen der Velocity des vorherigen frames mit dem der aktuellen;
         {
-            if (velocityLastFrame == playerRb.velocity)
+            if (velocityLastFrame == ReferenceLibrary.PlayerRb.velocity)
             {
                 if (velocityLastFrame == velocitySecondToLastFrame) return;
                 StartCoroutine(EndGameSavety(velocityLastFrame));
             }
             else StopAllCoroutines();
             velocitySecondToLastFrame = velocityLastFrame;
-            velocityLastFrame = playerRb.velocity;
+            velocityLastFrame = ReferenceLibrary.PlayerRb.velocity;
         }
     }
     void CalculateEndOfGame()
@@ -182,7 +167,7 @@ public class GameStateManager : MonoBehaviour
         Debug.Log("GameOver");
         ReferenceLibrary.AudMng.PlayGameStateSound(gameOverClip, gameOverGroup);
         GameOver = true;
-        if (ReferenceLibrary.ScoreMng.CheckForNewHighscore() == true)
+        if (ReferenceLibrary.ScoreMng.CheckForNewHighscore())
         {
             ReferenceLibrary.ScoreMng.SetNewHighscore();
             if (GameOverCoroutine == null) GameOverCoroutine = StartCoroutine(ReferenceLibrary.UIMng.GameOverNewHighscoreCoroutine());
@@ -200,7 +185,7 @@ public class GameStateManager : MonoBehaviour
     IEnumerator EndGameSavety(Vector3 lastVelocity)
     {
         yield return new WaitForSeconds(3f);
-        if (lastVelocity == playerRb.velocity && !GameOver) GameOver = true;
+        if (lastVelocity == ReferenceLibrary.PlayerRb.velocity && !GameOver) GameOver = true;
         else yield break;
         yield return new WaitForSeconds(2f);
         gameState = GameState.End;

@@ -110,8 +110,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7595b2da10d356348af4fcf7fd66b0ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderer: {fileID: 8010376118575295998}
+  rend: {fileID: 8010376118575295998}
   cam: {fileID: 0}
+  trans: {fileID: 9178826969115793041}
 --- !u!114 &8713065609354456771
 MonoBehaviour:
   m_ObjectHideFlags: 0

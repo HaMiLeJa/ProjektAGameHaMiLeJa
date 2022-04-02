@@ -1196,7 +1196,6 @@ MonoBehaviour:
   Rebound: 1
   HexEffectObj: 0
   Portal: 1
-  Curve: 1
   Trampolin: 0
   NPC: 0
   CookingPot: 0
@@ -6728,6 +6727,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8713065609354456783, guid: 479ca233a1b472b4eb5edaa3241ffa4e, type: 3}
+      propertyPath: rend
+      value: 
+      objectReference: {fileID: 9205765972863914364}
+    - target: {fileID: 8713065609354456783, guid: 479ca233a1b472b4eb5edaa3241ffa4e, type: 3}
+      propertyPath: trans
+      value: 
+      objectReference: {fileID: 8037341747764881939}
     - target: {fileID: 9178826969115793041, guid: 479ca233a1b472b4eb5edaa3241ffa4e, type: 3}
       propertyPath: m_RootOrder
       value: 1

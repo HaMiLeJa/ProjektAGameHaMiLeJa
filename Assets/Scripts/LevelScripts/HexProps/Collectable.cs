@@ -2,7 +2,7 @@ using UnityEngine;
 public class Collectable : MonoBehaviour
 {
     #region Inspector
-    [SerializeField] float speed = 0, rotation = 400;
+    [SerializeField] private float rotation = 400;
     public GameObject ParentHex; //Wird assigned in CollectalbeManager Start -> SetCollectableReferencesAtStart
     public ScriptableLevelObject settings;
     public CollectableReferences colRef;

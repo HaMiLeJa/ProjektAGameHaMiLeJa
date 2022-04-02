@@ -12,15 +12,14 @@ public class Pathfinder : MonoBehaviour
 	private CatmullRom spline;
 	private CatmullRom.CatmullRomPoint[] waypointsForPlayer;
 	private BoxCollider[] m_Collider;
-	private float Tvalue = 50f, toFirstPointLerp = 0.5f;
+	private float Tvalue = 50f;
 	private bool pathfindingAllowed = true, startPathfindingDisable, noCam, noManager;
 	[ReorderableList] public Transform[] controlPoints;
 	private TransformAccessArray controlPointsNativeTransforms;
 	[SerializeField] private CinemachineVirtualCamera cam = default;
-	[SerializeField] private 	GameManager manager;
 	[SerializeField] [Tooltip("Funktioniert nur wenn gamemanager zugewiesen")]private float disableShakeSec = 1.1f;
 	[BoxGroup("Einstellungen")] private bool ClosedLoop = false;
-	[InfoBox("Resolution steuert am meisten die Geschwindkeit;  Kann nicht ingame verändert werden, dass muss man in der Scene view machen (wegen performance)", EInfoBoxType.Normal)]
+	[InfoBox("Resolution steuert am meisten die Geschwindkeit;  Kann nicht ingame verändert werden, dass muss man in der Scene view machen (wegen performance)")]
 	[BoxGroup("Einstellungen")] [Range(2, 100)] [SerializeField] private int Resolution = 30;
 	[BoxGroup("Einstellungen")] [Range(1, 3)][SerializeField] private int speedLevel = 1;
 	[BoxGroup("Einstellungen")] [Range(2, 15)] [SerializeField] private float secPathDisabled = 5;
@@ -41,7 +40,6 @@ public class Pathfinder : MonoBehaviour
 			controlPointsNativeTransforms = new TransformAccessArray(controlPoints);
 			controlPoints = null;
 		}
-		if (manager == null) noManager = true;
 		if (cam != null)
 		{
 			noCam = false;
@@ -53,21 +51,19 @@ public class Pathfinder : MonoBehaviour
 			noCam = true;
 		}
 	}
-	[Button("Fill List with Controlpoints")]
-	public void AllChildsToList()
+	[Button("Fill List with Controlpoints")] public void AllChildsToList()
 	{
 		Array.Clear(controlPoints, 0, controlPoints.Length);
 		controlPoints = GetComponentsInChildren<Transform>();
 			controlPoints = controlPoints.Skip(1).ToArray();
 	}
-	[Button("Empty everything from list")]
-	public void RemoveFromList()
+#if UNITY_EDITOR
+	[Button("Empty everything from list")] public void RemoveFromList()
 	{
 		Array.Clear(controlPoints, 0, controlPoints.Length);
 		Array.Resize(ref controlPoints, 0);
 	}
-	[Button("SetCollider")]
-	void setCollider()
+	[Button("SetCollider")]  private void setCollider()
 	{
 		if (m_Collider != null)
 		{
@@ -82,13 +78,12 @@ public class Pathfinder : MonoBehaviour
 		m_Collider[1].size = new Vector3(colliderSize, colliderSize, colliderSize);
 		m_Collider[1].center = gameObject.transform.GetChild(transform.childCount-1).transform.localPosition;
 	}
-	[Button] void resetRotationControlPoints()
+	[Button] private void resetRotationControlPoints()
 	{
 		int children = transform.childCount;
 		for (int i = 0; i < children; ++i) 
 			gameObject.transform.GetChild(i).transform.rotation = new Quaternion(0, 0, 0, 0);
 	}
-	#if UNITY_EDITOR
 	private void OnDrawGizmos()
 	{
 		if (Application.isPlaying) return;
@@ -121,16 +116,13 @@ public class Pathfinder : MonoBehaviour
 			if (i == waypointsForPlayer.Length-2)
 			{
 				if(!noCam)cam.gameObject.SetActive(false);
-				if(!noManager)manager.AllowMovement = true;
+				ReferenceLibrary.GameMng.AllowMovement = true;
 				StopCoroutine(waitUntilNextTrigger());
 				StartCoroutine(waitUntilNextTrigger());
 				MathLibary.boostDirection(waypointsForPlayer[waypointsForPlayer.Length - 2].position,
 					waypointsForPlayer[waypointsForPlayer.Length - 1].position, forceRedExit, other.attachedRigidbody);
-				if (manager != null)
-				{ 
-					StopCoroutine(CamShakeDisableAterPush_Coroutine(disableShakeSec));
+				StopCoroutine(CamShakeDisableAterPush_Coroutine(disableShakeSec));
 					StartCoroutine(CamShakeDisableAterPush_Coroutine(disableShakeSec));
-				}
 			}
 			if (i < waypointsForPlayer.Length - 1 && i >1)
 			{
@@ -155,16 +147,13 @@ public class Pathfinder : MonoBehaviour
 			if (i == 2)
 			{
 				if(!noCam)cam.gameObject.SetActive(false);
-				if(!noManager)manager.AllowMovement = true;
+				ReferenceLibrary.GameMng.AllowMovement = true;
 				StopCoroutine(waitUntilNextTrigger());
 				StartCoroutine(waitUntilNextTrigger());
 				MathLibary.boostDirection(waypointsForPlayer[2].position,
 					waypointsForPlayer[1].position, forceGreenExit, other.attachedRigidbody);
-				if (manager != null)
-				{
-					StopCoroutine(CamShakeDisableAterPush_Coroutine(disableShakeSec));
-					StartCoroutine(CamShakeDisableAterPush_Coroutine(disableShakeSec));
-				}
+				StopCoroutine(CamShakeDisableAterPush_Coroutine(disableShakeSec));
+				StartCoroutine(CamShakeDisableAterPush_Coroutine(disableShakeSec));
 			}
 			if (i < waypointsForPlayer.Length - 1 && i >2)
 			{
@@ -175,7 +164,6 @@ public class Pathfinder : MonoBehaviour
 						Tvalue*Time.deltaTime),
 					Mathf.Lerp(other.transform.position.z, waypointsForPlayer[i - 1].position.z,
 						Tvalue*Time.deltaTime));
-					
 				if(speedLevel==1) yield return new TimeUpdate.WaitForLastPresentationAndUpdateTime();
 				if(speedLevel==2) yield return new WaitForEndOfFrame();
 				if (speedLevel==3) yield return new WaitForFixedUpdate();
@@ -193,21 +181,20 @@ public class Pathfinder : MonoBehaviour
 	}
 	private void OnTriggerEnter(Collider other)
 	{
-        spline = new CatmullRom(controlPointsNativeTransforms, Resolution, ClosedLoop);
 		if (other.CompareTag("Player"))
 		{
-			float distanceStart, distanceEnd;
+			spline = new CatmullRom(controlPointsNativeTransforms, Resolution, ClosedLoop);
 			waypointsForPlayer = spline.GetPoints();
-			distanceStart = MathLibary.CalculateDistancePos(other.transform.position,
+			float distanceStart = MathLibary.CalculateDistancePos(other.transform.position,
 				waypointsForPlayer[0].position);
-			distanceEnd = MathLibary.CalculateDistancePos(other.transform.position,
+			float distanceEnd = MathLibary.CalculateDistancePos(other.transform.position,
 				waypointsForPlayer[waypointsForPlayer.Length-1].position);
 			if (pathfindingAllowed)
 			{
 				GameManager.StartMovingGhostLayer = true;
 				pathfindingAllowed = false;
 				if(!noCam) cam.gameObject.SetActive(true);
-				if(!noManager)manager.AllowMovement = false;
+				ReferenceLibrary.GameMng.AllowMovement = false;
 				ReferenceLibrary.PlayerMov.DisableGravity = true;
 				ReferenceLibrary.Player.layer = playerNoCollisionLayerInt;
 				if (distanceStart > distanceEnd)

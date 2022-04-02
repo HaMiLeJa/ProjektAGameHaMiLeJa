@@ -13,7 +13,6 @@ public class LightmapMenu : MonoBehaviour
         Dictionary<Material, float> hasAllTheOrginalEmmissiveIntensity = new Dictionary<Material, float>();
         List<Material> hasAlltheModifiedGameObjects= new List<Material>();
         String emissiveProperty = "_emssiveIntesnity";
-        
         hasAllTheEmmisiveObjects.Clear();
         hasAllTheOrginalEmmissiveIntensity.Clear();
         hasAllTheEmmisiveObjects.AddRange(GameObject.FindGameObjectsWithTag("Emissve_baked"));
@@ -25,15 +24,14 @@ public class LightmapMenu : MonoBehaviour
             float originalEmissiveIntensity = 0;
             try
             {
-                if (hasAllTheOrginalEmmissiveIntensity.ContainsKey(tmpMaterial)) ;
-                else
+                if(!hasAllTheOrginalEmmissiveIntensity.ContainsKey(tmpMaterial))
                 {   originalEmissiveIntensity = tmpMaterial.GetFloat(emissiveProperty);
                     hasAllTheOrginalEmmissiveIntensity.Add(tmpMaterial, originalEmissiveIntensity);
                     hasAlltheModifiedGameObjects.Add(tmpMaterial);
                     tmpMaterial.SetFloat(emissiveProperty, originalEmissiveIntensity+boostEmissive);
                 }
             } 
-            catch (NullReferenceException e) { }
+            catch (NullReferenceException) { }
         }
         Lightmapping.Bake ();
         foreach (Material tmpMaterial in hasAlltheModifiedGameObjects)

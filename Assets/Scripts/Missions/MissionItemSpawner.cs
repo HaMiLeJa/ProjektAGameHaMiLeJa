@@ -16,8 +16,6 @@ public class MissionItemSpawner : MonoBehaviour
 
     [SerializeField] List<GameObject> AllItemSpawnPositions;
     [SerializeField] List<GameObject> PositionListInUse;
-    int spawnCounter = 0;
-
     int spawnAmount = 0;
 
     public static List<GameObject> CurrentMissionItems = new List<GameObject>();

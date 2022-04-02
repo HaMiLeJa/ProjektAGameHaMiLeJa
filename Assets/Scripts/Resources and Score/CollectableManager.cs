@@ -30,12 +30,10 @@ public class CollectableManager : MonoBehaviour
     public CollectableReferences refff;
     // private bool addAll = true;
     Vector3 collectalbeOriginalScale;
-    bool addAll = true;
     private void Awake()
     {
         AllCollectables.Clear();
         StopEditorScript = true;
-        addAll = true;
     }
     void Start()
     {

@@ -12,7 +12,7 @@ public class Destroyables : MonoBehaviour
     
    [SerializeField] private Collider[] col;
    private GameObject brokenInstance;
-    bool TriggerResetted = false;
+   // bool TriggerResetted = false;
     [SerializeField] private Renderer myRenderer;
     int collisionCounter = 0;
     void Start()

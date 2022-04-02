@@ -12,7 +12,7 @@ public class DestroyObjectMissionInteraction : MonoBehaviour
     private Rigidbody Rigidbody;
     [SerializeField]public AudioSource myAudioSource;
     private GameObject brokenInstance;
-    bool TriggerResetted = false;
+//    bool TriggerResetted = false;
     Renderer myRenderer;
     List<Material> AllMaterials = new List<Material>();
     int collisionCounter = 0;

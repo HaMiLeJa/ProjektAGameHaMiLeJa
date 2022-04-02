@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -57,7 +57,7 @@ public class MovementCurves : MonoBehaviour
 
                 StartZone = null;
                 EndZone = null;
-            }*/
+            }#1#
         }
     }
 
@@ -98,7 +98,7 @@ public class MovementCurves : MonoBehaviour
 
 
         }
-        */
+        #1#
 
     }
     private void OnCollisionExit(Collision collision)
@@ -112,7 +112,7 @@ public class MovementCurves : MonoBehaviour
                 rb.AddForce(direction * 50, ForceMode.Impulse);
             }
         }
-        */
+        #1#
 
     }
 
@@ -241,4 +241,4 @@ public class MovementCurves : MonoBehaviour
         yield return null;
     }
 
-}
+}*/

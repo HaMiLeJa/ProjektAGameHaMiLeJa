@@ -132,9 +132,9 @@ public class Hex : MonoBehaviour
     //[SerializeField] private float ChangeDirectionBoostForce = 200f;
     //private float ChangeDirectionBoostDuration = 0.8f;
     [Header ("ChangeDirection")] 
-    private bool isChangingDirection = false;
+    //private bool isChangingDirection = false;
     private Coroutine changeDirectionCoroutine;
-    private bool allowStartChangeDirection = true;
+   // private bool allowStartChangeDirection = true;
     public void ChangeDirectionStarter()
     {
         if (ReferenceLibrary.GameMng.AllowHexEffects == false) return;
@@ -238,8 +238,8 @@ public class Hex : MonoBehaviour
     #region BoostForward
     [Header("BoostForward")]
     [Range (30f, 70f)] [SerializeField] private float forwardForce = 50f; //Range
-    private float BoostForwardDuration = 0.4f;
-    public bool IsHexForwardBoosting = false; //used to lock other boosts
+   // private float BoostForwardDuration = 0.4f;
+   // public bool IsHexForwardBoosting = false; //used to lock other boosts
     private Coroutine hexBoostForwardCoroutine;
    // [SerializeField] private AnimationCurve boostCurve;
    public void BoostForwardStarter()
