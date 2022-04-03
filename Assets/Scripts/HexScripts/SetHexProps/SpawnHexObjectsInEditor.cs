@@ -181,7 +181,6 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     void SpawnCollectableInEditMode(float y)
     {   if (Application.isPlaying) return;
         CurrentItem = spawnObjectWithPrefabConnection(y,CurrentItem,gameObject, ObjectToSpawn, MyProps);
-        
         //------------------- Update Collectable Index ID if Possible --------------//
         CollectableManager colManager = FindObjectOfType<CollectableManager>();
         if(colManager.hasAllTheHexCollectablePositionBeforeStart == null) return;
@@ -194,7 +193,11 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
                 serializedCollectable.ApplyModifiedPropertiesWithoutUndo();
             }
         }
-   
+        //------------------- Update Parent ref  --------------//
+        SerializedObject serializedHex = new SerializedObject(gameObject.GetComponent<Hex>());
+        serializedHex.FindProperty("MyCollectable").objectReferenceValue =
+            GetComponentInChildren<Collectable>().gameObject;
+        serializedHex.ApplyModifiedPropertiesWithoutUndo();
     }
     #endregion
     void SpawnObjectInEditMode(float y) =>  spawnObjectWithPrefabConnection(y, CurrentItem, gameObject, ObjectToSpawn, MyProps);
