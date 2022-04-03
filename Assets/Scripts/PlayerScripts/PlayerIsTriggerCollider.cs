@@ -1,39 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 public class PlayerIsTriggerCollider : MonoBehaviour
 {
-    GameObject player;
-    Rigidbody playerRb;
-    void Start()
-    {
-        player = ReferenceLibrary.Player;
-        playerRb = player.GetComponent<Rigidbody>();
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        this.transform.position = playerRb.transform.position;
-    }
-
-
+    void FixedUpdate() =>transform.position =  ReferenceLibrary.PlayerRb.transform.position;
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Trigger");
-
         if (other.gameObject.layer == LayerMask.GetMask("World"))
-        {
             Debug.Log("CollidingT");
-        }
     }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == LayerMask.GetMask("World"))
-        {
             Debug.Log("CollidingC");
-        }
     }
 }

@@ -1,143 +1,82 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 public class PlayerSuperDash : MonoBehaviour
 {
     #region Inspector
+
     //[SerializeField] float boostCost = 1;
-    [Space]
-    [SerializeField] private float SuperDashForce;
+    [Space] [SerializeField] private float SuperDashForce;
     [SerializeField] private float ShadowDashDuration;
     [SerializeField] private AnimationCurve SuperDashcurve;
     [SerializeField] public bool isSuperDashing = false; //used to lock other boosts
-    
+
     public Coroutine superDashCoroutine;
 
     [SerializeField] public float currentSuperDashForce = 0.0f;
     [SerializeField] private float disappearingDuringSuperDashStart;
-    [SerializeField] private float disappearingDuringSuperDashEnd; 
-    
-
+    [SerializeField] private float disappearingDuringSuperDashEnd;
     public bool isDestroying = false;
-   [SerializeField] bool superDashNotPossible = false;
+    [SerializeField] bool superDashNotPossible = false;
 
-   // public MeshRenderer mr;
-
-    GameManager gameMng;
-    PlayerBoost dash;
-    PlayerMovement playerMov;
-    ShadowDash shadowDash;
-
-    Rigidbody rb;
-
+    // public MeshRenderer mr;
     [SerializeField] LayerMask worldMask;
     int playerLayerInt;
     int playerDestructionLayerInt;
 
-    AudioManager audManager;
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip startClip;
     [SerializeField] AudioClip endClip;
-    [Space]
-    [SerializeField] ParticleSystemTrails particleTrail;
+    [Space] [SerializeField] ParticleSystemTrails particleTrail;
 
     #endregion
 
-
-    private void Start()
-    {
-        rb = ReferenceLibrary.PlayerRb;
-
-        dash = ReferenceLibrary.Dash;
-        playerMov = ReferenceLibrary.PlayerMov;
-        gameMng = ReferenceLibrary.GameMng;
-        shadowDash = ReferenceLibrary.ShadowDashPl;
-
-        //playerLayerInt = LayerMask.NameToLayer("Player");
-        //  playerNoCollisionLayerInt = LayerMask.NameToLayer("PlayerNoCollision");
-
-
-        audManager = ReferenceLibrary.AudMng;
-
-    }
-
     void FixedUpdate()
     {
-        if (GameStateManager.gameState == GameStateManager.GameState.Start) return;
-        if (gameMng.AllowMovement == false) return;
-        if (shadowDash.isShadowDashing == true) return;   //dash.Boosting == true || 
-
-
-        if (Input.GetButton("LeftBumper") && isSuperDashing == false)
+        if (GameStateManager.gameState == GameStateManager.GameState.Start || !ReferenceLibrary.GameMng.AllowMovement ||
+            ReferenceLibrary.ShadowDashPl.isShadowDashing) return;
+        if (Input.GetButton("LeftBumper") && !isSuperDashing)
         {
-            if (playerMov.MovementDirection.normalized == Vector3.zero) return;
-
+            if (ReferenceLibrary.PlayerMov.MovementDirection.normalized == Vector3.zero) return;
             isSuperDashing = true;
             SuperDashStarter();
-            if (dash.IsBoosting == true)
-                dash.IsBoosting = false;
+            if (ReferenceLibrary.Dash.IsBoosting) ReferenceLibrary.Dash.IsBoosting = false;
         }
-        else if (Input.GetButton("LeftBumper") == false && superDashNotPossible == true)
+        else if (!Input.GetButton("LeftBumper") && superDashNotPossible)
         {
             isSuperDashing = false;
             superDashNotPossible = false;
         }
 
 #if UNITY_EDITOR
-
-        if (Input.GetButton("Y") && isSuperDashing == false)
+        if (Input.GetButton("Y") && !isSuperDashing)
         {
-            if (playerMov.MovementDirection.normalized == Vector3.zero) return;
-
+            if (ReferenceLibrary.PlayerMov.MovementDirection.normalized == Vector3.zero) return;
             isSuperDashing = true;
             SuperDashStarter();
-            if (dash.IsBoosting == true)
-                dash.IsBoosting = false;
+            if (ReferenceLibrary.Dash.IsBoosting)
+                ReferenceLibrary.Dash.IsBoosting = false;
         }
-        else if ( Input.GetButton("Y") && superDashNotPossible == true)
+        else if (Input.GetButton("Y") && superDashNotPossible)
         {
             isSuperDashing = false;
             superDashNotPossible = false;
         }
-
-
 #endif
-
-
         if (currentSuperDashForce != 0)
-        {
-            rb.AddForce(playerMov.MovementDirection.normalized * currentSuperDashForce * 400 * Time.fixedDeltaTime);
-
-            // mr.enabled = true;
-        }
-        
-
-
-
-
-
+            ReferenceLibrary.PlayerRb.AddForce(ReferenceLibrary.PlayerMov.MovementDirection.normalized *
+                                               currentSuperDashForce * 400 * Time.fixedDeltaTime);
     }
-
-    #region SuperDash Coroutine
-
     public void SuperDashStarter()
     {
-        if (superDashCoroutine != null)
-            StopCoroutine(superDashCoroutine);
-
+        if (superDashCoroutine != null) StopCoroutine(superDashCoroutine);
         ReferenceLibrary.GameMng.InputMade();
-
         superDashCoroutine = StartCoroutine(SuperDashCoroutine());
         particleTrail.StartSuperDashParticle();
 
     }
-
-    
-
     private IEnumerator SuperDashCoroutine()
     {
-        StartCoroutine(ReferenceLibrary.EnergyMng.ModifyEnergy(-gameMng.SuperDashCosts));
+        StartCoroutine(ReferenceLibrary.EnergyMng.ModifyEnergy(-ReferenceLibrary.GameMng.SuperDashCosts));
 
         if (audioSource.isPlaying == false)
         {
@@ -147,52 +86,21 @@ public class PlayerSuperDash : MonoBehaviour
         }
 
         float t = 0;
-
         while (t < ShadowDashDuration)
         {
-
             t += Time.fixedDeltaTime;
             float curveValue = SuperDashcurve.Evaluate(t); // / ShadowDashDuration
-
-
             currentSuperDashForce += SuperDashForce * curveValue * Time.fixedDeltaTime;
-
-
-            if (currentSuperDashForce >= disappearingDuringSuperDashStart && currentSuperDashForce <= disappearingDuringSuperDashEnd)  //
-            {
-                isDestroying = true;
-
-                //EFFEKT
-                
-
-                //gameMng.AllowHexEffects = false;
-
-            }
-
-            if (gameMng.AllowMovement == false)
-                break;
-            
+            if (currentSuperDashForce >= disappearingDuringSuperDashStart &&
+                currentSuperDashForce <= disappearingDuringSuperDashEnd) isDestroying = true;
+            if (!ReferenceLibrary.GameMng.AllowMovement) break;
             yield return new WaitForFixedUpdate();
         }
 
-       // Debug.Log("PlayingSecond");
-        //audioSource.clip = endClip;
-        //audioSource.Play();
-
-
         yield return new WaitForSeconds(0.3f);
         isDestroying = false;
-
-
-
-        rb.velocity = rb.velocity / 2;
-
+        ReferenceLibrary.PlayerRb.velocity /= 2;
         currentSuperDashForce = 0;
         isSuperDashing = false;
-
-
-        //gameMng.AllowHexEffects = true;
-
     }
-    #endregion
 }

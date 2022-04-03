@@ -1,3 +1,4 @@
+/*
 using UnityEngine;
 public class Testaudio : MonoBehaviour
 {
@@ -10,3 +11,4 @@ public class Testaudio : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space)) _audioSlots.playSoundSlots(audioSource, audioclip, 50);
     }
 }
+*/

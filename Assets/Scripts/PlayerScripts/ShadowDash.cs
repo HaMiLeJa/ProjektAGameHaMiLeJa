@@ -17,7 +17,6 @@ public class ShadowDash : MonoBehaviour
     public ParticleSystem particle;
     public MeshRenderer mr, mr2;
     #endregion
-    private void Awake()=>  mr = GetComponentInChildren<MeshRenderer>();
     private void Start()
     {
         playerLayerInt = LayerMask.NameToLayer("Player");

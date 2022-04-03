@@ -28,7 +28,6 @@ public class Destroyables : MonoBehaviour
     }
     public void Explode()
     {
-   
         foreach(Collider turnMeOff in col) turnMeOff.enabled = false;
         myRenderer.enabled = false;
         if (settings.DestructionClip != null)
@@ -145,10 +144,5 @@ public class Destroyables : MonoBehaviour
                 myAudioSource.Play();
             }
         }
-    }
-
-    struct destroyAbleExplosionJob
-    {
-       // body.AddExplosionForce(settings.ExplosiveForce, transform.position, settings.ExplosiveRadius);
     }
 }

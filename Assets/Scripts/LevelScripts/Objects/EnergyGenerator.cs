@@ -1,25 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 public class EnergyGenerator : MonoBehaviour
 {
     [Tooltip("How much energy this generatior currently has")]
     [SerializeField] float generatedEnergy = 0f;
-
     //[SerializeField] GameObject player;
-
     [SerializeField] ScriptableEnergyGenerator settings;
     [SerializeField] AudioSource mySource;
-
     float timer;
-
-    private void Start()
-    {
-        mySource.clip = settings.clip;
-    }
-
-
+    private void Start() =>mySource.clip = settings.clip;
     private void Update()
     {
         if (generatedEnergy >= settings.maxEnergy) return;
@@ -31,10 +19,7 @@ public class EnergyGenerator : MonoBehaviour
             generatedEnergy += settings.energyGenerationAmount;
             timer = 0;
         }
-
     }
-
-
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject == ReferenceLibrary.Player)
@@ -47,5 +32,4 @@ public class EnergyGenerator : MonoBehaviour
                 mySource.Play();
         }
     }
-   
 }

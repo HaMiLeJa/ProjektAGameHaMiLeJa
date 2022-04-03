@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using Random = UnityEngine.Random;
-
 public class HexEffectAudioManager : MonoBehaviour
 {
     public List<StringAudiofileClass> AllHexClips = new List<StringAudiofileClass>();
@@ -20,8 +18,7 @@ public class HexEffectAudioManager : MonoBehaviour
    [SerializeField]private AudioSource[] AllHexAudioSources;
    
 #if UNITY_EDITOR
-    
-   [NaughtyAttributes.Button()] public void getAllTheAudioSourcesBeforeAwake() => AllHexAudioSources = GetComponents<AudioSource>();
+    [NaughtyAttributes.Button()] public void getAllTheAudioSourcesBeforeAwake() => AllHexAudioSources = GetComponents<AudioSource>();
 #endif
     private void Awake()
     {

@@ -1,11 +1,7 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 public class EnergyManager : MonoBehaviour //for points and energy
 {
-    GameManager gameMng;
     public bool DisableEnergyCosts = false;
     [Space] [SerializeField] float EnergyStartAmount = 10;
     public static float CurrentEnergy;
@@ -16,13 +12,8 @@ public class EnergyManager : MonoBehaviour //for points and energy
     public static bool energyGotHigher = false;
     [Space] public float ConstantEnergyDecrease = 0.005f;
     [Space] [SerializeField] AudioSource myAudioSource;
-
     private void Awake() => energyGotHigher = false;
-    void Start()
-    {
-        gameMng = ReferenceLibrary.GameMng;
-        CurrentEnergy = EnergyStartAmount;
-    }
+    void Start() => CurrentEnergy = EnergyStartAmount;
     void Update()
     {
         if (GameStateManager.gameState == GameStateManager.GameState.Start) return;
@@ -95,14 +86,14 @@ public class EnergyManager : MonoBehaviour //for points and energy
                 EnergyEmptyPlayed = true;
                 myAudioSource.Play();
             }
-            gameMng.AllowMovement = false;
+            ReferenceLibrary.GameMng.AllowMovement = false;
             //StopAllCoroutines(); OLD
             //if(GameManager.Instance.GameOver == false)
             ReferenceLibrary.GameStateMng.CheckForEndOfGame();
         }
         else
         {
-            gameMng.AllowMovement = true;
+            ReferenceLibrary.GameMng.AllowMovement = true;
             EnergyEmptyPlayed = false;
         }
         if(CurrentEnergy >= MaxEnergyAmount) CurrentEnergy = MaxEnergyAmount;

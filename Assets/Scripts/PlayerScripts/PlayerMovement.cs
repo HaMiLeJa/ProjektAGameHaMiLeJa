@@ -3,9 +3,6 @@ using Unity.Mathematics;
 public class PlayerMovement : MonoBehaviour
 {
     #region Inspector
-    [HideInInspector] public Rigidbody rb;
-    GameManager gameMng;
-    HexMovements hexMov;
     //[Tooltip("Speed with which the player can influence the movement")] public float StandardMovementSpeed = 10;
    [HideInInspector]public Vector3 MovementDirection;
    public float constspeed = 60;
@@ -39,47 +36,41 @@ public class PlayerMovement : MonoBehaviour
     [Space]
     [SerializeField] AudioSource jumpAudioSource;
     #endregion
-    void Start()
-    {
-        rb = ReferenceLibrary.PlayerRb;
-        gameMng = ReferenceLibrary.GameMng;
-        hexMov = ReferenceLibrary.HexMov;
-        originalContspeed = constspeed;
-    }
+    void Start() => originalContspeed = constspeed;
     void FixedUpdate()
     {
         if (GameStateManager.gameState == GameStateManager.GameState.Start) return;
         MinVelocity(); MaxVelocity();
-        Velocity = rb.velocity; //Debug
+        Velocity = ReferenceLibrary.PlayerRb.velocity; //Debug
         ControlVelocity(); GroundCheck();
         Gravity(); HightControl();
         TotalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.y) + Mathf.Abs(Velocity.z);
-        if (!gameMng.AllowMovement) return;
+        if (!ReferenceLibrary.GameMng.AllowMovement) return;
         CalculateMovementDirection();
         //BasicJump();
     }
     void MaxVelocity()
     {
-        if ((math.abs(rb.velocity.x) + math.abs(rb.velocity.z)) > maxSpeedLimitStartClamping)
+        if ((math.abs(ReferenceLibrary.PlayerRb.velocity.x) + math.abs(ReferenceLibrary.PlayerRb.velocity.z)) > maxSpeedLimitStartClamping)
         {
             Debug.Log("Enter limit velocity");
-            float xVelocityMax = Mathf.Min(Mathf.Abs(rb.velocity.x), maxSpeed) * Mathf.Sign(rb.velocity.x),
-                   zVelocityMax = Mathf.Min(Mathf.Abs(rb.velocity.z), maxSpeed) * Mathf.Sign(rb.velocity.z);
-            rb.velocity = new Vector3(xVelocityMax, rb.velocity.y, zVelocityMax);
+            float xVelocityMax = Mathf.Min(Mathf.Abs(ReferenceLibrary.PlayerRb.velocity.x), maxSpeed) * Mathf.Sign(ReferenceLibrary.PlayerRb.velocity.x),
+                   zVelocityMax = Mathf.Min(Mathf.Abs(ReferenceLibrary.PlayerRb.velocity.z), maxSpeed) * Mathf.Sign(ReferenceLibrary.PlayerRb.velocity.z);
+            ReferenceLibrary.PlayerRb.velocity = new Vector3(xVelocityMax, ReferenceLibrary.PlayerRb.velocity.y, zVelocityMax);
         }
     }
     void MinVelocity()
     {
-        if (!gameMng.AllowMovement) return;
+        if (!ReferenceLibrary.GameMng.AllowMovement) return;
         float horizontalInput = Input.GetAxis("Horizontal"), 
                verticalInput = Input.GetAxis("Vertical");
         if (math.abs(horizontalInput) > 0.3f || math.abs(verticalInput) > 0.3f)
-            rb.AddForce(MovementDirection.normalized * 30f);
+            ReferenceLibrary.PlayerRb.AddForce(MovementDirection.normalized * 30f);
         if (ReferenceLibrary.Dash.IsBoosting|| ReferenceLibrary.SuperDash.isSuperDashing || ReferenceLibrary.ShadowDashPl.isShadowDashing) return;
-        if (constSpeedAllowed && Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z) < constspeed)
+        if (constSpeedAllowed && Mathf.Abs(ReferenceLibrary.PlayerRb.velocity.x) + Mathf.Abs(ReferenceLibrary.PlayerRb.velocity.z) < constspeed)
         {
-            var normalizeSpeed  = (rb.velocity.normalized);
-            rb.velocity = new Vector3(normalizeSpeed.x * constspeed , rb.velocity.y, normalizeSpeed.z * constspeed);
+            var normalizeSpeed  = (ReferenceLibrary.PlayerRb.velocity.normalized);
+            ReferenceLibrary.PlayerRb.velocity = new Vector3(normalizeSpeed.x * constspeed , ReferenceLibrary.PlayerRb.velocity.y, normalizeSpeed.z * constspeed);
         }
     }
     Vector3 strafeMovement, forwardMovement;
@@ -94,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
         {
             TotalVelocity = Mathf.Abs(Velocity.x) + Mathf.Abs(Velocity.z);
             float velocityPower = TotalVelocity * velocityInfluence/2 * Time.deltaTime;
-            rb.velocity = (rb.velocity + (MovementDirection * velocityPower));
+            ReferenceLibrary.PlayerRb.velocity = (ReferenceLibrary.PlayerRb.velocity + (MovementDirection * velocityPower));
         }
         /*  else
          {
@@ -108,13 +99,13 @@ public class PlayerMovement : MonoBehaviour
     void ControlVelocity()
     {
         if(TotalVelocity > 300) //von total Velocity abhängig machen
-            rb.velocity = new Vector3(rb.velocity.x * 1.1f, rb.velocity.y, rb.velocity.z * 1.0001f * Time.deltaTime);
+            ReferenceLibrary.PlayerRb.velocity = new Vector3(ReferenceLibrary.PlayerRb.velocity.x * 1.1f, ReferenceLibrary.PlayerRb.velocity.y, ReferenceLibrary.PlayerRb.velocity.z * 1.0001f * Time.deltaTime);
     }
     void BasicJump()
     {
-        if (Input.GetButton(gameMng.Jump))
+        if (Input.GetButton(ReferenceLibrary.GameMng.Jump))
         {
-            if (OnGround == true && jumpButtonPressedInLastFrame == false) //OnGround == true &&
+            if (OnGround && !jumpButtonPressedInLastFrame) //OnGround == true &&
             {
                 allowJump = true;
                 if (!jumpAudioSource.isPlaying) jumpAudioSource.Play();
@@ -124,7 +115,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 jumping = true;
                 timerJump += Time.deltaTime;
-                rb.AddForce(this.transform.up * forceJump * Time.fixedDeltaTime, ForceMode.Impulse);
+                ReferenceLibrary.PlayerRb.AddForce(this.transform.up * forceJump * Time.fixedDeltaTime, ForceMode.Impulse);
             }
         }
         else
@@ -137,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void HightControl()
     { 
-        if(rb.position.y >= maxHight) rb.AddForce(Vector3.down * highControlForce * rb.transform.position.y * Time.deltaTime);
+        if(ReferenceLibrary.PlayerRb.position.y >= maxHight) ReferenceLibrary.PlayerRb.AddForce(Vector3.down * highControlForce * ReferenceLibrary.PlayerRb.transform.position.y * Time.deltaTime);
             //rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -100f, -0.01f ), rb.velocity.y);
            //Idee: stattdessen eine force nach unten? das sollte flüssigeren übergang machen
             //rb.velocity = new Vector3(rb.velocity.x, Mathf.Lerp(rb.velocity.y, -1 , 0.1f), rb.velocity.y);
@@ -166,12 +157,12 @@ public class PlayerMovement : MonoBehaviour
     }
     void Gravity()
    {
-        if (hexMov.OnTrampolinHex) return;
-        if (DisableGravity == true) return;
+        if (ReferenceLibrary.HexMov.OnTrampolinHex) return;
+        if (DisableGravity) return;
         if (OnGround == false && jumping == false) //&&rebounding == false
-            rb.AddForce((rb.velocity.normalized + Vector3.down) * fallDownSpeed, ForceMode.Acceleration);
-        else if (OnGround == false && hexMov.rebounded == false) //Trampolin
-            rb.AddForce((rb.velocity.normalized + Vector3.down) * fallDownSpeed, ForceMode.Acceleration);
+            ReferenceLibrary.PlayerRb.AddForce((ReferenceLibrary.PlayerRb.velocity.normalized + Vector3.down) * fallDownSpeed, ForceMode.Acceleration);
+        else if (OnGround == false && ReferenceLibrary.HexMov.rebounded == false) //Trampolin
+            ReferenceLibrary.PlayerRb.AddForce((ReferenceLibrary.PlayerRb.velocity.normalized + Vector3.down) * fallDownSpeed, ForceMode.Acceleration);
    }
    // private void OnCollisionEnter(Collision collision)
      // {
