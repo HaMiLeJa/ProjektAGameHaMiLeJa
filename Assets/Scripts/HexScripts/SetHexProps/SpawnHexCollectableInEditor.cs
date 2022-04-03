@@ -9,7 +9,7 @@ public class SpawnHexCollectableInEditor : MonoBehaviour
     public bool DebugActiveObj, DebugIsRunning;
     void Update()
     {
-        if (CollectableManager.StopEditorScript) return;
+        if (!Application.isPlaying) return;
         DebugIsRunning = true;
         EditModeSpawnAndDeletion();
     }

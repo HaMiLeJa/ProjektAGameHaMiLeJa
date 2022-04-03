@@ -60,7 +60,6 @@ public class BenderManager : MonoBehaviour
   {
     if (CameraZoomOut.vcamera.m_Lens.FieldOfView < 110)
     {
-
       cullingMatrixVert = DrawDistance + PlayerMovement.distanceToGround*HeightMod + CameraZoomOut.vcamera.m_Lens.FieldOfView;
       cullingMatrixHor = HorizontalMod + cullingMatrixVert;
     }
@@ -72,5 +71,5 @@ public class BenderManager : MonoBehaviour
   }
   private static float DynamiclyScaleCulling(Cinemachine.CinemachineVirtualCamera vcam) =>
     MathLibary.RemapClamped(110, 180, 140, 260, vcam.m_Lens.FieldOfView);
-  private static void OnEndCameraRendering (ScriptableRenderContext ctx, Camera cam)=> cam.ResetCullingMatrix();
+  private static void OnEndCameraRendering (ScriptableRenderContext ctx, Camera cam) => cam.ResetCullingMatrix();
 }

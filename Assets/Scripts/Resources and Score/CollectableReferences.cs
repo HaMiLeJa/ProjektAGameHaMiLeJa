@@ -1,6 +1,12 @@
-[System.Serializable]
-public class CollectableReferences
+/*[System.Serializable]
+public struct CollectableReferences
 {
-    public Hex HexScript;
+    public ushort ;
     public bool ActiveCollectable;
-}
+
+    public CollectableReferences(Hex hexScript, bool activeCollectable)
+    {
+        HexScript = hexScript;
+        ActiveCollectable = activeCollectable;
+    }
+}*/

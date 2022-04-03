@@ -180,14 +180,21 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     }
     void SpawnCollectableInEditMode(float y)
     {   if (Application.isPlaying) return;
-        Collectable col = null;
         CurrentItem = spawnObjectWithPrefabConnection(y,CurrentItem,gameObject, ObjectToSpawn, MyProps);
-        col = CurrentItem.GetComponent<Collectable>();
-        col.ParentHex = gameObject;
-        col.colRef.HexScript = GetComponent<Hex>();
-        col.colRef.ActiveCollectable = true;
-        var Hexcomponent = gameObject.GetComponent<Hex>();
-       if(Hexcomponent.MyCollectable == null) gameObject.GetComponent<Hex>().MyCollectable = CurrentItem;
+        
+        //------------------- Update Collectable Index ID if Possible --------------//
+        CollectableManager colManager = FindObjectOfType<CollectableManager>();
+        if(colManager.hasAllTheHexCollectablePositionBeforeStart == null) return;
+        for (int i = 0; i < colManager.hasAllTheHexCollectablePositionBeforeStart.Length; i++)
+        {
+            if (colManager.hasAllTheHexCollectablePositionBeforeStart[i] == gameObject.transform)
+            {
+                SerializedObject serializedCollectable = new SerializedObject(GetComponentInChildren<Collectable>());
+                serializedCollectable.FindProperty("CollectableIndexID").intValue = i;
+                serializedCollectable.ApplyModifiedPropertiesWithoutUndo();
+            }
+        }
+   
     }
     #endregion
     void SpawnObjectInEditMode(float y) =>  spawnObjectWithPrefabConnection(y, CurrentItem, gameObject, ObjectToSpawn, MyProps);

@@ -117,7 +117,7 @@ public class GameStateManager : MonoBehaviour
         ScoreManager.OnTemporaryMultiplicatorUpdate -= ReferenceLibrary.UIMng.UpdateMultiplicatorUI;
         ScoreManager.OnTemporaryMultiplicatorUpdate -= ReferenceLibrary.UIMng.UpdateTemporaryMultiplicator;
 
-        CollectableManager.OnRespawnCollectables -= ReferenceLibrary.ColMng.StartCollectableSpawn;
+        CollectableManager.OnRespawnCollectables -= ReferenceLibrary.ColMng.spawnCollectableObjects;
     }
     
     void PauseGame()

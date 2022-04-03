@@ -51,7 +51,6 @@ public class Pathfinder : MonoBehaviour
 			noCam = true;
 		}
 	}
-	private void OnApplicationQuit() =>controlPointsNativeTransforms.Dispose();
 	private void OnDestroy() => controlPointsNativeTransforms.Dispose();
 
 	[Button("Fill List with Controlpoints")] public void AllChildsToList()

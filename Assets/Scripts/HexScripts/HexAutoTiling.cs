@@ -22,9 +22,9 @@ public class HexAutoTiling : MonoBehaviour
                   zPlus, zMinus, xPlus, xMinus,
                   xMoveBack, zMoveback;
     
-    private bool leftMove, rightMove, topMove, bottomMove, playerHasMoved, noSide;
+     private bool leftMove, rightMove, topMove, bottomMove, playerHasMoved, noSide;
     
-    private byte    startTilingTreshhold = 130, //später im Inspector bei mehr Level: default 150
+   private byte  startTilingTreshhold = 130, //später im Inspector bei mehr Level: default 150
                     declineBothSidesTreshhold = 10, //später im Inspector bei mehr Level: default 10
                     shortCircutToOrginCounter = 0, 
                     shortCircutTreshhold = 8; //später im Inspector bei mehr Level: default 8
@@ -48,8 +48,7 @@ public class HexAutoTiling : MonoBehaviour
                                         || ReferenceLibrary.PlayerPosition.z < -moveBackToOriginTreshhold;
     #endregion
     #region UnityUpdates
-
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     [NaughtyAttributes.Button()] public void FindAllTheHexesTransform()
     {
         if (Application.isPlaying) return;
@@ -94,8 +93,8 @@ public class HexAutoTiling : MonoBehaviour
     #region TilingRules
     void setFlags()
     {   
-        if(tilingDistanceCheck)  //only one if is less heavy + make sure that everything gets checked once
-        {
+        if(tilingDistanceCheck)  
+        {//only one if is less heavy + make sure that everything gets checked once
             if (ReferenceLibrary.PlayerPosition.x > xPlusSnapShotPos)
             {
                 rightMove = true; compareTopBottom();
@@ -140,8 +139,8 @@ public class HexAutoTiling : MonoBehaviour
         bottomMove = false; topMove = false; 
         rightMove = false; leftMove = false;
     }
-    void limitTiling() //snapshot position so it only needs to update at certain distance
-    {
+    void limitTiling() 
+    { //snapshot position so it only needs to update at certain distance
         if (playerHasMoved)
         {
             xPlusSnapShotPos = ReferenceLibrary.PlayerPosition.x + startTilingTreshhold;
@@ -202,7 +201,6 @@ public class HexAutoTiling : MonoBehaviour
         leftMove = true; rightMove = true;
     }
     #endregion
-    private void OnApplicationQuit() => hasAllTheHexesTransformsNative.Dispose();
     private void OnDestroy() => hasAllTheHexesTransformsNative.Dispose();
 }
 [BurstCompile]
