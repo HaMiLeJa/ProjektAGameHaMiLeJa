@@ -203,7 +203,8 @@ public class HexAutoTiling : MonoBehaviour
     #endregion
     private void OnDestroy() => hasAllTheHexesTransformsNative.Dispose();
 }
-[BurstCompile]
+
+[BurstCompile(FloatPrecision.Low, FloatMode.Fast)]
 public struct HexPosJob : IJobParallelForTransform
 { 
     [Unity.Collections.ReadOnly] public ushort xTilingDistanceJob, zTilingDistanceJob ;

@@ -104,9 +104,7 @@ public class CameraZoomOut : MonoBehaviour
     {
   
         xVelocity = math.abs(ReferenceLibrary.PlayerRb.velocity.x);
-        Debug.Log("x Velocity"+ xVelocity);
         zVelocity = math.abs(ReferenceLibrary.PlayerRb.velocity.z);
-        Debug.Log("z Velocity"+ zVelocity);
         xzVelocity = xVelocity + zVelocity;
         if (xzVelocity < zVelocity + HorizontalVerticalStartZoom)
             xzVelocity = zVelocity*2;

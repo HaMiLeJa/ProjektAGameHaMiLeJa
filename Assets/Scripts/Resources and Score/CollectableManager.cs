@@ -139,7 +139,7 @@ public class CollectableManager : MonoBehaviour
 }
 
 
-[BurstCompile]
+[BurstCompile(FloatPrecision.Low, FloatMode.Fast)]
 public struct HexCollectablePosJob : IJobParallelForTransform
 {
     public NativeArray<byte> hasAllTheHexCollectableActiveBoolsJob;
