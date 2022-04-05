@@ -15,20 +15,21 @@ public class HexAutoTiling : MonoBehaviour
    #endregion
    
    #region PrivateVariables
-    
-    private float xPlusSnapShotPos, xMinusSnapShotPos, 
+   private byte shortCircutToOrginCounter = 0;
+   private float xPlusSnapShotPos, xMinusSnapShotPos, 
                   zPlusSnapShotPos, zMinusSnapShotPos,
                   xOriginPosition, zOriginPosition,
                   zPlus, zMinus, xPlus, xMinus,
                   xMoveBack, zMoveback;
     
      private bool leftMove, rightMove, topMove, bottomMove, playerHasMoved, noSide;
-    
-   private byte  startTilingTreshhold = 130, //später im Inspector bei mehr Level: default 150
+
+     [SerializeField]private byte  startTilingTreshhold = 130, //später im Inspector bei mehr Level: default 150
                     declineBothSidesTreshhold = 10, //später im Inspector bei mehr Level: default 10
-                    shortCircutToOrginCounter = 0, 
                     shortCircutTreshhold = 8; //später im Inspector bei mehr Level: default 8
+
     
+     
     [Tooltip("ab wann soll er das Tiling anfangen?")] [SerializeField] private float tilingTreshold = 307.5f; //default 307.5
 
     public static ushort zTilingDistance = 598, //default 598
