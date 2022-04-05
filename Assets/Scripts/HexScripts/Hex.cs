@@ -2,16 +2,16 @@ using System.Collections;
 using UnityEngine;
 public class Hex : MonoBehaviour
 {
-    private MaterialPropertyBlock mpb;
-    private MaterialPropertyBlock MPB
-    {
-        get
-        {
-            if (mpb == null) mpb = new MaterialPropertyBlock();
-            return mpb;
-        }
-    }
-    static readonly int hexIDEnableGlow = Shader.PropertyToID("_enableGlow");
+    // private MaterialPropertyBlock mpb;
+    // private MaterialPropertyBlock MPB
+    // {
+    //     get
+    //     {
+    //         if (mpb == null) mpb = new MaterialPropertyBlock();
+    //         return mpb;
+    //     }
+    // }
+    // static readonly int hexIDEnableGlow = Shader.PropertyToID("_enableGlow");
     #region InspectorGlow
     private bool isGlowing;
     #endregion
@@ -24,7 +24,7 @@ public class Hex : MonoBehaviour
     //private HexCoordinates hexCoordinates;
     public HexType hexType;
     public CollectableType collectableType = CollectableType.Type1; //To Be Used :)
-   
+    public ushort hexSwapIndex;
     AudioClip clip;
     [SerializeField] public ParticleSystem EffectParticle;
     #endregion
@@ -73,7 +73,7 @@ public class Hex : MonoBehaviour
             if (hexType == HexType.ChangeDirection) ChangeDirectionStarter();
             if ((hexType == HexType.BoostForward)) BoostForwardStarter();
             if ((hexType == HexType.BoostInDirection)) BoostInDirectionStarter();
-            highlightObjects(false, 0, 0);
+            highlightObjects(false, 0, hexSwapIndex);
         }
     }
     #region MaterialSwap
@@ -100,21 +100,23 @@ public class Hex : MonoBehaviour
     {
         if (!isProp)
         {
-            if (isGlowing == false)
-            {
-                MPB.SetInt(hexIDEnableGlow, 1);
-                hexRenderer.SetPropertyBlock(MPB);
-            }
+            if (!isGlowing)
+             {
+                 hexRenderer.sharedMaterial = Highlightmanager.glowMaterialsStatic[HighlightType];
+                 //MPB.SetInt(hexIDEnableGlow, 1);
+                 // hexRenderer.SetPropertyBlock(MPB);
+             }
             else
             {
-                MPB.SetInt(hexIDEnableGlow, 0);
-                hexRenderer.SetPropertyBlock(MPB);
+                hexRenderer.sharedMaterial = Highlightmanager.HexMaterialsUseStatic[matSwapIndex];
+                // MPB.SetInt(hexIDEnableGlow, 0);
+                // hexRenderer.SetPropertyBlock(MPB);
             }
-            isGlowing = !isGlowing;
+             isGlowing = !isGlowing;
         }
         if (isProp)
         {
-            if (isGlowing == false)  Highlightmanager.GlowHighlight(matSwapIndex, HighlightType);
+            if (!isGlowing)  Highlightmanager.GlowHighlight(matSwapIndex, HighlightType);
             else Highlightmanager.DisableGlowHighlight(matSwapIndex);
             isGlowing = !isGlowing;
         }
@@ -393,18 +395,19 @@ public class Hex : MonoBehaviour
     #region Collectables
     [Header("Collectables")]
     //[SerializeField] SpawnHexCollectableInEditor spawnHexEditor;
-    public GameObject myProps;
     [Space] public GameObject MyCollectable; //HIdeInInsp
    // [SerializeField] GameObject collectablePrefab;
 
    #endregion
+   #if UNITY_EDITOR
+
     private void OnDrawGizmosSelected()
     {
         if (hexType != HexType.BoostInDirection) return;
         BoostInDirectionDirection = new Vector3(XDirection, YDirection, ZDirection);
 
         float arrowLength = 5f;
-        
+       
         Vector3 forwardVector = BoostInDirectionDirection.normalized;
         Vector3 arrowLeft = Vector3.down * arrowLength * 0.2f;
         Vector3 arrowRight = -arrowLeft;
@@ -418,5 +421,6 @@ public class Hex : MonoBehaviour
         Gizmos.DrawLine(arrowTip + new Vector3(0, 2, 0), arrowLeft + new Vector3(0, 2, 0));
         Gizmos.DrawLine(arrowTip + new Vector3(0, 2, 0), arrowRight + new Vector3(0, 2, 0));
     }
+#endif
     void PlaySound()=> ReferenceLibrary.AudMng.HexAudMng.PlayHex(hexType);
 }

@@ -13,6 +13,7 @@ public class CollectableManager : MonoBehaviour
 {
     public delegate void RespawnCollectables();
     public static RespawnCollectables OnRespawnCollectables;
+    public static bool rotateCollectablesInEditor = true;
     [NaughtyAttributes.InfoBox("The list will empty when the game starts. This is intended because it used native Container for multithreading and better cpu cache lining/ reading")]
     [BoxGroup("Debug")] [Tooltip("PreMade Array that has all the Transforms that then gets mem copied by the native Transformaccessarray")] 
     [SerializeField] public Transform[] hasAllTheCollectableHexParentTransformsBeforeStart;
@@ -88,6 +89,11 @@ public class CollectableManager : MonoBehaviour
         {   //not reaaaally needed it is just a safety check
             if(hasAllTheCollectableActiveBoolsBeforeStart[i] == 0) collectableList[i].gameObject.SetActive(false);
         }
+    }
+
+    [NaughtyAttributes.Button()] public void ToogleRotationCollectableInEditor()
+    {
+      rotateCollectablesInEditor = !rotateCollectablesInEditor;
     }
     void Update()
     {

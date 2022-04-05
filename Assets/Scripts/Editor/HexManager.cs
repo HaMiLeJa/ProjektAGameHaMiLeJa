@@ -7,11 +7,16 @@ public class HexManager: EditorWindow
     public  static Dictionary<int, Material> hasAllTheHexMaterials = new Dictionary<int, Material>();
     public  static Dictionary<int, int> hasAllTheAngles= new Dictionary<int, int>();
     private string hexTag = "Hex";
+
+    private const int leftAngle = -60;
+
+    private const int rightAngle = 60;
+
     private int 
-        leftAngle = -60, rightAngle = 60,
-        meshChildIndex = 0, meshGrandChildIndex = 0, propsChildIndex = 1,
-        startAtMaterial = 1, stopAtMaterial, maxMaterials = 4;
-    
+        startAtMaterial = 1, stopAtMaterial;
+
+    private const int maxMaterials = 4;
+
     [MenuItem("HaMiLeJa/ Mange Hex")]
     public static void ShowWindow()
     {
@@ -38,11 +43,6 @@ public class HexManager: EditorWindow
         if (GUILayout.Button("<= Props")) RotateLeftProps();
         GUILayout.Space(15);
         GUILayout.Label("Materials", EditorStyles.boldLabel);
-        GUILayout.Label("Zuerst must du die Materials (einmalig) reinladen", EditorStyles.helpBox);
-        
-        if (GUILayout.Button(">> Load Materials <<")) AddDic();
-        GUILayout.Space(5);
-        
         for (int i = 1; i <= maxMaterials; i++)
         {
             GUILayout.Space(6);
@@ -52,7 +52,7 @@ public class HexManager: EditorWindow
         GUILayout.Space(15);
         GUILayout.Label("Randomize Material", EditorStyles.boldLabel);
         GUILayout.Label("Hier kannst du zwischen allen Materials randomisieren", EditorStyles.helpBox);
-        if (GUILayout.Button("> Randomize Materials <")) RandomizeMaterials(1, maxMaterials);
+        if (GUILayout.Button("> Randomize Materials <")) RandomizeMaterials(1, maxMaterials, Selection.gameObjects);
         GUILayout.Space(5);
         GUILayout.Label("Bei dieser option kannst du ein start und End Material wählen", EditorStyles.helpBox);
         startAtMaterial = EditorGUILayout.IntSlider("Start at Material", startAtMaterial, 1, maxMaterials-1);
@@ -61,34 +61,52 @@ public class HexManager: EditorWindow
         {
             if (stopAtMaterial < startAtMaterial)
             {
-                Debug.Log("StopValue kann nicht kleiner sein als StartValue"); return;
+                Debug.Log("StopValue kann nicht kleiner sein als StartValue"); 
+                return;
             }
-            RandomizeMaterials(startAtMaterial, stopAtMaterial);
+            RandomizeMaterials(startAtMaterial, stopAtMaterial, Selection.gameObjects);
         }
         GUILayout.Space(8);
-        GUILayout.Label("Vorher einmal(ig) auf Load Materials", EditorStyles.helpBox);
-        if (GUILayout.Button("Randomize Ground Rotation")) RandomizeGround();
+        if (GUILayout.Button("Randomize Ground Rotation")) RandomizeGround(Selection.gameObjects);
+        if (GUILayout.Button("Randomize ALL Hex Materials Between "))  RandomizeMaterials(startAtMaterial, stopAtMaterial, GameObject.FindGameObjectsWithTag("Hex"));
+        if (GUILayout.Button("Randomize ALL Hex Ground Rotations "))  RandomizeGround(GameObject.FindGameObjectsWithTag("Hex"));
     }
-    private void RandomizeGround()
-    {
-        foreach (GameObject rotateMe in Selection.gameObjects)
-       {
-           if (rotateMe.tag == hexTag)
-           { 
+    private void RandomizeGround(GameObject[] gameObjects)
+    {   //randomized the HexObject Grounds by given Degree angles
+        int counter = 0;
+        foreach (GameObject rotateMe in gameObjects)
+        { 
+            if(hasAllTheAngles.Count == 0) AddDic();
+           if (rotateMe.CompareTag(hexTag))
+           {
+               if (rotateMe.GetComponent<Hex>().hexType == HexType.BoostInDirection)
+               {
+                   counter++;
+                   rotateMe.transform.eulerAngles = new Vector3(0, 0, 0);
+                   continue;
+               }
+               
                int randomAngle = Random.Range(1, 6), value = hasAllTheAngles[randomAngle];
-               GameObject childWithMeshRnd = rotateMe.transform.GetChild(meshChildIndex).gameObject;
-               Rotator(childWithMeshRnd, value);
+               List<GameObject> childList = new List<GameObject>();
+               for (int i = 0; i < rotateMe.transform.childCount; i++)
+               {
+                   childList.Add(rotateMe.transform.GetChild(i).gameObject);
+                   rotateMe.transform.GetChild(i).parent = null;
+               }
+               Rotator(rotateMe, value);
+               foreach (GameObject child in childList) child.transform.parent = rotateMe.transform;
            }
        }
+        if(counter > 0) Debug.Log("BoostInDirection hexes werden immer auf zero rotation gesetzt. Für " + counter + " Hex(es) wurde es gerade getan");
     }
     private void RotateRightChild()
     {
         foreach (GameObject rotateMe in Selection.gameObjects)
         {
-            if (rotateMe.tag == hexTag)
+            if (rotateMe.CompareTag(hexTag))
             {
-                GameObject childWithMeshRnd = rotateMe.transform.GetChild(meshChildIndex).gameObject;
-                Rotator(childWithMeshRnd, rightAngle);
+                for (int i = 0; i < rotateMe.transform.childCount; i++)
+                    Rotator(rotateMe.transform.GetChild(i).gameObject, rightAngle);
             }
         }
     }
@@ -96,10 +114,10 @@ public class HexManager: EditorWindow
     {
         foreach (GameObject rotateMe in Selection.gameObjects)
         {
-            if (rotateMe.tag == hexTag)
+            if (rotateMe.CompareTag(hexTag))
             {
-                GameObject childWithMeshRnd = rotateMe.transform.GetChild(meshChildIndex).gameObject;
-                Rotator(childWithMeshRnd, leftAngle );
+                for (int i = 0; i < rotateMe.transform.childCount; i++)
+                Rotator(rotateMe.transform.GetChild(i).gameObject, leftAngle );
             }
         }
     }
@@ -107,7 +125,14 @@ public class HexManager: EditorWindow
     {
         foreach (GameObject rotateMe in Selection.gameObjects)
         {
-            if(rotateMe.tag == hexTag)
+            if (rotateMe.GetComponent<Hex>().hexType == HexType.BoostInDirection)
+            {
+                Debug.Log("BoostInDirection Hexes erhalten aktuell immer eine 0 rotation: " + rotateMe.name);
+                rotateMe.transform.eulerAngles = new Vector3(0, 0, 0);
+                continue;
+            }
+             
+            if(rotateMe.CompareTag(hexTag))
             Rotator(rotateMe , rightAngle);
         }
     }
@@ -115,7 +140,13 @@ public class HexManager: EditorWindow
     {
         foreach (GameObject rotateMe in Selection.gameObjects)
         {
-            if(rotateMe.tag == hexTag)
+            if (rotateMe.GetComponent<Hex>().hexType == HexType.BoostInDirection)
+            {
+                Debug.Log("BoostInDirection Hexes erhalten aktuell immer eine 0 rotation: " + rotateMe.name);
+                rotateMe.transform.eulerAngles = new Vector3(0, 0, 0);
+                continue;
+            }
+            if(rotateMe.CompareTag(hexTag))
             Rotator(rotateMe, leftAngle );
         }
     }
@@ -123,10 +154,10 @@ public class HexManager: EditorWindow
     {
         foreach (GameObject rotateMe in Selection.gameObjects)
         {
-            if (rotateMe.tag == hexTag)
+            if (rotateMe.CompareTag(hexTag))
             {
-                GameObject childWithMeshRnd = rotateMe.transform.GetChild(propsChildIndex).gameObject;
-                Rotator(childWithMeshRnd, rightAngle);
+                for (int i = 0; i < rotateMe.transform.childCount; i++)
+                Rotator(rotateMe.transform.GetChild(i).gameObject, rightAngle);
             }
         }
     }
@@ -134,10 +165,10 @@ public class HexManager: EditorWindow
     {
         foreach (GameObject rotateMe in Selection.gameObjects)
         {
-            if (rotateMe.tag == hexTag)
+            if (rotateMe.CompareTag(hexTag))
             {
-                GameObject childWithMeshRnd = rotateMe.transform.GetChild(propsChildIndex).gameObject;
-                Rotator(childWithMeshRnd, leftAngle );
+                for (int i = 0; i < rotateMe.transform.childCount; i++)
+                Rotator(rotateMe.transform.GetChild(i).gameObject, leftAngle );
             }
         }
     }
@@ -146,15 +177,9 @@ public class HexManager: EditorWindow
         gameObjectToRotate.transform.Rotate(0,angle,0);
     }
     private void SetMaterial(int materialID)
-    {
+    {     if(hasAllTheHexMaterials.Count == 0) AddDic();
         foreach (GameObject replaceMyMat in Selection.gameObjects)
-        {
-            GameObject childWithMeshRnd = replaceMyMat.transform.
-                GetChild(meshChildIndex).GetChild(meshGrandChildIndex).gameObject;
-            MeshRenderer rnd = childWithMeshRnd.GetComponent<MeshRenderer>();
-            Material value = hasAllTheHexMaterials[materialID];
-            rnd.material = value;
-        }
+            replaceMyMat.GetComponent<MeshRenderer>().sharedMaterial= hasAllTheHexMaterials[materialID];
     }
     private void AddDic()
     {
@@ -169,16 +194,13 @@ public class HexManager: EditorWindow
         for (int i = 1; i <= 7; i++)
             hasAllTheAngles.Add(i, leftAngle*i);
     }
-    private void RandomizeMaterials(int minMatIndex, int MaxMatIndex)
+    private void RandomizeMaterials(int minMatIndex, int MaxMatIndex, GameObject[] gameObjects)
     {
-        foreach (GameObject replaceMyMat in Selection.gameObjects)
+        if(hasAllTheHexMaterials.Count == 0) AddDic();
+        foreach (GameObject replaceMyMat in gameObjects)
         {
             int materialID = Random.Range(minMatIndex, MaxMatIndex+1);
-            Debug.Log(materialID);
-            GameObject childWithMeshRnd = replaceMyMat.transform.GetChild(meshChildIndex).GetChild(meshGrandChildIndex).gameObject;
-            MeshRenderer rnd = childWithMeshRnd.GetComponent<MeshRenderer>();
-            Material value = hasAllTheHexMaterials[materialID];
-            rnd.material = value;
+           replaceMyMat.GetComponent<MeshRenderer>().sharedMaterial = hasAllTheHexMaterials[materialID];
         }
     }
 }

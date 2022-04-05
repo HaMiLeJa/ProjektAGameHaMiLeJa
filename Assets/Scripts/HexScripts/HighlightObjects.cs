@@ -90,7 +90,7 @@ public class HighlightObjects : MonoBehaviour
        if (GetComponent<Renderer>() != null) GetComponent<Renderer>().sharedMaterial = null;
     }
 #endif
-    private void Awake()=>hex = transform.parent.transform.parent.GetComponent<Hex>();
+    private void Awake()=>hex = GetComponentInParent<Hex>();
     private void Start()
     {
         if (highlightType > Highlightmanager.glowMaterialsStatic.Length) highlightType = 0;
@@ -134,4 +134,5 @@ public class HighlightObjects : MonoBehaviour
         yield return Rotate(rotateMe,headshakes,Random.Range(1.2f,1.4f)*duration,
             Random.Range(angle, angle + 5), -firstDirection);
     }
+    
 }

@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: HexMaterial 4
-  m_Shader: {fileID: -6465566751694194690, guid: ffeb9511e9d98c948a37cb5d7dc0a600, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 41137f46a59b1134dac7053de7a06fe8, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -93,6 +93,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - DynamicGlow: 1
     - GlowPower: 1
     - _AlphaClip: 0
     - _Blend: 0

@@ -18,7 +18,7 @@ GameObject:
   m_TagString: Collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 1
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &3402664699473319825
 Transform:
@@ -95,13 +95,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d044deaaff19008419e0631900f12e8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
   rotation: 20
-  ParentHex: {fileID: 0}
+  CollectableIndexID: 0
   settings: {fileID: 11400000, guid: a3c1e0f79f902424c90ba234f2c3a5d7, type: 2}
-  colRef:
-    HexScript: {fileID: 0}
-    ActiveCollectable: 0
 --- !u!65 &1217477346
 BoxCollider:
   m_ObjectHideFlags: 0

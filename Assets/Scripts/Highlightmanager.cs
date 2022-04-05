@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using NaughtyAttributes;
 using UnityEditor;
+
 public class Highlightmanager : MonoBehaviour
 { 
     [BoxGroup("Delay Settings")]  [SerializeField][Range(0, 1)] float SetGlowEnableDelayHex =   0.05f ;
@@ -17,10 +18,12 @@ public class Highlightmanager : MonoBehaviour
     private static  readonly List<GameObject> HexObjects = new List<GameObject>();
     private static  readonly List<GameObject> HexObjectsWithRenderer = new List<GameObject>();
     private static RendererMatIndex[] rendMatIndexStatic;
+    public static Material[] HexMaterialsUseStatic;
     [InfoBox("Hier alle Glowmaterials eintragen die man haben möchte für das Level. Einfach in die Glow Material List eintragen. Rend Mat Index und Materials Used bitte nur durch den Button updaten, und das ab und zu.", EInfoBoxType.Warning)]
     [BoxGroup("Glow Materials")]  [SerializeField] public  Material[] GlowMaterialList;
     [BoxGroup("Serialized Lists")] [SerializeField] public RendererMatIndex[] RendMatIndex;
     [BoxGroup("Serialized Lists")] [SerializeField] public Material[] MaterialsUsed;
+    [BoxGroup("Serialized Lists")] [SerializeField] public Material[] HexMaterialsUsed;
     private void Awake()
     {
         Array.Resize(ref glowMaterialsStatic,GlowMaterialList.Length);
@@ -41,6 +44,8 @@ public class Highlightmanager : MonoBehaviour
     
     void updateStaticValues()
     {
+        HexMaterialsUseStatic = HexMaterialsUsed;
+        HexMaterialsUsed = null;
         hasAllTheUniqueMaterials = MaterialsUsed;
         rendMatIndexStatic = RendMatIndex;
         MaterialsUsed = null; RendMatIndex = null; 
@@ -55,15 +60,27 @@ public class Highlightmanager : MonoBehaviour
         if (Application.isPlaying) return;
         clearAllContainer();
         populateHexObjectLists();
+        setHexMaterials();
         pupulateUniqueMaterials();
         setArraySizes();
         populateSerializedPropertys();
     }
+
+    private void setHexMaterials()
+    {       HashSet<Material> hasAllTheUniqueHexMaterialsHashSet = new HashSet<Material>();
+        foreach (GameObject hex in HexObjects)
+        {
+            if(hex.GetComponent<Renderer>().sharedMaterial !=null) hasAllTheUniqueHexMaterialsHashSet.Add(hex.GetComponent<Renderer>().sharedMaterial);
+        }
+
+        HexMaterialsUsed = hasAllTheUniqueHexMaterialsHashSet.ToArray();
+        hasAllTheUniqueHexMaterialsHashSet = null;
+    }
     private void clearAllContainer()
     {
-       if(hasAllTheUniqueMaterialsHashSet !=null)      hasAllTheUniqueMaterialsHashSet.Clear();
-       if(HexObjects !=null)                          HexObjects.Clear();
-       if(HexObjectsWithRenderer !=null)            HexObjectsWithRenderer.Clear();
+        hasAllTheUniqueMaterialsHashSet.Clear();
+        HexObjects.Clear();
+        HexObjectsWithRenderer.Clear();
        if(RendMatIndex != null) Array.Clear(RendMatIndex,0,RendMatIndex.Length);
     }
     private void populateHexObjectLists()
@@ -71,8 +88,8 @@ public class Highlightmanager : MonoBehaviour
         foreach (GameObject hex in GameObject.FindGameObjectsWithTag("Hex")) HexObjects.Add(hex);
         foreach (GameObject hex in HexObjects)
         {   
-            int rendererCount = hex.transform.GetChild(1).GetComponentsInChildren<Renderer>().Length;
-            int isValidCount = hex.transform.GetChild(1).GetComponentsInChildren<HighlightObjects>().Length;
+            int rendererCount = hex.transform.GetComponentsInChildren<Renderer>().Length;
+            int isValidCount = hex.transform.GetComponentsInChildren<HighlightObjects>().Length;
             if (rendererCount > 0 && isValidCount > 0) HexObjectsWithRenderer.Add(hex);
         }
     }
@@ -80,16 +97,30 @@ public class Highlightmanager : MonoBehaviour
     {
         foreach (GameObject hex in HexObjects)
         {
-            for (int i = 0; i < hex.transform.GetChild(1).childCount; i++)
-                if (hex.transform.GetChild(1).GetChild(i).GetComponent<HighlightObjects>() != null)
+            for (int i = 0; i < hex.transform.childCount; i++)
+                if (hex.transform.GetChild(i).GetComponent<HighlightObjects>() != null)
                 {
-                    foreach (Renderer rend in hex.transform.GetChild(1).GetComponentsInChildren<Renderer>())
+                    foreach (Renderer rend in hex.transform.GetComponentsInChildren<Renderer>())
                     {
-                        if(rend.sharedMaterial !=null) hasAllTheUniqueMaterialsHashSet.Add(rend.sharedMaterial);
+                        if (rend.sharedMaterial != null )
+                        {
+                            hasAllTheUniqueMaterialsHashSet.Add(rend.sharedMaterial);
+                        }
                     }
                 }
         }
+
+
         hasAllTheUniqueMaterials = hasAllTheUniqueMaterialsHashSet.ToArray();
+        
+        // for (var index = 0; index < HexMaterialsUsed.Length; index++)
+        // {
+        //     Material material = HexMaterialsUsed[index];
+        //     foreach (Material mat in hasAllTheUniqueMaterials)
+        //     {
+        //         if (material == mat) HexMaterialsUsed[index] = null;
+        //     }
+        // }
         MaterialsUsed = hasAllTheUniqueMaterials;
     }
     private void setArraySizes()
@@ -98,8 +129,8 @@ public class Highlightmanager : MonoBehaviour
         int rendMatIndexNumber = 1;
         foreach (GameObject hex in HexObjectsWithRenderer)
         {
-            int arrayLength = hex.transform.GetChild(1).GetComponentsInChildren<Renderer>().Length;
-            foreach (Renderer renderer in hex.transform.GetChild(1).GetComponentsInChildren<Renderer>())
+            int arrayLength = hex.transform.GetComponentsInChildren<Renderer>().Length;
+            foreach (Renderer renderer in hex.transform.GetComponentsInChildren<Renderer>())
             {
                 if (renderer.sharedMaterial == null) arrayLength--;
             }
@@ -116,7 +147,7 @@ public class Highlightmanager : MonoBehaviour
         int rendererIndexNumber = 1;
         foreach (GameObject hex in HexObjectsWithRenderer)
         {
-            foreach (HighlightObjects hiOBJ in hex.transform.GetChild(1).GetComponentsInChildren<HighlightObjects>())
+            foreach (HighlightObjects hiOBJ in hex.transform.GetComponentsInChildren<HighlightObjects>())
             {
                 SerializedHexObject = new SerializedObject(hiOBJ);
                 SerializedHexObject.FindProperty("matSwapIndex").intValue = rendererIndexNumber;
@@ -124,7 +155,7 @@ public class Highlightmanager : MonoBehaviour
             }
             int countIndexInnerArrays = 0;
             for (ushort i = 0; i < hasAllTheUniqueMaterials.Length; i++)
-                foreach (Renderer rend in hex.transform.GetChild(1).GetComponentsInChildren<Renderer>())
+                foreach (Renderer rend in hex.transform.GetComponentsInChildren<Renderer>())
                 {
                     if (rend.gameObject.GetComponent<HighlightObjectsOwnGlow>() != null) continue;
                     if (hasAllTheUniqueMaterials[i] == rend.sharedMaterial)
@@ -139,6 +170,22 @@ public class Highlightmanager : MonoBehaviour
             rendererIndexNumber++;
         }
         SerializedObject.ApplyModifiedPropertiesWithoutUndo();
+
+
+        SerializedObject serializedHexScript;
+        foreach (GameObject hex in HexObjects)
+        {
+            Renderer hexrender = hex.GetComponent<Renderer>();
+            int checkMat = 0;
+            for (int i = 0; i < HexMaterialsUsed.Length; i++)
+            {
+                if (hexrender.sharedMaterial == HexMaterialsUsed[i])
+                    checkMat = i;
+            }
+            serializedHexScript = new SerializedObject(hex.GetComponent<Hex>());
+            serializedHexScript.FindProperty("hexSwapIndex").intValue = checkMat;
+            serializedHexScript.ApplyModifiedPropertiesWithoutUndo();
+        }
     }
 #endif
 }

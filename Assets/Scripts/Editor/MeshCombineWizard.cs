@@ -85,8 +85,10 @@ public class MeshCombiner : ScriptableWizard
 		}
 		else resultGO = combinedObjects[0];
 		
+#pragma warning disable 618
 		Object prefab = PrefabUtility.CreateEmptyPrefab("Assets/" + resultGO.name + ".prefab");
 		PrefabUtility.ReplacePrefab(resultGO, prefab, ReplacePrefabOptions.ConnectToPrefab);
+#pragma warning restore 618
 		combineParent.SetActive(false);
 		combineParent.transform.position = originalPosition;
 		resultGO.transform.position = originalPosition;

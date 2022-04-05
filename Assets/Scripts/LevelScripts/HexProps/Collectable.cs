@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 public class Collectable : MonoBehaviour
 {
@@ -16,4 +17,11 @@ public class Collectable : MonoBehaviour
             ReferenceLibrary.ColMng.CollectableCollected(this.gameObject, settings.secondValue,CollectableIndexID); //hier drin sind auch sounds;
         }
     }
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        if(CollectableManager.rotateCollectablesInEditor)
+        transform.Rotate(new Vector3(0, rotation * Time.deltaTime, 0));
+    }
+#endif
 }

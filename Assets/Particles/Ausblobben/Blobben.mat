@@ -110,6 +110,7 @@ Material:
     - _QueueOffset: 0
     - _SPECULAR_IOR: 1.5
     - _SPECULAR_ROUGHNESS: 0
+    - _Saturation: 2.71
     - _SoftParticlesEnabled: 0
     - _SoftParticlesFarFadeDistance: 1
     - _SoftParticlesNearFadeDistance: 0

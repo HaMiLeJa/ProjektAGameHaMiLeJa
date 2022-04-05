@@ -5,7 +5,6 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
 {
     public GameObject ObjectToSpawn, CurrentItem;
     [SerializeField] Hex myHex;
-    [SerializeField] GameObject MyProps;
     public bool DebugActiveObj, DebugIsRunning;
     ChangeDirectionProp[] propsCDChildren;
     BoostForwardProp[] propsBFChildren;
@@ -62,7 +61,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     #region boostForward
     void BoostForward()
     {   if (Application.isPlaying) return;
-        SetNewValues(BoostForwardObj); ClearFalseObj(); CurrentItem = ResetCurrentItem(MyProps,SpawnComponentTypes.BoostForward);
+        SetNewValues(BoostForwardObj); ClearFalseObj(); CurrentItem = ResetCurrentItem(SpawnComponentTypes.BoostForward);
         if(CheckForSpawnAllowanceBoostForward())
         {
             currentHexType = myHex.hexType;
@@ -73,7 +72,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     {
         if (!Application.isPlaying)
         {
-            propsBFChildren = MyProps.GetComponentsInChildren<BoostForwardProp>();
+            propsBFChildren = GetComponentsInChildren<BoostForwardProp>();
             if (propsBFChildren.Length == 0) return true;
         }
         return false;
@@ -82,7 +81,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     #region ChangeDirection
     void ChangeDirection()
     {   if (Application.isPlaying) return;
-        SetNewValues(ChangeDirectionObj); ClearFalseObj(); CurrentItem = ResetCurrentItem(MyProps, SpawnComponentTypes.ChangeDirection);
+        SetNewValues(ChangeDirectionObj); ClearFalseObj(); CurrentItem = ResetCurrentItem(SpawnComponentTypes.ChangeDirection);
         if (CheckForSpawnAllowanceChangeDirection())
         {
             currentHexType = myHex.hexType;
@@ -93,7 +92,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     {
         if (!Application.isPlaying)
         {
-            propsCDChildren = MyProps.GetComponentsInChildren<ChangeDirectionProp>();
+            propsCDChildren = GetComponentsInChildren<ChangeDirectionProp>();
             if (propsCDChildren.Length == 0) return true; 
         }
         return false;
@@ -102,7 +101,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     #region BoostInDirection
     void BoostInDirection()
     {   if (Application.isPlaying) return;
-        SetNewValues(BoostInDirectionObj); ClearFalseObj(); CurrentItem =  ResetCurrentItem(MyProps,SpawnComponentTypes.BoostInDirection);
+        SetNewValues(BoostInDirectionObj); ClearFalseObj(); CurrentItem =  ResetCurrentItem(SpawnComponentTypes.BoostInDirection);
         if (CheckForSpawnAllowanceBoostInDirection())
         {
             currentHexType = myHex.hexType;
@@ -114,7 +113,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     {
         if (!Application.isPlaying)
         {
-            propsBIDChildren = MyProps.GetComponentsInChildren<BoostInDirectionProp>();
+            propsBIDChildren = GetComponentsInChildren<BoostInDirectionProp>();
             if (propsBIDChildren.Length == 0) return true; 
         }
         return false;
@@ -123,7 +122,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     #region Trampolin
     void Trampolin()
     {   if (Application.isPlaying) return;
-        SetNewValues(TrampolinObj); ClearFalseObj(); CurrentItem = ResetCurrentItem(MyProps,SpawnComponentTypes.Trampolin);
+        SetNewValues(TrampolinObj); ClearFalseObj(); CurrentItem = ResetCurrentItem(SpawnComponentTypes.Trampolin);
         if (CheckForSpawnAllowanceTrampolin())
         {
             currentHexType = myHex.hexType;
@@ -134,7 +133,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     {
         if (Application.isPlaying)
         {
-            propsTChildren = MyProps.GetComponentsInChildren<TrampolinProp>();
+            propsTChildren = GetComponentsInChildren<TrampolinProp>();
             if (propsTChildren.Length == 0) return true; 
         }
         return false;
@@ -143,7 +142,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     #region SlowDown
     void SlowDown()
     {   if (Application.isPlaying) return;
-        SetNewValues(SlowDownObj); ClearFalseObj(); CurrentItem = ResetCurrentItem(MyProps, SpawnComponentTypes.SlowDown);
+        SetNewValues(SlowDownObj); ClearFalseObj(); CurrentItem = ResetCurrentItem(SpawnComponentTypes.SlowDown);
         if (CheckForSpawnAllowanceSlowDown())
         {
             currentHexType = myHex.hexType;
@@ -154,7 +153,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     {
         if (!Application.isPlaying)
         {
-            propsSDChildren = MyProps.GetComponentsInChildren<SlowDownProp>();
+            propsSDChildren = GetComponentsInChildren<SlowDownProp>();
             if (propsSDChildren.Length == 0) return true;
         }
         return false;
@@ -163,7 +162,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     #region Collectable
     void CollectableCase()
     {   if (Application.isPlaying) return;
-        SetNewValues(CollectableObj); ClearFalseObj(); CurrentItem = ResetCurrentItem(MyProps, SpawnComponentTypes.Collectable);
+        SetNewValues(CollectableObj); ClearFalseObj(); CurrentItem = ResetCurrentItem(SpawnComponentTypes.Collectable);
         if (CheckForSpawnAllowanceCollectable())
         {
             currentHexType = myHex.hexType;
@@ -173,14 +172,14 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
     bool CheckForSpawnAllowanceCollectable()
     {   if (!Application.isPlaying)
         {
-            propsCChildren = MyProps.GetComponentsInChildren<Collectable>();
+            propsCChildren = GetComponentsInChildren<Collectable>();
             if (propsCChildren.Length == 0) return true; 
         }
         return false;
     }
     void SpawnCollectableInEditMode(float y)
     {   if (Application.isPlaying) return;
-        CurrentItem = spawnObjectWithPrefabConnection(y,CurrentItem,gameObject, ObjectToSpawn, MyProps);
+        CurrentItem = spawnObjectWithPrefabConnection(y,CurrentItem,gameObject, ObjectToSpawn);
         //------------------- Update Collectable Index ID if Possible --------------//
         CollectableManager colManager = FindObjectOfType<CollectableManager>();
         if(colManager.hasAllTheCollectableHexParentTransformsBeforeStart == null) return;
@@ -200,8 +199,8 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         serializedHex.ApplyModifiedPropertiesWithoutUndo();
     }
     #endregion
-    void SpawnObjectInEditMode(float y) =>  spawnObjectWithPrefabConnection(y, CurrentItem, gameObject, ObjectToSpawn, MyProps);
-    public static GameObject spawnObjectWithPrefabConnection(float y, GameObject Item, GameObject hex, GameObject ObjectToSpawn, GameObject MyProps)
+    void SpawnObjectInEditMode(float y) =>  spawnObjectWithPrefabConnection(y, CurrentItem, gameObject, ObjectToSpawn);
+    public  GameObject spawnObjectWithPrefabConnection(float y, GameObject Item, GameObject hex, GameObject ObjectToSpawn)
     {
         Vector3 position = new Vector3(hex.transform.position.x, hex.transform.position.y + y, hex.transform.position.z);
 #if UNITY_EDITOR
@@ -209,18 +208,18 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
 #endif
         Item.transform.position = position;
         Item.transform.rotation = Quaternion.identity;
-        Item.transform.parent = MyProps.transform;
+        Item.transform.parent = this.transform;
         return Item;
     }
-    public static GameObject ResetCurrentItem(GameObject MyProps, SpawnComponentTypes spawnComponentType)
+    public GameObject ResetCurrentItem(SpawnComponentTypes spawnComponentType)
     {
-        if (spawnComponentType == SpawnComponentTypes.Collectable && MyProps.GetComponentInChildren<Collectable>()) return MyProps.GetComponentInChildren<Collectable>().gameObject;
-        if (spawnComponentType == SpawnComponentTypes.SlowDown && MyProps.GetComponentInChildren<SlowDownProp>()) return MyProps.GetComponentInChildren<SlowDownProp>().gameObject;
-        if (spawnComponentType == SpawnComponentTypes.Trampolin &&MyProps.GetComponentInChildren<TrampolinProp>()) return MyProps.GetComponentInChildren<TrampolinProp>().gameObject;
-        if (spawnComponentType == SpawnComponentTypes.ChangeDirection && MyProps.GetComponentInChildren<ChangeDirectionProp>()) return MyProps.GetComponentInChildren<ChangeDirectionProp>().gameObject;
-        if (spawnComponentType == SpawnComponentTypes.BoostForward && MyProps.GetComponentInChildren<BoostForwardProp>()) return MyProps.GetComponentInChildren<BoostForwardProp>().gameObject;
-        if (spawnComponentType == SpawnComponentTypes.BoostInDirection && MyProps.GetComponentInChildren<BoostInDirectionProp>()) return MyProps.GetComponentInChildren<BoostInDirectionProp>().gameObject;
-        return MyProps;
+        if (spawnComponentType == SpawnComponentTypes.Collectable && this.GetComponentInChildren<Collectable>()) return this.GetComponentInChildren<Collectable>().gameObject;
+        if (spawnComponentType == SpawnComponentTypes.SlowDown && this.GetComponentInChildren<SlowDownProp>()) return this.GetComponentInChildren<SlowDownProp>().gameObject;
+        if (spawnComponentType == SpawnComponentTypes.Trampolin &&this.GetComponentInChildren<TrampolinProp>()) return this.GetComponentInChildren<TrampolinProp>().gameObject;
+        if (spawnComponentType == SpawnComponentTypes.ChangeDirection && this.GetComponentInChildren<ChangeDirectionProp>()) return this.GetComponentInChildren<ChangeDirectionProp>().gameObject;
+        if (spawnComponentType == SpawnComponentTypes.BoostForward && this.GetComponentInChildren<BoostForwardProp>()) return this.GetComponentInChildren<BoostForwardProp>().gameObject;
+        if (spawnComponentType == SpawnComponentTypes.BoostInDirection && this.GetComponentInChildren<BoostInDirectionProp>()) return this.GetComponentInChildren<BoostInDirectionProp>().gameObject;
+        return null;
     }
 }
 public enum SpawnComponentTypes

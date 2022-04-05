@@ -17,7 +17,7 @@ public class AudioManager : MonoBehaviour
         if (source == null) return;
         source.outputAudioMixerGroup = group;
         source.clip = clip;
-        source.Play();
+       if(source.enabled) source.Play();
     }
     AudioSource FindFreeMissionAudioSource()
     {

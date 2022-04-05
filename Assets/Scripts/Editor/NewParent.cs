@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 using UnityEditor;
-public static class  NewParent 
+public static class  NewParent
 {
-    private static GameObject LevelObj, Hex, Props;
+    private static GameObject LevelObj, Hex;
     private static String Hexlayer = "Hex";
     [MenuItem("HaMiLeJa/Parent Objects t%&Y", isValidateFunction: true)]
     public static bool TransformSValidate()
@@ -32,7 +32,7 @@ public static class  NewParent
         foreach (GameObject go in Selection.gameObjects)
         {
             go.transform.parent = null;
-            Debug.Log("Das Objekt ["+ go +"] wurde unparented");
+            Debug.Log("Das Objekt "+ go.name +" wurde unparented");
         }
     }
     public static void parenting ( )
@@ -40,18 +40,15 @@ public static class  NewParent
         HexCheck();
         if (Hex == null)
         {
-            Debug.Log("Beweg mal das Objekt höher oder überhaupt in die Nähe von Hexes"); return;
+            Debug.Log("Beweg mal das Objekt höher oder überhaupt in die Nähe von Hexes");
+            return;
         }
         SetParent(Hex);
-        SetParent(Props);
     }
     public static void  SetParent(GameObject newParent)
     {
         LevelObj.transform.parent = newParent.transform;
-        if (newParent.transform.parent != null)
-        {
-            Debug.Log("Das Objekt ["+ LevelObj +"] wurde in [Props] unter >>> " + LevelObj.transform.parent.parent.name +" <<< platziert");
-        }
+        if (newParent.transform.parent != null) Debug.Log("Das Objekt "+ LevelObj.name +" unter >>> " + LevelObj.transform.parent.name +" <<< platziert");
     }
     
     static void   HexCheck()
@@ -66,43 +63,34 @@ public static class  NewParent
         {
             if (Physics.SphereCast(LevelObj.transform.position, sphereCastRadiusDown,
                 -LevelObj.transform.up, out hit, maxRayDistance, LayerMask.GetMask(Hexlayer)))
-        {
-            Hex = hit.transform.gameObject;
-            Props = Hex.transform.GetChild(1).gameObject;
-        }
+                Hex = hit.transform.gameObject;
+        
             sphereCastRadiusDown++;
         }
         while (Hex == null && sphereCastRadiusUp < sphereCastRadiusStop*0.5f)
         {
             if (Physics.SphereCast(LevelObj.transform.position, sphereCastRadiusUp,
                 LevelObj.transform.up, out hit, maxRayDistance,
-                LayerMask.GetMask("Hex"))) 
-            {
+                LayerMask.GetMask("Hex")))
                 Hex = hit.transform.gameObject;
-                Props = Hex.transform.GetChild(1).gameObject;
-            }
+            
             sphereCastRadiusUp++;
         }
         while (Hex == null && sphereCastRadiusDown <sphereCastRadiusStop)
         {
             if (Physics.SphereCast(LevelObj.transform.position, sphereCastRadiusDown,
-                -LevelObj.transform.up, out hit, maxRayDistance, LayerMask.GetMask(Hexlayer))) 
-            {
+                -LevelObj.transform.up, out hit, maxRayDistance, LayerMask.GetMask(Hexlayer)))
                 Hex = hit.transform.gameObject;
-                Props = Hex.transform.GetChild(1).gameObject;
-            }
+            
             sphereCastRadiusDown++;
         }
         while (Hex == null && sphereCastRadiusUp < sphereCastRadiusStop)
         {
             if (Physics.SphereCast(LevelObj.transform.position, sphereCastRadiusUp,
                 LevelObj.transform.up, out hit, maxRayDistance,
-                LayerMask.GetMask(Hexlayer))) 
-            {
+                LayerMask.GetMask(Hexlayer)))
                 Hex = hit.transform.gameObject;
-                Props = Hex.transform.GetChild(1).gameObject;
-            }
-
+            
             sphereCastRadiusUp++;
         }
     }

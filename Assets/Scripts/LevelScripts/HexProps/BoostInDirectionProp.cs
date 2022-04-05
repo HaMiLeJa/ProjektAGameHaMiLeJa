@@ -1,19 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 [ExecuteAlways]
 public class BoostInDirectionProp : MonoBehaviour
 {
-     [HideInInspector]public Hex MyHex;
+     public Hex MyHex;
     Vector3 Direction;
     Quaternion desiredRot;
     //  void Start()
    // {
       //  MyHex = this.transform.parent.transform.parent.GetComponent<Hex>(); //sp�ter �ber instatniaten zuweisen
       //  }
-  
-    void Update()
+      void Update()
     {
         SetDesiredRotation();
         RotateTowardsDesiredPos();
@@ -26,6 +22,6 @@ public class BoostInDirectionProp : MonoBehaviour
     void RotateTowardsDesiredPos()
     {
        // this.transform.rotation = Quaternion.RotateTowards(from: this.transform.rotation, to: desiredRot, maxDegreesDelta: angularSpeed * Time.deltaTime);
-       this.transform.rotation = desiredRot;
+       transform.rotation = desiredRot;
     }
 }

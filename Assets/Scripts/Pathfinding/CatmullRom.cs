@@ -1,6 +1,12 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading;
+using Unity.Burst;
+using Unity.Collections;
+using Unity.Jobs;
 using UnityEngine.Jobs;
 
 public class CatmullRom
@@ -20,6 +26,8 @@ public class CatmullRom
         private bool closedLoop;
         private CatmullRomPoint[] splinePoints;
         private Vector3[] controlPoints;
+        
+   
         public CatmullRomPoint[] GetPoints()
         {
             if(splinePoints == null) throw new NullReferenceException("Spline ist noch null");
@@ -101,6 +109,7 @@ public class CatmullRom
             else pointsToCreate = resolution * (controlPoints.Length - 1);
             splinePoints = new CatmullRomPoint[pointsToCreate];       
         }
+        [BurstCompile]
         private void GenerateSplinePoints()
         {
             InitializeProperties();
@@ -131,39 +140,73 @@ public class CatmullRom
                 }
                 m0 *= 0.5f; m1 *= 0.5f; float pointStep = 1.0f / resolution;
                 if ((currentPoint == controlPoints.Length - 2 && !closedLoop) || closedLoopFinalPoint) pointStep = 1.0f / (resolution - 1);
+                
+                NativeArray<float> tValues = new NativeArray<float>(resolution, Allocator.Persistent);
+                NativeQueue<CatMullRomNativeContainer> tempJobsQueue =
+                new NativeQueue<CatMullRomNativeContainer>(Allocator.Persistent);
                 for (int tesselatedPoint = 0; tesselatedPoint < resolution; tesselatedPoint++)
-                {
-                    float t = tesselatedPoint * pointStep;
-                    CatmullRomPoint point = Evaluate(p0, p1, m0, m1, t);
-                    splinePoints[currentPoint * resolution + tesselatedPoint] = point;
-                }
+                    tValues[tesselatedPoint] = tesselatedPoint * pointStep;
+                
+                EvaluateJob evaluateJob = new EvaluateJob
+                 {
+                     start = p0 , end = p1, tanPoint1 = m0, tanPoint2 = m1, pointStepJob = pointStep, resolution = resolution, currentPoint = currentPoint,
+                     CatmullRomPointsWithIndex = tempJobsQueue.AsParallelWriter()
+                 };
+                 evaluateJob.Schedule(resolution, 2).Complete();
+                 tValues.Dispose();
+                 while (!tempJobsQueue.IsEmpty())
+                 {
+                   var f =   tempJobsQueue.Dequeue();
+                   splinePoints[f.listIndex].normal = f.points.norm;
+                   splinePoints[f.listIndex].tangent= f.points.tan;
+                   splinePoints[f.listIndex].position= f.points.pos;
+                 }
+                 tempJobsQueue.Dispose();
             }
         }
-        public static CatmullRomPoint Evaluate(Vector3 start, Vector3 end, Vector3 tanPoint1, Vector3 tanPoint2, float t)
-        {
-            Vector3 position = CalculatePosition(start, end, tanPoint1, tanPoint2, t),
-                    tangent = CalculateTangent(start, end, tanPoint1, tanPoint2, t),           
-                    normal = NormalFromTangent(tangent);
-            return new CatmullRomPoint(position, tangent, normal);
-        }
-        public static Vector3 CalculatePosition(Vector3 start, Vector3 end, Vector3 tanPoint1, Vector3 tanPoint2, float t)
-        {
-            Vector3 position = (2.0f * t * t * t - 3.0f * t * t + 1.0f) * start
-                               + (t * t * t - 2.0f * t * t + t) * tanPoint1
-                               + (-2.0f * t * t * t + 3.0f * t * t) * end
-                               + (t * t * t - t * t) * tanPoint2;
-            return position;
-        }
-        public static Vector3 CalculateTangent(Vector3 start, Vector3 end, Vector3 tanPoint1, Vector3 tanPoint2, float t)
-        {
-            Vector3 tangent = (6 * t * t - 6 * t) * start
-                              + (3 * t * t - 4 * t + 1) * tanPoint1
-                              + (-6 * t * t + 6 * t) * end
-                              + (3 * t * t - 2 * t) * tanPoint2;
-            return tangent.normalized;
-        }
-        public static Vector3 NormalFromTangent(Vector3 tangent)
-        {
-            return Vector3.Cross(tangent, Vector3.up).normalized / 2;
-        }        
     }
+
+public struct CatMullRomNativeContainer
+{
+    public readonly int  listIndex;
+    public CatMullRomStruct points;
+
+    public CatMullRomNativeContainer(int listIndex, CatMullRomStruct points)
+    {
+     this.listIndex = listIndex;
+     this.points = points;
+    }
+}
+public struct CatMullRomStruct
+{
+    public Vector3 pos;
+    public Vector3 tan;
+    public Vector3 norm;
+}
+[BurstCompile(FloatPrecision.Low,FloatMode.Fast)] 
+struct EvaluateJob : IJobParallelFor
+{
+    [Unity.Collections.ReadOnly]  public Vector3 start, end, tanPoint1, tanPoint2;
+    [Unity.Collections.ReadOnly] public float pointStepJob;
+    public NativeQueue<CatMullRomNativeContainer>.ParallelWriter CatmullRomPointsWithIndex;
+    private CatMullRomStruct point;
+    private float t;
+    [Unity.Collections.ReadOnly]public int currentPoint, resolution;
+    public void Execute(int index)
+    {
+        t = index * pointStepJob;
+        
+        point.pos =(2.0f * t * t * t - 3.0f * t * t + 1.0f) * start
+                   + (t * t * t - 2.0f * t * t + t) * tanPoint1
+                   + (-2.0f * t * t * t + 3.0f * t * t) * end
+                   + (t * t * t - t * t) * tanPoint2;
+        
+        point.tan =((6 * t * t - 6 * t) * start
+                    + (3 * t * t - 4 * t + 1) * tanPoint1
+                    + (-6 * t * t + 6 * t) * end
+                    + (3 * t * t - 2 * t) * tanPoint2).normalized;
+
+        point.norm = Vector3.Cross(point.tan, Vector3.up).normalized / 2;
+        CatmullRomPointsWithIndex.Enqueue(new CatMullRomNativeContainer(currentPoint * resolution + index, point));
+    }
+}
