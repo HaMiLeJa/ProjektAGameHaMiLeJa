@@ -1,9 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
@@ -24,11 +20,11 @@ public class CatmullRom
         }
         private int resolution; 
         private bool closedLoop;
-        private CatmullRomPoint[] splinePoints;
+        private NativeArray<CatmullRomPoint> splinePoints;
         private Vector3[] controlPoints;
         
    
-        public CatmullRomPoint[] GetPoints()
+        public NativeArray<CatmullRomPoint> GetPoints()
         {
             if(splinePoints == null) throw new NullReferenceException("Spline ist noch null");
                 return splinePoints;
@@ -91,122 +87,118 @@ public class CatmullRom
         }
         public void DrawTangents(float extrusion, Color color)
         {
-            if (ValidatePoints())
-            {
-                for (int i = 0; i < splinePoints.Length; i++)
-                    Debug.DrawLine(splinePoints[i].position,splinePoints[i].position + splinePoints[i].tangent * extrusion, color);
-            }
+            if (!ValidatePoints()) return;
+            for (int i = 0; i < splinePoints.Length; i++)
+                Debug.DrawLine(splinePoints[i].position,splinePoints[i].position + splinePoints[i].tangent * extrusion, color);
+
         }
         private bool ValidatePoints()
         {
-            if(splinePoints == null) throw new NullReferenceException("Spline not initialized!");
-            return splinePoints != null;
+            if (splinePoints.Length == 0) throw new NullReferenceException("Spline not initialized!");
+            return true;
         }
-        private void InitializeProperties()
-        {
-            int pointsToCreate;
-            if (closedLoop) pointsToCreate = resolution * controlPoints.Length;
-            else pointsToCreate = resolution * (controlPoints.Length - 1);
-            splinePoints = new CatmullRomPoint[pointsToCreate];       
-        }
-        [BurstCompile]
+
+        
         private void GenerateSplinePoints()
         {
-            InitializeProperties();
+            
+            //------------ Calculate points.  Multithreading not needed, because controlPoints.length is often under 10
+            //              but change it so less jobs get generated (Create a bigger array of needs before jobs) ------------//
             Vector3 p0, p1, m0, m1;
+            float pointStep;
             int closedAdjustment = closedLoop ? 0 : 1;
+            int arrayCounter = 0;
+            //pointsToCalculateDataForJob[] hasPointCalculationDataForJob = new pointsToCalculateDataForJob[controlPoints.Length- closedAdjustment]; 
+            NativeArray<PointsToCalculateDataForJob> hasPointCalculationDataForJob =
+                new NativeArray<PointsToCalculateDataForJob>(resolution*(controlPoints.Length - closedAdjustment), Allocator.Persistent);
             for (int currentPoint = 0; currentPoint < controlPoints.Length - closedAdjustment; currentPoint++)
             {
                 bool closedLoopFinalPoint = (closedLoop && currentPoint == controlPoints.Length - 1);
                 p0 = controlPoints[currentPoint];
-                if(closedLoopFinalPoint) p1 = controlPoints[0];
+                if (closedLoopFinalPoint) p1 = controlPoints[0];
                 else p1 = controlPoints[currentPoint + 1];
                 if (currentPoint == 0)
                 {
-                    if(closedLoop) m0 = p1 - controlPoints[controlPoints.Length - 1];
+                    if (closedLoop) m0 = p1 - controlPoints[controlPoints.Length - 1];
                     else m0 = p1 - p0;
                 }
                 else m0 = p1 - controlPoints[currentPoint - 1];
+
                 if (closedLoop)
                 {
-                    if (currentPoint == controlPoints.Length - 1) m1 = controlPoints[(currentPoint + 2) % controlPoints.Length] - p0;
+                    if (currentPoint == controlPoints.Length - 1)
+                        m1 = controlPoints[(currentPoint + 2) % controlPoints.Length] - p0;
                     else if (currentPoint == 0) m1 = controlPoints[currentPoint + 2] - p0;
                     else m1 = controlPoints[(currentPoint + 2) % controlPoints.Length] - p0;
                 }
                 else
                 {
-                    if (currentPoint < controlPoints.Length - 2) m1 = controlPoints[(currentPoint + 2) % controlPoints.Length] - p0;
+                    if (currentPoint < controlPoints.Length - 2)
+                        m1 = controlPoints[(currentPoint + 2) % controlPoints.Length] - p0;
                     else m1 = p1 - p0;
                 }
-                m0 *= 0.5f; m1 *= 0.5f; float pointStep = 1.0f / resolution;
-                if ((currentPoint == controlPoints.Length - 2 && !closedLoop) || closedLoopFinalPoint) pointStep = 1.0f / (resolution - 1);
-                
-                NativeArray<float> tValues = new NativeArray<float>(resolution, Allocator.Persistent);
-                NativeQueue<CatMullRomNativeContainer> tempJobsQueue =
-                new NativeQueue<CatMullRomNativeContainer>(Allocator.Persistent);
+
+                m0 *= 0.5f; m1 *= 0.5f;
+                pointStep = 1.0f / resolution;
+                if (currentPoint == controlPoints.Length - 2 && !closedLoop || closedLoopFinalPoint)
+                    pointStep = 1.0f / (resolution - 1);
+        
                 for (int tesselatedPoint = 0; tesselatedPoint < resolution; tesselatedPoint++)
-                    tValues[tesselatedPoint] = tesselatedPoint * pointStep;
-                
-                EvaluateJob evaluateJob = new EvaluateJob
-                 {
-                     start = p0 , end = p1, tanPoint1 = m0, tanPoint2 = m1, pointStepJob = pointStep, resolution = resolution, currentPoint = currentPoint,
-                     CatmullRomPointsWithIndex = tempJobsQueue.AsParallelWriter()
-                 };
-                 evaluateJob.Schedule(resolution, 2).Complete();
-                 tValues.Dispose();
-                 while (!tempJobsQueue.IsEmpty())
-                 {
-                   var f =   tempJobsQueue.Dequeue();
-                   splinePoints[f.listIndex].normal = f.points.norm;
-                   splinePoints[f.listIndex].tangent= f.points.tan;
-                   splinePoints[f.listIndex].position= f.points.pos;
-                 }
-                 tempJobsQueue.Dispose();
+                {
+                    hasPointCalculationDataForJob[arrayCounter] = new PointsToCalculateDataForJob(p0, p1, m0, m1, tesselatedPoint * pointStep);
+                    arrayCounter++;
+                }
             }
+            //------------ Job sheduling so the calulations are done in parallel ------------//
+            splinePoints = new NativeArray<CatmullRomPoint>(arrayCounter, Allocator.Persistent);
+            
+            
+            EvaluateJob evaluateJob = new EvaluateJob
+                 {
+                      splinePoints =  splinePoints,
+                      hasPointCalculationDataForJob = hasPointCalculationDataForJob
+                 };
+                 evaluateJob.Schedule(arrayCounter, 4).Complete();
+                 hasPointCalculationDataForJob.Dispose();
         }
-    }
+        }
 
-public struct CatMullRomNativeContainer
+public struct PointsToCalculateDataForJob
 {
-    public readonly int  listIndex;
-    public CatMullRomStruct points;
-
-    public CatMullRomNativeContainer(int listIndex, CatMullRomStruct points)
+    public Vector3 start, end, tan1, tan2;
+    public readonly float tValue;
+    public PointsToCalculateDataForJob(Vector3 start, Vector3 end, Vector3 tan1, Vector3 tan2,  float tValue)
     {
-     this.listIndex = listIndex;
-     this.points = points;
+        this.start= start;
+        this.end = end;
+        this.tan1 = tan1;
+        this.tan2 = tan2;
+        this.tValue = tValue;
     }
-}
-public struct CatMullRomStruct
-{
-    public Vector3 pos;
-    public Vector3 tan;
-    public Vector3 norm;
 }
 [BurstCompile(FloatPrecision.Low,FloatMode.Fast)] 
-struct EvaluateJob : IJobParallelFor
+public struct EvaluateJob : IJobParallelFor
 {
-    [Unity.Collections.ReadOnly]  public Vector3 start, end, tanPoint1, tanPoint2;
-    [Unity.Collections.ReadOnly] public float pointStepJob;
-    public NativeQueue<CatMullRomNativeContainer>.ParallelWriter CatmullRomPointsWithIndex;
-    private CatMullRomStruct point;
+    [ReadOnly] public NativeArray<PointsToCalculateDataForJob> hasPointCalculationDataForJob;
+   [WriteOnly] public NativeArray<CatmullRom.CatmullRomPoint> splinePoints;
+    private CatmullRom.CatmullRomPoint point;
     private float t;
-    [Unity.Collections.ReadOnly]public int currentPoint, resolution;
+    //[Unity.Collections.ReadOnly]public int currentPoint, resolution;
     public void Execute(int index)
     {
-        t = index * pointStepJob;
+        t = hasPointCalculationDataForJob[index].tValue;
         
-        point.pos =(2.0f * t * t * t - 3.0f * t * t + 1.0f) * start
-                   + (t * t * t - 2.0f * t * t + t) * tanPoint1
-                   + (-2.0f * t * t * t + 3.0f * t * t) * end
-                   + (t * t * t - t * t) * tanPoint2;
+        point.position =(2.0f * t * t * t - 3.0f * t * t + 1.0f) * hasPointCalculationDataForJob[index].start
+                   + (t * t * t - 2.0f * t * t + t) * hasPointCalculationDataForJob[index].tan1
+                   + (-2.0f * t * t * t + 3.0f * t * t) * hasPointCalculationDataForJob[index].end
+                   + (t * t * t - t * t) * hasPointCalculationDataForJob[index].tan2;
         
-        point.tan =((6 * t * t - 6 * t) * start
-                    + (3 * t * t - 4 * t + 1) * tanPoint1
-                    + (-6 * t * t + 6 * t) * end
-                    + (3 * t * t - 2 * t) * tanPoint2).normalized;
+        point.tangent =((6 * t * t - 6 * t) *hasPointCalculationDataForJob[index].start
+                    + (3 * t * t - 4 * t + 1) * hasPointCalculationDataForJob[index].tan1
+                    + (-6 * t * t + 6 * t) * hasPointCalculationDataForJob[index].end
+                    + (3 * t * t - 2 * t) * hasPointCalculationDataForJob[index].tan2).normalized;
 
-        point.norm = Vector3.Cross(point.tan, Vector3.up).normalized / 2;
-        CatmullRomPointsWithIndex.Enqueue(new CatMullRomNativeContainer(currentPoint * resolution + index, point));
+        point.normal= Vector3.Cross(point.tangent, Vector3.up).normalized / 2;
+        splinePoints[index] = new CatmullRom.CatmullRomPoint(point.position, point.tangent, point.normal);
     }
 }

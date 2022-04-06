@@ -5,12 +5,13 @@ using NaughtyAttributes;
 using UnityEngine.PlayerLoop;
 using System.Linq;
 using Cinemachine;
+using Unity.Collections;
 using UnityEngine.Jobs;
 
 public class Pathfinder : MonoBehaviour
 {
 	private CatmullRom spline;
-	private CatmullRom.CatmullRomPoint[] waypointsForPlayer;
+	private NativeArray<CatmullRom.CatmullRomPoint> waypointsForPlayer;
 	private BoxCollider[] m_Collider;
 	private float Tvalue = 50f;
 	private bool pathfindingAllowed = true, startPathfindingDisable, noCam, noManager;
@@ -51,7 +52,11 @@ public class Pathfinder : MonoBehaviour
 			noCam = true;
 		}
 	}
-	private void OnDestroy() => controlPointsNativeTransforms.Dispose();
+	private void OnDestroy()
+	{
+		controlPointsNativeTransforms.Dispose();
+		if(waypointsForPlayer.Length > 0) waypointsForPlayer.Dispose();
+	}
 
 	[Button("Fill List with Controlpoints")] public void AllChildsToList()
 	{
@@ -86,9 +91,11 @@ public class Pathfinder : MonoBehaviour
 		for (int i = 0; i < children; ++i) 
 			gameObject.transform.GetChild(i).transform.rotation = new Quaternion(0, 0, 0, 0);
 	}
-	private void OnDrawGizmos()
+
+
+	public void OnDrawGizmos()
 	{
-		if (Application.isPlaying) return;
+		if (Application.isPlaying || !CurveManager.drawCurvesInEditMode ) return;
 		foreach(Transform elem in controlPoints)
 			if(elem == null) return;
 		if (transform.childCount < 2 && controlPoints.Length < 2) return;

@@ -63,3 +63,5 @@ UserSettings/EditorUserSettings.asset
 Assets/Game/Materials/Skybox 1.mat
 UserSettings/EditorUserSettings.asset
 Assets/Game/Materials/Skybox 1.mat
+Assets/Shader/Energy.mat
+*.mat
