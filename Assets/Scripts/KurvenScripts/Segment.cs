@@ -11,6 +11,18 @@ public class Segment : UniqueMesh
 	// Das wird nicht serialized
 	MeshExtruder meshExtruder = new MeshExtruder();
 
+	#if UNITY_EDITOR
+	private void OnValidate()
+	{
+		if (Application.isPlaying) return;
+		CurveManager.updateCurves = true;
+	}
+
+	private void OnDrawGizmosSelected()
+	{
+		CurveManager.updateCurves = true;
+	}
+#endif
 	// Properties 
 	public bool HasValidNextPoint => TryGetNextSegment() != null;
 	bool IsInValidChain => transform.parent.Ref()?.GetComponent<ChainParent>() != null;

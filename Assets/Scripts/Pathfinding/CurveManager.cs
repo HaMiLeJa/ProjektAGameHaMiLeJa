@@ -5,7 +5,7 @@ public class CurveManager : MonoBehaviour
 {
      #if UNITY_EDITOR
      public static bool drawCurvesInEditMode = true;
-
+     public static bool updateCurves = true;
      [Button("Toogle Curve in Editor")] private void ToggleCurves()
      {
           drawCurvesInEditMode = !drawCurvesInEditMode;
@@ -28,4 +28,5 @@ public class CurveManager : MonoBehaviour
                Seg.SetActive(true);
           }
      }
-}
+     }
+

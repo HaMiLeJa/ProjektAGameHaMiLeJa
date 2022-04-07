@@ -182,10 +182,10 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         CurrentItem = spawnObjectWithPrefabConnection(y,CurrentItem,gameObject, ObjectToSpawn);
         //------------------- Update Collectable Index ID if Possible --------------//
         CollectableManager colManager = FindObjectOfType<CollectableManager>();
-        if(colManager.hasAllTheCollectableHexParentTransformsBeforeStart == null) return;
-        for (int i = 0; i < colManager.hasAllTheCollectableHexParentTransformsBeforeStart.Length; i++)
+        if(colManager.allCollectableHexParentTransformsBeforeStart == null) return;
+        for (int i = 0; i < colManager.allCollectableHexParentTransformsBeforeStart.Length; i++)
         {
-            if (colManager.hasAllTheCollectableHexParentTransformsBeforeStart[i] == gameObject.transform)
+            if (colManager.allCollectableHexParentTransformsBeforeStart[i] == gameObject.transform)
             {
                 SerializedObject serializedCollectable = new SerializedObject(GetComponentInChildren<Collectable>());
                 serializedCollectable.FindProperty("CollectableIndexID").intValue = i;

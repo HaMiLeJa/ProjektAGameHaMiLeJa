@@ -8,6 +8,7 @@ using Unity.Jobs;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Jobs;
+using Random = System.Random;
 
 public class CollectableManager : MonoBehaviour
 {
@@ -16,24 +17,24 @@ public class CollectableManager : MonoBehaviour
     public static bool rotateCollectablesInEditor = true;
     [InfoBox("The list will empty when the game starts. This is intended because it used native Container for multithreading and better cpu cache lining/ reading")]
     [BoxGroup("Debug")] [Tooltip("PreMade Array that has all the Transforms that then gets mem copied by the native Transformaccessarray")] 
-    [SerializeField] public Transform[] hasAllTheCollectableHexParentTransformsBeforeStart;
+    [SerializeField] public Transform[] allCollectableHexParentTransformsBeforeStart;
     [BoxGroup("Debug")] [Tooltip("PreMade Array that has all the bools at the start. When the Object is there but disabled it safes it and hands its data over a native Byte array")] 
-    [SerializeField] public byte[] hasAllTheCollectableActiveBoolsBeforeStart;
+    [SerializeField] public byte[] allCollectableActiveBoolsBeforeStart;
     [BoxGroup("Debug")]  [Tooltip("To safe some Bytes on the Objects, we have the relevant Hex components in an array. This gets hands over to the static variant")] 
-    [SerializeField] public Hex[] haslAllTheHexScriptsForCollectablesUseBeforeStart;
-    [BoxGroup("Debug")][SerializeField] private byte[] hasAllTheRandomSpeedsBeforeStart;
-    [BoxGroup("Debug")] [SerializeField] public Transform[] hasAllTheCollectablesTransformsBeforeStart;
+    [SerializeField] public Hex[] allHexScriptsForCollectablesUseBeforeStart;
+    [BoxGroup("Debug")][SerializeField] private byte[] allRandomSpeedsBeforeStart;
+    [BoxGroup("Debug")] [SerializeField] public Transform[] allCollectablesTransformsBeforeStart;
     [InfoBox("Automaticly updates when slider change. Randomizes between those numbers so every Collectable gets a different rotation. Gets converted to bytes, so everything after the . gets cut")]
     [BoxGroup("Configure")] [MinMaxSlider(0,255)] [SerializeField]  private Vector2 rotationRandomBetween = new Vector2(30, 120);
-    
-    
-    
-    private static NativeQueue<int> hasAllTheValidSpawnAbleHexID;
-    TransformAccessArray hasAllTheCollectableHexParentTransforms;
-    private TransformAccessArray hasAllTheCollectablesTransforms;
-    NativeArray<byte> hasAllTheCollectableActiveBools;
-    private static Hex[] haslAllTheHexScriptsForCollectablesUse;
-    private NativeArray<byte> hasAllTheRandomSpeeds;
+
+
+    private static int fixedLength;
+    private static NativeQueue<int> allValidSpawnAbleHexID;
+    TransformAccessArray allCollectableHexParentTransforms;
+    private TransformAccessArray allCollectablesTransforms;
+    NativeArray<byte> allCollectableActiveBools;
+    private static Hex[] allHexScriptsForCollectablesUse;
+    private NativeArray<byte> allTheRandomSpeeds;
     private JobHandle rotationJOB;
     private void Awake() => SetNativeContainer();
 
@@ -47,7 +48,7 @@ public class CollectableManager : MonoBehaviour
     private void OnValidate()
     {
         if (Application.isPlaying) return;
-        for (int i = 0; i < hasAllTheRandomSpeedsBeforeStart.Length; i++) hasAllTheRandomSpeedsBeforeStart[i] = (byte)UnityEngine.Random.Range((int)rotationRandomBetween.x, (byte)rotationRandomBetween.y);
+        for (int i = 0; i < allRandomSpeedsBeforeStart.Length; i++) allRandomSpeedsBeforeStart[i] = (byte)UnityEngine.Random.Range((int)rotationRandomBetween.x, (byte)rotationRandomBetween.y);
     }
 
     [NaughtyAttributes.Button()] public void fillCollectableListsBeforeStart()
@@ -66,17 +67,17 @@ public class CollectableManager : MonoBehaviour
         
         
         //------------ Resize Arrays ---------//
-        int newSize = collectableList.Count;
-           Array.Resize(ref hasAllTheCollectableHexParentTransformsBeforeStart, newSize);
-          Array.Resize(ref haslAllTheHexScriptsForCollectablesUseBeforeStart, newSize);
-          Array.Resize(ref hasAllTheCollectableActiveBoolsBeforeStart, newSize);
-          Array.Resize(ref hasAllTheCollectablesTransformsBeforeStart, newSize);
-          Array.Resize(ref hasAllTheRandomSpeedsBeforeStart, newSize);
+          fixedLength  = collectableList.Count;
+        Array.Resize(ref allCollectableHexParentTransformsBeforeStart, fixedLength );
+          Array.Resize(ref allHexScriptsForCollectablesUseBeforeStart, fixedLength );
+          Array.Resize(ref allCollectableActiveBoolsBeforeStart, fixedLength );
+          Array.Resize(ref allCollectablesTransformsBeforeStart, fixedLength );
+          Array.Resize(ref allRandomSpeedsBeforeStart, fixedLength );
 
-          for (int i = 0; i < newSize; i++) hasAllTheRandomSpeedsBeforeStart[i] = (byte)UnityEngine.Random.Range((int)rotationRandomBetween.x, (byte)rotationRandomBetween.y);
+          for (int i = 0; i < fixedLength ; i++) allRandomSpeedsBeforeStart[i] = (byte)UnityEngine.Random.Range((int)rotationRandomBetween.x, (byte)rotationRandomBetween.y);
 
           for (var index = 0; index < collectableList.Count; index++)   //Transforms for rotationRandomBetween
-              hasAllTheCollectablesTransformsBeforeStart[index] = collectableList[index].gameObject.transform;
+              allCollectablesTransformsBeforeStart[index] = collectableList[index].gameObject.transform;
           
 
           //------------ Fill Serialized Container that then will get converted to Native Container ---------//
@@ -84,11 +85,11 @@ public class CollectableManager : MonoBehaviour
         foreach (Collectable collectableScript in collectableList) 
         {
            Hex hexScript = collectableScript.GetComponentInParent<Hex>();
-           hasAllTheCollectableHexParentTransformsBeforeStart[counter] = hexScript.gameObject.transform;  //Fill with HexObject Transform
-           haslAllTheHexScriptsForCollectablesUseBeforeStart[counter] = hexScript;   //fill with the Script "Hex" so we have a premade List and dont need get component anymore
+           allCollectableHexParentTransformsBeforeStart[counter] = hexScript.gameObject.transform;  //Fill with HexObject Transform
+           allHexScriptsForCollectablesUseBeforeStart[counter] = hexScript;   //fill with the Script "Hex" so we have a premade List and dont need get component anymore
            if (collectableScript.enabled)  //check if the script is enabled
-               hasAllTheCollectableActiveBoolsBeforeStart[counter] = 1;    //if yes, we add true to the bool list (needed for multithreading later)
-           else hasAllTheCollectableActiveBoolsBeforeStart[counter] = 0;  //if not active we add false
+               allCollectableActiveBoolsBeforeStart[counter] = 1;    //if yes, we add true to the bool list (needed for multithreading later)
+           else allCollectableActiveBoolsBeforeStart[counter] = 0;  //if not active we add false
            counter++;   //we add one more to the indexid counter
         }
 
@@ -96,10 +97,10 @@ public class CollectableManager : MonoBehaviour
         SerializedObject serializedHex;  // for setting the Collectable 
         SerializedObject serializedCollectable; // for setting the array index, named CollectableIndexID
         
-        for (int i = 0; i < haslAllTheHexScriptsForCollectablesUseBeforeStart.Length; i++)
+        for (int i = 0; i < allHexScriptsForCollectablesUseBeforeStart.Length; i++)
         {
-            serializedHex = new SerializedObject(haslAllTheHexScriptsForCollectablesUseBeforeStart[i]);
-            if (haslAllTheHexScriptsForCollectablesUseBeforeStart[i].gameObject)
+            serializedHex = new SerializedObject(allHexScriptsForCollectablesUseBeforeStart[i]);
+            if (allHexScriptsForCollectablesUseBeforeStart[i].gameObject)
             {
                 serializedHex.FindProperty("MyCollectable").objectReferenceValue = collectableList[i].gameObject; 
                 serializedHex.ApplyModifiedPropertiesWithoutUndo();
@@ -111,9 +112,9 @@ public class CollectableManager : MonoBehaviour
         }
 
         //------------ Disable all deactived collectables Gameobjects---------//
-        for (int i = 0; i < hasAllTheCollectableActiveBoolsBeforeStart.Length; i++)
+        for (int i = 0; i < allCollectableActiveBoolsBeforeStart.Length; i++)
         {   //not reaaaally needed it is just a safety check
-            if(hasAllTheCollectableActiveBoolsBeforeStart[i] == 0) collectableList[i].gameObject.SetActive(false);
+            if(allCollectableActiveBoolsBeforeStart[i] == 0) collectableList[i].gameObject.SetActive(false);
         }
     }
     [NaughtyAttributes.Button()] public void ToogleRotationCollectableInEditor()
@@ -125,14 +126,14 @@ public class CollectableManager : MonoBehaviour
     {
         if (Application.isPlaying || !rotateCollectablesInEditor ) return;
         if (rotationJOB.IsCompleted == false) return;
-            NativeArray<byte> RandomSpeedsForEditor =
-                new NativeArray<byte>(hasAllTheRandomSpeedsBeforeStart, Allocator.TempJob);
+       NativeArray<byte> RandomSpeedsForEditor =
+                new NativeArray<byte>(allRandomSpeedsBeforeStart, Allocator.TempJob);
             rotateCollectablesJob rotateJob = new rotateCollectablesJob
             {
                 RandomSpeed =  RandomSpeedsForEditor,
                 deltaTime = Time.deltaTime
             };
-            TransformAccessArray JustForJob = new TransformAccessArray(hasAllTheCollectablesTransformsBeforeStart,12);
+            TransformAccessArray JustForJob = new TransformAccessArray(allCollectablesTransformsBeforeStart,12);
             rotationJOB = rotateJob.Schedule(JustForJob);
             rotationJOB.Complete();
             RandomSpeedsForEditor.Dispose();
@@ -148,9 +149,9 @@ public class CollectableManager : MonoBehaviour
         rotateCollectablesJob rotateJob = new rotateCollectablesJob
             {
                 deltaTime = Time.deltaTime,
-                RandomSpeed =  hasAllTheRandomSpeeds
+                RandomSpeed =  allTheRandomSpeeds
             };
-            rotationJOB = rotateJob.Schedule(hasAllTheCollectablesTransforms);
+            rotationJOB = rotateJob.Schedule(allCollectablesTransforms);
             rotationJOB.Complete();
 
     }
@@ -158,55 +159,56 @@ public class CollectableManager : MonoBehaviour
     private void SetNativeContainer()
     {
         if (!Application.isPlaying) return;
-        hasAllTheValidSpawnAbleHexID= new NativeQueue<int>(Allocator.Persistent);  //Queue has the Objects that are Valid for Spawn
-        hasAllTheCollectableHexParentTransforms = new TransformAccessArray(hasAllTheCollectableHexParentTransformsBeforeStart, 12); //Native Transforms are much faster than normal
-        hasAllTheCollectableActiveBools = new NativeArray<byte>(hasAllTheCollectableActiveBoolsBeforeStart, Allocator.Persistent); // Keep a native bool list for checking if ValidSpawn
-        haslAllTheHexScriptsForCollectablesUse = haslAllTheHexScriptsForCollectablesUseBeforeStart;  //better have an static List premade than having a getcomponend of ref type
-        hasAllTheCollectablesTransforms = new TransformAccessArray(hasAllTheCollectablesTransformsBeforeStart, 12);
-        hasAllTheRandomSpeeds = new NativeArray<byte>(hasAllTheRandomSpeedsBeforeStart,Allocator.Persistent);
+        allValidSpawnAbleHexID= new NativeQueue<int>(Allocator.Persistent);  //Queue has the Objects that are Valid for Spawn
+        allCollectableHexParentTransforms = new TransformAccessArray(allCollectableHexParentTransformsBeforeStart, 12); //Native Transforms are much faster than normal
+        allCollectableActiveBools = new NativeArray<byte>(allCollectableActiveBoolsBeforeStart, Allocator.Persistent); // Keep a native bool list for checking if ValidSpawn
+        allHexScriptsForCollectablesUse = allHexScriptsForCollectablesUseBeforeStart;  //better have an static List premade than having a getcomponend of ref type
+        allCollectablesTransforms = new TransformAccessArray(allCollectablesTransformsBeforeStart, 12);
+        allTheRandomSpeeds = new NativeArray<byte>(allRandomSpeedsBeforeStart,Allocator.Persistent);
         
-        hasAllTheCollectablesTransformsBeforeStart = null;
-        hasAllTheCollectableHexParentTransformsBeforeStart = null;   //null not needed  Serialized Container
-        hasAllTheCollectableActiveBoolsBeforeStart = null; //  since we have native Containter
-        haslAllTheHexScriptsForCollectablesUseBeforeStart = null;
-        hasAllTheRandomSpeedsBeforeStart = null;
+        allCollectablesTransformsBeforeStart = null;
+        allCollectableHexParentTransformsBeforeStart = null;   //null not needed  Serialized Container
+        allCollectableActiveBoolsBeforeStart = null; //  since we have native Containter
+        allHexScriptsForCollectablesUseBeforeStart = null;
+        allRandomSpeedsBeforeStart = null;
     } 
     private void OnDestroy()
     {
         if (!Application.isPlaying) return;
    
         //Dispose all NativeContainer
-        hasAllTheValidSpawnAbleHexID.Dispose();
-        hasAllTheCollectableHexParentTransforms.Dispose();
-        hasAllTheCollectableActiveBools.Dispose();
-        hasAllTheCollectablesTransforms.Dispose();
-        hasAllTheRandomSpeeds.Dispose();
+        allValidSpawnAbleHexID.Dispose();
+        allCollectableHexParentTransforms.Dispose();
+        allCollectableActiveBools.Dispose();
+        allCollectablesTransforms.Dispose();
+        allTheRandomSpeeds.Dispose();
     }
     public void CollectableCollected( float energyValue , int collectableIndexID)
     {   //Invoked by the Collectable when the Collectable gets collected 
-        hasAllTheCollectableActiveBools[collectableIndexID] = 0;  
+        allCollectableActiveBools[collectableIndexID] = 0;  
         EnergyManager.energyGotHigher = true;
         StartCoroutine(ReferenceLibrary.EnergyMng.ModifyEnergy(energyValue));
         ReferenceLibrary.AudMng.HexAudMng.PlayHex(HexType.DefaultCollectable);
-        hasAllTheCollectablesTransforms[collectableIndexID].gameObject.SetActive(false);
+        allCollectablesTransforms[collectableIndexID].gameObject.SetActive(false);
     }
     public void spawnCollectableObjects()
     {
         HexCollectablePosJob spawnCheckJob = new HexCollectablePosJob
         {
-            hasAllTheHexCollectableActiveBoolsJob = hasAllTheCollectableActiveBools,
-            hasAllTheValidSpawnAbleHexesIDJob =  hasAllTheValidSpawnAbleHexID.AsParallelWriter(),
+            hasAllTheHexCollectableActiveBoolsJob = allCollectableActiveBools,
+            hasAllTheValidSpawnAbleHexesIDJob =  allValidSpawnAbleHexID.AsParallelWriter(),
             PlayerPosJob = ReferenceLibrary.PlayerPosition
         };
-       JobHandle spawnCheckhandle = spawnCheckJob.Schedule(hasAllTheCollectableHexParentTransforms);
+       JobHandle spawnCheckhandle = spawnCheckJob.Schedule(allCollectableHexParentTransforms);
        spawnCheckhandle.Complete();
        
-       Debug.Log("counterCollectableRespawned " + hasAllTheValidSpawnAbleHexID.Count);
+       Debug.Log("counterCollectableRespawned " + allValidSpawnAbleHexID.Count);
        
-       while (!hasAllTheValidSpawnAbleHexID.IsEmpty())
-           haslAllTheHexScriptsForCollectablesUse[hasAllTheValidSpawnAbleHexID.Dequeue()].MyCollectable.SetActive(true);
+       while (!allValidSpawnAbleHexID.IsEmpty())
+           allHexScriptsForCollectablesUse[allValidSpawnAbleHexID.Dequeue()].MyCollectable.SetActive(true);
     }
 }
+//[NativeContainerSupportsDeallocateOnJobCompletion]  
 [BurstCompile(FloatPrecision.Low, FloatMode.Fast)]
 struct rotateCollectablesJob : IJobParallelForTransform
 {

@@ -16,8 +16,8 @@ public class ChangeDirectionProp : MonoBehaviour
         desiredRot = Quaternion.LookRotation(Direction*sign, Vector3.up);
     }
     void RotateTowardsDesiredPos() => transform.rotation = Quaternion.RotateTowards(transform.rotation,desiredRot, angularSpeed * Time.deltaTime);
-    void InPlayerDirection()
-    {
-        SetDesiredRotation(1); RotateTowardsDesiredPos();
-    }
+    // void InPlayerDirection()
+    // {
+    //     SetDesiredRotation(1); RotateTowardsDesiredPos();
+    // }
 }

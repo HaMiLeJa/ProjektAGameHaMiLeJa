@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Linq;
 // Das ist der ParentKontroller von allen Segmenten
 [ExecuteInEditMode]
@@ -8,9 +9,18 @@ public class ChainParent : MonoBehaviour
 	[Tooltip("Falls das ganze Konstrukt geschlossen werden soll")] public bool closed; // Falls die Strecke geschlossen werden soll
 	[Tooltip("Trianguliert das Mesh mehr. Generiert Edge Loops")] public float MeshDensity= 2; // Density vom Mesh
 	[Tooltip("Die Art wie die UV's projeziert werden")]public UVMode uvMode = UVMode.TiledWithFix; // Das ist für das UV
-	void Awake() => UpdateMeshes(); // Regenerate meshes beim instanziieren  // eventuell später fertig speichern
+	void Awake() => UpdateMeshes(); 	// Regenerate meshes beim instanziieren  // eventuell später fertig speichern
 #if UNITY_EDITOR
-	private void OnDrawGizmos() => UpdateMeshes(); // To do an Zukunfsperson (aka ich): mach das nur, wenn sich auch etwas ändert. 
+	private void OnValidate() => CurveManager.updateCurves = true;
+	private void OnDrawGizmos()
+	{
+		if(CurveManager.updateCurves)
+		{
+			Debug.Log("Brücke neu berechnet");
+			CurveManager.updateCurves = false;
+			UpdateMeshes();
+		}
+	}
 #endif
 	public void UpdateMeshes() 
 	{	// Iterriere durch alles Childs und update die Meshes
@@ -37,10 +47,11 @@ public class ChainParent : MonoBehaviour
 	}
 	public void OnDrawGizmosSelected()
 	{
+		CurveManager.updateCurves = true;
 		Segment[] allSegments = GetComponentsInChildren<Segment>();
 		Segment[] segmentsWithMesh = allSegments.Where( s => s.HasValidNextPoint ).ToArray();
 		Segment[] segmentsWithoutMesh = allSegments.Where( s => s.HasValidNextPoint == false ).ToArray();
-		foreach( Segment seg in segmentsWithMesh  ) Gizmos.DrawSphere(seg.transform.position, 1);
+		foreach( Segment seg in segmentsWithMesh  ) Gizmos.DrawSphere(seg.transform.position, 0.7f);
 		foreach( Segment seg in segmentsWithoutMesh  ) Gizmos.DrawSphere(seg.transform.position, 0.5f);
 	}
 }
