@@ -14,20 +14,27 @@ public class CollectableManager : MonoBehaviour
     public delegate void RespawnCollectables();
     public static RespawnCollectables OnRespawnCollectables;
     public static bool rotateCollectablesInEditor = true;
-    [NaughtyAttributes.InfoBox("The list will empty when the game starts. This is intended because it used native Container for multithreading and better cpu cache lining/ reading")]
+    [InfoBox("The list will empty when the game starts. This is intended because it used native Container for multithreading and better cpu cache lining/ reading")]
     [BoxGroup("Debug")] [Tooltip("PreMade Array that has all the Transforms that then gets mem copied by the native Transformaccessarray")] 
     [SerializeField] public Transform[] hasAllTheCollectableHexParentTransformsBeforeStart;
     [BoxGroup("Debug")] [Tooltip("PreMade Array that has all the bools at the start. When the Object is there but disabled it safes it and hands its data over a native Byte array")] 
     [SerializeField] public byte[] hasAllTheCollectableActiveBoolsBeforeStart;
     [BoxGroup("Debug")]  [Tooltip("To safe some Bytes on the Objects, we have the relevant Hex components in an array. This gets hands over to the static variant")] 
     [SerializeField] public Hex[] haslAllTheHexScriptsForCollectablesUseBeforeStart;
-
+    [BoxGroup("Debug")][SerializeField] private byte[] hasAllTheRandomSpeedsBeforeStart;
+    [BoxGroup("Debug")] [SerializeField] public Transform[] hasAllTheCollectablesTransformsBeforeStart;
+    [BoxGroup("Configure")] [MinMaxSlider(0,255)] [SerializeField] private Vector2 rotationRandomBetween = new Vector2(30, 120);
+    
+    
+    
     private static NativeQueue<int> hasAllTheValidSpawnAbleHexID;
     TransformAccessArray hasAllTheCollectableHexParentTransforms;
+    private TransformAccessArray hasAllTheCollectablesTransforms;
     NativeArray<byte> hasAllTheCollectableActiveBools;
     private static Hex[] haslAllTheHexScriptsForCollectablesUse;
-    
+    private NativeArray<byte> hasAllTheRandomSpeeds;
     private void Awake() => SetNativeContainer();
+
     void Start()
     {
         OnRespawnCollectables = null;
@@ -35,6 +42,12 @@ public class CollectableManager : MonoBehaviour
     }
     
 #if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (Application.isPlaying) return;
+        for (int i = 0; i < hasAllTheRandomSpeedsBeforeStart.Length; i++) hasAllTheRandomSpeedsBeforeStart[i] = (byte)UnityEngine.Random.Range((int)rotationRandomBetween.x, (byte)rotationRandomBetween.y);
+    }
+
     [NaughtyAttributes.Button()] public void fillCollectableListsBeforeStart()
     {
         //------------ Fill local scope Lists for easier handling ---------//
@@ -46,14 +59,25 @@ public class CollectableManager : MonoBehaviour
             foreach (Collectable collectable in hexTransform.GetComponentsInChildren<Collectable>())
                 collectablesHashSet.Add(collectable);  //adding process to hashset
         }
-        List<Collectable> collectableList = collectablesHashSet.ToList();  //convert that hashset to a list. Not needed but its easier this way and it is a editor tool anayway
+        List<Collectable> collectableList = collectablesHashSet.ToList();  //convert that hashset to a list. Not needed but its easier this way and it is a editor tool anayway 
+        
+        
         
         //------------ Resize Arrays ---------//
-        Array.Resize(ref hasAllTheCollectableHexParentTransformsBeforeStart, collectableList.Count);
-          Array.Resize(ref haslAllTheHexScriptsForCollectablesUseBeforeStart, collectableList.Count);
-          Array.Resize(ref hasAllTheCollectableActiveBoolsBeforeStart, collectableList.Count);
-         
-        //------------ Fill Serialized Container that then will get converted to Native Container ---------//
+        int newSize = collectableList.Count;
+           Array.Resize(ref hasAllTheCollectableHexParentTransformsBeforeStart, newSize);
+          Array.Resize(ref haslAllTheHexScriptsForCollectablesUseBeforeStart, newSize);
+          Array.Resize(ref hasAllTheCollectableActiveBoolsBeforeStart, newSize);
+          Array.Resize(ref hasAllTheCollectablesTransformsBeforeStart, newSize);
+          Array.Resize(ref hasAllTheRandomSpeedsBeforeStart, newSize);
+
+          for (int i = 0; i < newSize; i++) hasAllTheRandomSpeedsBeforeStart[i] = (byte)UnityEngine.Random.Range((int)rotationRandomBetween.x, (byte)rotationRandomBetween.y);
+
+          for (var index = 0; index < collectableList.Count; index++)   //Transforms for rotationRandomBetween
+              hasAllTheCollectablesTransformsBeforeStart[index] = collectableList[index].gameObject.transform;
+          
+
+          //------------ Fill Serialized Container that then will get converted to Native Container ---------//
         int counter = 0;  //index id counter. The Collectable List stays fixed
         foreach (Collectable collectableScript in collectableList) 
         {
@@ -90,33 +114,64 @@ public class CollectableManager : MonoBehaviour
             if(hasAllTheCollectableActiveBoolsBeforeStart[i] == 0) collectableList[i].gameObject.SetActive(false);
         }
     }
-
     [NaughtyAttributes.Button()] public void ToogleRotationCollectableInEditor()
     {
       rotateCollectablesInEditor = !rotateCollectablesInEditor;
     }
-    void Update()
+  
+    private void OnDrawGizmos()
     {
-        if (Input.GetKeyDown(KeyCode.M)) spawnCollectableObjects();
+        
+        if (Application.isPlaying || !rotateCollectablesInEditor) return;
+
+        NativeArray<Byte> RandomSpeedsForEditor =
+            new NativeArray<byte>(hasAllTheRandomSpeedsBeforeStart, Allocator.TempJob);
+        rotateCollectablesJob rotateJob = new rotateCollectablesJob
+        {
+            RandomSpeed =  RandomSpeedsForEditor,
+            deltaTime = Time.deltaTime
+        };
+        TransformAccessArray JustForJob = new TransformAccessArray(hasAllTheCollectablesTransformsBeforeStart,1);
+        rotateJob.Schedule(JustForJob).Complete();
+        RandomSpeedsForEditor.Dispose();
+         JustForJob.Dispose();
+    
     }
 #endif
-    
+    void Update()
+    {  
+        if (Input.GetKeyDown(KeyCode.M)) spawnCollectableObjects();
+
+        rotateCollectablesJob rotateJob = new rotateCollectablesJob
+        {
+            deltaTime = Time.deltaTime,
+            RandomSpeed =  hasAllTheRandomSpeeds
+        };
+        rotateJob.Schedule(hasAllTheCollectablesTransforms);
+    }
+
     private void SetNativeContainer()
     {
         hasAllTheValidSpawnAbleHexID= new NativeQueue<int>(Allocator.Persistent);  //Queue has the Objects that are Valid for Spawn
         hasAllTheCollectableHexParentTransforms = new TransformAccessArray(hasAllTheCollectableHexParentTransformsBeforeStart); //Native Transforms are much faster than normal
         hasAllTheCollectableActiveBools = new NativeArray<byte>(hasAllTheCollectableActiveBoolsBeforeStart, Allocator.Persistent); // Keep a native bool list for checking if ValidSpawn
         haslAllTheHexScriptsForCollectablesUse = haslAllTheHexScriptsForCollectablesUseBeforeStart;  //better have an static List premade than having a getcomponend of ref type
-
+        hasAllTheCollectablesTransforms = new TransformAccessArray(hasAllTheCollectablesTransformsBeforeStart);
+        hasAllTheRandomSpeeds = new NativeArray<byte>(hasAllTheRandomSpeedsBeforeStart,Allocator.Persistent);
+        
+        hasAllTheCollectablesTransformsBeforeStart = null;
         hasAllTheCollectableHexParentTransformsBeforeStart = null;   //null not needed  Serialized Container
         hasAllTheCollectableActiveBoolsBeforeStart = null; //  since we have native Containter
-        haslAllTheHexScriptsForCollectablesUseBeforeStart = null;  
+        haslAllTheHexScriptsForCollectablesUseBeforeStart = null;
+        hasAllTheRandomSpeedsBeforeStart = null;
     } 
     private void OnDestroy()
     {   //Dispose all NativeContainer
         hasAllTheValidSpawnAbleHexID.Dispose();
         hasAllTheCollectableHexParentTransforms.Dispose();
         hasAllTheCollectableActiveBools.Dispose();
+        hasAllTheCollectablesTransforms.Dispose();
+        hasAllTheRandomSpeeds.Dispose();
     }
     public void CollectableCollected(GameObject item, float energyValue , int collectableIndexID)
     {   //Invoked by the Collectable when the Collectable gets collected 
@@ -143,7 +198,16 @@ public class CollectableManager : MonoBehaviour
            haslAllTheHexScriptsForCollectablesUse[hasAllTheValidSpawnAbleHexID.Dequeue()].MyCollectable.SetActive(true);
     }
 }
-
+[BurstCompile(FloatPrecision.Low, FloatMode.Fast)]
+struct rotateCollectablesJob : IJobParallelForTransform
+{
+    [Unity.Collections.ReadOnly] public float deltaTime;
+    [Unity.Collections.ReadOnly] public NativeArray<Byte> RandomSpeed;
+    public void Execute(int index, TransformAccess transform)
+    {
+        transform.localRotation *= Quaternion.Euler(0, RandomSpeed[index]*deltaTime, 0);
+    }
+}
 
 [BurstCompile(FloatPrecision.Low, FloatMode.Fast)]
 public struct HexCollectablePosJob : IJobParallelForTransform

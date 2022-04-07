@@ -1,15 +1,12 @@
-using System;
 using UnityEngine;
 public class Collectable : MonoBehaviour
 {
     #region Inspector
-    [SerializeField] private float rotation = 400;
     [SerializeField] public int CollectableIndexID;
     public ScriptableLevelObject settings;
    // public CollectableReferences colRef;
    #endregion
-   void Update() => transform.Rotate(new Vector3(0, rotation * Time.deltaTime,0));
-    private void OnTriggerEnter(Collider collision)
+   private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.CompareTag(ReferenceLibrary.PlayerTag))
         {
@@ -17,11 +14,5 @@ public class Collectable : MonoBehaviour
             ReferenceLibrary.ColMng.CollectableCollected(this.gameObject, settings.secondValue,CollectableIndexID); //hier drin sind auch sounds;
         }
     }
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        if(CollectableManager.rotateCollectablesInEditor)
-        transform.Rotate(new Vector3(0, rotation * Time.deltaTime, 0));
-    }
-#endif
+
 }

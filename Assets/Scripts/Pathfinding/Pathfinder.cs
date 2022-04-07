@@ -7,13 +7,13 @@ using System.Linq;
 using Cinemachine;
 using Unity.Collections;
 using UnityEngine.Jobs;
-
+[ExecuteAlways]
 public class Pathfinder : MonoBehaviour
 {
 	private CatmullRom spline;
-	private NativeArray<CatmullRom.CatmullRomPoint> waypointsForPlayer;
+	private CatmullRom.CatmullRomPoint[] waypointsForPlayer;
 	private BoxCollider[] m_Collider;
-	private float Tvalue = 50f;
+	private const float Tvalue = 50f;
 	private bool pathfindingAllowed = true, startPathfindingDisable, noCam, noManager;
 	[ReorderableList] public Transform[] controlPoints;
 	private TransformAccessArray controlPointsNativeTransforms;
@@ -32,10 +32,13 @@ public class Pathfinder : MonoBehaviour
 	[BoxGroup("Debug")][Range(0, 20)] public float normalLength;
 	[BoxGroup("Debug")][Range(0, 20)] public float tangentLength;
 	[BoxGroup("Debug")][Range(1, 20)] [SerializeField] private float colliderSize = 3;
-	
-	private int playerLayerInt = 11, playerNoCollisionLayerInt = 12;
-	private void Awake()
+
+	private const int playerLayerInt = 11;
+	private const int playerNoCollisionLayerInt = 12;
+
+	private void Start()
 	{
+		if (!Application.isPlaying) return;
 		if (controlPoints != null)
 		{
 			controlPointsNativeTransforms = new TransformAccessArray(controlPoints);
@@ -54,8 +57,8 @@ public class Pathfinder : MonoBehaviour
 	}
 	private void OnDestroy()
 	{
+		if (!Application.isPlaying) return;
 		controlPointsNativeTransforms.Dispose();
-		if(waypointsForPlayer.Length > 0) waypointsForPlayer.Dispose();
 	}
 
 	[Button("Fill List with Controlpoints")] public void AllChildsToList()
@@ -91,25 +94,33 @@ public class Pathfinder : MonoBehaviour
 		for (int i = 0; i < children; ++i) 
 			gameObject.transform.GetChild(i).transform.rotation = new Quaternion(0, 0, 0, 0);
 	}
+	
+	
+	private void OnDrawGizmos()
+	{
+		if (!Application.isPlaying) return;
+		drawSplineInEdtior();
+	}
 
-
-	public void OnDrawGizmos()
+	public void drawSplineInEdtior()
 	{
 		if (Application.isPlaying || !CurveManager.drawCurvesInEditMode ) return;
 		foreach(Transform elem in controlPoints)
 			if(elem == null) return;
 		if (transform.childCount < 2 && controlPoints.Length < 2) return;
 		if (spline != null && transform.childCount >2 && controlPoints.Length > 2)
-		{  
+		{
 			spline.Update(controlPoints); 
 			spline.Update(Resolution, ClosedLoop); 
 			spline.DrawSpline(Color.white);
 			if (drawNormal) spline.DrawNormals(normalLength, Color.yellow);
-			if (drawTangent) spline.DrawTangents(tangentLength, Color.green); 
-			waypointsForPlayer = spline.GetPoints();
+			if (drawTangent) spline.DrawTangents(tangentLength, Color.green);
+			waypointsForPlayer = spline.GenerateSplinePoints();
+		
 		}
 		else if(transform.childCount >2 && controlPoints.Length > 2)
 			spline = new CatmullRom(controlPoints, Resolution, ClosedLoop);
+
 	}
 #endif
 	IEnumerator CamShakeDisableAterPush_Coroutine(float sec)
@@ -151,7 +162,7 @@ public class Pathfinder : MonoBehaviour
 	}
 	IEnumerator movePathReverse(Collider other)
 	{
-		for (int i = waypointsForPlayer.Length; i >1 ; i--)
+		for (int i = waypointsForPlayer.Length; i > -1 ; i--)
 		{
 			if (i == 2)
 			{
@@ -178,6 +189,7 @@ public class Pathfinder : MonoBehaviour
 				if (speedLevel==3) yield return new WaitForFixedUpdate();
 			}
 		}
+		  
 			ReferenceLibrary.Player.layer = playerLayerInt;
 	}
 	IEnumerator waitUntilNextTrigger()
@@ -186,14 +198,14 @@ public class Pathfinder : MonoBehaviour
 		ReferenceLibrary.PlayerMov.DisableGravity = false;
 		GameManager.LerpCameraBack = true;
 		yield return new WaitForSeconds(secPathDisabled);
-	    pathfindingAllowed = true;
+		pathfindingAllowed = true;
 	}
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.CompareTag("Player"))
 		{
 			spline = new CatmullRom(controlPointsNativeTransforms, Resolution, ClosedLoop);
-			waypointsForPlayer = spline.GetPoints();
+			waypointsForPlayer = spline.GenerateSplinePoints();
 			float distanceStart = MathLibary.CalculateDistancePos(other.transform.position,
 				waypointsForPlayer[0].position);
 			float distanceEnd = MathLibary.CalculateDistancePos(other.transform.position,

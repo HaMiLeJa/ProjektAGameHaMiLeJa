@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using Unity.Burst;
 using Unity.Collections;
@@ -22,13 +23,15 @@ public class CatmullRom
         private bool closedLoop;
         private NativeArray<CatmullRomPoint> splinePoints;
         private Vector3[] controlPoints;
-        
-   
-        public NativeArray<CatmullRomPoint> GetPoints()
-        {
-            if(splinePoints == null) throw new NullReferenceException("Spline ist noch null");
-                return splinePoints;
-        }
+
+        // public NativeArray<CatmullRomPoint> GetPoints()
+        // {
+        //     if(splinePoints == null) throw new NullReferenceException("Spline ist noch null");
+        //    // NativeArray<CatmullRomPoint> splinePjusttoReturn = new NativeArray<CatmullRomPoint>(splinePoints, Allocator.Temp);
+        //   
+        //        return splinePoints;
+        //
+        // }
         public CatmullRom(Transform[] controlPoints, int resolution, bool closedLoop)
         {
             if(controlPoints == null || controlPoints.Length <= 2 || resolution < 2)
@@ -99,18 +102,19 @@ public class CatmullRom
         }
 
         
-        private void GenerateSplinePoints()
+        public CatmullRomPoint[]  GenerateSplinePoints()
         {
             
-            //------------ Calculate points.  Multithreading not needed, because controlPoints.length is often under 10
-            //              but change it so less jobs get generated (Create a bigger array of needs before jobs) ------------//
+            //------------ Calculate points.  First part is not Multithreaded because
+            // and also it needs a double buffer, so write only is no longer possible
+            
             Vector3 p0, p1, m0, m1;
             float pointStep;
             int closedAdjustment = closedLoop ? 0 : 1;
             int arrayCounter = 0;
             //pointsToCalculateDataForJob[] hasPointCalculationDataForJob = new pointsToCalculateDataForJob[controlPoints.Length- closedAdjustment]; 
             NativeArray<PointsToCalculateDataForJob> hasPointCalculationDataForJob =
-                new NativeArray<PointsToCalculateDataForJob>(resolution*(controlPoints.Length - closedAdjustment), Allocator.Persistent);
+                new NativeArray<PointsToCalculateDataForJob>(resolution*(controlPoints.Length - closedAdjustment), Allocator.TempJob);
             for (int currentPoint = 0; currentPoint < controlPoints.Length - closedAdjustment; currentPoint++)
             {
                 bool closedLoopFinalPoint = (closedLoop && currentPoint == controlPoints.Length - 1);
@@ -150,9 +154,7 @@ public class CatmullRom
                 }
             }
             //------------ Job sheduling so the calulations are done in parallel ------------//
-            splinePoints = new NativeArray<CatmullRomPoint>(arrayCounter, Allocator.Persistent);
-            
-            
+            splinePoints = new NativeArray<CatmullRomPoint>(arrayCounter, Allocator.TempJob);
             EvaluateJob evaluateJob = new EvaluateJob
                  {
                       splinePoints =  splinePoints,
@@ -160,8 +162,13 @@ public class CatmullRom
                  };
                  evaluateJob.Schedule(arrayCounter, 4).Complete();
                  hasPointCalculationDataForJob.Dispose();
+                  CatmullRomPoint[] returnPooints = new CatmullRomPoint[arrayCounter];
+                 splinePoints.CopyTo(returnPooints);
+                 splinePoints.Dispose();
+                 return returnPooints;
+    }
         }
-        }
+
 
 public struct PointsToCalculateDataForJob
 {
@@ -183,7 +190,6 @@ public struct EvaluateJob : IJobParallelFor
    [WriteOnly] public NativeArray<CatmullRom.CatmullRomPoint> splinePoints;
     private CatmullRom.CatmullRomPoint point;
     private float t;
-    //[Unity.Collections.ReadOnly]public int currentPoint, resolution;
     public void Execute(int index)
     {
         t = hasPointCalculationDataForJob[index].tValue;
