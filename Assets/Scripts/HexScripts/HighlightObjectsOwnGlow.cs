@@ -5,7 +5,7 @@ public class HighlightObjectsOwnGlow : MonoBehaviour
 {
     [BoxGroup("Glow Einstellungen")][SerializeField]  private float glowAmount, CutoffEmissive;
     private float cashedEmissiveIntensity, cashedEmissiveCutoff; 
-    private Material material;
+   [SerializeField] private Material material;
     private MaterialPropertyBlock mpb;
     
     private MaterialPropertyBlock MPB

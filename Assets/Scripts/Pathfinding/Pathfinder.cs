@@ -9,7 +9,7 @@ using UnityEngine.Jobs;
 [ExecuteAlways]
 public class Pathfinder : MonoBehaviour
 {
-	private CatmullRom spline;
+	protected CatmullRom spline;
 	private CatmullRom.CatmullRomPoint[] waypointsForPlayer;
 	private BoxCollider[] m_Collider;
 	private const float Tvalue = 50f;
@@ -35,10 +35,10 @@ public class Pathfinder : MonoBehaviour
 	private const int playerLayerInt = 11;
 	private const int playerNoCollisionLayerInt = 12;
 
-	private void Start()
+	private void Awake()
 	{
 		if (!Application.isPlaying) return;
-		if (controlPoints != null)
+			if (controlPoints != null)
 		{
 			controlPointsNativeTransforms = new TransformAccessArray(controlPoints, 12);
 			controlPoints = null;
@@ -93,33 +93,41 @@ public class Pathfinder : MonoBehaviour
 		for (int i = 0; i < children; ++i) 
 			gameObject.transform.GetChild(i).transform.rotation = new Quaternion(0, 0, 0, 0);
 	}
-	
-	
+	private void OnDrawGizmosSelected() => CurveManager.updatePathfinder = true;
 	private void OnDrawGizmos()
 	{
-		if (!Application.isPlaying) return;
-		drawSplineInEdtior();
+		if (Application.isPlaying || !CurveManager.drawPathfindingInEditMode) return;
+	
+		//---------------- First Time Update ---------------- //
+		if (spline == null)
+		{
+			spline = new CatmullRom(controlPoints, Resolution, ClosedLoop);
+			waypointsForPlayer = spline.GenerateSplinePoints();
+		}
+		//---------------- Draw Pathfinding ---------------- //
+		DrawSplinePoints();
+
+		//---------------- Update only when changed ---------------- //
+		if ( !CurveManager.updatePathfinder) return;
+		CurveManager.updatePathfinder = false;
+		foreach (Transform elem in controlPoints)
+			if (elem == null) Debug.Log("No Controlpoints");
+		if (transform.childCount < 2 && controlPoints.Length < 2)  Debug.Log("Too little Controlpoints");
+		if (spline != null && transform.childCount > 2 && controlPoints.Length > 2)
+		{
+			spline = new CatmullRom(controlPoints, Resolution, ClosedLoop);
+			waypointsForPlayer = spline.GenerateSplinePoints();	
+			DrawSplinePoints();
+		}
+		else if (transform.childCount > 2 && controlPoints.Length > 2)
+			spline = new CatmullRom(controlPoints, Resolution, ClosedLoop);
 	}
 
-	public void drawSplineInEdtior()
+	void DrawSplinePoints()
 	{
-		if (Application.isPlaying || !CurveManager.drawCurvesInEditMode ) return;
-		foreach(Transform elem in controlPoints)
-			if(elem == null) return;
-		if (transform.childCount < 2 && controlPoints.Length < 2) return;
-		if (spline != null && transform.childCount >2 && controlPoints.Length > 2)
-		{
-			spline.Update(controlPoints); 
-			spline.Update(Resolution, ClosedLoop); 
-			spline.DrawSpline(Color.white);
-			if (drawNormal) spline.DrawNormals(normalLength, Color.yellow);
-			if (drawTangent) spline.DrawTangents(tangentLength, Color.green);
-			waypointsForPlayer = spline.GenerateSplinePoints();
-		
-		}
-		else if(transform.childCount >2 && controlPoints.Length > 2)
-			spline = new CatmullRom(controlPoints, Resolution, ClosedLoop);
-
+		spline.DrawSpline(Color.white, waypointsForPlayer);
+		if (drawNormal) spline.DrawNormals(normalLength, Color.yellow, waypointsForPlayer);
+		if (drawTangent) spline.DrawTangents(tangentLength, Color.green, waypointsForPlayer);
 	}
 #endif
 	IEnumerator CamShakeDisableAterPush_Coroutine(float sec)

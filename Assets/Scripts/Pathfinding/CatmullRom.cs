@@ -67,7 +67,7 @@ public class CatmullRom
             this.closedLoop = closedLoop;
             GenerateSplinePoints();
         }
-        public void DrawSpline(Color color)
+        public void DrawSpline(Color color, CatmullRomPoint[] splinePoints)
         {
             if(ValidatePoints())
             {
@@ -80,7 +80,7 @@ public class CatmullRom
                 }
             }
         }
-        public void DrawNormals(float extrusion, Color color)
+        public void DrawNormals(float extrusion, Color color, CatmullRomPoint[] splinePoints)
         {
             if(ValidatePoints())
             {
@@ -88,7 +88,7 @@ public class CatmullRom
                     Debug.DrawLine(splinePoints[i].position, splinePoints[i].position + splinePoints[i].normal * extrusion, color);
             }
         }
-        public void DrawTangents(float extrusion, Color color)
+        public void DrawTangents(float extrusion, Color color, CatmullRomPoint[] splinePoints)
         {
             if (!ValidatePoints()) return;
             for (int i = 0; i < splinePoints.Length; i++)
@@ -97,7 +97,7 @@ public class CatmullRom
         }
         private bool ValidatePoints()
         {
-            if (splinePoints.Length == 0) throw new NullReferenceException("Spline not initialized!");
+            if (splinePoints == null) throw new NullReferenceException("Spline not initialized!");
             return true;
         }
 

@@ -4,13 +4,14 @@ using NaughtyAttributes;
 public class CurveManager : MonoBehaviour
 {
      #if UNITY_EDITOR
-     public static bool drawCurvesInEditMode = true;
+     public static bool drawPathfindingInEditMode = true;
      public static bool updateCurves = true;
-     [Button("Toogle Curve in Editor")] private void ToggleCurves()
+     public static bool updatePathfinder;
+     [Button("Toogle Pathfinding in Editor")] private void TogglePathfinding()
      {
-          drawCurvesInEditMode = !drawCurvesInEditMode;
-          if (drawCurvesInEditMode) Debug.Log("Curves now show up in the Editor");
-          else Debug.Log("Curves no longer show up in the Editor");
+          drawPathfindingInEditMode = !drawPathfindingInEditMode;
+          if (drawPathfindingInEditMode) Debug.Log("Pathfinding now show up in the Editor");
+          else Debug.Log("Pathfinding no longer show up in the Editor");
      }
     public void UpdateCollider()
      {
@@ -20,7 +21,7 @@ public class CurveManager : MonoBehaviour
      #endif
      
      [SerializeField] private List<GameObject> SegmentsThatNeedRefresh;
-     private void Awake()
+     private void Start()
      {
           foreach (GameObject Seg in SegmentsThatNeedRefresh)
           {

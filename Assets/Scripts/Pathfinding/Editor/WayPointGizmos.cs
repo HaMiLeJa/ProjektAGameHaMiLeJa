@@ -7,13 +7,15 @@ public class WayPointGizmos
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected | GizmoType.Pickable, typeof(Waypoint))]
     public static void DrawSceneGizmos(Waypoint waypoint, GizmoType gizmoType)
     {
+        if (!CurveManager.drawPathfindingInEditMode) return;
         DrawStartPoint(waypoint);
         DrawEndPoint(waypoint);
         DrawMidPoint(waypoint);
         DrawWalkLine(waypoint);
         DrawOrientation(waypoint);
     }
-    public static void DrawWalkLine(Waypoint waypoint)
+
+    private static void DrawWalkLine(Waypoint waypoint)
     {
         if (!waypoint.NextPoint) return;
         Gizmos.color = Color.white;
