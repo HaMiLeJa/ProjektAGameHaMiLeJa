@@ -23,7 +23,8 @@ public class CollectableManager : MonoBehaviour
     [SerializeField] public Hex[] haslAllTheHexScriptsForCollectablesUseBeforeStart;
     [BoxGroup("Debug")][SerializeField] private byte[] hasAllTheRandomSpeedsBeforeStart;
     [BoxGroup("Debug")] [SerializeField] public Transform[] hasAllTheCollectablesTransformsBeforeStart;
-    [BoxGroup("Configure")] [MinMaxSlider(0,255)] [SerializeField] private Vector2 rotationRandomBetween = new Vector2(30, 120);
+    [InfoBox("Automaticly updates when slider change. Randomizes between those numbers so every Collectable gets a different rotation. Gets converted to bytes, so everything after the . gets cut")]
+    [BoxGroup("Configure")] [MinMaxSlider(0,255)] [SerializeField]  private Vector2 rotationRandomBetween = new Vector2(30, 120);
     
     
     
@@ -33,6 +34,7 @@ public class CollectableManager : MonoBehaviour
     NativeArray<byte> hasAllTheCollectableActiveBools;
     private static Hex[] haslAllTheHexScriptsForCollectablesUse;
     private NativeArray<byte> hasAllTheRandomSpeeds;
+    private JobHandle rotationJOB;
     private void Awake() => SetNativeContainer();
 
     void Start()
@@ -121,42 +123,46 @@ public class CollectableManager : MonoBehaviour
   
     private void OnDrawGizmos()
     {
+        if (Application.isPlaying || !rotateCollectablesInEditor ) return;
+        if (rotationJOB.IsCompleted == false) return;
+            NativeArray<byte> RandomSpeedsForEditor =
+                new NativeArray<byte>(hasAllTheRandomSpeedsBeforeStart, Allocator.TempJob);
+            rotateCollectablesJob rotateJob = new rotateCollectablesJob
+            {
+                RandomSpeed =  RandomSpeedsForEditor,
+                deltaTime = Time.deltaTime
+            };
+            TransformAccessArray JustForJob = new TransformAccessArray(hasAllTheCollectablesTransformsBeforeStart,12);
+            rotationJOB = rotateJob.Schedule(JustForJob);
+            rotationJOB.Complete();
+            RandomSpeedsForEditor.Dispose();
+            JustForJob.Dispose();
         
-        if (Application.isPlaying || !rotateCollectablesInEditor) return;
-
-        NativeArray<Byte> RandomSpeedsForEditor =
-            new NativeArray<byte>(hasAllTheRandomSpeedsBeforeStart, Allocator.TempJob);
-        rotateCollectablesJob rotateJob = new rotateCollectablesJob
-        {
-            RandomSpeed =  RandomSpeedsForEditor,
-            deltaTime = Time.deltaTime
-        };
-        TransformAccessArray JustForJob = new TransformAccessArray(hasAllTheCollectablesTransformsBeforeStart,1);
-        rotateJob.Schedule(JustForJob).Complete();
-        RandomSpeedsForEditor.Dispose();
-         JustForJob.Dispose();
-    
+        
     }
 #endif
     void Update()
     {  
         if (Input.GetKeyDown(KeyCode.M)) spawnCollectableObjects();
-
+        if (rotationJOB.IsCompleted == false) return;
         rotateCollectablesJob rotateJob = new rotateCollectablesJob
-        {
-            deltaTime = Time.deltaTime,
-            RandomSpeed =  hasAllTheRandomSpeeds
-        };
-        rotateJob.Schedule(hasAllTheCollectablesTransforms);
+            {
+                deltaTime = Time.deltaTime,
+                RandomSpeed =  hasAllTheRandomSpeeds
+            };
+            rotationJOB = rotateJob.Schedule(hasAllTheCollectablesTransforms);
+            rotationJOB.Complete();
+
     }
 
     private void SetNativeContainer()
     {
+        if (!Application.isPlaying) return;
         hasAllTheValidSpawnAbleHexID= new NativeQueue<int>(Allocator.Persistent);  //Queue has the Objects that are Valid for Spawn
-        hasAllTheCollectableHexParentTransforms = new TransformAccessArray(hasAllTheCollectableHexParentTransformsBeforeStart); //Native Transforms are much faster than normal
+        hasAllTheCollectableHexParentTransforms = new TransformAccessArray(hasAllTheCollectableHexParentTransformsBeforeStart, 12); //Native Transforms are much faster than normal
         hasAllTheCollectableActiveBools = new NativeArray<byte>(hasAllTheCollectableActiveBoolsBeforeStart, Allocator.Persistent); // Keep a native bool list for checking if ValidSpawn
         haslAllTheHexScriptsForCollectablesUse = haslAllTheHexScriptsForCollectablesUseBeforeStart;  //better have an static List premade than having a getcomponend of ref type
-        hasAllTheCollectablesTransforms = new TransformAccessArray(hasAllTheCollectablesTransformsBeforeStart);
+        hasAllTheCollectablesTransforms = new TransformAccessArray(hasAllTheCollectablesTransformsBeforeStart, 12);
         hasAllTheRandomSpeeds = new NativeArray<byte>(hasAllTheRandomSpeedsBeforeStart,Allocator.Persistent);
         
         hasAllTheCollectablesTransformsBeforeStart = null;
@@ -166,20 +172,23 @@ public class CollectableManager : MonoBehaviour
         hasAllTheRandomSpeedsBeforeStart = null;
     } 
     private void OnDestroy()
-    {   //Dispose all NativeContainer
+    {
+        if (!Application.isPlaying) return;
+   
+        //Dispose all NativeContainer
         hasAllTheValidSpawnAbleHexID.Dispose();
         hasAllTheCollectableHexParentTransforms.Dispose();
         hasAllTheCollectableActiveBools.Dispose();
         hasAllTheCollectablesTransforms.Dispose();
         hasAllTheRandomSpeeds.Dispose();
     }
-    public void CollectableCollected(GameObject item, float energyValue , int collectableIndexID)
+    public void CollectableCollected( float energyValue , int collectableIndexID)
     {   //Invoked by the Collectable when the Collectable gets collected 
         hasAllTheCollectableActiveBools[collectableIndexID] = 0;  
         EnergyManager.energyGotHigher = true;
         StartCoroutine(ReferenceLibrary.EnergyMng.ModifyEnergy(energyValue));
         ReferenceLibrary.AudMng.HexAudMng.PlayHex(HexType.DefaultCollectable);
-        item.SetActive(false);
+        hasAllTheCollectablesTransforms[collectableIndexID].gameObject.SetActive(false);
     }
     public void spawnCollectableObjects()
     {
@@ -202,7 +211,7 @@ public class CollectableManager : MonoBehaviour
 struct rotateCollectablesJob : IJobParallelForTransform
 {
     [Unity.Collections.ReadOnly] public float deltaTime;
-    [Unity.Collections.ReadOnly] public NativeArray<Byte> RandomSpeed;
+    [Unity.Collections.ReadOnly] public NativeArray<byte> RandomSpeed;
     public void Execute(int index, TransformAccess transform)
     {
         transform.localRotation *= Quaternion.Euler(0, RandomSpeed[index]*deltaTime, 0);

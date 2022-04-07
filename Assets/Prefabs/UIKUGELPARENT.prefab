@@ -209,6 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dc2b09411f1e8f4dad435acc74a3b3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: 392c10655fb95f248be33fe9891f1c61, type: 2}
   _energyPartikel: {fileID: 1468225285553337487}
 --- !u!1 &6280622532304926233
 GameObject:

@@ -5,7 +5,6 @@ using NaughtyAttributes;
 using UnityEngine.PlayerLoop;
 using System.Linq;
 using Cinemachine;
-using Unity.Collections;
 using UnityEngine.Jobs;
 [ExecuteAlways]
 public class Pathfinder : MonoBehaviour
@@ -41,7 +40,7 @@ public class Pathfinder : MonoBehaviour
 		if (!Application.isPlaying) return;
 		if (controlPoints != null)
 		{
-			controlPointsNativeTransforms = new TransformAccessArray(controlPoints);
+			controlPointsNativeTransforms = new TransformAccessArray(controlPoints, 12);
 			controlPoints = null;
 		}
 		if (cam != null)

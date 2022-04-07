@@ -66,7 +66,7 @@ public class HexAutoTiling : MonoBehaviour
 #endif
     private void Awake()
     {
-        hasAllTheHexesTransformsNative  = new TransformAccessArray(hasAllTheHexGameObjectsTransformsBeforeStart);  //copy over all data from existing array
+        hasAllTheHexesTransformsNative  = new TransformAccessArray(hasAllTheHexGameObjectsTransformsBeforeStart, 12);  //copy over all data from existing array
         hasAllTheHexGameObjectsTransformsBeforeStart = null; //null the existing array since it is no longer needed
     }
     void Start()

@@ -2,12 +2,12 @@ using System.Collections;
 using UnityEngine;
 public class UIEnergy : MonoBehaviour
 {
-    private Material material;
+    [SerializeField] private Material material;
     public ParticleSystem _energyPartikel;
-    void Start() => material = GetComponent<MeshRenderer>().sharedMaterial;
+    private string _control = "_control";
     void Update()
     {
-        material.SetFloat("_control",  MathLibary.Remap(
+        material.SetFloat(_control,  MathLibary.Remap(
             ReferenceLibrary.EnergyMng.MaxEnergyAmount*0.1f,
             ReferenceLibrary.EnergyMng.MaxEnergyAmount,
             0.45f,

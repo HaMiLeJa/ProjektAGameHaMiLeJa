@@ -158,7 +158,7 @@ public class CatmullRom
             EvaluateJob evaluateJob = new EvaluateJob
                  {
                       splinePoints =  splinePoints,
-                      hasPointCalculationDataForJob = hasPointCalculationDataForJob
+                      hasPointCalculationDataForJob = hasPointCalculationDataForJob.AsReadOnly()
                  };
                  evaluateJob.Schedule(arrayCounter, 4).Complete();
                  hasPointCalculationDataForJob.Dispose();
@@ -186,7 +186,7 @@ public struct PointsToCalculateDataForJob
 [BurstCompile(FloatPrecision.Low,FloatMode.Fast)] 
 public struct EvaluateJob : IJobParallelFor
 {
-    [ReadOnly] public NativeArray<PointsToCalculateDataForJob> hasPointCalculationDataForJob;
+    [ReadOnly] public NativeArray<PointsToCalculateDataForJob>.ReadOnly hasPointCalculationDataForJob;
    [WriteOnly] public NativeArray<CatmullRom.CatmullRomPoint> splinePoints;
     private CatmullRom.CatmullRomPoint point;
     private float t;

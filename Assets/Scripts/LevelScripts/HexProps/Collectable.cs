@@ -11,7 +11,7 @@ public class Collectable : MonoBehaviour
         if (collision.gameObject.CompareTag(ReferenceLibrary.PlayerTag))
         {
             ScoreManager.OnScoring?.Invoke(settings.value);
-            ReferenceLibrary.ColMng.CollectableCollected(this.gameObject, settings.secondValue,CollectableIndexID); //hier drin sind auch sounds;
+            ReferenceLibrary.ColMng.CollectableCollected(settings.secondValue,CollectableIndexID); //hier drin sind auch sounds;
         }
     }
 
