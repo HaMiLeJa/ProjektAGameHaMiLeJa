@@ -16,7 +16,6 @@ public class ChainParent : MonoBehaviour
 	{
 		if(CurveManager.updateCurves)
 		{
-			Debug.Log("Brücke neu berechnet");
 			CurveManager.updateCurves = false;
 			UpdateMeshes();
 		}
