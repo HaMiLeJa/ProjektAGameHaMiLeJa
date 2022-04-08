@@ -15,7 +15,7 @@ public class CameraZoomOut : MonoBehaviour
     private Transform lookAtCashed;
     private Transform targetAtCashed;
     public GameObject Moon;
-    public GameObject GhostLayer;
+    // public GameObject GhostLayer;
 
     private float 
         xVelocity, zVelocity, xzVelocity,
@@ -45,11 +45,11 @@ public class CameraZoomOut : MonoBehaviour
    [SerializeField] private float addXScaleMoon = 5;
    [SerializeField] private float addZScaleMoon = 5;
    [Range(0.01f, 20)]
-  [Tooltip("Wie Smooth soll die Kamera zwischen den Werten Lerpen")] [SerializeField] private float ghostLayerZoomOutRoughness = 2;
-  [SerializeField] private float addXScaleGhostLayer = 10;
-  [SerializeField] private float addZScaleGhostLayer = 10;
+  //[Tooltip("Wie Smooth soll die Kamera zwischen den Werten Lerpen")] [SerializeField] private float ghostLayerZoomOutRoughness = 2;
+  // [SerializeField] private float addXScaleGhostLayer = 10;
+  // [SerializeField] private float addZScaleGhostLayer = 10;
 
-  [Space] [Space] private CameraShake _cameraShake;
+  [Space] [Space] 
  private float shakeAngle, shakeStrength, shakeSpeed, shakeDuration, shakeNoisePercent, shakeDampingPercet, shakeRotationPercent;
 
  [Header("Camera Shake Management")] [Space]
@@ -83,22 +83,16 @@ public class CameraZoomOut : MonoBehaviour
  
  [SerializeField] private float secNextShakeAllowed;
  [SerializeField] private bool nextShakeAllowed = true;
- private CameraShakeCollision _cameraShakeCollision;
- private void Awake()
- {
-   _cameraShakeCollision = FindObjectOfType<CameraShakeCollision>();
-     vcamera = vcam;
- }
- 
- 
+ [SerializeField] private CameraShakeCollision _cameraShakeCollision;
+ [SerializeField] private CameraShake _cameraShake;
+ private void Awake() => vcamera = vcam;
  void Start()
    {
        cashedFov = vcam.m_Lens.FieldOfView;
         cashedXScaleMoon = Moon.transform.localScale.x;
         cashedZScaleMoon = Moon.transform.localScale.z;
-        cashedXScaleGhostLayer = GhostLayer.transform.localScale.x;
-        cashedZScaleGhostLayer = GhostLayer.transform.localScale.z;
-        _cameraShake = FindObjectOfType<CameraShake>();
+        // cashedXScaleGhostLayer = GhostLayer.transform.localScale.x;
+        // cashedZScaleGhostLayer = GhostLayer.transform.localScale.z;
    }
  void FixedUpdate()
     {
@@ -117,10 +111,10 @@ public class CameraZoomOut : MonoBehaviour
             lerpedValueMoonX = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, cashedXScaleMoon, cashedXScaleMoon+ addXScaleMoon, xzVelocity);
             lerpedValueMoonZ = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, cashedZScaleMoon, cashedZScaleMoon+ addZScaleMoon, xzVelocity);
             
-            lerpedValueGhostLayerX = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, cashedXScaleGhostLayer, cashedXScaleGhostLayer+ addXScaleGhostLayer, xzVelocity);
-            lerpedValueGhostLayerZ = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, cashedZScaleGhostLayer, cashedZScaleGhostLayer+ addZScaleGhostLayer, xzVelocity);
-       // Debug.Log(lerpedValue);
-       
+       //      lerpedValueGhostLayerX = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, cashedXScaleGhostLayer, cashedXScaleGhostLayer+ addXScaleGhostLayer, xzVelocity);
+       //      lerpedValueGhostLayerZ = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, cashedZScaleGhostLayer, cashedZScaleGhostLayer+ addZScaleGhostLayer, xzVelocity);
+       // // Debug.Log(lerpedValue);
+       //
        if (cashedFov + ZoomOutDelay < lerpedValue)
        {
            vcam.m_Lens.FieldOfView = Mathf.Lerp(vcam.m_Lens.FieldOfView, lerpedValue, zoomOutRoughness*Time.deltaTime);
@@ -131,11 +125,11 @@ public class CameraZoomOut : MonoBehaviour
                    Mathf.Lerp(Moon.transform.localScale.z, lerpedValueMoonZ, moonZoomOutRoughness*Time.deltaTime)
                )  ;
                
-               GhostLayer.transform.localScale = new Vector3(
-                                  Mathf.Lerp(GhostLayer.transform.localScale.x, lerpedValueGhostLayerX, ghostLayerZoomOutRoughness*Time.deltaTime),
-                                  GhostLayer.transform.localScale.y ,
-                                  Mathf.Lerp(GhostLayer.transform.localScale.z, lerpedValueGhostLayerZ, ghostLayerZoomOutRoughness*Time.deltaTime)
-                              );
+               // GhostLayer.transform.localScale = new Vector3(
+               //                    Mathf.Lerp(GhostLayer.transform.localScale.x, lerpedValueGhostLayerX, ghostLayerZoomOutRoughness*Time.deltaTime),
+               //                    GhostLayer.transform.localScale.y ,
+               //                    Mathf.Lerp(GhostLayer.transform.localScale.z, lerpedValueGhostLayerZ, ghostLayerZoomOutRoughness*Time.deltaTime)
+               //                );
         }
        
        shakeAngle = Random.Range(1,9);

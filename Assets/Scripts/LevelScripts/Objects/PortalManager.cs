@@ -5,7 +5,7 @@ using NaughtyAttributes;
 public class PortalManager : MonoBehaviour
 {
     [InfoBox("Careful with those Settings! Better search for Portal and tweak the Settings there", EInfoBoxType.Warning)]
-    [BoxGroup("Increase Cam speed")][Range(0f,200f)][SerializeField] private float SetLastDistanceTreshhold = 60f;
+    [BoxGroup("Increase Cam speed")][Range(0f,10000f)][SerializeField] private float SetLastDistanceTreshhold = 3600f;
     [BoxGroup("Increase Cam speed")][Range(0f,0.5f)] [SerializeField] private float SetFollowRoughness = 0.01f;
     [BoxGroup("Increase Cam speed")][Range(0f,8f)] [SerializeField] private float SetlastDistanceSpeedIncreasePercentPerFrame = 1f;
     
@@ -50,7 +50,7 @@ public class PortalManager : MonoBehaviour
     }
     public static void calculateDistanceToPlayer()
     {
-        distanceCamHelperPlayer = MathLibary.CalculateDistancePos(ReferenceLibrary.PlayerPosition, CameraHelperTransform.position);
+        distanceCamHelperPlayer = MathLibary.CalculateDistance(ReferenceLibrary.PlayerPosition, CameraHelperTransform.position);
     }
     public static void MoveCameraHelper()
     {

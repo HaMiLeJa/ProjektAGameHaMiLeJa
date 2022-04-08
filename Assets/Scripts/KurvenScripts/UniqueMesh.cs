@@ -19,7 +19,8 @@ public class UniqueMesh : MonoBehaviour
 			if( !filterHasMesh || !isOwner || !filterHasCollider ) 
 			{
 				MeshFilter.sharedMesh = meshCached = new Mesh(); // //mach neues mesh und assign filter
-				MeshCollider.sharedMesh = meshCached; // noch die Collider
+				MeshCollider.sharedMesh = meshCached;
+				MeshCollider.enabled = true;// noch die Collider
 				ownerID = gameObject.GetInstanceID(); // Markiert sich selber als owner vom Mesh. Damit erhalten wir die gameobject id
 				meshCached.name = "Segement Nummer: [" + ownerID + "]";
 				meshCached.hideFlags = HideFlags.HideAndDontSave; // Stelle sicher, dass es nicht in der Scene ist. Das prevented memory leaks

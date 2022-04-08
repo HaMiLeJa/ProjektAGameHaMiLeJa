@@ -24,7 +24,6 @@ public class Destroyables : MonoBehaviour
             AllMaterials.Add(settings.Material01); AllMaterials.Add(settings.Material02);
             AllMaterials.Add(settings.Material03); AllMaterials.Add(settings.Material04);
         }
-        collisionCounter = 0;
     }
     public void Explode()
     {

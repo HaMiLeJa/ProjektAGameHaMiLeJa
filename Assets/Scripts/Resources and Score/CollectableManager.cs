@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using NaughtyAttributes;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
+using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Jobs;
-using Random = System.Random;
 
 public class CollectableManager : MonoBehaviour
 {
@@ -24,10 +25,10 @@ public class CollectableManager : MonoBehaviour
     [SerializeField] public Hex[] allHexScriptsForCollectablesUseBeforeStart;
     [BoxGroup("Debug")][SerializeField] private byte[] allRandomSpeedsBeforeStart;
     [BoxGroup("Debug")] [SerializeField] public Transform[] allCollectablesTransformsBeforeStart;
-    [InfoBox("Automaticly updates when slider change. Randomizes between those numbers so every Collectable gets a different rotation. Gets converted to bytes, so everything after the . gets cut")]
+    [InfoBox("Automaticly updates when slider change. Randomizes between those numbers so every Collectable gets a different rotation. Gets converted to bytes, so everything after the . gets cut \n Distance Treshold: In this distance no collectable will be spawned")]
     [BoxGroup("Configure")] [MinMaxSlider(0,255)] [SerializeField]  private Vector2 rotationRandomBetween = new Vector2(30, 120);
-
-
+    [BoxGroup("Configure")] [Range(0,3000)][SerializeField] private float distanceTreshhold = 100f;
+     
     private static int fixedLength;
     private static NativeQueue<int> allValidSpawnAbleHexID;
     TransformAccessArray allCollectableHexParentTransforms;
@@ -40,6 +41,7 @@ public class CollectableManager : MonoBehaviour
 
     void Start()
     {
+        distanceTreshhold *= distanceTreshhold;
         OnRespawnCollectables = null;
         OnRespawnCollectables += spawnCollectableObjects;
     }
@@ -117,11 +119,7 @@ public class CollectableManager : MonoBehaviour
             if(allCollectableActiveBoolsBeforeStart[i] == 0) collectableList[i].gameObject.SetActive(false);
         }
     }
-    [NaughtyAttributes.Button()] public void ToogleRotationCollectableInEditor()
-    {
-      rotateCollectablesInEditor = !rotateCollectablesInEditor;
-    }
-  
+    [NaughtyAttributes.Button()] public void ToogleRotationCollectableInEditor() => rotateCollectablesInEditor = !rotateCollectablesInEditor;
     private void OnDrawGizmos()
     {
         if (Application.isPlaying || !rotateCollectablesInEditor ) return;
@@ -197,7 +195,8 @@ public class CollectableManager : MonoBehaviour
         {
             hasAllTheHexCollectableActiveBoolsJob = allCollectableActiveBools,
             hasAllTheValidSpawnAbleHexesIDJob =  allValidSpawnAbleHexID.AsParallelWriter(),
-            PlayerPosJob = ReferenceLibrary.PlayerPosition
+            PlayerPosJob = ReferenceLibrary.PlayerPosition,
+            distanceSquared =  distanceTreshhold  
         };
        JobHandle spawnCheckhandle = spawnCheckJob.Schedule(allCollectableHexParentTransforms);
        spawnCheckhandle.Complete();
@@ -226,11 +225,12 @@ public struct HexCollectablePosJob : IJobParallelForTransform
     public NativeArray<byte> hasAllTheHexCollectableActiveBoolsJob;
     [NativeDisableParallelForRestriction] [WriteOnly] public NativeQueue<int>.ParallelWriter hasAllTheValidSpawnAbleHexesIDJob;
     [Unity.Collections.ReadOnly] public Vector3 PlayerPosJob;
+    [Unity.Collections.ReadOnly] public float distanceSquared;
     private Vector3 Verbindungsvector;
     public void Execute(int index, TransformAccess hasAllTheHexCollectableTransform)
     {
         Verbindungsvector = PlayerPosJob - hasAllTheHexCollectableTransform.position;
-        if (hasAllTheHexCollectableActiveBoolsJob[index] == 0 && Mathf.Sqrt(Mathf.Pow(Verbindungsvector.x, 2) + Mathf.Pow(Verbindungsvector.y, 2) + Mathf.Pow(Verbindungsvector.z, 2)) >= 100f)
+        if (hasAllTheHexCollectableActiveBoolsJob[index] == 0 && Math.Pow(Verbindungsvector.x, 2) + Math.Pow(Verbindungsvector.y, 2) + Math.Pow(Verbindungsvector.z, 2) > distanceSquared)
         {
             hasAllTheValidSpawnAbleHexesIDJob.Enqueue(index);
             hasAllTheHexCollectableActiveBoolsJob[index] = 1;

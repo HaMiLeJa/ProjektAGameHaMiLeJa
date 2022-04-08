@@ -32,7 +32,7 @@ public class ShadowDash : MonoBehaviour
         {
             isShadowDashing = true;
             ShadowDashStarter();
-            if (ReferenceLibrary.Dash.IsBoosting) ReferenceLibrary.Dash.IsBoosting = false;
+            ReferenceLibrary.Dash.IsBoosting = false;
         }
         if (currentShadowDashForce != 0 ) ReferenceLibrary.PlayerRb.AddForce(ReferenceLibrary.PlayerMov.MovementDirection.normalized * currentShadowDashForce * 400 * Time.fixedDeltaTime);
     }

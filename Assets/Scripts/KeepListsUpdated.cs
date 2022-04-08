@@ -7,13 +7,13 @@ public class KeepListsUpdated : MonoBehaviour
         {
          FindObjectOfType<Highlightmanager>().GetComponent<Highlightmanager>().UpdateAllMaterialIndexies();
          FindObjectOfType<HexAutoTiling>().GetComponent<HexAutoTiling>().FindAllTheHexesTransform();
+         FindObjectOfType<HexAutoTiling>().GetComponent<HexAutoTiling>().SetPlayerPositionOnStart();
          FindObjectOfType<ReferenceLibrary>().GetComponent<ReferenceLibrary>().FillNullHashsetRefLibary();
          FindObjectOfType<ReferenceLibrary>().GetComponent<ReferenceLibrary>().populateList();
          FindObjectOfType<HexUpdater>().GetComponent<HexUpdater>().updateParticle();
          FindObjectOfType<HexUpdater>().GetComponent<HexUpdater>().updateAudioClips();
          FindObjectOfType<HexEffectAudioManager>().GetComponent<HexEffectAudioManager>().getAllTheAudioSourcesBeforeAwake();
          FindObjectOfType<CollectableManager>().GetComponent<CollectableManager>().fillCollectableListsBeforeStart();
-         FindObjectOfType<CurveManager>().GetComponent<CurveManager>().UpdateCollider();
         }
     #endif
 }

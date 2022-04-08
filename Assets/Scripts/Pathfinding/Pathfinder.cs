@@ -213,9 +213,9 @@ public class Pathfinder : MonoBehaviour
 		{
 			spline = new CatmullRom(controlPointsNativeTransforms, Resolution, ClosedLoop);
 			waypointsForPlayer = spline.GenerateSplinePoints();
-			float distanceStart = MathLibary.CalculateDistancePos(other.transform.position,
+			float distanceStart = MathLibary.CalculateDistanceSquared(other.transform.position,
 				waypointsForPlayer[0].position);
-			float distanceEnd = MathLibary.CalculateDistancePos(other.transform.position,
+			float distanceEnd = MathLibary.CalculateDistanceSquared(other.transform.position,
 				waypointsForPlayer[waypointsForPlayer.Length-1].position);
 			if (pathfindingAllowed)
 			{
@@ -229,12 +229,11 @@ public class Pathfinder : MonoBehaviour
 				{
 					StopCoroutine(movePathReverse(other)); 
 					StartCoroutine(movePathReverse(other));
+					return;
 				}
-				else if (distanceEnd > distanceStart)
-				{
+				
 					StopCoroutine(movePath(other));
 					StartCoroutine(movePath(other));
-				}
 			}
 		}
 	}

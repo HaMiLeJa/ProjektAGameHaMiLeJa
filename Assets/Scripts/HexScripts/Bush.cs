@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 public class Bush : MonoBehaviour
-
 {
     [SerializeField] private int headshakes = 4;
     [SerializeField] private float rotationAngle = 80, rotDuration = 0.3f, force = 5;
@@ -16,7 +15,7 @@ public class Bush : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == ReferenceLibrary.Player)
+        if (other.gameObject.CompareTag(ReferenceLibrary.PlayerTag))
         {
             Vector3 posOther = other.transform.position;
             angles = Vector3.Angle(posOther, thisGameObject.transform.position)*100;

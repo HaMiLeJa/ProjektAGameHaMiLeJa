@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine;
-using UnityEditor;
+﻿using UnityEngine;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer) )]
 [ExecuteInEditMode]
 public class Segment : UniqueMesh 
@@ -16,12 +14,8 @@ public class Segment : UniqueMesh
 	{
 		if (Application.isPlaying) return;
 		CurveManager.updateCurves = true;
-	}
-
-	private void OnDrawGizmosSelected()
-	{
-		CurveManager.updateCurves = true;
-	}
+	} 
+	private void OnDrawGizmosSelected() => CurveManager.updateCurves = true;
 #endif
 	// Properties 
 	public bool HasValidNextPoint => TryGetNextSegment() != null;
@@ -47,14 +41,8 @@ public class Segment : UniqueMesh
 				tilingAspectRatio: GetTextureAspectRatio()
 			);
 		} 
-		else if( meshCached != null ) 
-		{
-			DestroyImmediate( meshCached );
-		}
+		else if( meshCached != null ) DestroyImmediate( meshCached );
 	}
-
-	
-	
 	float GetTextureAspectRatio() 
 	{
 		Texture texture = GetComponent<MeshRenderer>().sharedMaterial.Ref()?.mainTexture;
@@ -68,20 +56,16 @@ public class Segment : UniqueMesh
 		Vector3 FromWorld( Vector3 worldPos ) => space == Space.World ? worldPos : transform.InverseTransformPoint( worldPos );
 		if( i < 2 ) 
 		{
-			if( i == 0 )
-				return FromLocal( Vector3.zero );
-			if( i == 1 )
-				return FromLocal( Vector3.forward * tangentLength );
+			if( i == 0 ) return FromLocal( Vector3.zero );
+			if( i == 1 ) return FromLocal( Vector3.forward * tangentLength );
 		} 
 		
 		else 
 		{
 			Segment next = TryGetNextSegment();
 			Transform nextTf = next.transform;
-			if( i == 2 )
-				return FromWorld( nextTf.TransformPoint( Vector3.back * next.tangentLength ) );
-			if( i == 3 )
-				return FromWorld( nextTf.position );
+			if( i == 2 ) return FromWorld( nextTf.TransformPoint( Vector3.back * next.tangentLength ) );
+			if( i == 3 ) return FromWorld( nextTf.position );
 		}
 		return default;
 	}
@@ -90,15 +74,12 @@ public class Segment : UniqueMesh
 	// Und falls looping an ist, macht es noch ein Segmnet um die Strecke zu schließen
 	Segment TryGetNextSegment() 
 	{
-		if( IsInValidChain == false )
-			return null;
+		if( !IsInValidChain ) return null;
 		int thisIndex = transform.GetSiblingIndex();
 		bool isLast = thisIndex == transform.parent.childCount-1;
 		Segment GetSiblingSegment( int i ) => transform.parent.GetChild( i ).GetComponent<Segment>();
-		if( isLast && ChainParent.closed )
-			return GetSiblingSegment( 0 ); // First segment
-		else if( !isLast )
-			return GetSiblingSegment( thisIndex + 1 ); // Next segment
+		if( isLast && ChainParent.closed ) return GetSiblingSegment( 0 ); // First segment
+		if( !isLast ) return GetSiblingSegment( thisIndex + 1 ); // Next segment
 		return null;
 	}
 
@@ -120,9 +101,9 @@ public class Segment : UniqueMesh
 	// Gibt den Vector up vom ersten oder letzten Kontrollpunkt im jetzigen space
 	Vector3 GetUpVector( int i, Space space ) 
 	{
-		if( i == 0 ) {
-			return space == Space.Self ? Vector3.up : transform.up;
-		} else if( i == 3 ) {
+		if( i == 0 ) return space == Space.Self ? Vector3.up : transform.up;
+		if( i == 3 ) 
+		{
 			Vector3 wUp = TryGetNextSegment().transform.up;
 			return space == Space.World ? wUp : transform.InverseTransformVector( wUp );
 		}

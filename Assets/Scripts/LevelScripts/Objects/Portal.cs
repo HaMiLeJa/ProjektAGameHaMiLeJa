@@ -7,7 +7,7 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
     private bool DelayActive = true;
     [HideInInspector] public bool StartPortal = false;
     [HideInInspector] public bool GoalPortal = false;
-    private float distanceBetweenCamHelperAndPlayerCashed, cashedFovTemp, cashedFovNewCam,
+    private float distanceBetweenCamHelperAndPlayerSqrtAndHalfed, cashedFovTemp, cashedFovNewCam,
                    cashedVelocity, cashedlerpValue, xzVelocity;
     [SerializeField] AudioSource myAudioSource;
     private Vector3 cashedCamHelperPos;
@@ -41,18 +41,18 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
         if (PortalManager.CameraTeleportActive)
         {
             //Calculate Helper Distance to player
-           float distanceCamHelperPlayer =  MathLibary.CalculateDistance(ReferenceLibrary.Player, PortalManager.CameraHelper);
+           float distanceCamHelperPlayer =  MathLibary.CalculateDistanceSquared(ReferenceLibrary.Player, PortalManager.CameraHelper);
            //modifiy fov
-           if( distanceCamHelperPlayer > distanceBetweenCamHelperAndPlayerCashed/2)
+           if( distanceCamHelperPlayer > distanceBetweenCamHelperAndPlayerSqrtAndHalfed)
                cam.m_Lens.FieldOfView = Mathf.Lerp(cam.m_Lens.FieldOfView, cashedFovTemp+zoomOutDuringTeleport, 1*Time.deltaTime);
-           else if (distanceCamHelperPlayer< distanceBetweenCamHelperAndPlayerCashed/2)
+           else if (distanceCamHelperPlayer< distanceBetweenCamHelperAndPlayerSqrtAndHalfed)
                cam.m_Lens.FieldOfView = Mathf.Lerp(cam.m_Lens.FieldOfView, cashedFovTemp, 1*Time.deltaTime);
             //Zero out speed 
-           if(distanceCamHelperPlayer > Mathf.Abs(8)) ReferenceLibrary.PlayerRb.velocity = Vector3.zero;
-           if (distanceCamHelperPlayer < Mathf.Abs(8) && PortalManager.StopGiveVelocityBack) 
+           if(distanceCamHelperPlayer > Mathf.Abs(64)) ReferenceLibrary.PlayerRb.velocity = Vector3.zero;
+           if (distanceCamHelperPlayer < Mathf.Abs(64) && PortalManager.StopGiveVelocityBack) 
                PortalManager.StopGiveVelocityBack = !PortalManager.StopGiveVelocityBack;
            
-           if (distanceCamHelperPlayer < Mathf.Abs(8))
+           if (distanceCamHelperPlayer < Mathf.Abs(64))
            {
                float horizontalInput = Input.GetAxis("Horizontal");
                float verticalInput = Input.GetAxis("Vertical");
@@ -76,9 +76,9 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
                PortalManager.CameraTeleportActive = false; SetBackFollowSpeed();
            }
          
-            if (distanceCamHelperPlayer < PortalManager.lastDistanceTreshhold && distanceCamHelperPlayer >= 5f)
+            if (distanceCamHelperPlayer < PortalManager.lastDistanceTreshhold && distanceCamHelperPlayer >= 25f)
                 PortalManager.followRoughness = PortalManager.followRoughness * (PortalManager.lastDistanceSpeedIncreasePercentPerFrame/100+1);
-            if (distanceCamHelperPlayer < 10f)
+            if (distanceCamHelperPlayer < 100f)
                 PortalManager.followRoughness = PortalManager.followRoughness * (PortalManager.lastDistanceSpeedIncreasePercentPerFrame/20+1);
             
             PortalManager.CameraHelper.transform.position = Vector3.Lerp( 
@@ -100,7 +100,6 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
                 myAudioSource.clip = settings.Clip;
                 myAudioSource.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
                 myAudioSource.Play();
-
                 /*
                                 if (!DelayActive)
                                 {
@@ -119,7 +118,7 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
                         cam.LookAt =  PortalManager.CameraHelper.transform; 
                         cam.Follow =  PortalManager.CameraHelper.transform;
                         player.transform.position = Goal.transform.position;
-                        distanceBetweenCamHelperAndPlayerCashed = MathLibary.CalculateDistance(PortalManager.CameraHelper, player);
+                        distanceBetweenCamHelperAndPlayerSqrtAndHalfed = MathLibary.CalculateDistanceSquared(PortalManager.CameraHelper, player)/2;
                         PortalManager.CameraTeleportActive = true;
                 }
             }

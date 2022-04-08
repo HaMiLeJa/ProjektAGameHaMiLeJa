@@ -55,6 +55,7 @@ VaryingsParticle vertParticleUnlit(AttributesParticle input)
     input.vertex.xyz += mul(unity_WorldToObject, distance);
     #endif
     
+    
     VertexPositionInputs vertexInput = GetVertexPositionInputs(input.vertex.xyz);
     VertexNormalInputs normalInput = GetVertexNormalInputs(input.normal, input.tangent);
 

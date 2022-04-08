@@ -1,5 +1,6 @@
 using UnityEngine;
-[ExecuteAlways]
+[ExecuteInEditMode]
+#if UNITY_EDITOR
 public class BoostInDirectionProp : MonoBehaviour
 {
      public Hex MyHex;
@@ -10,7 +11,8 @@ public class BoostInDirectionProp : MonoBehaviour
       //  MyHex = this.transform.parent.transform.parent.GetComponent<Hex>(); //sp�ter �ber instatniaten zuweisen
       //  }
       void Update()
-    {
+      {
+          if (Application.isPlaying) return;
         SetDesiredRotation();
         RotateTowardsDesiredPos();
     }
@@ -25,3 +27,4 @@ public class BoostInDirectionProp : MonoBehaviour
        transform.rotation = desiredRot;
     }
 }
+#endif

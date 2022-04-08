@@ -18,10 +18,11 @@ public class HexAutoTiling : MonoBehaviour
    private byte shortCircutToOrginCounter = 0;
    private float xPlusSnapShotPos, xMinusSnapShotPos, 
                   zPlusSnapShotPos, zMinusSnapShotPos,
-                  xOriginPosition, zOriginPosition,
                   zPlus, zMinus, xPlus, xMinus,
                   xMoveBack, zMoveback;
-    
+
+   [SerializeField] private float  xOriginPosition; 
+   [SerializeField] private float zOriginPosition;
      private bool leftMove, rightMove, topMove, bottomMove, playerHasMoved, noSide;
 
      [SerializeField]private byte  startTilingTreshhold = 130, //später im Inspector bei mehr Level: default 150
@@ -62,6 +63,14 @@ public class HexAutoTiling : MonoBehaviour
             hasAllTheHexGameObjectsTransformsBeforeStart[counter] = hex.transform;
             counter++;
         }
+        
+    }
+
+    [NaughtyAttributes.Button()] public void SetPlayerPositionOnStart()
+    {
+        Transform player = FindObjectOfType<PlayerMovement>().gameObject.transform;
+        xOriginPosition = player.position.x;
+        zOriginPosition = player.position.z;
     }
 #endif
     private void Awake()
@@ -71,9 +80,8 @@ public class HexAutoTiling : MonoBehaviour
     }
     void Start()
     {
-        xOriginPosition = ReferenceLibrary.PlayerPosition.x;
-        zOriginPosition = ReferenceLibrary.PlayerPosition.z;
-        playerHasMoved = true; limitTiling();
+        playerHasMoved = true;
+        moveHexes();
     }
     void Update()
     {
@@ -204,6 +212,7 @@ public class HexAutoTiling : MonoBehaviour
     #endregion
     private void OnDestroy() => hasAllTheHexesTransformsNative.Dispose();
 }
+
 
 [BurstCompile(FloatPrecision.Low, FloatMode.Fast)]
 public struct HexPosJob : IJobParallelForTransform

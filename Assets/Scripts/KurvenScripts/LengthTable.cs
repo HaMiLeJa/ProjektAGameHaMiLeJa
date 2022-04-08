@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 public class LengthTable 
 {// Dise Klasse fixed die Uvs. Das ist der UVFixed Mode
-	public float[] distances; 
+	private float[] distances; 
 	int SmpCount => distances.Length;
 	float TotalLength => distances[SmpCount - 1];
 	public LengthTable(OrientedCubicBezier3D bezier, int precision = 16) 
