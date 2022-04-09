@@ -187,16 +187,20 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         {
             if (colManager.allCollectableHexParentTransformsBeforeStart[i] == gameObject.transform)
             {
+#if UNITY_EDITOR
                 SerializedObject serializedCollectable = new SerializedObject(GetComponentInChildren<Collectable>());
                 serializedCollectable.FindProperty("CollectableIndexID").intValue = i;
                 serializedCollectable.ApplyModifiedPropertiesWithoutUndo();
+#endif
             }
         }
         //------------------- Update Parent ref  --------------//
+#if  UNITY_EDITOR
         SerializedObject serializedHex = new SerializedObject(gameObject.GetComponent<Hex>());
         serializedHex.FindProperty("MyCollectable").objectReferenceValue =
             GetComponentInChildren<Collectable>().gameObject;
         serializedHex.ApplyModifiedPropertiesWithoutUndo();
+#endif
     }
     #endregion
     void SpawnObjectInEditMode(float y) =>  spawnObjectWithPrefabConnection(y, CurrentItem, gameObject, ObjectToSpawn);
@@ -211,6 +215,7 @@ public class SpawnHexObjectsInEditor : MonoBehaviour
         Item.transform.parent = this.transform;
         return Item;
     }
+    
     public GameObject ResetCurrentItem(SpawnComponentTypes spawnComponentType)
     {
         if (spawnComponentType == SpawnComponentTypes.Collectable && this.GetComponentInChildren<Collectable>()) return this.GetComponentInChildren<Collectable>().gameObject;

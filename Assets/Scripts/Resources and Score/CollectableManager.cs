@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Cryptography;
 using NaughtyAttributes;
 using Unity.Burst;
 using Unity.Collections;
@@ -132,8 +133,7 @@ public class CollectableManager : MonoBehaviour
                 deltaTime = Time.deltaTime
             };
             TransformAccessArray JustForJob = new TransformAccessArray(allCollectablesTransformsBeforeStart,12);
-            rotationJOB = rotateJob.Schedule(JustForJob);
-            rotationJOB.Complete();
+            rotateJob.Schedule(JustForJob).Complete();
             RandomSpeedsForEditor.Dispose();
             JustForJob.Dispose();
         
@@ -143,25 +143,24 @@ public class CollectableManager : MonoBehaviour
     void Update()
     {  
         if (Input.GetKeyDown(KeyCode.M)) spawnCollectableObjects();
-        if (rotationJOB.IsCompleted == false) return;
-        rotateCollectablesJob rotateJob = new rotateCollectablesJob
+        if (rotationJOB.IsCompleted)
+        {  rotateCollectablesJob rotateJob = new rotateCollectablesJob
             {
                 deltaTime = Time.deltaTime,
                 RandomSpeed =  allTheRandomSpeeds
             };
-            rotationJOB = rotateJob.Schedule(allCollectablesTransforms);
-            rotationJOB.Complete();
-
+            rotationJOB = rotateJob.Schedule( allCollectablesTransforms, rotationJOB);
+        }
     }
 
     private void SetNativeContainer()
     {
         if (!Application.isPlaying) return;
         allValidSpawnAbleHexID= new NativeQueue<int>(Allocator.Persistent);  //Queue has the Objects that are Valid for Spawn
-        allCollectableHexParentTransforms = new TransformAccessArray(allCollectableHexParentTransformsBeforeStart, 12); //Native Transforms are much faster than normal
+        allCollectableHexParentTransforms = new TransformAccessArray(allCollectableHexParentTransformsBeforeStart, 28); //Native Transforms are much faster than normal
         allCollectableActiveBools = new NativeArray<byte>(allCollectableActiveBoolsBeforeStart, Allocator.Persistent); // Keep a native bool list for checking if ValidSpawn
         allHexScriptsForCollectablesUse = allHexScriptsForCollectablesUseBeforeStart;  //better have an static List premade than having a getcomponend of ref type
-        allCollectablesTransforms = new TransformAccessArray(allCollectablesTransformsBeforeStart, 12);
+        allCollectablesTransforms = new TransformAccessArray(allCollectablesTransformsBeforeStart, 28);
         allTheRandomSpeeds = new NativeArray<byte>(allRandomSpeedsBeforeStart,Allocator.Persistent);
         
         allCollectablesTransformsBeforeStart = null;
@@ -169,17 +168,29 @@ public class CollectableManager : MonoBehaviour
         allCollectableActiveBoolsBeforeStart = null; //  since we have native Containter
         allHexScriptsForCollectablesUseBeforeStart = null;
         allRandomSpeedsBeforeStart = null;
-    } 
+    }
+
+    private void OnApplicationQuit()
+    {
+        rotationJOB.Complete();
+        DestroyAll();
+    }
+
     private void OnDestroy()
     {
+        rotationJOB.Complete();
+        Invoke("DestroyAll",0.1f);
+    }
+
+    void DestroyAll()
+    {
         if (!Application.isPlaying) return;
-   
         //Dispose all NativeContainer
         allValidSpawnAbleHexID.Dispose();
         allCollectableHexParentTransforms.Dispose();
         allCollectableActiveBools.Dispose();
         allCollectablesTransforms.Dispose();
-        allTheRandomSpeeds.Dispose();
+if(rotationJOB.IsCompleted) allTheRandomSpeeds.Dispose(rotationJOB);
     }
     public void CollectableCollected( float energyValue , int collectableIndexID)
     {   //Invoked by the Collectable when the Collectable gets collected 
@@ -196,7 +207,7 @@ public class CollectableManager : MonoBehaviour
             hasAllTheHexCollectableActiveBoolsJob = allCollectableActiveBools,
             hasAllTheValidSpawnAbleHexesIDJob =  allValidSpawnAbleHexID.AsParallelWriter(),
             PlayerPosJob = ReferenceLibrary.PlayerPosition,
-            distanceSquared =  distanceTreshhold  
+            distanceSquared =  distanceTreshhold
         };
        JobHandle spawnCheckhandle = spawnCheckJob.Schedule(allCollectableHexParentTransforms);
        spawnCheckhandle.Complete();
@@ -226,14 +237,13 @@ public struct HexCollectablePosJob : IJobParallelForTransform
     [NativeDisableParallelForRestriction] [WriteOnly] public NativeQueue<int>.ParallelWriter hasAllTheValidSpawnAbleHexesIDJob;
     [Unity.Collections.ReadOnly] public Vector3 PlayerPosJob;
     [Unity.Collections.ReadOnly] public float distanceSquared;
-    private Vector3 Verbindungsvector;
     public void Execute(int index, TransformAccess hasAllTheHexCollectableTransform)
     {
-        Verbindungsvector = PlayerPosJob - hasAllTheHexCollectableTransform.position;
-        if (hasAllTheHexCollectableActiveBoolsJob[index] == 0 && Math.Pow(Verbindungsvector.x, 2) + Math.Pow(Verbindungsvector.y, 2) + Math.Pow(Verbindungsvector.z, 2) > distanceSquared)
+        if (hasAllTheHexCollectableActiveBoolsJob[index] == 0 && MathLibary.sqrMagnitudeInlined(PlayerPosJob - hasAllTheHexCollectableTransform.position) > distanceSquared)
         {
             hasAllTheValidSpawnAbleHexesIDJob.Enqueue(index);
             hasAllTheHexCollectableActiveBoolsJob[index] = 1;
         }
     }
+
 }

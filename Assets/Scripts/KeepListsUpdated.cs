@@ -14,6 +14,7 @@ public class KeepListsUpdated : MonoBehaviour
          FindObjectOfType<HexUpdater>().GetComponent<HexUpdater>().updateAudioClips();
          FindObjectOfType<HexEffectAudioManager>().GetComponent<HexEffectAudioManager>().getAllTheAudioSourcesBeforeAwake();
          FindObjectOfType<CollectableManager>().GetComponent<CollectableManager>().fillCollectableListsBeforeStart();
+         FindObjectOfType<CurveManager>().GetComponent<CurveManager>().UpdateCollider();
         }
     #endif
 }

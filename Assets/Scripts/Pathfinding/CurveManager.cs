@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 public class CurveManager : MonoBehaviour
@@ -12,7 +14,28 @@ public class CurveManager : MonoBehaviour
           if (drawPathfindingInEditMode) Debug.Log("Pathfinding now show up in the Editor");
           else Debug.Log("Pathfinding no longer show up in the Editor");
      }
+   [Button()] public void UpdateCollider()
+     {
+          MeshColliderThatNeedRefresh?.Clear();
+          foreach (GameObject obj in GameObject.FindGameObjectsWithTag("BrueckeParent"))
+          {
+               foreach (Segment seg in obj.GetComponentsInChildren<Segment>())
+               {
+                    if (seg.gameObject.GetComponent<MeshCollider>() != null)
+                         MeshColliderThatNeedRefresh.Add(seg.gameObject.GetComponent<MeshCollider>());
+               }
+          }
+     }
 #endif
- 
+     
+     [SerializeField] private List<MeshCollider> MeshColliderThatNeedRefresh;
+     private void Start()
+     {
+          foreach (MeshCollider meshCollider in MeshColliderThatNeedRefresh)
+          {
+               meshCollider.enabled = false;
+               meshCollider.enabled = true;
+          }
+     }
 }
 

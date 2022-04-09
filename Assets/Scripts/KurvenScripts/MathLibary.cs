@@ -54,8 +54,9 @@ public static class MathLibary
 		return Mathf.Pow(Verbindungsvector.x, 2) + Mathf.Pow(Verbindungsvector.y, 2) + Mathf.Pow(Verbindungsvector.z, 2);
 	}
 	
-	
-	
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static float sqrMagnitudeInlined(Vector3 v) => v.x * v.x + v.y * v.y + v.z * v.z;
+
 	public static void boostDirection(Vector3 pointA, Vector3 pointB, float forceAmount, Rigidbody rb)
 	{
 		var aToB = pointB - pointA;

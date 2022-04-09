@@ -41,11 +41,11 @@ public class Portal : MonoBehaviour //Portal in zwei Richtungen, Frei untereinan
         if (PortalManager.CameraTeleportActive)
         {
             //Calculate Helper Distance to player
-           float distanceCamHelperPlayer =  MathLibary.CalculateDistanceSquared(ReferenceLibrary.Player, PortalManager.CameraHelper);
+           float distanceCamHelperPlayer =  MathLibary.sqrMagnitudeInlined(ReferenceLibrary.PlayerTransform.position - PortalManager.CameraHelperTransform.position);
            //modifiy fov
            if( distanceCamHelperPlayer > distanceBetweenCamHelperAndPlayerSqrtAndHalfed)
                cam.m_Lens.FieldOfView = Mathf.Lerp(cam.m_Lens.FieldOfView, cashedFovTemp+zoomOutDuringTeleport, 1*Time.deltaTime);
-           else if (distanceCamHelperPlayer< distanceBetweenCamHelperAndPlayerSqrtAndHalfed)
+           else if (distanceCamHelperPlayer < distanceBetweenCamHelperAndPlayerSqrtAndHalfed)
                cam.m_Lens.FieldOfView = Mathf.Lerp(cam.m_Lens.FieldOfView, cashedFovTemp, 1*Time.deltaTime);
             //Zero out speed 
            if(distanceCamHelperPlayer > Mathf.Abs(64)) ReferenceLibrary.PlayerRb.velocity = Vector3.zero;

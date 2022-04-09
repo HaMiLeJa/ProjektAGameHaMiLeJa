@@ -20,6 +20,15 @@ public class ChainParent : MonoBehaviour
 			UpdateMeshes();
 		}
 	}
+	public void OnDrawGizmosSelected()
+	{
+		CurveManager.updateCurves = true;
+		Segment[] allSegments = GetComponentsInChildren<Segment>();
+		Segment[] segmentsWithMesh = allSegments.Where( s => s.HasValidNextPoint ).ToArray();
+		Segment[] segmentsWithoutMesh = allSegments.Where( s => s.HasValidNextPoint == false ).ToArray();
+		foreach( Segment seg in segmentsWithMesh  ) Gizmos.DrawSphere(seg.transform.position, 0.7f);
+		foreach( Segment seg in segmentsWithoutMesh  ) Gizmos.DrawSphere(seg.transform.position, 0.5f);
+	}
 #endif
 	public void UpdateMeshes() 
 	{	// Iterriere durch alles Childs und update die Meshes
@@ -44,13 +53,5 @@ public class ChainParent : MonoBehaviour
 		// Clear alle Segmente ohne meshes
 		foreach( Segment seg in segmentsWithoutMesh ) seg.UpdateMesh( Vector2.zero );
 	}
-	public void OnDrawGizmosSelected()
-	{
-		CurveManager.updateCurves = true;
-		Segment[] allSegments = GetComponentsInChildren<Segment>();
-		Segment[] segmentsWithMesh = allSegments.Where( s => s.HasValidNextPoint ).ToArray();
-		Segment[] segmentsWithoutMesh = allSegments.Where( s => s.HasValidNextPoint == false ).ToArray();
-		foreach( Segment seg in segmentsWithMesh  ) Gizmos.DrawSphere(seg.transform.position, 0.7f);
-		foreach( Segment seg in segmentsWithoutMesh  ) Gizmos.DrawSphere(seg.transform.position, 0.5f);
-	}
+	
 }

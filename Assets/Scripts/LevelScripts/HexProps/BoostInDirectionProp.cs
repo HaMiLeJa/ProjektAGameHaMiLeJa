@@ -1,9 +1,8 @@
 using UnityEngine;
 [ExecuteInEditMode]
-#if UNITY_EDITOR
 public class BoostInDirectionProp : MonoBehaviour
 {
-     public Hex MyHex;
+    public Hex MyHex;
     Vector3 Direction;
     Quaternion desiredRot;
     //  void Start()
@@ -27,4 +26,3 @@ public class BoostInDirectionProp : MonoBehaviour
        transform.rotation = desiredRot;
     }
 }
-#endif
