@@ -9,7 +9,7 @@ public class HighlightObjects : MonoBehaviour
     [BoxGroup("|| Shake ||")] [Tooltip("Better to put in here the Lampenarm")] [SerializeField] private GameObject Lampe;
     [BoxGroup("|| Shake ||")] [Tooltip("Number of Shakes the Attached Arm will do. Increase it to let it shake more")] [SerializeField] private int headshakes = 4;
     [BoxGroup("|| GlowHighlight ||")]   [Tooltip("Choose the HighlightMaterial from the HighlightManager. If you choose a too big number it will default to 0)")] 
-       [Range(0, 25)] [SerializeField] private Byte highlightType;
+    [Range(0, 25)] [SerializeField] private Byte highlightType;
     [BoxGroup("|| Debug ||")] [Tooltip("This Property will be modified by the Button in the HighlightManager." +
                                        " It shows where its renderer and Pointer to original Material are at the Index shown here for debug. DO NOT MANUALLY TOUCH IT!!!")]
       public ushort matSwapIndex;
@@ -47,7 +47,7 @@ public class HighlightObjects : MonoBehaviour
     {
         if (Application.isPlaying) return;
         Highlightmanager hmanger = FindObjectOfType<Highlightmanager>();
-        if (highlightType >= hmanger.GlowMaterialList.Length)
+        if (highlightType >= hmanger.GlowMaterialList?.Length)
             HighlightName = "No Material Setup on this Slot!!!";
         else  if  (highlightType < hmanger.GlowMaterialList.Length)
             HighlightName = hmanger.GlowMaterialList[highlightType].name;
@@ -134,5 +134,4 @@ public class HighlightObjects : MonoBehaviour
         yield return Rotate(rotateMe,headshakes,Random.Range(1.2f,1.4f)*duration,
             Random.Range(angle, angle + 5), -firstDirection);
     }
-    
 }
