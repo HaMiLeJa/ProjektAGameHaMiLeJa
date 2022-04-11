@@ -27,17 +27,18 @@ public class BenderManager : MonoBehaviour
     if ( enablePlanet ) Shader.EnableKeyword(PLANET);
     else Shader.DisableKeyword(PLANET);
     UpdateBendingAmount();
-    if ( Application.isPlaying)  InvokeRepeating("UpdateBendingAmount", 0.1f, 0.2f);
+    if (Application.isPlaying)
+    {
+      InvokeRepeating("UpdateBendingAmount", 0.1f, 0.5f);
+      InvokeRepeating("UpdateCullingMatrix", 0f, 0.15f);
+    }
+
   }
   private void OnEnable ()
   {
     if ( !Application.isPlaying ) return;
     RenderPipelineManager.beginCameraRendering += OnBeginCameraRendering;
     RenderPipelineManager.endCameraRendering += OnEndCameraRendering;
-  }
-  private void FixedUpdate()
-  {
-    if (Application.isPlaying) UpdateCullingMatrix();
   }
   private void OnDisable ()  //SceneView
   {

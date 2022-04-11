@@ -1,14 +1,10 @@
 using UnityEngine;
 public class MissionStateNoMission : MonoBehaviour
 {
-    bool randomDurationSet = false;
-    public static float duration = 0;
-    private void Start()
-    {
-        randomDurationSet = true;
-        duration = 50;
-        ReferenceLibrary.UIMng.TimerUntilNexMission();
-    }
+    private bool randomDurationSet = true;
+    public static float duration = 50;
+    private void Start() => ReferenceLibrary.UIMng.TimerUntilNexMission();
+
     public void UpdateNoMission()
     {
         if(!randomDurationSet)

@@ -7,21 +7,18 @@ public class EnergyManager : MonoBehaviour //for points and energy
     public static float CurrentEnergy;
     [Tooltip("A limit of how many Energy the player can have")] 
     public float MaxEnergyAmount = 20f;
-    [SerializeField] float currentEnergyForInspector;
     [SerializeField] float stepSize = 0.1f;
     public static bool energyGotHigher = false;
     [Space] public float ConstantEnergyDecrease = 0.005f;
     [Space] [SerializeField] AudioSource myAudioSource;
-    private void Awake() => energyGotHigher = false;
-    void Start() => CurrentEnergy = EnergyStartAmount;
-    void Update()
+    void Awake()
     {
-        if (GameStateManager.gameState == GameStateManager.GameState.Start) return;
-        if (DisableEnergyCosts) CurrentEnergy = 25;
-        currentEnergyForInspector = CurrentEnergy;
-        if(!GameStateManager.GameOver) CheckEnergyAmount();
+        energyGotHigher = false;
+        CurrentEnergy = EnergyStartAmount;
+        InvokeRepeating("UpdateEnergy", 1f, 0.2f);
     }
-    private void FixedUpdate()
+    
+    private void UpdateEnergy()
     {
         if (GameStateManager.gameState == GameStateManager.GameState.Start) return;
         /*
@@ -37,6 +34,9 @@ public class EnergyManager : MonoBehaviour //for points and energy
             CurrentEnergy = CurrentEnergy - ConstantEnergyDecrease - ReferenceLibrary.GameMng.CurrentNoInputInfluence- 0.007f;
         else if( CurrentEnergy >= -0.5 && CurrentEnergy <20)
             CurrentEnergy = CurrentEnergy - ConstantEnergyDecrease - ReferenceLibrary.GameMng.CurrentNoInputInfluence;
+        
+        if (DisableEnergyCosts) CurrentEnergy = 25;
+        if(!GameStateManager.GameOver) CheckEnergyAmount();
     }
     /*
     void ModifyEnergy(float value)

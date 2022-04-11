@@ -51,7 +51,7 @@ public class Pathfinder : MonoBehaviour
 		}
 		else if (cam == null)
 		{
-			cam = GetComponent<CinemachineVirtualCamera>();
+			cam = CameraZoomOut.vcamera;
 			noCam = true;
 		}
 	}

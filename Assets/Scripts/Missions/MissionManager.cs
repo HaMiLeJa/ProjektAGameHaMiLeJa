@@ -3,14 +3,14 @@ using UnityEngine.Audio;
 public class MissionManager : MonoBehaviour
 {
     public static int MissionAmount, CompletedMissions, MissionRound = 0;
-    MissionStateNoMission NoMissionMissionState;
-    MissionStateFindMission FindMissionState;
-    MissionStatePrepareMission PrepareMissionState;
-    [HideInInspector] public MissionStateActiveMission ActiveMissionState;
-    MissionStateCompletedMission CompletedMissionState;
-    MissionStateUncompletedMission UncompletedMissionState;
-    [HideInInspector]public MissionStateNoMissionsLeft NoMissionLeft;
-    public static MissionInformation CurrentMission;
+    [SerializeField] private MissionStateNoMission NoMissionMissionState;
+    [SerializeField] private MissionStateFindMission FindMissionState;
+    [SerializeField] private MissionStatePrepareMission PrepareMissionState;
+    [SerializeField] public MissionStateActiveMission ActiveMissionState;
+    [SerializeField] private  MissionStateCompletedMission CompletedMissionState;
+    [SerializeField] private  MissionStateUncompletedMission UncompletedMissionState;
+    [SerializeField] public MissionStateNoMissionsLeft NoMissionLeft;
+    [SerializeField] public static MissionInformation CurrentMission;
     bool lastMissionSuccesfull = false;
     // For Active State
     public static float MissionTimeLeft, Progress, EndPoints;  //For CollectPoints
@@ -26,9 +26,8 @@ public class MissionManager : MonoBehaviour
     [SerializeField] AudioMixerGroup successfullGroup;
     [SerializeField] AudioClip unsuccesfullClip;
     [SerializeField] AudioMixerGroup unsuccessfullGroup;
-    public AudioClip missionCollectalbeClip;
-    public AudioMixerGroup missionCollectalbeGroup;
-    AudioManager audioMng;
+   [SerializeField] public AudioClip missionCollectalbeClip;
+   [SerializeField] public AudioMixerGroup missionCollectalbeGroup;
     static MissionState missionState = MissionState.noMission;
     enum MissionState
     {
@@ -41,10 +40,10 @@ public class MissionManager : MonoBehaviour
         noMissionsLeft,
         transitionCase
     }
-    void Start()
+
+    #if UNITY_EDITOR
+    [NaughtyAttributes.Button()] private void FillComponents()
     {
-        audioMng = ReferenceLibrary.AudMng;
-        missionState = MissionState.noMission;
         NoMissionMissionState = GetComponentInChildren<MissionStateNoMission>();
         FindMissionState = GetComponentInChildren<MissionStateFindMission>();
         PrepareMissionState = GetComponentInChildren<MissionStatePrepareMission>();
@@ -53,6 +52,9 @@ public class MissionManager : MonoBehaviour
         UncompletedMissionState = GetComponentInChildren<MissionStateUncompletedMission>();
         NoMissionLeft = GetComponentInChildren<MissionStateNoMissionsLeft>();
     }
+    #endif
+    void Start() => missionState = MissionState.noMission;
+
     void Update()
     {
         if (GameStateManager.gameState == GameStateManager.GameState.Start) return;
@@ -81,7 +83,7 @@ public class MissionManager : MonoBehaviour
     #region Switch State
     void SwitchToActiveMissionState()
     {
-        audioMng.PlayMissionSound(newMissionClip, newMissionGroup);
+        ReferenceLibrary.AudMng.PlayMissionSound(newMissionClip, newMissionGroup);
         missionState = MissionState.activeMission;
     }
     void SwitchToPrepareMissionState() =>missionState = MissionState.prepareMission;
@@ -101,13 +103,13 @@ public class MissionManager : MonoBehaviour
         else
         {
             SwitchToNoMissionState();
-            if(lastMissionSuccesfull) audioMng.PlayMissionSound(unsuccesfullClip, unsuccessfullGroup);
-            else audioMng.PlayMissionSound(missionCollectalbeClip, missionCollectalbeGroup);
+            if(lastMissionSuccesfull) ReferenceLibrary.AudMng.PlayMissionSound(unsuccesfullClip, unsuccessfullGroup);
+            else ReferenceLibrary.AudMng.PlayMissionSound(missionCollectalbeClip, missionCollectalbeGroup);
         }
     }
     void CheckForReactivation() //Used, when The first Mission Round is over
     {
-        if(StartNewMissionRoundAllowed == true)
+        if(StartNewMissionRoundAllowed)
         {
             StartNewMissionRoundAllowed = false;
             NoMissionLeft.ReactiveMissions();

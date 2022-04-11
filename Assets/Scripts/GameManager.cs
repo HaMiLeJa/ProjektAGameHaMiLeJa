@@ -39,15 +39,10 @@ public class GameManager : MonoBehaviour
 #endif
         DisableSpawnHexObjectsInEditMode = true;
     }
-    private void Start()
-    {
-        //player = ReferenceLibrary.Player;
-        // if (PlayerPrefs.HasKey("Highscore") == false)
-        //   PlayerPrefs.SetFloat("Highscore", 0);
-        AllowMovement = true;
-        AllowHexEffects = true;
-        Resources.UnloadUnusedAssets();
-    }
+    private void Start() => Resources.UnloadUnusedAssets();
+    //player = ReferenceLibrary.Player;
+    // if (PlayerPrefs.HasKey("Highscore") == false)
+    //   PlayerPrefs.SetFloat("Highscore", 0);
     void Update()
     {
         if(Input.GetKey(KeyCode.Escape)) Application.Quit();
