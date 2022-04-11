@@ -225,3 +225,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   glowAmount: 3.9
   CutoffEmissive: 0.5
+  material: {fileID: 2100000, guid: 8234a5fcca1d26846b905f5f96ed604d, type: 2}

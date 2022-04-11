@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Rendering;
 using NaughtyAttributes;
 [ExecuteAlways]
@@ -28,16 +27,13 @@ public class BenderManager : MonoBehaviour
     if ( enablePlanet ) Shader.EnableKeyword(PLANET);
     else Shader.DisableKeyword(PLANET);
     UpdateBendingAmount();
+    if ( Application.isPlaying)  InvokeRepeating("UpdateBendingAmount", 0.1f, 0.2f);
   }
   private void OnEnable ()
   {
     if ( !Application.isPlaying ) return;
     RenderPipelineManager.beginCameraRendering += OnBeginCameraRendering;
     RenderPipelineManager.endCameraRendering += OnEndCameraRendering;
-  }
-  private void Update ()
-  {
-    if ( Math.Abs(_prevAmount - bendingAmount) > Mathf.Epsilon ) UpdateBendingAmount();
   }
   private void FixedUpdate()
   {
@@ -48,11 +44,8 @@ public class BenderManager : MonoBehaviour
     RenderPipelineManager.beginCameraRendering -= OnBeginCameraRendering;
     RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
   }
-  private void UpdateBendingAmount ()  //methoden
-  {
-    _prevAmount = bendingAmount;
-    Shader.SetGlobalFloat(BENDINGAMOUNT, bendingAmount);
-  }
+  private void UpdateBendingAmount () => Shader.SetGlobalFloat(BENDINGAMOUNT, bendingAmount);
+
   private static void OnBeginCameraRendering(ScriptableRenderContext ctx, Camera cam) =>
     cam.cullingMatrix = Matrix4x4.Ortho(-cullingMatrixHor, cullingMatrixHor, -cullingMatrixVert, cullingMatrixVert, 0.0001f, 3*cullingMatrixVert) *
                         cam.worldToCameraMatrix;

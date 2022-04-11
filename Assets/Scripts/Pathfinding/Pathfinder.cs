@@ -30,8 +30,9 @@ public class Pathfinder : MonoBehaviour
 	[BoxGroup("Debug")][SerializeField]private bool drawTangent;
 	[BoxGroup("Debug")][Range(0, 20)] public float normalLength;
 	[BoxGroup("Debug")][Range(0, 20)] public float tangentLength;
+	#if UNITY_EDITOR
 	[BoxGroup("Debug")][Range(1, 20)] [SerializeField] private float colliderSize = 3;
-
+#endif
 	private const int playerLayerInt = 11;
 	private const int playerNoCollisionLayerInt = 12;
 

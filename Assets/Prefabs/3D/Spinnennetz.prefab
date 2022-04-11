@@ -210,6 +210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   glowAmount: 3.9
   CutoffEmissive: 0.5
+  material: {fileID: 2100000, guid: a57453f53f26c624b8ad525ae55cc376, type: 2}
 --- !u!65 &949233295542304428
 BoxCollider:
   m_ObjectHideFlags: 0

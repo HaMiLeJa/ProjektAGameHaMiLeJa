@@ -1,8 +1,11 @@
     #if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
+
 public class HexUpdater : MonoBehaviour
 {
+#if UNITY_EDITOR
     [NaughtyAttributes.Button("Update Particles For SlowDown Hex")]  public void updateParticle()
     {
         SerializedObject serializedHex;
@@ -34,6 +37,7 @@ public class HexUpdater : MonoBehaviour
             }
         }
     }
-}
 #endif
+}
+
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.PlayerLoop;
+
 // Das ist der ParentKontroller von allen Segmenten
 [ExecuteInEditMode]
 public class ChainParent : MonoBehaviour
@@ -9,9 +11,16 @@ public class ChainParent : MonoBehaviour
 	[Tooltip("Falls das ganze Konstrukt geschlossen werden soll")] public bool closed; // Falls die Strecke geschlossen werden soll
 	[Tooltip("Trianguliert das Mesh mehr. Generiert Edge Loops")] public float MeshDensity= 2; // Density vom Mesh
 	[Tooltip("Die Art wie die UV's projeziert werden")]public UVMode uvMode = UVMode.TiledWithFix; // Das ist für das UV
-	void Awake() => UpdateMeshes(); 	// Regenerate meshes beim instanziieren  // eventuell später fertig speichern
+
+	
+	private void Awake()
+	{
+		UpdateMeshes();
+	}
+	// Regenerate meshes beim instanziieren  // eventuell später fertig speichern
 #if UNITY_EDITOR
 	private void OnValidate() => CurveManager.updateCurves = true;
+
 	private void OnDrawGizmos()
 	{
 		if(CurveManager.updateCurves)
@@ -52,6 +61,7 @@ public class ChainParent : MonoBehaviour
 		}
 		// Clear alle Segmente ohne meshes
 		foreach( Segment seg in segmentsWithoutMesh ) seg.UpdateMesh( Vector2.zero );
+		
 	}
 	
 }

@@ -5,6 +5,8 @@ using Cinemachine;
 using Unity.Mathematics;
 using Random = UnityEngine.Random;
 using NaughtyAttributes;
+using NUnit.Framework;
+
 public class CameraZoomOut : MonoBehaviour
 {
     [Header("GameObjects")]
@@ -17,34 +19,41 @@ public class CameraZoomOut : MonoBehaviour
     public GameObject Moon;
     // public GameObject GhostLayer;
 
-    private float 
-        xVelocity, zVelocity, xzVelocity,
-        lerpedValue, cashedFov,
-        
-        lerpedValueMoonX, lerpedValueMoonZ, lerpedValueGhostLayerX, lerpedValueGhostLayerZ,
-        cashedXScaleMoon, cashedZScaleMoon, cashedXScaleGhostLayer, cashedZScaleGhostLayer;
-    
+    private float
+        xVelocity,
+        zVelocity,
+        xzVelocity,
+        lerpedValue,
 
+        lerpedValueMoonX,
+        lerpedValueMoonZ,
+        lerpedValueGhostLayerX,
+        lerpedValueGhostLayerZ;
+
+
+    [SerializeField] private float cashedFov = 111;
+    [SerializeField] private float cashedXScaleMoon = 1;
+    [SerializeField] private float cashedZScaleMoon = 1;
     [Header("Camera Zoomout")]
     [Space]
     
-   [Tooltip("Wie weit soll es rauszoomen")] [SerializeField] private float maxFov = 110;
-   [Tooltip("Ab wann wird gezoomed abhängig vom movement")] [SerializeField] private float  StartZoomingValue = 0.01f;
-   [Tooltip("Bis wann wird gezoomed abhängig vom movement")] [SerializeField] private float StopZoomingValue = 100;
-   [Range(0.01f, 20)]
+   [Tooltip("Wie weit soll es rauszoomen")][UnityEngine.Range(80,200)] [SerializeField] private float maxFov = 115;
+   [Tooltip("Ab wann wird gezoomed abhängig vom movement")] [UnityEngine.Range(0, 20f)] [SerializeField] private float  StartZoomingValue = 0.01f;
+   [Tooltip("Bis wann wird gezoomed abhängig vom movement")] [UnityEngine.Range(0,400f)][SerializeField] private float StopZoomingValue = 175f;
+   [UnityEngine.Range(0.01f, 20)] 
    [Tooltip("Wie Smooth soll die Kamera zwischen den Werten Lerpen")] [SerializeField] private float zoomOutRoughness = 2;
-   [Range(0, 50)]
+   [UnityEngine.Range(0, 50)]
    [Tooltip("Davor wird nichts gemacht")] [SerializeField] private float ZoomOutDelay = 3;
-   [Range(0, 30)]
+   [UnityEngine.Range(0, 30)]
    [Tooltip("Vertikale und Horizontale Achse start zoom")] [SerializeField] private float HorizontalVerticalStartZoom = 3;
 
    [Header("Moon und GhostLayer")]
    [Space]
-   [Range(0.01f, 20)]
+   [UnityEngine.Range(0.01f, 20)]
    [Tooltip("Wie Smooth soll die Kamera zwischen den Werten Lerpen")] [SerializeField] private float moonZoomOutRoughness = 2;
-   [SerializeField] private float addXScaleMoon = 5;
-   [SerializeField] private float addZScaleMoon = 5;
-   [Range(0.01f, 20)]
+   [SerializeField] [UnityEngine.Range(0, 15)] private float addXScaleMoon = 5;
+   [SerializeField] [UnityEngine.Range(0, 15)] private float addZScaleMoon = 5;
+   [UnityEngine.Range(0.01f, 20)]
   //[Tooltip("Wie Smooth soll die Kamera zwischen den Werten Lerpen")] [SerializeField] private float ghostLayerZoomOutRoughness = 2;
   // [SerializeField] private float addXScaleGhostLayer = 10;
   // [SerializeField] private float addZScaleGhostLayer = 10;
@@ -54,46 +63,52 @@ public class CameraZoomOut : MonoBehaviour
 
  [Header("Camera Shake Management")] [Space]
  [Tooltip("Für das optionsmenü")] [SerializeField] private bool deactivateShaking = false;
- [Tooltip("Ab wann started das shaken")] [Range(0f, 300)] [SerializeField] private float  StartShaking = 72f;
- [Tooltip("Je höher die zahl, desto weniger wirken alle effekte")] [Range(0.02f, 1200)] [SerializeField] private float SpeedInflunceDampeningForAll = 300;
+ [Tooltip("Ab wann started das shaken")] [UnityEngine.Range(0f, 300)] [SerializeField] private float  StartShaking = 72f;
+ [Tooltip("Je höher die zahl, desto weniger wirken alle effekte")] [UnityEngine.Range(0.02f, 1200)] [SerializeField] private float SpeedInflunceDampeningForAll = 300;
  [Space]
  [Space]
- [Tooltip("Dampening nach dem overall Dampening zum finetunen")][Range(0f, 1)] [SerializeField] private float minShakeDamping = 0.21f;
- [Tooltip("Dampening nach dem overall Dampening zum finetunen")][Range(0f, 1)] [SerializeField] private float maxShakeDamping = 0.53f;
+ [Tooltip("Dampening nach dem overall Dampening zum finetunen")][UnityEngine.Range(0f, 1)] [SerializeField] private float minShakeDamping = 0.21f;
+ [Tooltip("Dampening nach dem overall Dampening zum finetunen")][UnityEngine.Range(0f, 1)] [SerializeField] private float maxShakeDamping = 0.53f;
  
  [Space]
- [Range(0f, 1)] [SerializeField] private float minShakeNoise = 0.23f;
- [Range(0f, 1)] [SerializeField] private float maxShakeNoise = 0.56f;
+ [UnityEngine.Range(0f, 1)] [SerializeField] private float minShakeNoise = 0.23f;
+ [UnityEngine.Range(0f, 1)] [SerializeField] private float maxShakeNoise = 0.56f;
  
  [Space]
- [Range(0f, 1)] [SerializeField] private float minShakeRotation = 0.26f;
- [Range(0f, 1)] [SerializeField] private float maxShakeRotation = 0.84f;
+ [UnityEngine.Range(0f, 1)] [SerializeField] private float minShakeRotation = 0.26f;
+ [UnityEngine.Range(0f, 1)] [SerializeField] private float maxShakeRotation = 0.84f;
  
  [Space]
- [Range(0f, 2)] [SerializeField] private float minShakeStrength =0.07f;
- [Range(0f, 2)] [SerializeField] private float maxShakeStrength = 0.56f;
+ [UnityEngine.Range(0f, 2)] [SerializeField] private float minShakeStrength =0.07f;
+ [UnityEngine.Range(0f, 2)] [SerializeField] private float maxShakeStrength = 0.56f;
 
  [Space]
- [Range(0f, 5)] [SerializeField] private float minShakeDuration = 0.61f;
- [Range(0f, 5)] [SerializeField] private float maxShakeDuration = 1.32f;
+ [UnityEngine.Range(0f, 5)] [SerializeField] private float minShakeDuration = 0.61f;
+ [UnityEngine.Range(0f, 5)] [SerializeField] private float maxShakeDuration = 1.32f;
  
  [Space]
- [Range(0f, 8)] [SerializeField] private float minShakeSpeed = 1.8f;
- [Range(0f, 8)] [SerializeField] private float maxShakeSpeed = 0.53f;
+ [UnityEngine.Range(0f, 8)] [SerializeField] private float minShakeSpeed = 1.8f;
+ [UnityEngine.Range(0f, 8)] [SerializeField] private float maxShakeSpeed = 0.53f;
  
  [SerializeField] private float secNextShakeAllowed;
  [SerializeField] private bool nextShakeAllowed = true;
  [SerializeField] private CameraShakeCollision _cameraShakeCollision;
  [SerializeField] private CameraShake _cameraShake;
- private void Awake() => vcamera = vcam;
- void Start()
-   {
-       cashedFov = vcam.m_Lens.FieldOfView;
+ [HideInInspector][SerializeField] private float smallerFOV;
+ #if UNITY_EDITOR
+
+    [NaughtyAttributes.Button()]
+    public void addCashedValues()
+    {
+        cashedFov = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().fieldOfView;
         cashedXScaleMoon = Moon.transform.localScale.x;
         cashedZScaleMoon = Moon.transform.localScale.z;
-        // cashedXScaleGhostLayer = GhostLayer.transform.localScale.x;
-        // cashedZScaleGhostLayer = GhostLayer.transform.localScale.z;
-   }
+        smallerFOV = cashedFov - 20f;
+    }
+    #endif
+
+ private void Awake() => vcamera = vcam;
+
  void FixedUpdate()
     {
   
@@ -106,7 +121,7 @@ public class CameraZoomOut : MonoBehaviour
             xzVelocity = xVelocity*2;
          if(!PortalManager.CameraTeleportActive)
          {
-            lerpedValue = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, cashedFov, maxFov, xzVelocity);
+            lerpedValue = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, cashedFov , maxFov, xzVelocity);
         
             lerpedValueMoonX = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, cashedXScaleMoon, cashedXScaleMoon+ addXScaleMoon, xzVelocity);
             lerpedValueMoonZ = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, cashedZScaleMoon, cashedZScaleMoon+ addZScaleMoon, xzVelocity);
@@ -115,7 +130,7 @@ public class CameraZoomOut : MonoBehaviour
        //      lerpedValueGhostLayerZ = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, cashedZScaleGhostLayer, cashedZScaleGhostLayer+ addZScaleGhostLayer, xzVelocity);
        // // Debug.Log(lerpedValue);
        //
-       if (cashedFov + ZoomOutDelay < lerpedValue)
+       if (smallerFOV + ZoomOutDelay < lerpedValue)
        {
            vcam.m_Lens.FieldOfView = Mathf.Lerp(vcam.m_Lens.FieldOfView, lerpedValue, zoomOutRoughness*Time.deltaTime);
            

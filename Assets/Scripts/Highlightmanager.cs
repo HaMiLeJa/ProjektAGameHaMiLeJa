@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using NaughtyAttributes;
 using UnityEditor;
-
 public class Highlightmanager : MonoBehaviour
 { 
     [BoxGroup("Delay Settings")]  [SerializeField][Range(0, 1)] float SetGlowEnableDelayHex =   0.05f ;
@@ -24,6 +23,10 @@ public class Highlightmanager : MonoBehaviour
     [BoxGroup("Serialized Lists")] [SerializeField] public RendererMatIndex[] RendMatIndex;
     [BoxGroup("Serialized Lists")] [SerializeField] public Material[] MaterialsUsed;
     [BoxGroup("Serialized Lists")] [SerializeField] public Material[] HexMaterialsUsed;
+    [SerializeField] int propIDEmissiveCutoffRef;
+    [SerializeField] private int propIDEmissiveIntensityRef;
+    public static int propIDEmissiveCutoff;
+    public static int propIDEmissiveIntensity;
     private void Awake()
     {
         Array.Resize(ref glowMaterialsStatic,GlowMaterialList.Length);
@@ -53,8 +56,29 @@ public class Highlightmanager : MonoBehaviour
         GlowDisableDelayObjects = SetGlowDisableDelayObjects;
         GlowEnableDelayHex = SetGlowEnableDelayHex;
         GlowDisableDelayHex = SetGlowDisableDelayHex;
+        propIDEmissiveIntensity = propIDEmissiveIntensityRef;
+        propIDEmissiveCutoff = propIDEmissiveCutoffRef;
     }
 #if UNITY_EDITOR
+    [Button]
+    public void UpdateHasOwnGlow()
+    {
+        propIDEmissiveCutoffRef = Shader.PropertyToID("_emissiveCutoff");
+        propIDEmissiveIntensityRef = Shader.PropertyToID("_emissionIntensity");
+        
+      
+        HexAutoTiling hexAutoTiling = FindObjectOfType<HexAutoTiling>();
+        foreach (Transform obj in hexAutoTiling.hasAllTheHexGameObjectsTransformsBeforeStart)
+        {
+            foreach (HighlightObjectsOwnGlow hex in obj.GetComponentsInChildren<HighlightObjectsOwnGlow >())
+            {
+                 SerializedObject serHex = new SerializedObject(hex);
+                  serHex.FindProperty("cashedEmissiveIntensity").floatValue = hex.gameObject.GetComponent<Renderer>().sharedMaterial.GetFloat(propIDEmissiveIntensityRef);
+                serHex.FindProperty("cashedEmissiveCutoff").floatValue = hex.gameObject.GetComponent<Renderer>().sharedMaterial.GetFloat(propIDEmissiveCutoffRef);
+                serHex.ApplyModifiedPropertiesWithoutUndo();
+            }
+        }
+    }
     [Button] public void UpdateAllMaterialIndexies()
     {
         if (Application.isPlaying) return;
@@ -66,6 +90,19 @@ public class Highlightmanager : MonoBehaviour
         populateSerializedPropertys();
     }
 
+    [Button()] public void UpdateHexParentsInHighlightObj()
+    {
+        HexAutoTiling hexAutoTiling = FindObjectOfType<HexAutoTiling>();
+        foreach (Transform obj in hexAutoTiling.hasAllTheHexGameObjectsTransformsBeforeStart)
+        {
+            foreach (HighlightObjects hex in obj.GetComponentsInChildren<HighlightObjects>())
+            {
+                SerializedObject serHex = new SerializedObject(hex);
+                serHex.FindProperty("hex").objectReferenceValue = obj.gameObject.GetComponent<Hex>();
+                serHex.ApplyModifiedPropertiesWithoutUndo();
+            }
+        }
+    }
     private void setHexMaterials()
     {       HashSet<Material> hasAllTheUniqueHexMaterialsHashSet = new HashSet<Material>();
         foreach (GameObject hex in HexObjects)

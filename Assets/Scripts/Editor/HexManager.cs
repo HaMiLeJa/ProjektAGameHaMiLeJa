@@ -1,9 +1,13 @@
+#if UNITY_EDITOR
 using UnityEditor;
-using UnityEngine;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
+#endif
+using UnityEngine;
 public class HexManager: EditorWindow
 {
+#if UNITY_EDITOR
+    
     public  static Dictionary<int, Material> hasAllTheHexMaterials = new Dictionary<int, Material>();
     public  static Dictionary<int, int> hasAllTheAngles= new Dictionary<int, int>();
     private string hexTag = "Hex";
@@ -203,4 +207,5 @@ public class HexManager: EditorWindow
            replaceMyMat.GetComponent<MeshRenderer>().sharedMaterial = hasAllTheHexMaterials[materialID];
         }
     }
+#endif
 }

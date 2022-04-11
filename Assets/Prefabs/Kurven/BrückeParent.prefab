@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mesh2D: {fileID: 11400000, guid: 8ad2133dab05feb4fbb5b18fb7fde447, type: 2}
   closed: 0
-  MeshDensity: 2
+  MeshDensity: 0.43
   uvMode: 2
 --- !u!1 &3268176973135664448
 GameObject:

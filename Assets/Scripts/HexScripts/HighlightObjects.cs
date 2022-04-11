@@ -14,7 +14,7 @@ public class HighlightObjects : MonoBehaviour
                                        " It shows where its renderer and Pointer to original Material are at the Index shown here for debug. DO NOT MANUALLY TOUCH IT!!!")]
       public ushort matSwapIndex;
     [BoxGroup("|| Debug ||")] [Tooltip("Rotation bool that resets when the rotation is finished. Only Shown for Debug")][SerializeField] private bool rotationAllowed = true;
-    private Hex hex;
+    [SerializeField] public Hex hex;
 #if UNITY_EDITOR
    [BoxGroup("|| GlowHighlight ||")] [Tooltip("The Name of the Material setup at the Object HighlightManager")]  [SerializeField] private string HighlightName;
    [BoxGroup("|| GlowHighlight ||")]   [Tooltip("How long you want the Highlight to Preview before it switches back?")]  [Range(1, 5)] [SerializeField] private Byte PreviewDuration = 2;
@@ -30,12 +30,12 @@ public class HighlightObjects : MonoBehaviour
             StartCoroutine(showPreviewWithReset_Coroutine(PreviewDuration));
         }
     }
-    IEnumerator showPreviewWithReset_Coroutine(Byte previewDur)
+    IEnumerator showPreviewWithReset_Coroutine(byte previewDur)
     {
         yield return showPreview_Coroutine(previewDur);
         OldMaterials.Clear();
     }
-    IEnumerator showPreview_Coroutine(Byte previewDur)
+    IEnumerator showPreview_Coroutine(byte previewDur)
     {
         foreach (Renderer rend in GetComponentsInChildren<Renderer>()) OldMaterials.Add(rend.sharedMaterial);
         switchToGlowMaterialPreview();
@@ -74,9 +74,7 @@ public class HighlightObjects : MonoBehaviour
         else HighlightName = "Preview of: " + hmanger.GlowMaterialList[highlightTypeTemp].name;
 
         foreach (Renderer rend in GetComponentsInChildren<Renderer>())
-        {
             rend.sharedMaterial = hmanger.GlowMaterialList[highlightTypeTemp];
-        }
     }
     [Button("Preview Highlight in Editor")] private void shortMaterialPreview()
     {
@@ -90,7 +88,6 @@ public class HighlightObjects : MonoBehaviour
        if (GetComponent<Renderer>() != null) GetComponent<Renderer>().sharedMaterial = null;
     }
 #endif
-    private void Awake()=>hex = GetComponentInParent<Hex>();
     private void Start()
     {
         if (highlightType > Highlightmanager.glowMaterialsStatic.Length) highlightType = 0;

@@ -1,10 +1,12 @@
+#if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
-#if UNITY_EDITOR
+#endif
+using UnityEngine;
 public class LightmapMenu : MonoBehaviour
 {
+#if UNITY_EDITOR
     private static float boostEmissive = 35;
     [MenuItem ("HaMiLeJa/Bake")]
     static void Bake ()
@@ -41,5 +43,6 @@ public class LightmapMenu : MonoBehaviour
                 tmpMaterial.SetFloat(emissiveProperty, value);
         }     
     }
+#endif
 }
-# endif
+

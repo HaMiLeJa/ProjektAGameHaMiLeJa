@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 // In dieser Klasse stelle ich sicher, dass das Segmnet immer der owner vom Mesh sind. 
 // Damit wird verhindert, dass
 // 1. Ein existierendes Objekt duplizieren,
@@ -16,11 +15,13 @@ public class UniqueMesh : MonoBehaviour
 			bool isOwner = ownerID == gameObject.GetInstanceID();
 			bool filterHasMesh = MeshFilter.sharedMesh != null ;
 			bool filterHasCollider = MeshCollider.sharedMesh != null ;
+			 
 			if( !filterHasMesh || !isOwner || !filterHasCollider ) 
 			{
-				MeshCollider.sharedMesh = MeshFilter.sharedMesh = meshCached = new Mesh(); // //mach neues mesh und assign filter
+				MeshCollider.sharedMesh = MeshFilter.sharedMesh = meshCached = new Mesh();// //mach neues mesh und assign filter
 				ownerID = gameObject.GetInstanceID(); // Markiert sich selber als owner vom Mesh. Damit erhalten wir die gameobject id
 				meshCached.name = "Segement Nummer: [" + ownerID + "]";
+		//	if(Application.isPlaying) CurveManager.meshIDS.Enqueue(MeshCollider.sharedMesh.GetInstanceID());
 				meshCached.hideFlags = HideFlags.HideAndDontSave; // Stelle sicher, dass es nicht in der Scene ist. Das prevented memory leaks
 				meshCached.MarkDynamic(); // Nur nützlich für realtime Bending. Mach das nicht an, wenn du eins generieren willst
 			} 

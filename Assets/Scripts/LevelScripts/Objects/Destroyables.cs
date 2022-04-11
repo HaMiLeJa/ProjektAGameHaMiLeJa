@@ -8,23 +8,15 @@ public class Destroyables : MonoBehaviour
     public DestroyableScriptableObject settings;
     [Space]
     public AudioSource myAudioSource;
-    private readonly List<Material> AllMaterials = new List<Material>();
+
+    public Material[] AllMaterials;
     
    [SerializeField] private Collider[] col;
    private GameObject brokenInstance;
    // bool TriggerResetted = false;
-    [SerializeField] private Renderer myRenderer;
+    [SerializeField] public Renderer myRenderer;
     int collisionCounter = 0;
-    void Start()
-    {
-        if(myAudioSource == null) myAudioSource = GetComponent<AudioSource>();
-        if (settings.ChangeMaterial)
-        {
-            myRenderer = GetComponent<Renderer>();
-            AllMaterials.Add(settings.Material01); AllMaterials.Add(settings.Material02);
-            AllMaterials.Add(settings.Material03); AllMaterials.Add(settings.Material04);
-        }
-    }
+    
     public void Explode()
     {
         foreach(Collider turnMeOff in col) turnMeOff.enabled = false;

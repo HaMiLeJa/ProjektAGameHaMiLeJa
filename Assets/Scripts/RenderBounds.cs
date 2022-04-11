@@ -1,11 +1,10 @@
 #if UNITY_EDITOR
 using UnityEditor;
-using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-
+using UnityEngine;
 public class RenderBounds : EditorWindow
-{ 
+{
     public static readonly HashSet<MeshFilter> RenderBoundsList = new HashSet<MeshFilter>();
     private  static readonly HashSet<MeshFilter> HasAllBoundsToModify = new HashSet<MeshFilter>();
     private const float LeftBoundMult = 0;

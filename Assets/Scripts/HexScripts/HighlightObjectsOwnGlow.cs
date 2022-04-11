@@ -4,10 +4,8 @@ using NaughtyAttributes;
 public class HighlightObjectsOwnGlow : MonoBehaviour
 {
     [BoxGroup("Glow Einstellungen")][SerializeField]  private float glowAmount, CutoffEmissive;
-    private float cashedEmissiveIntensity, cashedEmissiveCutoff; 
-   [SerializeField] private Material material;
+     [HideInInspector] public float cashedEmissiveIntensity, cashedEmissiveCutoff;
     private MaterialPropertyBlock mpb;
-    
     private MaterialPropertyBlock MPB
     {
         get
@@ -16,15 +14,7 @@ public class HighlightObjectsOwnGlow : MonoBehaviour
             return mpb;
         }
     }
-    static readonly int propIDEmissiveCutoff = Shader.PropertyToID("_emissiveCutoff");
-    static readonly int propIDEmissiveIntensity =  Shader.PropertyToID("_emissionIntensity");
-    private void Awake() => material = gameObject.GetComponent<Renderer>().sharedMaterial;
     
-    private void Start()
-    {  
-      cashedEmissiveIntensity = material.GetFloat(propIDEmissiveIntensity );
-      cashedEmissiveCutoff   =  material.GetFloat(propIDEmissiveCutoff );
-    }
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag(ReferenceLibrary.PlayerTag))
@@ -36,15 +26,15 @@ public class HighlightObjectsOwnGlow : MonoBehaviour
     IEnumerator EnableHighlightDelayed()
     {
         yield return new WaitForSeconds(Highlightmanager.GlowEnableDelayObjects);
-        MPB.SetFloat(propIDEmissiveIntensity, glowAmount );
-        MPB.SetFloat(propIDEmissiveCutoff, CutoffEmissive );
-        this.gameObject.GetComponent<MeshRenderer>().SetPropertyBlock(MPB);
+        MPB.SetFloat(Highlightmanager.propIDEmissiveIntensity, glowAmount );
+        MPB.SetFloat(Highlightmanager.propIDEmissiveCutoff, CutoffEmissive );
+        gameObject.GetComponent<MeshRenderer>().SetPropertyBlock(MPB);
     }
     IEnumerator DisableHighlightDelayed()
     {
         yield return new WaitForSeconds(Highlightmanager.GlowDisableDelayObjects);
-        MPB.SetFloat(propIDEmissiveIntensity, cashedEmissiveIntensity );
-        MPB.SetFloat(propIDEmissiveCutoff, cashedEmissiveCutoff );
-        this.gameObject.GetComponent<MeshRenderer>().SetPropertyBlock(MPB);
+        MPB.SetFloat(Highlightmanager.propIDEmissiveIntensity, cashedEmissiveIntensity );
+        MPB.SetFloat(Highlightmanager.propIDEmissiveCutoff, cashedEmissiveCutoff );
+        gameObject.GetComponent<MeshRenderer>().SetPropertyBlock(MPB);
     }
 }
