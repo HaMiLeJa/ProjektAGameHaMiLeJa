@@ -14,13 +14,13 @@ public static class MathLibary
 	{ // Remaps eine komplette Value range zu einer anderen. Wie beim shader. Inverslep und lerp
 		float t = InverseLerp(iMin, iMax, v);
 		return Mathf.LerpUnclamped( oMin, oMax, t );
-	}[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	}
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static float RemapClamped( float iMin, float iMax, float oMin, float oMax, float v ) 
 	{ // positive only
 		float t = InverseLerp(iMin, iMax, v);
 		return Mathf.Lerp( oMin, oMax, t );
 	}
-
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static float CalculateDistance(GameObject Player, GameObject OtherObject)
 	{
@@ -33,7 +33,6 @@ public static class MathLibary
 		Vector3 Verbindungsvector = Player.transform.position - OtherObject.transform.position;
 		return Mathf.Sqrt(Mathf.Pow(Verbindungsvector.x, 2) + Mathf.Pow(Verbindungsvector.y, 2) + Mathf.Pow(Verbindungsvector.z, 2));
 	}
-	
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static float CalculateDistanceSquared(GameObject Player, GameObject OtherObject)
 	{
