@@ -31,7 +31,7 @@ public class CameraZoomOut : MonoBehaviour
         lerpedValueGhostLayerZ;
 
 
-    [SerializeField] private float cashedFov = 111;
+    [SerializeField] private float cashedFov = 79;
     [SerializeField] private float cashedXScaleMoon = 1;
     [SerializeField] private float cashedZScaleMoon = 1;
     [Header("Camera Zoomout")]
@@ -50,7 +50,7 @@ public class CameraZoomOut : MonoBehaviour
    [Header("Moon und GhostLayer")]
    [Space]
    [UnityEngine.Range(0.01f, 20)]
-   [Tooltip("Wie Smooth soll die Kamera zwischen den Werten Lerpen")] [SerializeField] private float moonZoomOutRoughness = 2;
+   [Tooltip("Wie Smooth soll die Kamera zwischen den Werten Lerpen")] [SerializeField] private float moonZoomOutRoughness = 1.5f;
    [SerializeField] [UnityEngine.Range(0, 15)] private float addXScaleMoon = 5;
    [SerializeField] [UnityEngine.Range(0, 15)] private float addZScaleMoon = 5;
    [UnityEngine.Range(0.01f, 20)]
@@ -103,7 +103,7 @@ public class CameraZoomOut : MonoBehaviour
         cashedFov = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().fieldOfView;
         cashedXScaleMoon = Moon.transform.localScale.x;
         cashedZScaleMoon = Moon.transform.localScale.z;
-        smallerFOV = cashedFov - 20f;
+        smallerFOV = cashedFov - 10f;
     }
     #endif
 
@@ -121,7 +121,7 @@ public class CameraZoomOut : MonoBehaviour
             xzVelocity = xVelocity*2;
          if(!PortalManager.CameraTeleportActive)
          {
-            lerpedValue = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, cashedFov , maxFov, xzVelocity);
+            lerpedValue = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, smallerFOV , maxFov, xzVelocity);
         
             lerpedValueMoonX = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, cashedXScaleMoon, cashedXScaleMoon+ addXScaleMoon, xzVelocity);
             lerpedValueMoonZ = MathLibary.RemapClamped( StartZoomingValue, StopZoomingValue, cashedZScaleMoon, cashedZScaleMoon+ addZScaleMoon, xzVelocity);
