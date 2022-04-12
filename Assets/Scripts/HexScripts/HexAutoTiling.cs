@@ -31,7 +31,7 @@ public class HexAutoTiling : MonoBehaviour
 
     
      
-    [Tooltip("ab wann soll er das Tiling anfangen?")] [SerializeField] private float tilingTreshold = 257.5f; //default 307.5
+    [Tooltip("ab wann soll er das Tiling anfangen?")] [SerializeField] private float tilingTreshold = 280f; //default 307.5
 
     public static ushort zTilingDistance = 598, //default 598
                          xTilingDistance = 691, //default 691
@@ -39,12 +39,15 @@ public class HexAutoTiling : MonoBehaviour
     #endregion
     
     #region Expressionbodys
-
-    private bool tilingDistanceCheck => ReferenceLibrary.PlayerPosition.sqrMagnitude > startTilingTreshhold;
-
+    private bool tilingDistanceCheck => ReferenceLibrary.PlayerPosition.x > xPlusSnapShotPos
+                                        || ReferenceLibrary.PlayerPosition.x < xMinusSnapShotPos
+                                        || ReferenceLibrary.PlayerPosition.z > zPlusSnapShotPos
+                                        || ReferenceLibrary.PlayerPosition.z < zMinusSnapShotPos;
     private bool returnToOriginDistanceCheck => shortCircutToOrginCounter > shortCircutTreshhold &&
-                                                ReferenceLibrary.PlayerPosition.sqrMagnitude >
-                                                moveBackToOriginTreshhold;
+                                        ReferenceLibrary.PlayerPosition.x > moveBackToOriginTreshhold
+                                        || ReferenceLibrary.PlayerPosition.x < -moveBackToOriginTreshhold
+                                        || ReferenceLibrary.PlayerPosition.z > moveBackToOriginTreshhold
+                                        || ReferenceLibrary.PlayerPosition.z < -moveBackToOriginTreshhold;
     #endregion
     #region UnityUpdates
 #if UNITY_EDITOR
@@ -72,11 +75,13 @@ public class HexAutoTiling : MonoBehaviour
 #endif
     private void Awake()
     {
-        startTilingTreshhold *= startTilingTreshhold;
-        moveBackToOriginTreshhold *= moveBackToOriginTreshhold;
-        playerHasMoved = true;
         hasAllTheHexesTransformsNative  = new TransformAccessArray(hasAllTheHexGameObjectsTransformsBeforeStart, 28);  //copy over all data from existing array
         hasAllTheHexGameObjectsTransformsBeforeStart = null; //null the existing array since it is no longer needed
+    }
+    void Start()
+    {
+        playerHasMoved = true;
+        moveHexes();
     }
     void Update()
     {
@@ -143,7 +148,6 @@ public class HexAutoTiling : MonoBehaviour
         bottomMove = false; topMove = false; 
         rightMove = false; leftMove = false;
     }
-    
     void limitTiling() 
     { //snapshot position so it only needs to update at certain distance
         if (playerHasMoved)
