@@ -28,8 +28,8 @@ public class KeepListsUpdated : MonoBehaviour
          FindObjectOfType<DestroyableManager>().GetComponent<DestroyableManager>().populateDestroyableArrays();
          FindObjectOfType<CameraZoomOut>().GetComponent<CameraZoomOut>().addCashedValues();
          FindObjectOfType<AudioManager>().GetComponent<AudioManager>().SetAllPlayOnAwakeFalse(false);
-         
-         Debug.Log("Everything possible in the Game has been serialized and updated");
+        FindObjectOfType<UIManager>().GetComponent<UIManager>().SetUICorrect();
+        Debug.Log("Everything possible in the Game has been serialized and updated");
         }
     #endif
 }

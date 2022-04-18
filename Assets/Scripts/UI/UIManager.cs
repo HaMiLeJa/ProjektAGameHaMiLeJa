@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 public class UIManager : MonoBehaviour
 {
+
     [Header ("Basic UI")]
     [SerializeField] TMP_Text score;
     [SerializeField] TMP_Text multiplicator;
@@ -21,43 +23,84 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float durationCount = 0.25f;
     private float _CashedValue;
     private Coroutine NumberCounter_Coroutine;
+
+    [SerializeField] TMP_Text[] FindPointTMPs;
+
+    
+
     void Start()
     {
+        IngameCanvas.SetActive(true);
         StartOfGameUI.SetActive(true);
-        //StopAllCoroutines();
-        //gameMng.onUIEnergyChange += UpdateEnergyUI;
+
+         //UpdateUIScore(1); 
+         //  UpdateMultiplicatorUI(1);
+
+        /*
+         TMP_Text[] FindPointTMPs = pointsParent.GetComponentsInChildren<TMPro.TMP_Text>();
+         allPointsTexMeshs.Clear();
+         foreach (TMP_Text obj in FindPointTMPs)
+         {
+           //  obj.text = "";
+             //obj.gameObject.SetActive(true);
+
+             PointsAndState points = new PointsAndState();
+             points.textMesh = obj;
+             points.inUse = false;
+             allPointsTexMeshs.Add(points);
+         }
+         freeTexmeshes = allPointsTexMeshs.Count; */
+       
+    }
+
+#if UNITY_EDITOR
+    [NaughtyAttributes.Button()]
+    public void SetUICorrect()
+    {
+        StartOfGameUI.SetActive(true);
+        MissionImage.SetActive(true);
+
         IngameCanvas.SetActive(true); GameOverCanvas.SetActive(false);
         PauseCanvas.SetActive(false);
-        UpdateUIScore(1); UpdateMultiplicatorUI(1);
-        //UpdateEnergyUI();
-        ActivateNoMissionUI(); DeactivateBasicMissionUI(); 
-        DeactivateCollectItemUI(); DeactivateDestroyObjUI(); 
+
+        ActivateNoMissionUI(); DeactivateBasicMissionUI();
+        DeactivateCollectItemUI(); DeactivateDestroyObjUI();
         DeactivateCollectPointsUI(); DeactivateBringItemUI();
         WinConMissions.SetActive(false); pointsParent.SetActive(true);
-        TMP_Text[] FindPointTMPs = pointsParent.GetComponentsInChildren<TMPro.TMP_Text>();
+
+        temporaryTxt.gameObject.SetActive(true);
+        permanentTxt.gameObject.SetActive(true);
+
+
+
+
+        FindPointTMPs = pointsParent.GetComponentsInChildren<TMPro.TMP_Text>();
         allPointsTexMeshs.Clear();
         foreach (TMP_Text obj in FindPointTMPs)
         {
-            obj.text = "";
-            obj.gameObject.SetActive(true);
+          //  obj.text = "";
+            //obj.gameObject.SetActive(true);
+
             PointsAndState points = new PointsAndState();
             points.textMesh = obj;
-            points.inUse = false;
+            //points.inUse = false;
             allPointsTexMeshs.Add(points);
         }
         freeTexmeshes = allPointsTexMeshs.Count;
-        temporaryTxt.gameObject.SetActive(true);
-        temporaryTxt.text = "";
-        permanentTxt.gameObject.SetActive(true);
-        permanentTxt.text = "";
-        score.text = ScoreManager.CurrentScore.ToString();
+
+
     }
+#endif
+
+
+
     [Header("Start of Game")]
     [SerializeField] GameObject StartOfGameUI;
     public void DeactivateStartOfGameUI() => StartOfGameUI.SetActive(false);
     #region Missions
     #region Basic UI
     [Header("UI Of All Missions")]
+    [SerializeField] GameObject MissionImage;
     [SerializeField] GameObject BasicMissionUI;
     [SerializeField] TMP_Text missionTimeTxt;
     [SerializeField] TMP_Text missionTimeNmbr;
@@ -314,8 +357,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private  int StartFontSizePoints = 15;
     [Range(30, 150)]
     [SerializeField] private float sizeModfierPoints = 110;
-    private List<PointsAndState> allPointsTexMeshs = new List<PointsAndState>();
-    private int freeTexmeshes;
+    [SerializeField] List<PointsAndState> allPointsTexMeshs = new List<PointsAndState>();
+    [SerializeField] private int freeTexmeshes;
+
+    
+
     public void PointsStarter(float value)  //find textmesh, set color, startscale etc
     {
         if (freeTexmeshes == 0) return;
