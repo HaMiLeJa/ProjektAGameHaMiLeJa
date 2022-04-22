@@ -26,6 +26,7 @@ TagManager:
   - CameraHelper
   - Manager
   - Emissve_baked
+  - BrueckeParent
   layers:
   - Default
   - TransparentFX
